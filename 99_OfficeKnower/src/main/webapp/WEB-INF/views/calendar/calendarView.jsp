@@ -7,6 +7,6 @@
 <title>일정 초안</title>
 </head>
 <body>
-	
+	학원에서 작업합니다.
 </body>
 </html>
