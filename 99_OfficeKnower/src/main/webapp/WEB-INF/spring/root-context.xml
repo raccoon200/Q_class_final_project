@@ -8,9 +8,9 @@
 	<bean id="dataSource-origin" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<!-- 수저요망 -->
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="spring"/>
-		<property name="password" value="spring"/>
+		<property name="url" value="jdbc:oracle:thin:@khq.iptime.org:1521:xe"/>
+		<property name="username" value="ok"/>
+		<property name="password" value="ok"/>
 	</bean>
 	
 	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">  
