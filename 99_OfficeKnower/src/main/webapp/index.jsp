@@ -19,7 +19,7 @@
 <body>
 	indexpage !!!!!!!!!!!
 	<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#loginModal">로그인</button>
-	&nbsp;
+	
     <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 	
 	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
