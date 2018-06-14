@@ -42,17 +42,17 @@
             , editable : true
             , eventLimit : true
             , events: [
-            	/* <c:if test="${not empty list }">
+            	 <c:if test="${not empty list }">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
     			 {
-    				 title : "${seche.TITLE}"
-    				, start : "${seche.STARTDATE}"
-    				, end : "${seche.ENDDATE}"
+    				 title : "${seche.title}"
+    				, start : "${seche.startdate}"
+    				, end : "${seche.quitdate}"
     				 
     			 },
     			</c:forEach>
     		
-    			</c:if>   */  
+    			</c:if>    
             	
             	
                 {
