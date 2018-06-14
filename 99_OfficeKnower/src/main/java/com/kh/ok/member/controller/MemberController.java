@@ -10,6 +10,8 @@ public class MemberController {
 	@RequestMapping("/member/memberEnroll.do")
 	public ModelAndView memberEnroll() {
 		ModelAndView mav = new ModelAndView();
+		//ssa
 		return mav;
+		
 	}
 }
