@@ -16,14 +16,104 @@
 	<!-- 사용자작성 css -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 </head>
+<style>
+div#enroll-container{
+	width:400px;
+	margin:0 auto;
+	text-align:center;
+}
+/*중복아이디체크 관련*/
+div#userId-container{position:relative; padding:0px;}
+div#userId-container span.guide{
+	display:none;
+	font-size:12px;
+	position:absolute;
+	top:12px;
+	right:10px;
+}
+div#userId-container span.ok{color:green;}
+div#userId-container span.error{color:red;}
+</style>
+<script>
+$(function() {
+   $("#password2").blur(function() {
+      var p1 = $("#password_").val();
+      var p2 = $(this).val();
+      if(p1!=p2){
+         alert("패스워드가 일치하지 않습니다.");
+         $("#password_").focus();
+      }
+   });
+   
+   $("#userId_").on("keyup", function() {
+      var userId = $(this).val().trim();
+      if(userId.length<3) {
+         $(".guide.length").show();
+         $(".guide.error").hide();
+         $(".guide.ok").hide();
+         $("#idDuplicateCheck").val(0);
+         return false;
+      }
+      
+      $.ajax({
+         /* url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do"; */ 
+         url : "checkIdDuplicate.do", /*현재 디렉토리에서 상대주소*/
+         dataType : "json",
+         data : {userId:userId},  /*속성값(키):입력값*/
+         success : function(data) {
+            console.log(data); //true/ false
+            //if(data=="true") {
+            if(data.isUsable==true) {
+               $(".guide.ok").show();
+               $(".guide.error").hide();
+               $(".guide.length").hide();
+               $("#idDuplicateCheck").val(1);
+            }
+            else{
+               $(".guide.error").show();
+               $(".guide.ok").hide();
+               $(".guide.length").hide();
+               $("#idDuplicateCheck").val(0);
+               
+            }
+         },
+         error:function(jqxhr, textStatus, errorThrown) {
+            console.log("ajax실패!", jqxhr, textStatus, errorThrown);
+         }
+      });
+   });
+});
+/**
+ * 유효성 검사 함수
+ */
+function validate() {
+   var userId = $("#userId_");
+   if(userId.val().trim().length<3) {
+      alert("아이디는 최소 3글자 이상이어야 합니다.");
+      userId.focus();
+      return false;
+   }
+   return true;
+}
+
+$(function(){
+	$("[name=upFile]").on("change",function(){
+		//var fileName = $(this).val();
+		var fileName = $(this).prop("files")[0].name;
+		
+		$(this).next(".custom-file-label").html(fileName);
+	});
+});
+
+</script>
 <body>
 	<div id="enroll-container">
-	<form action="${pageContext.request.contextPath }/member/memberEnrollEnd.do" method="post" onsubmit="return validate();">
+	<form action="${pageContext.request.contextPath }/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 		<div id="userId-container">
 		<input type="text" class="form-control" name="userId" id="userId_" placeholder="아이디" required/>
 		<span class="guide ok">이 아이디는 사용가능합니다.</span>
 		<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-		<span class="guide length">아이디는 4글자 이상이여야 합니다.</span>
+		<span class="guide length">아이디는 3글자 이상이여야 합니다.</span>
 		<input type="hidden" id="idDuplicateCheck" value="0"/>
 		</div>
 		<br />
@@ -33,32 +123,31 @@
 		<br />
 		<input type="text" class="form-control" name="userName" placeholder="이름" required/>
 		<br />
-		<input type="email" class="form-control" name="email" id="email" placeholder="이메일" />
+		<input type="email" class="form-control" name="email" id="email" placeholder="이메일" required/>
 		<br />
 		<input type="text" class="form-control" name="phone" id="phone" maxlength="11" placeholder="전화번호" required/>
 		<br />
 		<input type="text" class="form-control" name="address" id="address" placeholder="주소" />
 		<br />
-		<select name="gender" id="gender" class="form-control" required>
-			<option value="" disabled selected>성별</option>
-			<option value="M">남</option>
-			<option value="F">여</option>
-		</select>
-		<br />
-		<div class="form-check-inline form-check">
-			취미 : &nbsp;
-			<input type="checkbox" name="hobby" id="hobby1" value="ps4" class="form-check-input"/>
-			<label for="hobby1" class="form-check-label">ps4</label>&nbsp;
-			<input type="checkbox" name="hobby" id="hobby2" value="switch" class="form-check-input"/>
-			<label for="hobby2" class="form-check-label">switch</label>&nbsp;
-			<input type="checkbox" name="hobby" id="hobby3" value="피아노" class="form-check-input"/>
-			<label for="hobby3" class="form-check-label">피아노</label>&nbsp;
-			<input type="checkbox" name="hobby" id="hobby4" value="영화" class="form-check-input"/>
-			<label for="hobby4" class="form-check-label">영화</label>&nbsp;
-			<input type="checkbox" name="hobby" id="hobby5" value="여행" class="form-check-input"/>
-			<label for="hobby5" class="form-check-label">여행</label>&nbsp;
+		<!-- 파일 -->
+		<div class="input-group mb-3" style="padding:0px">
+		  <div class="input-group-prepend" style="padding:0px">
+		    <span class="input-group-text">프로필 사진</span>
+		  </div>
+		  <div class="custom-file">
+		    <input type="file" class="custom-file-input" name="upFile" id="upFile1">
+		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
+		  </div>
 		</div>
-		<br />
+		<div class="input-group mb-3" style="padding:0px">
+		  <div class="input-group-prepend" style="padding:0px">
+		    <span class="input-group-text">SIGN 사진</span>
+		  </div>
+		  <div class="custom-file">
+		    <input type="file" class="custom-file-input" name="upFile" id="upFile2">
+		    <label class="custom-file-label" for="upFile2">파일을 선택하세요</label>
+		  </div>
+		</div>
 		<input type="submit" value="가입" class="btn btn-outline-success" />
 	</form>
 </div>

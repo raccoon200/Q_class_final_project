@@ -7,4 +7,7 @@
 	</select>
 	<resultMap type="com.kh.ok.member.model.vo.Member" id="memberMap">
 	</resultMap>
+	<select id="checkIdDuplicate" resultType="_int">
+		SELECT COUNT(*) AS CNT FROM TBL_USER WHERE USERID = #{userId}
+	</select>
 </mapper>
