@@ -8,4 +8,6 @@ public interface MemberDAO {
 
 	int checkIdDuplicate(String userId);
 
+	int memberEnrollEnd(Member m);
+
 }

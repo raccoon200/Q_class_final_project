@@ -8,4 +8,6 @@ public interface MemberService {
 
 	int checkIdDuplicate(String userId);
 
+	int memberEnrollEnd(Member m);
+
 }

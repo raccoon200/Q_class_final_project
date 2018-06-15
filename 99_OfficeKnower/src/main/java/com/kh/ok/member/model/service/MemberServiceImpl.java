@@ -21,4 +21,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.checkIdDuplicate(userId);
 	}
 
+	@Override
+	public int memberEnrollEnd(Member m) {
+		return memberDAO.memberEnrollEnd(m);
+	}
+
 }

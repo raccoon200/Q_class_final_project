@@ -20,4 +20,9 @@ public class MemberDAOImpl implements MemberDAO{
 	public int checkIdDuplicate(String userId) {
 		return sqlSession.selectOne("member.checkIdDuplicate", userId);
 	}
+
+	@Override
+	public int memberEnrollEnd(Member m) {
+		return sqlSession.insert("member.memberEnrollEnd", m);
+	}
 }
