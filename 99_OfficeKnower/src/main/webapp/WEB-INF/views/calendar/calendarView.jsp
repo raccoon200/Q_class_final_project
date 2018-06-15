@@ -7,6 +7,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath }/resources/fullcalendar-3.9.0/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.css" rel="stylesheet"/>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/moment.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.js"></script>
 <title>일정 초안</title>
 <style type="text/css">
 body {
@@ -28,25 +36,10 @@ body {
   z-index: 0;
 } 
 
-#calendarView {
-  position: relative;
-  top: 	10;
-  width: 300px;
-  height: 400px;
-  background-color: lightgray;
-  /* visibility: hidden;  */
-  border: 1px solid black;
-  z-index: 2;
+.fc-content{
+	cursor: pointer;
 } 
 </style>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
-<link href="${pageContext.request.contextPath }/resources/fullcalendar-3.9.0/fullcalendar.print.css" rel="stylesheet" media="print"/>
-<link href="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.css" rel="stylesheet"/>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/moment.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.js"></script>
 </head>
 <body>
 
@@ -65,13 +58,34 @@ body {
             , events: [
             	 <c:if test="${not empty list }">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
-    			 {
+    			 	<c:if test="${seche.writer eq 'share'}">
+    			 	 {
+        				 id : "${seche.schedule_no}"
+        			    , color : "lightcoral"
+        				, title : "${seche.title}"
+        				, start : "${seche.startdate}"
+        				, end : "${seche.quitdate}"
+        				 
+        			 },
+    			 	</c:if>
+        			 <c:if test="${seche.writer ne 'share'}">
+    			 	 {
+        				 id : "${seche.schedule_no}"
+        				, color : "lightblue"
+        				, title : "${seche.title}"
+        				, start : "${seche.startdate}"
+        				, end : "${seche.quitdate}"
+        				 
+        			 },
+    			 	</c:if>
+    			 
+    			/*  {
     				 id : "${seche.schedule_no}"
     				, title : "${seche.title}"
     				, start : "${seche.startdate}"
     				, end : "${seche.quitdate}"
     				 
-    			 },
+    			 }, */
     			</c:forEach>
     		
     			</c:if>    
@@ -135,65 +149,86 @@ body {
                 }
             ]
         	, eventClick:function(event) {
-           
-        		var schedule_no = event.id;
+        		var html ="";
+            	html += "<table>";
+
+        		  <c:forEach var="seche" items="${list}" varStatus="vs">
+        		  	   console.log("${seche.schedule_no}");
+        		  	   console.log("${event.id}");
+        		  	   console.log("${seche.schedule_no eq event.id}");
+	    			   
+        		  	   if(${seche.schedule_no} == event.id){
+        		  		   
+        		  		 html += "<tr><th>작성자</th>";  
+	    				 html +="<th> ${seche.username} </th></tr>";
+	    				 html += "<tr><th>일정 제목";
+	    				 html += "<th> ${seche.title} </th></tr>";
+	    				 html += "<tr><th>시작";
+	    				 html += "<th> ${seche.startdate} </th></tr>";
+	    				
+	    				  if(${empty seche.quitdate}){
+		    				 html += "<tr><th>종료";
+		    				 html += "<th> ${seche.startdate} </th></tr>";
+	    				 }else{
+	    					 html += "<tr><th>종료";
+		    				 html += "<th> ${seche.quitdate} </th></tr>";
+	    				 } 
+	    				  
+	    				 html += "<tr><th>내용";
+	    				 html += "<th>" + "<textarea name='content' id='content' cols='30' rows='5' >"+"${seche.content}"+"</textarea>";
+	    				 html += "</th></tr>";
+	    				 
+	    				 
+	    				 
+	    				/*  html += "<th> ${seche.content} </th></tr>"; */
+	    				
+	    				 
+        		  	   }
+
+    				</c:forEach> 
         		
-        		$.ajax({
-        			console.log("에이작스에 들어와요");
-        			/* url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do"; */ 
-        			url : "scheduleView", /*현재 디렉토리에서 상대주소*/
-        			data : {schedule_no : schedule_no},
-        			dataType : "json",
-        			data : {userId:userId},  /*속성값(키):입력값*/
-        			success : function(data) {
-        				console.log(data); //true/ false
-        				
-        					
-        				}
-        			},
-        			error:function(jqxhr, textStatus, errorThrown) {
-        				console.log("ajax실패!", jqxhr, textStatus, errorThrown);
-        			}
-        		});
-        	});
+            	
+            	html += "</table>";
+            	
+            	$("#scheduleInfo").html(html);
+            	$("#calendarView").show();
+            	//$("#calendarView").show();
+                //window.open(event.title);
+                //alert(event.title + "\n" + event.url, "wicked", "width=700,height=600");
         		
         		
-                	var html ="";
-                	html += "<table>";
-                	html += "<tr>";
-                	html += "<th>" + event.title + "</th></tr>";
-                	html += "<tr><th>" + event.start + "/<th></tr>";
-                	html += "<tr><th>" + event.end + "</th></tr>";
-                	html += "</table>";
-                	
-                
-                	$("#scheduleInfo").html(html);
-                	$("#calendarView").show();
-                	//$("#calendarView").show();
-                    //window.open(event.title);
-                    //alert(event.title + "\n" + event.url, "wicked", "width=700,height=600");
-                    
-                
-            }
+        	  }
+        	  
+        
+
         });
-    });
-    $(function(){
-    	$("#calendarView").hide();
+        $(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
     });
 </script>
 
 
-<div id="back">
-    <div id="calendar">
-    	<div id="calendarView">
-    		<p id="scheduleInfo"></p>
-    	</div>
-    </div>
-    
+
+<div id="calendar">
 </div>	
-      
-
-
-	
+   <!-- Modal -->
+<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">일정</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="scheduleInfo"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
