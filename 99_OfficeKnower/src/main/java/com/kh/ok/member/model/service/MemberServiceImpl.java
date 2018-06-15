@@ -9,11 +9,11 @@ import com.kh.ok.member.model.vo.Member;
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
-	MemberDAO memberDAO;
-	
+	private MemberDAO memberDAO;
+
 	@Override
-	public Member memberOneSelect(String userId) {
-		return memberDAO.memberOneSelect(userId);
+	public Member selectOne(String userId) {
+		return memberDAO.selectOne(userId);
 	}
 
 }

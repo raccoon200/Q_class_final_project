@@ -4,6 +4,6 @@ import com.kh.ok.member.model.vo.Member;
 
 public interface MemberDAO {
 
-	Member memberOneSelect(String userId);
+	Member selectOne(String userId);
 
 }

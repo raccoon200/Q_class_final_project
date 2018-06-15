@@ -9,11 +9,10 @@ import com.kh.ok.member.model.vo.Member;
 @Repository
 public class MemberDAOImpl implements MemberDAO{
 	@Autowired
-	private SqlSessionTemplate sqlSession;
-	
-	@Override
-	public Member memberOneSelect(String userId) {
-		return sqlSession.selectOne("member.memberOneSelect",userId);
-	}
+	SqlSessionTemplate sqlSession;
 
+	@Override
+	public Member selectOne(String userId) {
+		return sqlSession.selectOne("member.selectUserId", userId);
+	}
 }
