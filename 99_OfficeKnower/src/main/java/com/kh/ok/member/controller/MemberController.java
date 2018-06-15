@@ -19,14 +19,14 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired	
-	BCryptPasswordEncoder bcryptPasswordEncoder;
+	//@Autowired	
+	//BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@RequestMapping("/member/memberOneSelect.do")
 	public ModelAndView memberOneSelect(@RequestParam String userId) {
 		ModelAndView mav = new ModelAndView();
 		System.out.println(userId);
-		Member m = memberService.selectOne(userId);
+		Member m = memberService.selectUserId(userId);
 		
 		mav.addObject("member",m);
 		mav.setViewName("member/memberOneView");
@@ -40,10 +40,10 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping("/member/memberLogin.do")
+	/*@RequestMapping("/member/memberLogin.do")
 	public ModelAndView memberLogin(@RequestParam String userId, @RequestParam String password) {
 		ModelAndView mav = new ModelAndView();
-		Member m = memberService.selectOne(userId);
+		Member m = memberService.selectUserId(userId);
 		
 		String msg = "";
 		String loc = "/";
@@ -52,7 +52,7 @@ public class MemberController {
 		}else {
 			if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 				msg="로그인 성공";
-				/*logger.debug("["+userId+"]이 로그인 함.");*/
+				logger.debug("["+userId+"]이 로그인 함.");
 				
 				mav.addObject("memberLoggedIn",m);
 			}else {
@@ -64,5 +64,5 @@ public class MemberController {
 		//view단지정
 		mav.setViewName("common/msg");
 		return mav;
-	}
+	}*/
 }

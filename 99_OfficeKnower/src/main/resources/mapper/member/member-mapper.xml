@@ -3,7 +3,7 @@
 <mapper namespace="member">
 	
 	<select id="selectUserId" resultMap="memberMap">
-		select * from member where userId=#{userId}
+		select * from tbl_user where userId=#{userId}
 	</select>
 	<resultMap type="com.kh.ok.member.model.vo.Member" id="memberMap">
 	</resultMap>

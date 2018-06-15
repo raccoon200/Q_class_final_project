@@ -12,7 +12,7 @@ public class MemberDAOImpl implements MemberDAO{
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public Member selectOne(String userId) {
+	public Member selectUserId(String userId) {
 		return sqlSession.selectOne("member.selectUserId", userId);
 	}
 }
