@@ -49,7 +49,7 @@ body {
         	header: { 
         		left: 'prev,next today'
         		, center: 'title'
-        		, right: 'month,basicWeek,basicDay,list' 
+        		, right: 'month' 
         	},
               defaultDate : new Date()
             , navLinks: true
