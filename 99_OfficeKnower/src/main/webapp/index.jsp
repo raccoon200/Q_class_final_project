@@ -18,5 +18,7 @@
 </head>
 <body>
 	indexpage !!!!!!!!!!!
+	<button onclick="location.href='${pageContext.request.contextPath}/member/memberOneSelect.do?userId=ast'">눌러</button>
+	<a href="${pageContext.request.contextPath}/member/memberOneSelect.do">눌러</a>
 </body>
 </html>

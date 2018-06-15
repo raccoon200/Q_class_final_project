@@ -206,7 +206,7 @@ public class Member {
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
-	//ㄴㄴ
+
 	public String getCol() {
 		return col;
 	}
