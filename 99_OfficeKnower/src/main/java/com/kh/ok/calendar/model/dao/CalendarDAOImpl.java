@@ -14,9 +14,10 @@ public class CalendarDAOImpl implements CalendarDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+
 	@Override
-	public List<Schedule> selectSechedule() {
-		return sqlSession.selectList("calendar.selectSechedule");
+	public List<Schedule> selectSechedule(String userId) {
+		return sqlSession.selectList("calendar.selectSechedule",userId);
 	}
 
 }

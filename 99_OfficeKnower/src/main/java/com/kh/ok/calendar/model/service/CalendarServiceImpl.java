@@ -15,9 +15,10 @@ public class CalendarServiceImpl implements CalendarService {
 	@Autowired
 	private CalendarDAO calendarDAO;
 	
+
 	@Override
-	public List<Schedule> selectSechedule() {
-		return calendarDAO.selectSechedule();
+	public List<Schedule> selectSechedule(String userId) {
+		return calendarDAO.selectSechedule(userId);
 	}
 
 }

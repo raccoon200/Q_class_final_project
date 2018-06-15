@@ -6,6 +6,6 @@ import com.kh.ok.calendar.model.vo.Schedule;
 
 public interface CalendarDAO {
 
-	List<Schedule> selectSechedule();
+	List<Schedule> selectSechedule(String userId);
 
 }
