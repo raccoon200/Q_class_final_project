@@ -1,7 +1,9 @@
 package com.kh.ok.member.model.service;
 
+import com.kh.ok.member.model.vo.Member;
+
 public interface MemberService {
 
-	int memberLogin(String userId, String password);
+	Member selectOne(String userId);
 
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.ok.member.model.dao.MemberDAO;
+import com.kh.ok.member.model.vo.Member;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -11,8 +12,8 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO memberDAO;
 
 	@Override
-	public int memberLogin(String userId, String password) {
-		return 2;
+	public Member selectOne(String userId) {
+		return memberDAO.selectOne(userId);
 	}
 
 }

@@ -1,19 +1,25 @@
 package com.kh.ok.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ok.member.model.service.MemberService;
 import com.kh.ok.member.model.vo.Member;
 
+@SessionAttributes({"memberLoggedIn"})
 @Controller
 public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	
 	@RequestMapping("/member/memberEnroll.do")
 	public ModelAndView memberEnroll() {
@@ -34,8 +40,7 @@ public class MemberController {
 			if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 				msg="로그인 성공";
 				/*logger.debug("["+userId+"]이 로그인 함.");*/
-				//기존 세션 처리
-				//session.setAttribute("memberLoggedIn", m);
+				
 				mav.addObject("memberLoggedIn",m);
 			}else {
 				msg="비밀번호가 틀렸습니다.";
