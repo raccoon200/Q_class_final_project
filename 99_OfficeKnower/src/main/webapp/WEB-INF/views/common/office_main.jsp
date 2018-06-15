@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>${param.pageTitle}</title>
+	<title>${pageTitle}</title>
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <!-- 부트스트랩관련 라이브러리 -->
@@ -29,6 +29,7 @@
 		border-bottom: 1px solid lightgray;
 	}
 	div.container{
+		position: relative;
 		margin-top: 200px;
 	}
 	h1.logo_container{
@@ -40,8 +41,31 @@
 		margin: 16px 0 0 50px;
 		font-size: 18px;
 		cursor: pointer;
+		position: relative;
+	}
+	div.header_container{
+		border: 1px solid gray;
+		background: white;
+		display: inline-block;
+	}
+	div#menu_container{
+		position: absolute;
+		width: 500px;
+		height: 400px;
+		left: 59px;
+		top: 59px;
+	}
+	div#userBox{
+		float: right;
 	}
 </style>
+<script>
+	$(function(){
+		$("#gnb").click(function(){
+			$("#menu_container").toggle();
+		})
+	});
+</script>
 </head>
 <body>
     <div class="container">
@@ -52,8 +76,18 @@
 			</a>
 		</h1>
 		<div id="gnb">
-			오피스 홈 &nbsp;
+			${pageTitle } &nbsp;
 			<span aria-hidden="true" class="icon-arrow-down" style="font-size: 15px;"></span>
+		</div>
+		<div id="menu_container" class="header_container" style="display: none;">
+			<!-- 
+				내용
+				채워야됨
+			 -->
+		</div>
+		<div id="userBox">
+			<span aria-hidden="true" class="icon-arrow-down" style="font-size: 15px;"></span>
+			
 		</div>
 		</header>
         <div class="jumbotron">
