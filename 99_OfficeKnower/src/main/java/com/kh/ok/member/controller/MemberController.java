@@ -27,7 +27,7 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 		System.out.println(userId);
 		Member m = memberService.selectUserId(userId);
-		
+		System.out.println(m);
 		mav.addObject("member",m);
 		mav.setViewName("member/memberOneView");
 		
