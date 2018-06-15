@@ -12,13 +12,14 @@
 	<title>${pageTitle}</title>
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
-<!-- 부트스트랩관련 라이브러리 -->\
+<!-- 부트스트랩관련 라이브러리 -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <!-- 아이콘 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/Font-Face/style.css" />
 <!-- 구글 폰트 -->
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Sunflower:300" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 <style>
 	header#header {
 		position: fixed;
@@ -48,7 +49,7 @@
 		font-family: 'Nanum Gothic', sans-serif;
 	}
 	div.header_container{
-		border: 1px solid gray;
+		border: 1px solid #ccc;
 		background: white;
 		display: inline-block;
 	}
@@ -67,14 +68,47 @@
 		cursor: pointer;
 		font-family: 'Nanum Gothic', sans-serif;
 	}
-	img.img-circle{
-		border-radius: 100%;
+	div#notice-icon-container{
+		display: inline-block; 
+		margin: 17px 30px 0 0;
+		float: right;
+		color: lightgray;
+	}
+	div#user-detail{
+		position: absolute;
+		right: 0px;
+	    top: 59px;
+	    width: 306px;
+	    padding: 20px 25px;
+	    background: white;
+	    display: none;
+	}
+	div.pic{
+		margin-right: 24px;
+  		width: 80px;
+	}
+	img.sp_icon{
+		position: absolute;
+		width: 15px;
+	}
+	img#sp_icon_detail{
+		top: -9px;
+		left: 272px;
+	}
+	img#sp_icon_menu{
+		top: -9px;
+		left: 192px;
 	}
 </style>
 <script>
 	$(function(){
 		$("#gnb").click(function(){
 			$("#menu_container").toggle();
+			$("#user-detail").hide();
+		});
+		$("#userBox").click(function(){
+			$("#user-detail").toggle();
+			$("#menu_container").hide();
 		})
 	});
 </script>
@@ -89,22 +123,35 @@
 		</h1>
 		<div id="gnb">
 			${pageTitle } &nbsp;
-			<span aria-hidden="true" class="icon-arrow-down" style="font-size: 15px;"></span>
+			<span aria-hidden="true" class="icon-arrow-down" style="font-size: 15px; color: lightgray;"></span>
 		</div>
 		<div id="menu_container" class="header_container" style="display: none;">
+			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_menu"/>
 			<!-- 
 				내용
 				채워야됨
 			 -->
 		</div>
+		
 		<div id="userBox">
-			<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" class="img-circle" style="width: 42px; height: 42px;" alt="프로필" />
+			<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
 			<div style="display: inline-block; margin: 12px 0 0 5px;">
 				id들어갈 자리 &nbsp;
 				<!-- ${memberLoggedIn.userId} -->
-				<span aria-hidden="true" class="icon-arrow-down" style="font-size: 13px;"></span>
+				<span aria-hidden="true" class="icon-arrow-down" style="font-size: 13px; color: lightgray;"></span>
 			</div>
-				<span class="icon-star" style="font-size: 20px;"></span>
+		</div>
+		<div id="user-detail" class="header_container">
+		<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_detail"/>
+			<div class="pic">
+				<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" style="width: 80px; height: 80px;" alt="프로필" class="rounded-circle"/>
+			</div>
+		</div>
+		<div id="notice-icon-container">
+			<span class="icon-sound-on" style="font-size: 30px"></span>			
+		</div>
+		<div id="notice-container" class="header-container">
+			
 		</div>
 		</header>
         <div class="jumbotron">
