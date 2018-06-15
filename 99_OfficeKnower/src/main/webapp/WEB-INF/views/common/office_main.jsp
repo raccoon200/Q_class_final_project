@@ -12,10 +12,13 @@
 	<title>${pageTitle}</title>
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
-<!-- 부트스트랩관련 라이브러리 -->
+<!-- 부트스트랩관련 라이브러리 -->\
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<!-- 아이콘 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/Font-Face/style.css" />
+<!-- 구글 폰트 -->
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Sunflower:300" rel="stylesheet">
 <style>
 	header#header {
 		position: fixed;
@@ -42,6 +45,7 @@
 		font-size: 18px;
 		cursor: pointer;
 		position: relative;
+		font-family: 'Nanum Gothic', sans-serif;
 	}
 	div.header_container{
 		border: 1px solid gray;
@@ -56,7 +60,15 @@
 		top: 59px;
 	}
 	div#userBox{
+		min-width: 100px;
+		margin: 8px 20px 0 0;
 		float: right;
+		font-size: 12px;
+		cursor: pointer;
+		font-family: 'Nanum Gothic', sans-serif;
+	}
+	img.img-circle{
+		border-radius: 100%;
 	}
 </style>
 <script>
@@ -86,8 +98,13 @@
 			 -->
 		</div>
 		<div id="userBox">
-			<span aria-hidden="true" class="icon-arrow-down" style="font-size: 15px;"></span>
-			
+			<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" class="img-circle" style="width: 42px; height: 42px;" alt="프로필" />
+			<div style="display: inline-block; margin: 12px 0 0 5px;">
+				id들어갈 자리 &nbsp;
+				<!-- ${memberLoggedIn.userId} -->
+				<span aria-hidden="true" class="icon-arrow-down" style="font-size: 13px;"></span>
+			</div>
+				<span class="icon-star" style="font-size: 20px;"></span>
 		</div>
 		</header>
         <div class="jumbotron">
