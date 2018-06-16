@@ -9,4 +9,8 @@ public interface CalendarService {
 
 	List<Schedule> selectSechedule(String userId);
 
+	int selectInsert(Schedule schedule);
+
+	List<String> selectCalendar(String userId);
+
 }

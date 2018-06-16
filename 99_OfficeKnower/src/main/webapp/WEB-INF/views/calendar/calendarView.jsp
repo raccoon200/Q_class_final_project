@@ -154,6 +154,50 @@ body {
         		   var dd=date.format("DD");
         		   var ss=date.format("dd");
         		   $("#nows").html(yy+"년"+mm+"월"+dd+"일("+ss+"요일)"); 
+        		   
+        		   $.ajax({
+        		        url : "<%=request.getContextPath()%>/cal/selectCalendar",
+        		              type: "post",
+        		              dataType : "json",
+        		              success: function(data){
+        		                 console.log(data);
+        		                 
+        		                   if(data==null){
+        		             	  
+        		                 }else {
+        		                	 
+        		                 	var html = "";
+        		               	    var html = "<option>캘린더 선택</option>";
+        		        				 html += "<select id='calendarName'>"; 
+        		                 	for(var index in data){
+        		 						var c = data[index];
+        		 						console.log(data[index].CALENDAR_NAME);
+        		 						console.log(data[1]);
+        		 						console.log(c);
+        		 						console.log(c.CALENDAR_NAME);
+        		 						
+        		 						 html += "<option>"+ c.CALENDAR_NAME+"</option>";  
+
+        		                 	}
+        		        				 html +="</select>"; 
+        		                 	$("#nows").html(html).show();
+        		        				
+        		                 	//$("#poster").html(img).show();
+        		                 
+        		                 	
+        		                 } 
+
+        		              },
+        		              error:function(jqxhr,textStatus,errorThrown){
+        		                 console.log("ajax 처리실패!");
+        		                 console.log(jqxhr);
+        		                 console.log(textStatus);
+        		                 console.log(errorThrown);
+        		              }
+        		                   
+        		       }); // ajax end
+        		   
+        		   
         	}
         	, eventClick:function(event) {
         		var html ="";

@@ -1,6 +1,7 @@
 package com.kh.ok.calendar.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,18 @@ public class CalendarDAOImpl implements CalendarDAO {
 	@Override
 	public List<Schedule> selectSechedule(String userId) {
 		return sqlSession.selectList("calendar.selectSechedule",userId);
+	}
+
+
+	@Override
+	public int selectInsert(Schedule schedule) {
+		return sqlSession.insert("calendar.selectInsert",schedule);
+	}
+
+
+	@Override
+	public List<String> selectCalendar(String userId) {
+		return sqlSession.selectList("calendar.selectCalendar",userId);
 	}
 
 }

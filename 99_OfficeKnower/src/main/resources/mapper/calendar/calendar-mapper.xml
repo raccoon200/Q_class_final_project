@@ -7,4 +7,8 @@
 		where s.writer = #{userid} or s.writer = 'share'		
 	</select>
 	<resultMap type="schedule" id="list"></resultMap>
+	<select id="selectCalendar" resultType="HashMap">
+		select distinct calendar_name from schedule where writer = #{userid} or writer = 'share'
+	</select>
+	
 </mapper>
