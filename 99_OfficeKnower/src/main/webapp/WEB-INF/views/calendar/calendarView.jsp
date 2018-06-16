@@ -148,14 +148,21 @@ body {
                     , start : "2016-05-28"
                 }
             ]
+            , dayClick: function(date, allDay, jsEvent, view) {
+        		   var yy=date.format("YYYY");
+        		   var mm=date.format("MM");
+        		   var dd=date.format("DD");
+        		   var ss=date.format("dd");
+        		   $("#nows").html(yy+"년"+mm+"월"+dd+"일("+ss+"요일)"); 
+        	}
         	, eventClick:function(event) {
         		var html ="";
             	html += "<table>";
-
+						console.log("${memberLoggedIn.userId}");
         		  <c:forEach var="seche" items="${list}" varStatus="vs">
-        		  	   console.log("${seche.schedule_no}");
+        		  	   /* console.log("${seche.schedule_no}");
         		  	   console.log("${event.id}");
-        		  	   console.log("${seche.schedule_no eq event.id}");
+        		  	   console.log("${seche.schedule_no eq event.id}"); */
 	    			   
         		  	   if(${seche.schedule_no} == event.id){
         		  		   
@@ -202,14 +209,42 @@ body {
         
 
         });
+      
+        
         $(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+        $(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
     });
+    
+ 
+    
 </script>
 
 
 
 <div id="calendar">
+
 </div>	
+
+   <!-- Modal -->
+<div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">일정추가</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="date" id="nows"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+
    <!-- Modal -->
 <div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
   <div class="modal-dialog modal-dialog-centered" role="document">

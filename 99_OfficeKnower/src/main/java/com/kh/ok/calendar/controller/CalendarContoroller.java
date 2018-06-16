@@ -36,6 +36,8 @@ public class CalendarContoroller {
 		
 		List<Schedule> list = calendarService.selectSechedule(userId);
 		model.addAttribute("list",list);
+		model.addAttribute("memberLoggedIn",(Member)session.getAttribute("memberLoggedIn"));
+		
 		System.out.println("list@controller" + list);
 		return "calendar/calendarView";
 	}
