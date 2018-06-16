@@ -57,6 +57,7 @@
 		position: absolute;
 		width: 500px;
 		height: 400px;
+		padding: 20px 25px;
 		left: 59px;
 		top: 59px;
 	}
@@ -99,17 +100,62 @@
 		top: -9px;
 		left: 192px;
 	}
+	div#notice-container{
+		position: absolute;
+		right: 179px;
+	    top: 59px;
+	    width: 306px;
+	    padding: 20px 25px;
+	    background: white;
+	    display: none;
+	}
+	img#sp_icon_notice{
+		top: -9px;
+		left: 266px;
+	}
+	div.menu_btn{
+		border-radius: 100%;
+		background: #2985DC;
+		width: 84px;
+		height: 84px;
+		text-align: center;
+		color: white;
+		font-size: 14px;
+		cursor: pointer;
+	}
 </style>
 <script>
 	$(function(){
 		$("#gnb").click(function(){
 			$("#menu_container").toggle();
 			$("#user-detail").hide();
+			$("#notice-container").hide();
 		});
 		$("#userBox").click(function(){
 			$("#user-detail").toggle();
 			$("#menu_container").hide();
-		})
+			$("#notice-container").hide();
+		});
+		$("#notice-icon-container").click(function(){
+			$("#notice-container").toggle();
+			$("#menu_container").hide();
+			$("#user-detail").hide();
+		});
+		$("#user-detail").hover(function(){
+			$(this).show();
+		},function(){
+			$(this).hide();
+		});
+		$("#menu_container").hover(function(){
+			$(this).show();
+		},function(){
+			$(this).hide();
+		});
+		$("#notice-container").hover(function(){
+			$(this).show();
+		},function(){
+			$(this).hide();
+		});
 	});
 </script>
 </head>
@@ -127,6 +173,13 @@
 		</div>
 		<div id="menu_container" class="header_container" style="display: none;">
 			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_menu"/>
+			
+			<div class="menu_btn">
+				<img src="${pageContext.request.contextPath }/resources/images/common/insa_small.png" alt="인사" style="width: 35px; display: inline-block; margin-top: 15px;"/><br />
+				<p>인사관리</p>
+			</div>
+
+			
 			<!-- 
 				내용
 				채워야됨
@@ -146,12 +199,18 @@
 			<div class="pic">
 				<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" style="width: 80px; height: 80px;" alt="프로필" class="rounded-circle"/>
 			</div>
+			<!-- 
+				내용
+				채워야됨
+			 -->
 		</div>
 		<div id="notice-icon-container">
-			<span class="icon-sound-on" style="font-size: 30px"></span>			
+			<span class="icon-sound-on" style="font-size: 30px; cursor: pointer;"></span>			
 		</div>
-		<div id="notice-container" class="header-container">
-			
+		<div id="notice-container" class="header_container">
+			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_notice"/>
+		
+			asdf
 		</div>
 		</header>
         <div class="jumbotron">
