@@ -154,7 +154,7 @@ body {
      		   var mm=date.format("MM");
      		   var dd=date.format("DD");
      		   var ss=date.format("dd");
-     		   $("#nows").html(yy+"년"+mm+"월"+dd+"일("+ss+"요일)"); 
+     		   $("#nows").html(yy+"-"+mm+"-"+dd); 
      		   
      		   $.ajax({
      		        url : "<%=request.getContextPath()%>/cal/selectCalendar",
@@ -169,23 +169,40 @@ body {
      		                 }else {
      		                	 
      		                 	var html2 = "";
-     		               	    var html2 = "<option>캘린더 선택</option>";
-     		        				 html2 += "<select id='calendarName'>"; 
+     		                 		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert'>";
+     		                 		 html2 += "<div class='form-group row'>";
+     		                 		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
+     		                 		 html2 += "<div class='col-sm-10'>";
+     		        				 html2 += "<select id='calendarName' class='form-control'>"; 
+     		               	     	 //html2 += "<option>캘린더 선택</option>";
      		                 	for(var index in data){
      		 						var c = data[index];
-     		 						//console.log(data[index].CALENDAR_NAME);
-     		 						//console.log(data[1]);
-     		 						console.log(c);
-     		 						console.log(c.CALENDAR_NAME);
-     		 						
+
      		 						 html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
 
      		                 	}
-     		        				 html2 +="</select>"; 
-     		                 	$("#nows").html(html2).show();
-     		        				
-     		                 	//$("#poster").html(img).show();
-     		                 
+     		        				 html2 +="</select></div></div>";
+     		        				 html2 +="<div class='form-group row'>";
+     		        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
+     		        				 html2 +="<div class='col-sm-10'>";
+     		        				 html2 +="<input type='text' name='title' id='title' class='form-control'/></div></div>";
+     		        				 html2 +="<div class='form-group row'>";
+    		        				 html2 +="<label for='start' class='col-sm-2 col-form-label'>시작</label>";
+    		        				 html2 +="<div class='col-sm-10'>";
+     		        				 html2 +="<input type='date' name='start' id='start' class='form-control' value='"+yy+"-"+mm+"-"+dd+"'/></div></div>";
+     		        				 html2 +="<div class='form-group row'>";
+    		        				 html2 +="<label for='quit' class='col-sm-2 col-form-label'>종료</label>";
+    		        				 html2 +="<div class='col-sm-10'>";
+     		        				 html2 +="<input type='date' name='quit' id='quit' class='form-control' value='"+yy+"-"+mm+"-"+dd+"'/></div></div>";
+     		        				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
+   		        				     html2 +="<div class='col-sm-10'>";
+    		        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control'></textarea> </div></div>";
+    		        			 	
+     		        				 
+     		                 	
+     		        				 
+     		        				 $("#nows").html(html2).show();
+    
      		                 	
      		                 } 
 
@@ -273,8 +290,8 @@ body {
 </div>	
 
    <!-- Modal -->
-<div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">일정추가</h5>
@@ -291,6 +308,7 @@ body {
       </div>
     </div>
   </div>
+</div>
 
    <!-- Modal -->
 <div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
