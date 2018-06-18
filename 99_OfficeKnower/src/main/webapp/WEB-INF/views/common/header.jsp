@@ -87,7 +87,7 @@
 		});
 		/* 로그아웃 */
 		$("#logout_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/member/memberLogout.do";
 		});
 	});
 </script>
@@ -133,9 +133,9 @@
 				<p>예약</p>
 			</div>
 		</div>
-		
+
 		<div id="userBox">
-			<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
+			<img src="${pageContext.request.contextPath }/resources/upload/member/${memberLoggedIn.photo}" class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
 			<div style="display: inline-block; margin: 12px 0 0 5px;">
 				${memberLoggedIn.userId} &nbsp;
 				<!-- ${memberLoggedIn.userId} -->
@@ -146,7 +146,7 @@
 		<div id="user-detail" class="header_container">
 		<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_detail"/>
 			<div class="pic">
-				<img src="${pageContext.request.contextPath }/resources/images/profile/${memberLoggedIn.photo}" alt="프로필" class="rounded-circle"/>
+				<img src="${pageContext.request.contextPath }/resources/upload/member/${memberLoggedIn.photo}" alt="프로필" class="rounded-circle"/>
 			</div>
 			<div class="text">
 				<p>${memberLoggedIn.com_no}</p>
