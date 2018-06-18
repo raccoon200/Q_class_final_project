@@ -15,6 +15,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/locale-all.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/gcal.js"></script>
 <style type="text/css">
 body {
     margin :40px 10px;
@@ -38,6 +39,9 @@ body {
 .fc-content{
 	cursor: pointer;
 } 
+.fc-sat { color:#0066FF; }     /* 토요일 */
+.fc-sun { color:#FF0000; }    /* 일요일 */
+
 </style>
 <script type="text/javascript">
     jQuery(document).ready(function() {
@@ -49,6 +53,16 @@ body {
         	},
               defaultDate : new Date()
         	, locale : "ko"
+       		, googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE"      // Google API KEY
+            , eventSources : [
+                // 대한민국의 공휴일
+                {
+                   googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
+                 , className : "koHolidays"
+                 , color : "white"
+                 , textColor : "red"
+                }
+             ]
             , navLinks: true
             , editable : false
             , eventLimit : true
