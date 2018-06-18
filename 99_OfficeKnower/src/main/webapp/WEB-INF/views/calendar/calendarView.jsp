@@ -47,7 +47,7 @@ body {
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
-        		, right: 'month' 
+        		, right: 'month,basicWeek,basicDay,listWeek' 
         	},
               defaultDate : new Date()
         	, locale : "ko"
@@ -110,6 +110,7 @@ body {
             ]
         	
         	, dayClick: function(date, allDay, jsEvent, view) {
+        		$(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
      		   var yy=date.format("YYYY");
      		   var mm=date.format("MM");
      		   var dd=date.format("DD");
@@ -130,7 +131,7 @@ body {
      		                 }else {
      		                	 
      		                 	var html2 = "";
-     		                 		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert' id='insertFrm' method='post'>";
+     		                 		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert' id='insertFrm' method='post' >";
      		                 		 html2 += "<div class='form-group row'>";
      		                 		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
      		                 		 html2 += "<div class='col-sm-10'>";
@@ -163,6 +164,7 @@ body {
     		        				 html2 += "</div>";
     		        				 html2 += "<div class='col'>";
      		        				 html2 += "<select class='form-control' name='starttime' id='starttime'>";
+     		        				 html2 += "<option>시작 시간 선택</option>";
     		        				 html2 += "<option value='00:00'>오전 12:00</option>";
     		        				 html2 += "<option value='01:00'>오전 01:00</option>";
     		        				 html2 += "<option value='02:00'>오전 02:00</option>";
@@ -198,6 +200,7 @@ body {
     		        				 html2 += "</div>";
     		        				 html2 += "<div class='col'>";
      		        				 html2 += "<select class='form-control' name='quittime' id='quittime'>";
+    		        				 html2 += "<option>종료 시간 선택</option>";
     		        				 html2 += "<option value='00:00'>오전 12:00</option>";
     		        				 html2 += "<option value='01:00'>오전 01:00</option>";
     		        				 html2 += "<option value='02:00'>오전 02:00</option>";
@@ -250,12 +253,14 @@ body {
      	} //dayClick끝
         
         	, eventClick:function(event) {
+        		$(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+        		$(".fc-widget-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         		var html ="";
             	html += "<table>";
 				   console.log("${memberLoggedIn.userId}");
 						
         		  <c:forEach var="seche" items="${list}" varStatus="vs">
-        		  	   if(${seche.schedule_no} == event.id){
+        		  	   if("${seche.schedule_no}" == event.id){
 						console.log("찍히나??");
 						
         		  		 html += "<tr><th>작성자</th>";  
@@ -263,9 +268,13 @@ body {
 	    				 html += "<tr><th>일정 제목";
 	    				 html += "<th> ${seche.title} </th></tr>";
 	    				 html += "<tr><th>시작";
-	    				 html += "<th> ${seche.startdate} </th></tr>";
+	    				 html += "<th> ${seche.startdate} </th>";
+	    				 
+	    		
+	    				 html += "<th> ${seche.starttime} </th></tr>";
     					 html += "<tr><th>종료";
-	    				 html += "<th> ${seche.quitdate} </th></tr>";
+	    				 html += "<th> ${seche.quitdate} </th>";
+	    				 html += "<th> ${seche.quittime}</th></tr>";
 	    				 html += "<tr><th>내용";
 	    				 html += "<th>" + "<textarea name='content' id='content' cols='30' rows='5' >"+"${seche.content}"+"</textarea>";
 	    				 html += "</th></tr>";		 
@@ -275,12 +284,12 @@ body {
 
             	html += "</table>";
             	console.log(html);
-            	//$("#scheduleInfo").html(html);
+            	$("#scheduleInfo").html(html);
             	//$("#calendarView").show();
             	
             	//div하나 만들어서 일단 test
-            	$("#viewInfo").html(html);
-            	$("#viewTest").show();
+            	//$("#viewInfo").html(html);
+            	//$("#viewTest").show();
             	
             	
         		
@@ -288,17 +297,11 @@ body {
         	
         }); //fullCalnedar끝
         	
-      
-        $(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
-        $(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
-        
-        //$(".fc-event").attr("data-toggle", "modal").attr("data-target", "#calendarView");
-        //$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+
     
     }); //ready 끝
     
- 
-    
+
 </script>
 
 
@@ -323,7 +326,7 @@ body {
         <p class="date" id="nows"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="fn_submit();">일정 등록</button>
+        <button type="button" class="btn btn-primary" onclick="fn_submit();">일정 등록</button> 
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
@@ -331,7 +334,37 @@ body {
 </div>
 <script>
 function fn_submit(){
-	insertFrm.submit();
+	var title = $("#title").val().trim().length;
+	var content = $("#content").val().trim().length;
+	var starttime = $("#starttime option:selected").val().substring(0,2);
+	var quittime = $("#quittime option:selected").val().substring(0,2);
+	var stratdate = $("#startdate").val().split('-');
+	var quitdate = $("#quitdate").val().split('-');
+	
+	var sdate = new Date(stratdate[0], stratdate[1] - 1, stratdate[2]); 
+	var qdate = new Date(quitdate[0], quitdate[1] - 1, quitdate[2]); 
+
+	console.log(sdate.toDateString());
+	console.log(qdate.toDateString());
+
+
+	 if(title==0){
+		alert("일정 제목을 입력해주세요.");
+		return;
+	}else if(starttime=="시작 시간 선택" || quittime=="종료 시간 선택"){
+		alert("시작 시간과 종료 시간을 선택해주세요.");
+		return;
+	}else if(content==0){
+		alert("내용을 입력해주세요.");
+		return;
+	}else if(parseInt(starttime)>parseInt(quittime)){
+		alert("시간을 잘못 입력하셨습니다.");
+		return;
+	}else if (sdate>qdate) {
+		alert("날짜를 잘못 입력하셨습니다.");
+		return;
+	}
+	else insertFrm.submit();
 }
 </script>
 
@@ -339,7 +372,7 @@ function fn_submit(){
 
 <!-- Modal -->
 <!-- 일정보기 모달 -->
-<!-- <div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -357,6 +390,6 @@ function fn_submit(){
       </div>
     </div>
   </div>
-</div> -->
+</div>
 <!-- 일정보기 모달 끝 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
