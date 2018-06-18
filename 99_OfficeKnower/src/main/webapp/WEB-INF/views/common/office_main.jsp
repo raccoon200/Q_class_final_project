@@ -7,11 +7,9 @@
 	<jsp:param value="오피스 홈" name="pageTitle"/>
 </jsp:include>
         <div class="jumbotron">
-            <h1>어서와, Bootstrap은 처음이지?</h1>
+            <h1>이제 열심히 일해볼까?</h1>
             <p>
-                Bootstrap은 가장 멋진 HTML, CSS, JS 프레임워크야.
+               	 일할 시간이야!!
             </p>
         </div>
-        <p>부트스트랩1</p>
-        <p>부트스트랩2</p>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
