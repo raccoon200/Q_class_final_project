@@ -146,7 +146,7 @@
 		<div id="user-detail" class="header_container">
 		<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_detail"/>
 			<div class="pic">
-				<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" alt="프로필" class="rounded-circle"/>
+				<img src="${pageContext.request.contextPath }/resources/images/profile/${memberLoggedIn.photo}" alt="프로필" class="rounded-circle"/>
 			</div>
 			<div class="text">
 				<p>${memberLoggedIn.com_no}</p>

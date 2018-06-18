@@ -192,12 +192,13 @@ body {
      	} //dayClick끝
         
         	, eventClick:function(event) {
+        		$(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         		var html ="";
             	html += "<table>";
 				   console.log("${memberLoggedIn.userId}");
 						
         		  <c:forEach var="seche" items="${list}" varStatus="vs">
-        		  	   if(${seche.schedule_no} == event.id){
+        		  	   if("${seche.schedule_no}" == event.id){
 						console.log("찍히나??");
 						
         		  		 html += "<tr><th>작성자</th>";  
@@ -226,21 +227,21 @@ body {
             	html += "</table>";
             	console.log(html);
             	$("#scheduleInfo").html(html);
+            	console.log("4",$(".fc-content"));
             	//$("#calendarView").show();
         		
         	  } //eventClick끝        	
         	
         }); //fullCalnedar끝
-        	
-      
-        $(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+        
+
         $(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         
         //$(".fc-event").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         //$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarView");
     
     }); //ready 끝
-    
+
  
     
 </script>
@@ -274,6 +275,7 @@ body {
 function fn_submit(){
 	insertFrm.submit();
 }
+
 </script>
 
 <!--일정추가 모달 끝  -->
