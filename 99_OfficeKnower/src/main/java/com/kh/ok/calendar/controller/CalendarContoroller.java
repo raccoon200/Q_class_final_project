@@ -55,7 +55,7 @@ public class CalendarContoroller {
 		
 		System.out.println("result@controller"+result);
 		
-		return "calendar/calendarView";
+		return "redirect:/cal/calTest.do";
 	}
 	
 	@RequestMapping("/cal/selectCalendar")
@@ -75,6 +75,7 @@ public class CalendarContoroller {
 		return map;
 	}
 	
+
 	
 	
 	

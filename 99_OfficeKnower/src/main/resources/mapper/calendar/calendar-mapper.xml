@@ -11,4 +11,9 @@
 		select distinct calendar_name from schedule where writer = #{userid} or writer = 'share'
 	</select>
 	
+	<insert id="selectInsert">
+		insert into schedule values(seq_schedule.nextval, #{writer}, #{calendar_name}, #{title}
+		                            , #{content}, #{startdate},#{quitdate},default,#{com_no})
+	</insert>
+	
 </mapper>

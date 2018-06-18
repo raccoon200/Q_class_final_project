@@ -3,10 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
+</jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -15,7 +14,6 @@
 <link href="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.css" rel="stylesheet"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.js"></script>
-<title>일정 초안</title>
 <style type="text/css">
 body {
     margin :40px 10px;
@@ -40,9 +38,6 @@ body {
 	cursor: pointer;
 } 
 </style>
-</head>
-<body>
-
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery("#calendar").fullCalendar({
@@ -156,6 +151,7 @@ body {
      		   var ss=date.format("dd");
      		   $("#nows").html(yy+"-"+mm+"-"+dd); 
      		   
+     		   /* 캘린더 이름 가지고 오는 ajax / 캘린더 이름 가지고 온 다음 insert용 form만듦 */
      		   $.ajax({
      		        url : "<%=request.getContextPath()%>/cal/selectCalendar",
      		              type: "post",
@@ -169,11 +165,11 @@ body {
      		                 }else {
      		                	 
      		                 	var html2 = "";
-     		                 		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert'>";
+     		                 		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert' id='insertFrm' method='post'>";
      		                 		 html2 += "<div class='form-group row'>";
      		                 		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
      		                 		 html2 += "<div class='col-sm-10'>";
-     		        				 html2 += "<select id='calendarName' class='form-control'>"; 
+     		        				 html2 += "<select id='calendar_name' name='calendar_name' class='form-control'>"; 
      		               	     	 //html2 += "<option>캘린더 선택</option>";
      		                 	for(var index in data){
      		 						var c = data[index];
@@ -182,21 +178,34 @@ body {
 
      		                 	}
      		        				 html2 +="</select></div></div>";
+     		        				 
      		        				 html2 +="<div class='form-group row'>";
      		        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
      		        				 html2 +="<div class='col-sm-10'>";
-     		        				 html2 +="<input type='text' name='title' id='title' class='form-control'/></div></div>";
+     		        				 html2 +="<input type='text' name='title' id='title' class='form-control' required/></div></div>";
+     		        				
      		        				 html2 +="<div class='form-group row'>";
-    		        				 html2 +="<label for='start' class='col-sm-2 col-form-label'>시작</label>";
-    		        				 html2 +="<div class='col-sm-10'>";
-     		        				 html2 +="<input type='date' name='start' id='start' class='form-control' value='"+yy+"-"+mm+"-"+dd+"'/></div></div>";
+     		        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>작성자</label>";
+     		        				 html2 +="<div class='col-sm-10'>";
+     		        				 html2 +="<input type='hidden' value=${memberLoggedIn.com_no} name='com_no' id='com_no' />";
+     		        				 html2 +="<input type='text' name='writer' id='writer' class='form-control' value=${memberLoggedIn.userId} readonly/></div></div>";
+     		        				
      		        				 html2 +="<div class='form-group row'>";
-    		        				 html2 +="<label for='quit' class='col-sm-2 col-form-label'>종료</label>";
+    		        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
     		        				 html2 +="<div class='col-sm-10'>";
-     		        				 html2 +="<input type='date' name='quit' id='quit' class='form-control' value='"+yy+"-"+mm+"-"+dd+"'/></div></div>";
+     		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/></div></div>";
+     		        				 
+     		        				 html2 +="<div class='form-group row'>";
+    		        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
+    		        				 html2 +="<div class='col-sm-10'>";
+     		        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/></div></div>";
+     		        				 
+     		        	
+     		        				 
+     		        				 html2 +="<div class='form-group row'>";
      		        				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
    		        				     html2 +="<div class='col-sm-10'>";
-    		        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control'></textarea> </div></div>";
+    		        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' required></textarea> </div></div>";
     		        			 	
      		        				 
      		                 	
@@ -216,7 +225,7 @@ body {
      		                   
      		       }); // ajax end
      		   
-     		    
+     		   
      	} 
         
         	, eventClick:function(event) {
@@ -289,7 +298,8 @@ body {
 
 </div>	
 
-   <!-- Modal -->
+<!-- Modal -->
+<!-- 일정 추가 모달 -->
 <div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -303,14 +313,22 @@ body {
         <p class="date" id="nows"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="fn_submit();">일정 등록</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
 </div>
+<script>
+function fn_submit(){
+	insertFrm.submit();
+}
+</script>
 
-   <!-- Modal -->
+<!--일정추가 모달 끝  -->
+
+<!-- Modal -->
+<!-- 일정보기 모달 -->
 <div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -330,5 +348,5 @@ body {
     </div>
   </div>
 </div>
-</body>
-</html>
+<!-- 일정보기 모달 끝 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
