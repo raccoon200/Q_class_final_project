@@ -14,6 +14,7 @@
 <link href="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.css" rel="stylesheet"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/locale-all.js"></script>
 <style type="text/css">
 body {
     margin :40px 10px;
@@ -47,6 +48,7 @@ body {
         		, right: 'month' 
         	},
               defaultDate : new Date()
+        	, locale : "ko"
             , navLinks: true
             , editable : false
             , eventLimit : true
