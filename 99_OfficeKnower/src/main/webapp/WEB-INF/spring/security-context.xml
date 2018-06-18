@@ -6,6 +6,6 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
 	<!--  #7.2 패스워드암호화 관련 빈등록 -->
-	<bean id="bcryptPasswordencoer" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	<bean id="shaPasswordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
 </beans>

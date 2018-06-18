@@ -6,4 +6,6 @@ public interface MemberService {
 
 	Member selectUserId(String userId);
 
+	int memberOneUpdate(Member member);
+
 }

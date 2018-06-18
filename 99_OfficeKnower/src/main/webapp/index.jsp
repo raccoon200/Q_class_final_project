@@ -18,13 +18,17 @@
 </head>
 <body>
 	indexpage !!!!!!!!!!!
-<<<<<<< HEAD
 	<button onclick="location.href='${pageContext.request.contextPath}/member/memberOneSelect.do?userId=aabb'">눌러</button>
-
-=======
-	<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#loginModal">로그인</button>
-	
-    <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+	<c:if test="${memberLoggedIn==null }">
+     <!-- 로그인, 회원가입 버튼 -->
+     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#loginModal">로그인</button>
+     &nbsp;
+     <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+ 	</c:if>
+ 	<c:if test="${memberLoggedIn != null }">
+ 	<a href="${pageContext.request.contextPath }/member/memberView.do?userId=${memberLoggedIn.userId }">${memberLoggedIn.userName }</a>님, 안녕하세요 :)
+ 	<button class="btn btn-outline-success" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do'">로그아웃</button>
+ 	</c:if>
 	
 	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
@@ -49,6 +53,5 @@
 	    </div>
 	  </div>
 	</div>
->>>>>>> refs/remotes/origin/BaeSaint
 </body>
 </html>
