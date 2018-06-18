@@ -1,5 +1,7 @@
 package com.kh.ok.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.ok.job.model.service.JobService;
+import com.kh.ok.job.model.vo.Job;
 import com.kh.ok.member.model.service.MemberService;
 import com.kh.ok.member.model.vo.Member;
 
@@ -19,16 +23,32 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private JobService jobService;
+	
 	//@Autowired	
 	//BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@RequestMapping("/member/memberOneSelect.do")
 	public ModelAndView memberOneSelect(@RequestParam String userId) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(userId);
-		Member m = memberService.selectUserId(userId);
-		System.out.println(m);
-		mav.addObject("member",m);
+
+		Member member = memberService.selectUserId(userId);
+		List<Job> jlist = jobService.selectJobList(member.getCom_no());
+		
+		mav.addObject("member",member);
+		mav.addObject("jlist",jlist);
+		mav.setViewName("member/memberOneView");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/member/memberOneUpdate.do")
+	public ModelAndView memberOneUpdate( Member member) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(member);
+		
+		mav.addObject("member",member);
 		mav.setViewName("member/memberOneView");
 		
 		return mav;
@@ -39,6 +59,7 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 		return mav;
 	}
+
 	
 	/*@RequestMapping("/member/memberLogin.do")
 	public ModelAndView memberLogin(@RequestParam String userId, @RequestParam String password) {

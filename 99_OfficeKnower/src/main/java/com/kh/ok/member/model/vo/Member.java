@@ -23,6 +23,7 @@ public class Member {
 	private String emp_no;
 	private String sign;
 	private String col;
+	private String com_name;
 	
 	public Member() {
 		super();
@@ -56,6 +57,33 @@ public class Member {
 		this.col = col;
 	}
 
+	public Member(String userId, String password, String userName, String dept, String position, String job,
+			String phone_com, String phone_cell, String email, Date joinDate, Date quitDate, String status,
+			Date birthday, String address, String etc_inf, String photo, String com_no, String emp_no, String sign,
+			String col, String com_name) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.userName = userName;
+		this.dept = dept;
+		this.position = position;
+		this.job = job;
+		this.phone_com = phone_com;
+		this.phone_cell = phone_cell;
+		this.email = email;
+		this.joinDate = joinDate;
+		this.quitDate = quitDate;
+		this.status = status;
+		this.birthday = birthday;
+		this.address = address;
+		this.etc_inf = etc_inf;
+		this.photo = photo;
+		this.com_no = com_no;
+		this.emp_no = emp_no;
+		this.sign = sign;
+		this.col = col;
+		this.com_name= com_name;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -215,6 +243,13 @@ public class Member {
 	public void setCol(String col) {
 		this.col = col;
 	}
+	public String getCom_name() {
+		return com_name;
+	}
+	
+	public void setCom_name(String com_name) {
+		this.com_name = com_name;
+	}
 
 	@Override
 	public String toString() {
@@ -222,7 +257,7 @@ public class Member {
 				+ ", position=" + position + ", job=" + job + ", phone_com=" + phone_com + ", phone_cell=" + phone_cell
 				+ ", email=" + email + ", joinDate=" + joinDate + ", quitDate=" + quitDate + ", status=" + status
 				+ ", birthday=" + birthday + ", address=" + address + ", etc_inf=" + etc_inf + ", photo=" + photo
-				+ ", com_no=" + com_no + ", emp_no=" + emp_no + ", sign=" + sign + ", col=" + col + "]";
+				+ ", com_no=" + com_no + ", emp_no=" + emp_no + ", sign=" + sign + ", col=" + col +",com_name="+com_name+ "]";
 	}
 
 	

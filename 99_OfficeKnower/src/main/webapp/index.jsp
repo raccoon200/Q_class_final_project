@@ -20,7 +20,7 @@
 	indexpage !!!!!!!!!!!
 <<<<<<< HEAD
 	<button onclick="location.href='${pageContext.request.contextPath}/member/memberOneSelect.do?userId=aabb'">눌러</button>
-	<a href="${pageContext.request.contextPath}/member/memberOneSelect.do">눌러</a>
+
 =======
 	<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#loginModal">로그인</button>
 	
