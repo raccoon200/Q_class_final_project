@@ -18,7 +18,8 @@
 </head>
 <body>
 	indexpage !!!!!!!!!!!
-	
+	<button onclick="location.href='${pageContext.request.contextPath}/member/memberOneSelect.do?userId=aabb'">눌러</button>
+	<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#loginModal">로그인</button>
 	<c:if test="${memberLoggedIn==null }">
      <!-- 로그인, 회원가입 버튼 -->
      <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#loginModal">로그인</button>
