@@ -2,6 +2,8 @@ package com.kh.ok.member.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -44,14 +46,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/memberOneUpdate.do")
-	public ModelAndView memberOneUpdate( Member member) {
-		ModelAndView mav = new ModelAndView();
-		System.out.println(member);
+	public String memberOneUpdate( Member member, HttpServletRequest request) {
+//		ModelAndView mav = new ModelAndView();
+		System.out.println("memberOneUpdate@member="+member);
 		
-		mav.addObject("member",member);
-		mav.setViewName("member/memberOneView");
+//		mav.addObject("member",member);
+//		mav.setViewName("member/memberOneView");
 		
-		return mav;
+		request.setAttribute("member", member);
+		return "redirect:/member/memberOneSelect.do?userId=aabb";
 	}
 	
 	@RequestMapping("/member/memberEnroll.do")
