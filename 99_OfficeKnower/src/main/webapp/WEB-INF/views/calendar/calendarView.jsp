@@ -8,8 +8,6 @@
 </jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/fullcalendar-3.9.0/fullcalendar.print.css" rel="stylesheet" media="print"/>
 <link href="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.css" rel="stylesheet"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/moment.min.js"></script>
@@ -47,8 +45,8 @@ body {
     jQuery(document).ready(function() {
         jQuery("#calendar").fullCalendar({
         	header: { 
-        		left: 'prev,next today'
-        		, center: 'title'
+        		left: 'today'
+        		, center: 'prev, title, next'
         		, right: 'month' 
         	},
               defaultDate : new Date()
@@ -74,8 +72,8 @@ body {
         				 id : "${seche.schedule_no}"
         			    , color : "lightcoral"
         				, title : "${seche.title}"
-        				, start : "${seche.startdate}"
-        				, end : "${seche.quitdate}"
+        				, start : "${seche.startdate}"+"T" +"${seche.starttime}"
+        				, end : "${seche.quitdate}"/* +"T" +"${seche.quittime}" */
         				 
         			 },
     			 	</c:if>
@@ -84,8 +82,8 @@ body {
         				 id : "${seche.schedule_no}"
         				, color : "lightblue"
         				, title : "${seche.title}"
-        				, start : "${seche.startdate}"
-        				, end : "${seche.quitdate}"
+        				, start : "${seche.startdate}" +"T" +"${seche.starttime}"
+        				, end : "${seche.quitdate}" /* +"T" +"${seche.quittime}" */
         				 
         			 },
     			 	</c:if>
@@ -93,8 +91,7 @@ body {
     			</c:forEach>
     		
     			</c:if>    
-            	
-            	
+
                 {
                 	id : 999
                     ,  title : "All Day Event"
@@ -103,7 +100,7 @@ body {
                 },
                 {
                       title : "Birthday Party"
-                    , start : "2016-05-13T07:00:00"
+                    , start : "2018-06-13T07:00"
                 },
                 {
                       title : "Click for Google"
@@ -176,13 +173,10 @@ body {
      		        				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
    		        				     html2 +="<div class='col-sm-10'>";
     		        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' required></textarea> </div></div>";
-    		        			 	
-     		        				 
-     		                 	
+
      		        				 
      		        				 $("#nows").html(html2).show();
-    
-     		                 	
+
      		                 } 
 
      		              },
@@ -195,20 +189,17 @@ body {
      		                   
      		       }); // ajax end
      		   
-     		   
-     	} 
+     	} //dayClick끝
         
         	, eventClick:function(event) {
         		var html ="";
             	html += "<table>";
-						console.log("${memberLoggedIn.userId}");
+				   console.log("${memberLoggedIn.userId}");
+						
         		  <c:forEach var="seche" items="${list}" varStatus="vs">
-        		  	   /* console.log("${seche.schedule_no}");
-        		  	   console.log("${event.id}");
-        		  	   console.log("${seche.schedule_no eq event.id}"); */
-	    			   
         		  	   if(${seche.schedule_no} == event.id){
-        		  		   
+						console.log("찍히나??");
+						
         		  		 html += "<tr><th>작성자</th>";  
 	    				 html +="<th> ${seche.username} </th></tr>";
 	    				 html += "<tr><th>일정 제목";
@@ -216,47 +207,39 @@ body {
 	    				 html += "<tr><th>시작";
 	    				 html += "<th> ${seche.startdate} </th></tr>";
 	    				
-	    				  if(${empty seche.quitdate}){
-		    				 html += "<tr><th>종료";
-		    				 html += "<th> ${seche.startdate} </th></tr>";
-	    				 }else{
-	    					 html += "<tr><th>종료";
-		    				 html += "<th> ${seche.quitdate} </th></tr>";
-	    				 } 
+		    				  if(${empty seche.quitdate}){
+		    					  console.log("여기는 찍히나??");
+			    				 html += "<tr><th>종료";
+			    				 html += "<th> ${seche.startdate} </th></tr>";
+		    				 }else{
+		    					 html += "<tr><th>종료";
+			    				 html += "<th> ${seche.quitdate} </th></tr>";
+		    				 } 
 	    				  
 	    				 html += "<tr><th>내용";
 	    				 html += "<th>" + "<textarea name='content' id='content' cols='30' rows='5' >"+"${seche.content}"+"</textarea>";
-	    				 html += "</th></tr>";
-	    				 
-	    				 
-	    				 
-	    				/*  html += "<th> ${seche.content} </th></tr>"; */
-	    				
-	    				 
+	    				 html += "</th></tr>";		 
         		  	   }
 
     				</c:forEach> 
-        		
-            	
-            	html += "</table>";
-            	
-            	$("#scheduleInfo").html(html);
-            	$("#calendarView").show();
-            	//$("#calendarView").show();
-                //window.open(event.title);
-                //alert(event.title + "\n" + event.url, "wicked", "width=700,height=600");
-        		
-        		
-        	  }
-        	  
-        
 
-        });
+            	html += "</table>";
+            	console.log(html);
+            	$("#scheduleInfo").html(html);
+            	//$("#calendarView").show();
+        		
+        	  } //eventClick끝        	
+        	
+        }); //fullCalnedar끝
+        	
       
-        
         $(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         $(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
-    });
+        
+        //$(".fc-event").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+        //$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+    
+    }); //ready 끝
     
  
     
@@ -264,9 +247,7 @@ body {
 
 
 
-<div id="calendar">
-
-</div>	
+<div id="calendar"></div>	
 
 <!-- Modal -->
 <!-- 일정 추가 모달 -->
@@ -299,8 +280,8 @@ function fn_submit(){
 
 <!-- Modal -->
 <!-- 일정보기 모달 -->
-<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">일정</h5>
@@ -312,8 +293,8 @@ function fn_submit(){
         <p id="scheduleInfo"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="fn_submit();">일정 등록</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>

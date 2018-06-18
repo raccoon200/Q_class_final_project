@@ -7,7 +7,7 @@ public class Schedule {
 	private String title;
 	private String content;
 	private String startdate;
-	private String strattime;
+	private String starttime;
 	private String quitdate;
 	private String quittime;	
 	private String status;
@@ -19,7 +19,7 @@ public class Schedule {
 
 
 	public Schedule(int schedule_no, String writer, String calendar_name, String title, String content,
-			String startdate, String strattime, String quitdate, String quittime, String status, String com_no,
+			String startdate, String starttime, String quitdate, String quittime, String status, String com_no,
 			String username) {
 		super();
 		this.schedule_no = schedule_no;
@@ -28,7 +28,7 @@ public class Schedule {
 		this.title = title;
 		this.content = content;
 		this.startdate = startdate;
-		this.strattime = strattime;
+		this.starttime = starttime;
 		this.quitdate = quitdate;
 		this.quittime = quittime;
 		this.status = status;
@@ -37,13 +37,13 @@ public class Schedule {
 	}
 
 
-	public String getStrattime() {
-		return strattime;
+	public String getStarttime() {
+		return starttime;
 	}
 
 
-	public void setStrattime(String strattime) {
-		this.strattime = strattime;
+	public void setStarttime(String strattime) {
+		this.starttime = strattime;
 	}
 
 
@@ -166,7 +166,7 @@ public class Schedule {
 	@Override
 	public String toString() {
 		return "Schedule [schedule_no=" + schedule_no + ", writer=" + writer + ", calendar_name=" + calendar_name
-				+ ", title=" + title + ", content=" + content + ", startdate=" + startdate + ", strattime=" + strattime
+				+ ", title=" + title + ", content=" + content + ", startdate=" + startdate + ", starttime=" + starttime
 				+ ", quitdate=" + quitdate + ", quittime=" + quittime + ", status=" + status + ", com_no=" + com_no
 				+ ", username=" + username + "]";
 	}
