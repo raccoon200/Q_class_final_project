@@ -73,7 +73,7 @@ body {
         			    , color : "lightcoral"
         				, title : "${seche.title}"
         				, start : "${seche.startdate}"+"T" +"${seche.starttime}"
-        				, end : "${seche.quitdate}"/* +"T" +"${seche.quittime}" */
+        				, end : "${seche.quitdate}" +"T" +"${seche.quittime}"
         				 
         			 },
     			 	</c:if>
@@ -83,7 +83,7 @@ body {
         				, color : "lightblue"
         				, title : "${seche.title}"
         				, start : "${seche.startdate}" +"T" +"${seche.starttime}"
-        				, end : "${seche.quitdate}" /* +"T" +"${seche.quittime}" */
+        				, end : "${seche.quitdate}"  +"T" +"${seche.quittime}" 
         				 
         			 },
     			 	</c:if>
@@ -157,14 +157,64 @@ body {
      		        				
      		        				 html2 +="<div class='form-group row'>";
     		        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
-    		        				 html2 += "<select>";
-    		        				 html2 += 
     		        				 html2 +="<div class='col-sm-10'>";
+    		        				 html2 += "<select class='form-control' name='starttime'>";
+    		        				 html2 += "<option value='00:00'>오전 12:00</option>";
+    		        				 html2 += "<option value='01:00'>오전 01:00</option>";
+    		        				 html2 += "<option value='02:00'>오전 02:00</option>";
+    		        				 html2 += "<option value='03:00'>오전 03:00</option>";
+    		        				 html2 += "<option value='04:00'>오전 04:00</option>";
+    		        				 html2 += "<option value='05:00'>오전 05:00</option>";
+    		        				 html2 += "<option value='06:00'>오전 06:00</option>";
+    		        				 html2 += "<option value='07:00'>오전 07:00</option>";
+    		        				 html2 += "<option value='08:00'>오전 08:00</option>";
+    		        				 html2 += "<option value='09:00'>오전 09:00</option>";
+    		        				 html2 += "<option value='10:00'>오전 10:00</option>";
+    		        				 html2 += "<option value='11:00'>오전 11:00</option>";
+    		        				 html2 += "<option value='12:00'>오전 12:00</option>";
+    		        				 html2 += "<option value='13:00'>오후 01:00</option>";
+    		        				 html2 += "<option value='14:00'>오후 02:00</option>";
+    		        				 html2 += "<option value='15:00'>오후 03:00</option>";
+    		        				 html2 += "<option value='16:00'>오후 04:00</option>";
+    		        				 html2 += "<option value='17:00'>오후 05:00</option>";
+    		        				 html2 += "<option value='18:00'>오후 06:00</option>";
+    		        				 html2 += "<option value='19:00'>오후 07:00</option>";
+    		        				 html2 += "<option value='20:00'>오후 08:00</option>";
+    		        				 html2 += "<option value='21:00'>오후 09:00</option>";
+    		        				 html2 += "<option value='22:00'>오후 10:00</option>";
+    		        				 html2 += "<option value='23:00'>오후 11:00</option>";
+    		        				 html2 += "</select>";
      		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/></div></div>";
      		        				 
      		        				 html2 +="<div class='form-group row'>";
     		        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
     		        				 html2 +="<div class='col-sm-10'>";
+    		        				 html2 += "<select class='form-control' name='quittime'>";
+    		        				 html2 += "<option value='00:00'>오전 12:00</option>";
+    		        				 html2 += "<option value='01:00'>오전 01:00</option>";
+    		        				 html2 += "<option value='02:00'>오전 02:00</option>";
+    		        				 html2 += "<option value='03:00'>오전 03:00</option>";
+    		        				 html2 += "<option value='04:00'>오전 04:00</option>";
+    		        				 html2 += "<option value='05:00'>오전 05:00</option>";
+    		        				 html2 += "<option value='06:00'>오전 06:00</option>";
+    		        				 html2 += "<option value='07:00'>오전 07:00</option>";
+    		        				 html2 += "<option value='08:00'>오전 08:00</option>";
+    		        				 html2 += "<option value='09:00'>오전 09:00</option>";
+    		        				 html2 += "<option value='10:00'>오전 10:00</option>";
+    		        				 html2 += "<option value='11:00'>오전 11:00</option>";
+    		        				 html2 += "<option value='12:00'>오전 12:00</option>";
+    		        				 html2 += "<option value='13:00'>오후 01:00</option>";
+    		        				 html2 += "<option value='14:00'>오후 02:00</option>";
+    		        				 html2 += "<option value='15:00'>오후 03:00</option>";
+    		        				 html2 += "<option value='16:00'>오후 04:00</option>";
+    		        				 html2 += "<option value='17:00'>오후 05:00</option>";
+    		        				 html2 += "<option value='18:00'>오후 06:00</option>";
+    		        				 html2 += "<option value='19:00'>오후 07:00</option>";
+    		        				 html2 += "<option value='20:00'>오후 08:00</option>";
+    		        				 html2 += "<option value='21:00'>오후 09:00</option>";
+    		        				 html2 += "<option value='22:00'>오후 10:00</option>";
+    		        				 html2 += "<option value='23:00'>오후 11:00</option>";
+    		        				 html2 += "</select>";
      		        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/></div></div>";
      		        				 
      		        	
