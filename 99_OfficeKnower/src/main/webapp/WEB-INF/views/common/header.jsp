@@ -67,7 +67,7 @@
 		});
 		/* 일정관리 */
 		$("#sch_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/cal/calTest.do";
 		});
 		/* 게시판 */
 		$("#board_btn").on("click",function(){
@@ -137,7 +137,7 @@
 		<div id="userBox">
 			<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
 			<div style="display: inline-block; margin: 12px 0 0 5px;">
-				id들어갈 자리 &nbsp;
+				${memberLoggedIn.userId} &nbsp;
 				<!-- ${memberLoggedIn.userId} -->
 				<span aria-hidden="true" class="icon-arrow-down" style="font-size: 13px; color: lightgray;"></span>
 			</div>
@@ -149,8 +149,8 @@
 				<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" alt="프로필" class="rounded-circle"/>
 			</div>
 			<div class="text">
-				<p>회사이름</p>
-				<p>유저 아이디</p>
+				<p>${memberLoggedIn.com_no}</p>
+				<p>${memberLoggedIn.userId}</p>
 				<p>
 					<!-- 설정 URL등록해야됨 -->
 					<a href="#">설정</a>

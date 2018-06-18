@@ -44,7 +44,7 @@ public class MemberController {
 			if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 				msg="로그인 성공";
 				/*logger.debug("["+userId+"]이 로그인 함.");*/
-				
+				loc="/office/office_main.do";
 				mav.addObject("memberLoggedIn",m);
 			}else {
 				msg="비밀번호가 틀렸습니다.";
