@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.ok.board.model.dao.BoardDAO;
+import com.kh.ok.board.model.vo.Board;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -22,6 +23,10 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int selectBoardCount() {
 		return boardDAO.selectBoardCount();
+	}
+	@Override
+	public int insertBasicBoard(Board board) {
+		return boardDAO.insertBasicBoard(board);
 	}
 	
 }

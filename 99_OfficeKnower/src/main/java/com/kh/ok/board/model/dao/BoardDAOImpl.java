@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.ok.board.model.vo.Board;
+
 @Repository
 public class BoardDAOImpl implements BoardDAO{
 	Logger logger = LoggerFactory.getLogger(getClass());
@@ -23,6 +25,11 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public int selectBoardCount() {
 		return sqlSession.selectOne("selectBoardCount");
+	}
+	@Override
+	public int insertBasicBoard(Board board) {
+		System.out.println("board : "+board);
+		return sqlSession.insert("board.insertBasicBoard",board);
 	}
 	
 	

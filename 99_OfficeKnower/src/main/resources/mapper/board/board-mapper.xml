@@ -7,5 +7,7 @@
 	<select id="selectBoardCount" resultType="_int">
 		select count(*) from board
 	</select>
-
+	<insert id="insertBasicBoard">
+		insert into board values(seq_board_no.nextval, 1, #{title}, sysdate, #{content}, #{writer}, 'Y', #{original_file_name}, #{renamed_file_name}, #{count})
+	</insert>
 </mapper>

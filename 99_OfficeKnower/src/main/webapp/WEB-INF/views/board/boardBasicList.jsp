@@ -32,7 +32,7 @@
     </tr>
 	<c:if test="${not empty list }">
 	<c:forEach var="board" items="${list }" varStatus="vs">
-    <tr>
+    <tr id='${board["BOARD_NO"] }' onclick="fn_boardView(${board['BOARD_NO']})">
       <th scope="row">${board["BOARD_NO"]}</th>
       <td>${board["TITLE"]}</td>
       <td>${board["WRITER"]}</td>
@@ -45,6 +45,13 @@
 
 </table>
 
+<input type="button" value="글쓰기" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'"/>
+<script>
+function fn_boardView(no) {
+	location.href='${pageContext.request.contextPath }/board/boardView?boardNo='+no;
+	
+}
+</script>
 
 <!-- 페이지바 처리 -->
 <% 
