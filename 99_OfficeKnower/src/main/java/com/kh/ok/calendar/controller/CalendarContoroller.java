@@ -75,6 +75,14 @@ public class CalendarContoroller {
 		return map;
 	}
 	
+	@RequestMapping("/cal/scheduleDelete")
+	public String scheduleDelete(HttpServletRequest request) {
+		String sid = request.getParameter("sid");
+		System.out.println("sid@controller"+sid);
+		
+		return "redirect:/cal/calTest.do";
+	}
+	
 
 	
 	

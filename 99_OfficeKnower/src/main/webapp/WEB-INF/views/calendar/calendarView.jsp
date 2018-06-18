@@ -254,35 +254,111 @@ body {
         
         	, eventClick:function(event) {
         		$(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
-        		$(".fc-widget-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+        		//$(".fc-widget-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         		var html ="";
-            	html += "<table>";
+            	html += "<form action='<%=request.getContextPath()%>/cal/scheduleUpdate' id='updateFrm' method='post'>";
 				   console.log("${memberLoggedIn.userId}");
 						
         		  <c:forEach var="seche" items="${list}" varStatus="vs">
         		  	   if("${seche.schedule_no}" == event.id){
-						console.log("찍히나??");
+						console.log("${seche.starttime}");
 						
-        		  		 html += "<tr><th>작성자</th>";  
-	    				 html +="<th> ${seche.username} </th></tr>";
-	    				 html += "<tr><th>일정 제목";
-	    				 html += "<th> ${seche.title} </th></tr>";
-	    				 html += "<tr><th>시작";
-	    				 html += "<th> ${seche.startdate} </th>";
+						
+						 html +="<div class='form-group row'>";
+       				 	 html +="<label for='titleView' class='col-sm-2 col-form-label'>일정 제목</label>";
+       					 html +="<div class='col-sm-10'>";
+       				 	 html +="<input type='text' name='title' id='titleView' class='form-control' value='${seche.title}'/></div></div>";
+						
+	       				 html +="<div class='form-group row'>";
+	    				 html +="<label for='titleView' class='col-sm-2 col-form-label'>작성자</label>";
+	    				 html +="<div class='col-sm-10'>";
+	    				 html += "<input type='hidden' name='userId' value='${seche.writer}'/>"
+	    				 html +="<input type='text' name='writerName' id='titleView' class='form-control' value='${seche.username}' readonly/></div></div>";
+						
+	    				 html +="<div class='form-group row'>";
+        				 html +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
+        				 html += "<div class='row'>";
+        				 html += "<div class='col'>";
+	        		     html +="<input type='date' name='startdate' id='startdate' class='form-control' value='${seche.startdate}' required/>";
+        				 html += "</div>";
+        				 html += "<div class='col'>";
+	        		     html += "<select class='form-control' name='starttime' id='starttime'>";
+	        			 
+        				 html += "<option value='00:00' ${seche.starttime eq '00:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='01:00' ${seche.starttime eq '01:00'?'selected':''}>오전 01:00</option>";
+        				 html += "<option value='02:00' ${seche.starttime eq '02:00'?'selected':''}>오전 02:00</option>";
+        				 html += "<option value='03:00' ${seche.starttime eq '03:00'?'selected':''}>오전 03:00</option>";
+        				 html += "<option value='04:00' ${seche.starttime eq '04:00'?'selected':''}>오전 04:00</option>";
+        				 html += "<option value='05:00' ${seche.starttime eq '05:00'?'selected':''}>오전 05:00</option>";
+        				 html += "<option value='06:00' ${seche.starttime eq '06:00'?'selected':''}>오전 06:00</option>";
+        				 html += "<option value='07:00' ${seche.starttime eq '07:00'?'selected':''}>오전 07:00</option>";
+        				 html += "<option value='08:00' ${seche.starttime eq '08:00'?'selected':''}>오전 08:00</option>";
+        				 html += "<option value='09:00' ${seche.starttime eq '09:00'?'selected':''}>오전 09:00</option>";
+        				 html += "<option value='10:00' ${seche.starttime eq '10:00'?'selected':''}>오전 10:00</option>";
+        				 html += "<option value='11:00' ${seche.starttime eq '11:00'?'selected':''}>오전 11:00</option>";
+        				 html += "<option value='12:00' ${seche.starttime eq '12:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='13:00' ${seche.starttime eq '13:00'?'selected':''}>오후 01:00</option>";
+        				 html += "<option value='14:00' ${seche.starttime eq '14:00'?'selected':''}>오후 02:00</option>";
+        				 html += "<option value='15:00' ${seche.starttime eq '15:00'?'selected':''}>오후 03:00</option>";
+        				 html += "<option value='16:00' ${seche.starttime eq '16:00'?'selected':''}>오후 04:00</option>";
+        				 html += "<option value='17:00' ${seche.starttime eq '17:00'?'selected':''}>오후 05:00</option>";
+        				 html += "<option value='18:00' ${seche.starttime eq '18:00'?'selected':''}>오후 06:00</option>";
+        				 html += "<option value='19:00' ${seche.starttime eq '19:00'?'selected':''}>오후 07:00</option>";
+        				 html += "<option value='20:00' ${seche.starttime eq '20:00'?'selected':''}>오후 08:00</option>";
+        				 html += "<option value='21:00' ${seche.starttime eq '21:00'?'selected':''}>오후 09:00</option>";
+        				 html += "<option value='22:00' ${seche.starttime eq '22:00'?'selected':''}>오후 10:00</option>";
+        				 html += "<option value='23:00' ${seche.starttime eq '23:00'?'selected':''}>오후 11:00</option>";
+        				 html += "</select>";
+        				 html += "</div></div></div>";
+        				 
+        				 
+        				 html +="<div class='form-group row'>";
+        				 html +="<label for='quitdateView' class='col-sm-2 col-form-label'>종료</label>";
+        				 html += "<div class='row'>";
+        				 html += "<div class='col'>";
+	        		     html +="<input type='date' name='quitdate' id='quitdateView' class='form-control' value='${seche.quitdate}' required/>";
+        				 html += "</div>";
+        				 html += "<div class='col'>";
+	        		     html += "<select class='form-control' name='quittime' id='quittimeView'>";
+	        			 
+        				 html += "<option value='00:00' ${seche.quittime eq '00:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='01:00' ${seche.quittime eq '01:00'?'selected':''}>오전 01:00</option>";
+        				 html += "<option value='02:00' ${seche.quittime eq '02:00'?'selected':''}>오전 02:00</option>";
+        				 html += "<option value='03:00' ${seche.quittime eq '03:00'?'selected':''}>오전 03:00</option>";
+        				 html += "<option value='04:00' ${seche.quittime eq '04:00'?'selected':''}>오전 04:00</option>";
+        				 html += "<option value='05:00' ${seche.quittime eq '05:00'?'selected':''}>오전 05:00</option>";
+        				 html += "<option value='06:00' ${seche.quittime eq '06:00'?'selected':''}>오전 06:00</option>";
+        				 html += "<option value='07:00' ${seche.quittime eq '07:00'?'selected':''}>오전 07:00</option>";
+        				 html += "<option value='08:00' ${seche.quittime eq '08:00'?'selected':''}>오전 08:00</option>";
+        				 html += "<option value='09:00' ${seche.quittime eq '09:00'?'selected':''}>오전 09:00</option>";
+        				 html += "<option value='10:00' ${seche.quittime eq '10:00'?'selected':''}>오전 10:00</option>";
+        				 html += "<option value='11:00' ${seche.quittime eq '11:00'?'selected':''}>오전 11:00</option>";
+        				 html += "<option value='12:00' ${seche.quittime eq '12:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='13:00' ${seche.quittime eq '13:00'?'selected':''}>오후 01:00</option>";
+        				 html += "<option value='14:00' ${seche.quittime eq '14:00'?'selected':''}>오후 02:00</option>";
+        				 html += "<option value='15:00' ${seche.quittime eq '15:00'?'selected':''}>오후 03:00</option>";
+        				 html += "<option value='16:00' ${seche.quittime eq '16:00'?'selected':''}>오후 04:00</option>";
+        				 html += "<option value='17:00' ${seche.quittime eq '17:00'?'selected':''}>오후 05:00</option>";
+        				 html += "<option value='18:00' ${seche.quittime eq '18:00'?'selected':''}>오후 06:00</option>";
+        				 html += "<option value='19:00' ${seche.quittime eq '19:00'?'selected':''}>오후 07:00</option>";
+        				 html += "<option value='20:00' ${seche.quittime eq '20:00'?'selected':''}>오후 08:00</option>";
+        				 html += "<option value='21:00' ${seche.quittime eq '21:00'?'selected':''}>오후 09:00</option>";
+        				 html += "<option value='22:00' ${seche.quittime eq '22:00'?'selected':''}>오후 10:00</option>";
+        				 html += "<option value='23:00' ${seche.quittime eq '23:00'?'selected':''}>오후 11:00</option>";
+        				 html += "</select>";
+        				 html += "</div></div></div>";
+        				 
+        				 html +="<div class='form-group row'>";
+	        		     html +="<label for='contentView' class='col-sm-2 col-form-label'>내용</label>";
+       				     html +="<div class='col-sm-10'>";
+        			 	 html +="<textarea name='content' id='contentView' cols='30' rows='5' class='form-control'>"+"${seche.content}"+"</textarea> </div></div>";
 	    				 
-	    		
-	    				 html += "<th> ${seche.starttime} </th></tr>";
-    					 html += "<tr><th>종료";
-	    				 html += "<th> ${seche.quitdate} </th>";
-	    				 html += "<th> ${seche.quittime}</th></tr>";
-	    				 html += "<tr><th>내용";
-	    				 html += "<th>" + "<textarea name='content' id='content' cols='30' rows='5' >"+"${seche.content}"+"</textarea>";
-	    				 html += "</th></tr>";		 
+				
         		  	   }
 
     				</c:forEach> 
 
-            	html += "</table>";
+            	html += "</from>";
             	console.log(html);
             	$("#scheduleInfo").html(html);
             	//$("#calendarView").show();
@@ -385,11 +461,16 @@ function fn_submit(){
         <p id="scheduleInfo"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="fn_submit();">일정 등록</button>
+        <button type="button" class="btn btn-primary" >일정 수정</button>
+        <button type="button" class="btn btn-primary" onclick="fn_delete();">일정 삭제</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
 </div>
+<script>
+function fn_delete(){}
+
+</script>
 <!-- 일정보기 모달 끝 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
