@@ -10,13 +10,17 @@ public class Schedule {
 	private String quitdate;
 	private String status;
 	private String com_no;
+	private String username;
 	
 	
 	public Schedule() {}
 
 
+
+
+
 	public Schedule(int schedule_no, String writer, String calendar_name, String title, String content,
-			String startdate, String quitdate, String status, String com_no) {
+			String startdate, String quitdate, String status, String com_no, String username) {
 		super();
 		this.schedule_no = schedule_no;
 		this.writer = writer;
@@ -27,7 +31,27 @@ public class Schedule {
 		this.quitdate = quitdate;
 		this.status = status;
 		this.com_no = com_no;
+		this.username = username;
 	}
+
+
+
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
 
 
 	public int getSchedule_no() {
@@ -120,16 +144,17 @@ public class Schedule {
 	}
 
 
+
+
+
 	@Override
 	public String toString() {
 		return "Schedule [schedule_no=" + schedule_no + ", writer=" + writer + ", calendar_name=" + calendar_name
 				+ ", title=" + title + ", content=" + content + ", startdate=" + startdate + ", quitdate=" + quitdate
-				+ ", status=" + status + ", com_no=" + com_no + "]";
+				+ ", status=" + status + ", com_no=" + com_no + ", username=" + username + "]";
 	}
-	
-	
-	
-	
+
+
 	
 	
 }
