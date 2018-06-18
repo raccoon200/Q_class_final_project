@@ -3,18 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
-<!-- 부트스트랩관련 라이브러리 -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-<title>게시판</title>
-</head>
-<body>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="게시판" name="pageTitle"/>
+</jsp:include>
 	<!-- nav 시작 -->
 	
 	
@@ -66,5 +57,4 @@ try{
 %>
 <%=com.kh.ok.board.common.util.Utils.getPageBar(pageNum, cPage, numPerPage, "boardBasicList")%>
 
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

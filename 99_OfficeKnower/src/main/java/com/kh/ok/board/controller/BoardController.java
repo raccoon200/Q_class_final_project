@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.ok.board.model.service.BoardService;
 import com.kh.ok.board.model.vo.Board;
 import com.kh.ok.member.model.vo.Member;
-import com.kh.spring.board.model.exception.BoardException;
 
 @Controller
 public class BoardController {
@@ -73,7 +72,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/board/boardFormEnd")
-	public ModelAndView selectBoardFormEnd(Board board, @RequestParam(value="upFile", required=false) MultipartFile upFile, HttpServletRequest request) {
+	public ModelAndView selectBoardFormEnd(@RequestParam Board board, @RequestParam(value="upFile", required=false) MultipartFile upFile, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		
 		logger.debug("게시판 페이지 저장");

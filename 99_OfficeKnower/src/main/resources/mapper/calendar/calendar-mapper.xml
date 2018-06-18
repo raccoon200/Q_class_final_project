@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="calendar">
+  <select id="selectSechedule" resultMap="list">
+		select s.* , u.username 
+		from schedule s join tbl_user u on (s.writer=u.userid)
+		where s.writer = #{userid} or s.writer = 'share'		
+	</select>
+	<resultMap type="schedule" id="list"></resultMap>
+	<select id="selectCalendar" resultType="HashMap">
+		select distinct calendar_name from schedule where writer = #{userid} or writer = 'share'
+	</select>
+	
+</mapper>

@@ -9,20 +9,21 @@ public class Member {
 	private String dept;
 	private String position;
 	private String job;
-	private String phoneCom;
-	private String phoneCell;
+	private String phone_com;
+	private String phone_cell;
 	private String email;
 	private Date joinDate;
 	private Date quitDate;
 	private String status;
 	private Date birthday;
 	private String address;
-	private String etcInf;
+	private String etc_inf;
 	private String photo;
-	private String comNo;
-	private String empNo;
+	private String com_no;
+	private String emp_no;
 	private String sign;
 	private String col;
+	private String com_name;
 	
 	public Member() {
 		super();
@@ -30,8 +31,9 @@ public class Member {
 	}
 
 	public Member(String userId, String password, String userName, String dept, String position, String job,
-			String phoneCom, String phoneCell, String email, Date joinDate, Date quitDate, String status, Date birthday,
-			String address, String etcInf, String photo, String comNo, String empNo, String sign, String col) {
+			String phone_com, String phone_cell, String email, Date joinDate, Date quitDate, String status,
+			Date birthday, String address, String etc_inf, String photo, String com_no, String emp_no, String sign,
+			String col) {
 		super();
 		this.userId = userId;
 		this.password = password;
@@ -39,22 +41,49 @@ public class Member {
 		this.dept = dept;
 		this.position = position;
 		this.job = job;
-		this.phoneCom = phoneCom;
-		this.phoneCell = phoneCell;
+		this.phone_com = phone_com;
+		this.phone_cell = phone_cell;
 		this.email = email;
 		this.joinDate = joinDate;
 		this.quitDate = quitDate;
 		this.status = status;
 		this.birthday = birthday;
 		this.address = address;
-		this.etcInf = etcInf;
+		this.etc_inf = etc_inf;
 		this.photo = photo;
-		this.comNo = comNo;
-		this.empNo = empNo;
+		this.com_no = com_no;
+		this.emp_no = emp_no;
 		this.sign = sign;
 		this.col = col;
 	}
 
+	public Member(String userId, String password, String userName, String dept, String position, String job,
+			String phone_com, String phone_cell, String email, Date joinDate, Date quitDate, String status,
+			Date birthday, String address, String etc_inf, String photo, String com_no, String emp_no, String sign,
+			String col, String com_name) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.userName = userName;
+		this.dept = dept;
+		this.position = position;
+		this.job = job;
+		this.phone_com = phone_com;
+		this.phone_cell = phone_cell;
+		this.email = email;
+		this.joinDate = joinDate;
+		this.quitDate = quitDate;
+		this.status = status;
+		this.birthday = birthday;
+		this.address = address;
+		this.etc_inf = etc_inf;
+		this.photo = photo;
+		this.com_no = com_no;
+		this.emp_no = emp_no;
+		this.sign = sign;
+		this.col = col;
+		this.com_name= com_name;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -103,20 +132,20 @@ public class Member {
 		this.job = job;
 	}
 
-	public String getPhoneCom() {
-		return phoneCom;
+	public String getPhone_com() {
+		return phone_com;
 	}
 
-	public void setPhoneCom(String phoneCom) {
-		this.phoneCom = phoneCom;
+	public void setPhone_com(String phone_com) {
+		this.phone_com = phone_com;
 	}
 
-	public String getPhoneCell() {
-		return phoneCell;
+	public String getPhone_cell() {
+		return phone_cell;
 	}
 
-	public void setPhoneCell(String phoneCell) {
-		this.phoneCell = phoneCell;
+	public void setPhone_cell(String phone_cell) {
+		this.phone_cell = phone_cell;
 	}
 
 	public String getEmail() {
@@ -167,12 +196,12 @@ public class Member {
 		this.address = address;
 	}
 
-	public String getEtcInf() {
-		return etcInf;
+	public String getEtc_inf() {
+		return etc_inf;
 	}
 
-	public void setEtcInf(String etcInf) {
-		this.etcInf = etcInf;
+	public void setEtc_inf(String etc_inf) {
+		this.etc_inf = etc_inf;
 	}
 
 	public String getPhoto() {
@@ -183,20 +212,20 @@ public class Member {
 		this.photo = photo;
 	}
 
-	public String getComNo() {
-		return comNo;
+	public String getCom_no() {
+		return com_no;
 	}
 
-	public void setComNo(String comNo) {
-		this.comNo = comNo;
+	public void setCom_no(String com_no) {
+		this.com_no = com_no;
 	}
 
-	public String getEmpNo() {
-		return empNo;
+	public String getEmp_no() {
+		return emp_no;
 	}
 
-	public void setEmpNo(String empNo) {
-		this.empNo = empNo;
+	public void setEmp_no(String emp_no) {
+		this.emp_no = emp_no;
 	}
 
 	public String getSign() {
@@ -206,7 +235,7 @@ public class Member {
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
-	//ㄴㄴ
+
 	public String getCol() {
 		return col;
 	}
@@ -214,16 +243,23 @@ public class Member {
 	public void setCol(String col) {
 		this.col = col;
 	}
+	public String getCom_name() {
+		return com_name;
+	}
+	
+	public void setCom_name(String com_name) {
+		this.com_name = com_name;
+	}
 
 	@Override
 	public String toString() {
 		return "Member [userId=" + userId + ", password=" + password + ", userName=" + userName + ", dept=" + dept
-				+ ", position=" + position + ", job=" + job + ", phoneCom=" + phoneCom + ", phoneCell=" + phoneCell
+				+ ", position=" + position + ", job=" + job + ", phone_com=" + phone_com + ", phone_cell=" + phone_cell
 				+ ", email=" + email + ", joinDate=" + joinDate + ", quitDate=" + quitDate + ", status=" + status
-				+ ", birthday=" + birthday + ", address=" + address + ", etcInf=" + etcInf + ", photo=" + photo
-				+ ", comNo=" + comNo + ", empNo=" + empNo + ", sign=" + sign + ", col=" + col + "]";
+				+ ", birthday=" + birthday + ", address=" + address + ", etc_inf=" + etc_inf + ", photo=" + photo
+				+ ", com_no=" + com_no + ", emp_no=" + emp_no + ", sign=" + sign + ", col=" + col +",com_name="+com_name+ "]";
 	}
-	
+
 	
 	
 }

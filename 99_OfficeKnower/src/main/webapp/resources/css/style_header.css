@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+header#header {
+	position: fixed;
+	left : 0px;
+	top: 0px;
+	width: 100%;
+	height: 60px;
+	background: white;
+	z-index: 200;
+	padding: 0;
+	border-bottom: 1px solid lightgray;
+}
+div.container{
+	position: relative;
+	margin-top: 100px;
+}
+h1.logo_container{
+	padding-left: 50px;
+	float: left;
+}
+div#gnb{
+	display: inline-block;
+	margin: 16px 0 0 50px;
+	font-size: 18px;
+	cursor: pointer;
+	position: relative;
+	font-family: 'Nanum Gothic', sans-serif;
+}
+div.header_container{
+	border: 1px solid #ccc;
+	background: white;
+	display: inline-block;
+}
+div#menu_container{
+	position: absolute;
+	width: 453px;
+	height: 300px;
+	padding: 20px 25px;
+	left: 59px;
+	top: 59px;
+}
+div#userBox{
+	min-width: 100px;
+	margin: 8px 20px 0 0;
+	float: right;
+	font-size: 12px;
+	cursor: pointer;
+	font-family: 'Nanum Gothic', sans-serif;
+}
+div#notice-icon-container{
+	display: inline-block; 
+	margin: 17px 30px 0 0;
+	float: right;
+	color: lightgray;
+}
+div#user-detail{
+	position: absolute;
+	right: 0px;
+    top: 59px;
+    width: 350px;
+    padding: 20px 25px;
+    background: white;
+    display: none;
+}
+div.pic{
+	margin-right: 24px;
+ 		width: 80px;
+ 		display: inline-block;
+}
+img.sp_icon{
+	position: absolute;
+	width: 15px;
+}
+img#sp_icon_detail{
+	top: -9px;
+	left: 272px;
+}
+img#sp_icon_menu{
+	top: -9px;
+	left: 192px;
+}
+div#notice-container{
+	position: absolute;
+	right: 179px;
+    top: 59px;
+    width: 306px;
+    padding: 20px 25px;
+    background: white;
+    display: none;
+}
+img#sp_icon_notice{
+	top: -9px;
+	left: 266px;
+}
+div.menu_btn{
+	border-radius: 100%;
+	background: #2985DC;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	color: white;
+	font-size: 14px;
+	cursor: pointer;
+	display: inline-block;
+	margin: 15px 15px 15px 15px;
+	overflow: hidden;
+}
+div.menu_btn img{
+	width: 41.33px; 
+	display: inline-block; 
+	margin-top: 15px;
+}
+div.menu_btn:hover img{
+	width: 67px;
+}
+div.menu_btn:hover p{
+	display: none;
+}
+div.text{
+	display: inline-block;
+}
+div.pic img{
+	width: 80px; 
+	height: 80px;
+	position: absolute;
+	top: 20px;
+}

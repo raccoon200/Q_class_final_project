@@ -1,15 +1,7 @@
 package com.kh.ok.member.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -61,7 +52,7 @@ public class MemberController {
 			if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 				msg="로그인 성공";
 				/*logger.debug("["+userId+"]이 로그인 함.");*/
-				
+				loc="/office/office_main.do";
 				mav.addObject("memberLoggedIn",m);
 			}else {
 				msg="비밀번호가 틀렸습니다.";
@@ -89,7 +80,7 @@ public class MemberController {
 			throws JsonProcessingException {
 		System.out.println(userId);
 		logger.debug("@ResponseBody-jsonString ajax : "+userId);
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		//jackson라이브러리에서 사용하는 바인더
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = null;
