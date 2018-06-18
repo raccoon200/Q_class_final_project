@@ -157,8 +157,12 @@ body {
      		        				
      		        				 html2 +="<div class='form-group row'>";
     		        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
-    		        				 html2 +="<div class='col-sm-10'>";
-    		        				 html2 += "<select class='form-control' name='starttime'>";
+    		        				 html2 += "<div class='row'>";
+    		        				 html2 += "<div class='col'>";
+     		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/>";
+    		        				 html2 += "</div>";
+    		        				 html2 += "<div class='col'>";
+     		        				 html2 += "<select class='form-control' name='starttime'>";
     		        				 html2 += "<option value='00:00'>오전 12:00</option>";
     		        				 html2 += "<option value='01:00'>오전 01:00</option>";
     		        				 html2 += "<option value='02:00'>오전 02:00</option>";
@@ -184,12 +188,16 @@ body {
     		        				 html2 += "<option value='22:00'>오후 10:00</option>";
     		        				 html2 += "<option value='23:00'>오후 11:00</option>";
     		        				 html2 += "</select>";
-     		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/></div></div>";
+    		        				 html2 += "</div></div></div>";
      		        				 
      		        				 html2 +="<div class='form-group row'>";
     		        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
-    		        				 html2 +="<div class='col-sm-10'>";
-    		        				 html2 += "<select class='form-control' name='quittime'>";
+    		        				 html2 += "<div class='row'>";
+    		        				 html2 += "<div class='col'>";
+     		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/>";
+    		        				 html2 += "</div>";
+    		        				 html2 += "<div class='col'>";
+     		        				 html2 += "<select class='form-control' name='starttime'>";
     		        				 html2 += "<option value='00:00'>오전 12:00</option>";
     		        				 html2 += "<option value='01:00'>오전 01:00</option>";
     		        				 html2 += "<option value='02:00'>오전 02:00</option>";
@@ -215,7 +223,7 @@ body {
     		        				 html2 += "<option value='22:00'>오후 10:00</option>";
     		        				 html2 += "<option value='23:00'>오후 11:00</option>";
     		        				 html2 += "</select>";
-     		        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/></div></div>";
+    		        				 html2 += "</div></div></div>";
      		        				 
      		        	
      		        				 
