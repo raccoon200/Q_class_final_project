@@ -53,7 +53,7 @@ body {
         	},
               defaultDate : new Date()
         	, locale : "ko"
-       		, googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE"      // Google API KEY
+       		, googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE"
             , eventSources : [
                 // 대한민국의 공휴일
                 {
@@ -89,14 +89,7 @@ body {
         				 
         			 },
     			 	</c:if>
-    			 
-    			/*  {
-    				 id : "${seche.schedule_no}"
-    				, title : "${seche.title}"
-    				, start : "${seche.startdate}"
-    				, end : "${seche.quitdate}"
-    				 
-    			 }, */
+
     			</c:forEach>
     		
     			</c:if>    
@@ -107,47 +100,6 @@ body {
                     ,  title : "All Day Event"
                     , start : "2016-05-01"
                     , end : ""
-                },
-                {
-                      title : "Long Event"
-                    , start : "2016-05-07"
-                    , end : "2016-05-10"
-                },
-                {
-                      id : 999
-                    , title : "Repeating Event"
-                    , start : "2016-05-09T16:00:00"
-                },
-                {
-                      id : 999
-                    , title : "Repeating Event"
-                    , start : "2016-05-16T16:00:00"
-                },
-                {
-                      title : "Conference"
-                    , start : "2016-05-11"
-                    , end : "2016-05-13"
-                },
-                {
-                      title : "Meeting"
-                    , start : "2016-05-12T10:30:00"
-                    , end : "2016-05-12T12:30:00"
-                },
-                {
-                      title : "Lunch"
-                    , start : "2016-05-12T12:00:00"
-                },
-                {
-                      title : "Meeting"
-                    , start : "2016-05-12T14:30:00"
-                },
-                {
-                      title : "Happy Hour"
-                    , start : "2016-05-12T17:30:00"
-                },
-                {
-                      title : "Dinner"
-                    , start : "2016-05-12T20:00:00"
                 },
                 {
                       title : "Birthday Party"
@@ -208,6 +160,8 @@ body {
      		        				
      		        				 html2 +="<div class='form-group row'>";
     		        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
+    		        				 html2 += "<select>";
+    		        				 html2 += 
     		        				 html2 +="<div class='col-sm-10'>";
      		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/></div></div>";
      		        				 
