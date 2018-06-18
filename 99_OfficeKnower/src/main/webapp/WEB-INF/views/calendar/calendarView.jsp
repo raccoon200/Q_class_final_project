@@ -162,7 +162,7 @@ body {
      		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/>";
     		        				 html2 += "</div>";
     		        				 html2 += "<div class='col'>";
-     		        				 html2 += "<select class='form-control' name='starttime'>";
+     		        				 html2 += "<select class='form-control' name='starttime' id='starttime'>";
     		        				 html2 += "<option value='00:00'>오전 12:00</option>";
     		        				 html2 += "<option value='01:00'>오전 01:00</option>";
     		        				 html2 += "<option value='02:00'>오전 02:00</option>";
@@ -194,10 +194,10 @@ body {
     		        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
     		        				 html2 += "<div class='row'>";
     		        				 html2 += "<div class='col'>";
-     		        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/>";
+     		        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+yy+"-"+mm+"-"+dd+"' required/>";
     		        				 html2 += "</div>";
     		        				 html2 += "<div class='col'>";
-     		        				 html2 += "<select class='form-control' name='starttime'>";
+     		        				 html2 += "<select class='form-control' name='quittime' id='quittime'>";
     		        				 html2 += "<option value='00:00'>오전 12:00</option>";
     		        				 html2 += "<option value='01:00'>오전 01:00</option>";
     		        				 html2 += "<option value='02:00'>오전 02:00</option>";
@@ -264,16 +264,8 @@ body {
 	    				 html += "<th> ${seche.title} </th></tr>";
 	    				 html += "<tr><th>시작";
 	    				 html += "<th> ${seche.startdate} </th></tr>";
-	    				
-		    				  if(${empty seche.quitdate}){
-		    					  console.log("여기는 찍히나??");
-			    				 html += "<tr><th>종료";
-			    				 html += "<th> ${seche.startdate} </th></tr>";
-		    				 }else{
-		    					 html += "<tr><th>종료";
-			    				 html += "<th> ${seche.quitdate} </th></tr>";
-		    				 } 
-	    				  
+    					 html += "<tr><th>종료";
+	    				 html += "<th> ${seche.quitdate} </th></tr>";
 	    				 html += "<tr><th>내용";
 	    				 html += "<th>" + "<textarea name='content' id='content' cols='30' rows='5' >"+"${seche.content}"+"</textarea>";
 	    				 html += "</th></tr>";		 
@@ -283,8 +275,14 @@ body {
 
             	html += "</table>";
             	console.log(html);
-            	$("#scheduleInfo").html(html);
+            	//$("#scheduleInfo").html(html);
             	//$("#calendarView").show();
+            	
+            	//div하나 만들어서 일단 test
+            	$("#viewInfo").html(html);
+            	$("#viewTest").show();
+            	
+            	
         		
         	  } //eventClick끝        	
         	
@@ -306,7 +304,10 @@ body {
 
 
 <div id="calendar"></div>	
-
+<!-- view모달 대신 div 테스트용 -->
+<div id="viewTest">
+	<p id="viewInfo"></p>
+</div>
 <!-- Modal -->
 <!-- 일정 추가 모달 -->
 <div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
@@ -338,7 +339,7 @@ function fn_submit(){
 
 <!-- Modal -->
 <!-- 일정보기 모달 -->
-<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+<!-- <div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -356,6 +357,6 @@ function fn_submit(){
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- 일정보기 모달 끝 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

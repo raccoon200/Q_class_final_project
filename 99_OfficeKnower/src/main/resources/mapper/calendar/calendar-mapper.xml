@@ -13,7 +13,7 @@
 	
 	<insert id="selectInsert">
 		insert into schedule values(seq_schedule.nextval, #{writer}, #{calendar_name}, #{title}
-		                            , #{content}, #{startdate},#{quitdate},default,#{com_no})
+		                            , #{content}, #{startdate},#{quitdate},default,#{com_no},#{starttime},#{quittime})
 	</insert>
 	
 </mapper>
