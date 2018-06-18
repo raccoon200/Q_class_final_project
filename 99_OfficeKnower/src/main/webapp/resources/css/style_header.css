@@ -13,7 +13,11 @@ header#header {
 }
 div.container{
 	position: relative;
-	margin-top: 100px;
+	margin-top: 60px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 h1.logo_container{
 	padding-left: 50px;
