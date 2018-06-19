@@ -6,6 +6,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
 </jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
+</jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <link href="${pageContext.request.contextPath }/resources/fullcalendar-3.9.0/fullcalendar.print.css" rel="stylesheet" media="print"/>
@@ -16,8 +19,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/gcal.js"></script>
 <style type="text/css">
 body {
-    margin :40px 10px;
-    padding : 0;
+    /* margin :40px 10px;
+    padding : 0; */
     font-family : "Lucida Grande", Helvetica, Arial, Verdana,sans-serif;
     font-size : 14px;
 }
