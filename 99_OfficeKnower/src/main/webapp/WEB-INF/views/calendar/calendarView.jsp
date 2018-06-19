@@ -65,7 +65,7 @@ body {
             , editable : false
             , eventLimit : true
             , events: [
-            	 <c:if test="${not empty list }">
+            	 <c:if test="${not empty list}">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
     			 	<c:if test="${seche.writer eq 'share'}">
     			 	 {
@@ -254,7 +254,7 @@ body {
         
         	, eventClick:function(event) {
         		$(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
-        		//$(".fc-widget-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+        		$(".fc-list-item-title").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         		var html ="";
             	html += "<form action='<%=request.getContextPath()%>/cal/scheduleUpdate' id='updateFrm' method='post'>";
 				   console.log("${memberLoggedIn.userId}");
