@@ -13,4 +13,8 @@ public interface CalendarService {
 
 	List<String> selectCalendar(String userId);
 
+	int scheduleUpdate(Schedule schedule);
+
+	int scheduleDelete(String sid);
+
 }

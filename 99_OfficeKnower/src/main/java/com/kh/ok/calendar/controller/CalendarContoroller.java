@@ -28,7 +28,7 @@ public class CalendarContoroller {
 	@RequestMapping("/cal/cal.do")
 	public String demo() {
 		
-		return"calendar/calendarView";
+		return"calendar/cal-mini";
 	}
 	
 	@RequestMapping("/cal/calTest.do")
@@ -75,7 +75,25 @@ public class CalendarContoroller {
 		return map;
 	}
 	
-
+	@RequestMapping("/cal/scheduleDelete")
+	public String scheduleDelete(HttpServletRequest request) {
+		String sid = request.getParameter("sid");
+		System.out.println("sid@controller"+sid);
+		
+		int result = calendarService.scheduleDelete(sid);
+		
+		return "redirect:/cal/calTest.do";
+	}
+	
+    @RequestMapping("/cal/scheduleUpdate")
+    public String scheduleUpdate(Schedule schedule, Model model) {
+    	System.out.println("업데이트용" +schedule);
+		
+		int result = calendarService.scheduleUpdate(schedule);
+		System.out.println("업데이트 result" + result);
+    	
+    	return "redirect:/cal/calTest.do";
+    }
 	
 	
 	
