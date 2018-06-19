@@ -1,3 +1,4 @@
+<%@page import="com.kh.ok.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -8,7 +9,7 @@
 	<jsp:param value="" name="pageTitle"/>
 </jsp:include>
 <style>
-.groupBox {width: 80%;overflow: hidden; padding: 30px 0 0 0; min-height: 60px;}
+.groupBox {width: 100%;overflow: hidden; padding: 30px 0 0 0; min-height: 60px;}
 .groupBox .team {float: left; width: 200px;  padding-right: 20px;}
 .groupBox .people { margin: 0 0 0 220px;   width: 819px;}
 .groupBox .people li .img {
@@ -57,10 +58,11 @@ p.name {
 }
 .img2{
     width: 130px;
-    height: auto;
+    height: 130px;
     border-radius: 50%;
     float: left;
     margin-left: 30px;
+    border: 1px solid;
 }
 dl dd {
     margin: 0 0 0 100px;
@@ -70,6 +72,19 @@ dl dd {
 dd {
     display: block;
     -webkit-margin-start: 40px;
+}
+.insa-layer .btn_upload {
+    display: inline-block;
+    position: absolute;
+    top: 3px;
+    left: 83px;
+    width: 24px;
+    height: 24px;
+    background: url(${pageContext.request.contextPath}/resources/images/profile/camera.png);
+    margin-left:170px;
+    margin-top: 40px;
+    cursor: pointer;
+    display: none;
 }
 </style>
 
@@ -82,7 +97,7 @@ dd {
 	<ul>
 		<c:forEach var="l" items="${list}" >
 			<li>
-				<img class="img" src="${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/images/profile/default.jpg'" onclick="fn_profile('${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}')"/>
+				<img class="img" src="${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/images/profile/default.jpg'" onclick="fn_profile('${l.getUserId()}','${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}')"/>
 				<p class="name">${l.getUserName()}</p>
 			</li>
 		</c:forEach>
@@ -91,12 +106,15 @@ dd {
 </div>
 
 <!-- 프로필 상자 -->
-<div class="layer_box mid_large hide" id="insa_info_layer" style="margin-left: 10%; margin-top: -20%; background: pink; display: none; width: 500px;">
-	<div class="title_layer text_variables" style="font-size: 20px; color: blue;">직원 정보</div>
-	<button style="float: right; margin-top: -45px;" onclick="fn_close()">X</button>
-	<div class="userView insa-layer">
+<div class="layer_box mid_large hide" id="insa_info_layer" style="margin-left: 10%; margin-top: -20%; display: none; width: 500px;">
+	
+	<div class="title_layer text_variables" style="font-size: 20px; color: black; border-color; border-top: 1px solid; border-left:1px solid; border-right:1px solid;"><span style="color: blue;">직원 정보</span></div>
+	<button style="float: right; margin-top: -45px; margin-right: 10px;" onclick="fn_close()">X</button>
+	<div class="userView insa-layer" style="border-bottom:1px solid; border-left:1px solid;border-right:1px solid;">
+		<span class="btn_upload" onclick="fn_addProfile()"></span>
+		
 		<div class="profile">
-			<img class="img2" src="${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/images/profile/default.jpg'"/>
+			<img class="img2" src="${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/images/profile/default.jpg'" style="background-size: 200px;"/>
 		<div class="proflie_right">
 			<dl style="margin-left: 150px;">
 				<dd class="insa-layer-name"></dd>
@@ -116,11 +134,15 @@ dd {
 				<dt><span class="text">휴대전화</span></dt>
 				<dd><span class="text insa-layer-cell"></span></dd>
 			</dl>
+		
+		<input type="file" name="" id="photoUpload"  style="opacity: 0; position: relative;" onchange="LoadImg(this);"/><br />
+		<input type="button" value="저장" class="btn btn-outline-primary" style="text-align: center;"/>
+		<input type="button" value="취소" class="btn btn-outline-primary"/>
 	</div>
 </div>
 
 <script>
-function fn_profile(userName,position,job, join, com, cell){
+function fn_profile(userId,userName,position,job, join, com, cell){
 	$(".insa-layer-name").text(userName);
 	$(".insa-layer-position").text(position +" / " + job);
 	$(".insa-layer-date").text(join);
@@ -128,11 +150,64 @@ function fn_profile(userName,position,job, join, com, cell){
 	$(".insa-layer-cell").text(cell);
 	$("#insa_info_layer").css('display','block');
 	$(".groupBox").css('display','none');
+	
+	if(userId =='<%= ((Member)request.getSession().getAttribute("memberLoggedIn")).getUserId()%>'){
+		$(".btn_upload").css('display','block');
+	}else{
+		$(".btn_upload").css('display','none');
+		$('.img2').attr('src', '${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}');
+		$('.img2').val('');
+	}
 }
 function fn_close(){
 	$("#insa_info_layer").css('display','none');	
 	$(".groupBox").css('display','block');	
 }
+function fn_addProfile(){
+	$("#photoUpload").trigger('click');
+}
+function LoadImg(value) {
+    if(value.files && value.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function (e) {
+              $('.img2').attr('src', e.target.result);
+         }
+         reader.readAsDataURL(value.files[0]);
+    }
+}
+
+/* $("#photoUpload").change(function(){
+	console.log($("#photoUpload").val());
+	var str = $("#photoUpload").val();
+	var n =str.lastIndexOf('\\');
+	console.log(($("#photoUpload").val()).substring((str.lastIndexOf('\\')+1),str.length));
+	/* $("#img2").attr("src",($("#photoUpload").val()).substring((str.lastIndexOf('\\')+1),str.length));
+	$("#img2").attr("src",str); */
+	
+/* 	 if(value.files && value.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function (e) {
+              $('#img2').attr('src', e.target.result);
+         }
+         reader.readAsDataURL(value.files[0]);
+    } */
+/* 	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	
+    filesArr.forEach(function(f) {
+        if(!f.type.match("image.*")) {
+            alert("확장자는 이미지 확장자만 가능합니다.");
+            return;
+        }
+
+        sel_file = f;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#photoUpload").attr("src", e.target.result);
+        }
+        reader.readAsDataURL(f); */
+/* }); */
 </script>
 <%-- <div class="layer_box" style="margin-left: 10%; margin-top: -20%; background: pink; width: 70%;">
 <div class="title_layer text_variables">직원 정보</div>
