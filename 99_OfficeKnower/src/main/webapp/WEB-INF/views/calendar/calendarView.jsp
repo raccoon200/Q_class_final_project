@@ -23,6 +23,7 @@ body {
 }
 #calendar {
     display: inline-block;
+    
 }
 
 
@@ -112,6 +113,11 @@ body {
             ]
         	
         	, dayClick: function(date, allDay, jsEvent, view) {
+        		
+        		day();
+        		function day(){
+        			
+        		
         		$(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         		$(".fc-day-top").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         		$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
@@ -260,6 +266,8 @@ body {
      		                   
      		       }); // ajax end
      		   
+        		}
+     		       
      	} //dayClick끝
         
         	, eventClick:function(event) {
@@ -378,12 +386,7 @@ body {
             	$("#scheduleInfo").html(html);
             	console.log("4",$(".fc-content"));
             	//$("#calendarView").show();
-            	
-            	//div하나 만들어서 일단 test
-            	//$("#viewInfo").html(html);
-            	//$("#viewTest").show();
-            	
-            	
+         
         		
         	  } //eventClick끝        	
         	
@@ -395,9 +398,17 @@ body {
     }); //ready 끝
 </script>
 
-<div id="calendarNav">
-nav
-</div>
+<%-- <div id="calendarNav">
+	<div id="cal-mini">
+	
+<jsp:include page="/WEB-INF/views/calendar/cal-mini.jsp"></jsp:include>
+	</div>
+</div> --%>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#calendarInsert" onclick="day();">
+  일정 추가
+</button>
+
 
 <div id="calendar"></div>	
 

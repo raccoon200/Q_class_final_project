@@ -28,7 +28,7 @@ public class CalendarContoroller {
 	@RequestMapping("/cal/cal.do")
 	public String demo() {
 		
-		return"calendar/calendarView";
+		return"calendar/cal-mini";
 	}
 	
 	@RequestMapping("/cal/calTest.do")

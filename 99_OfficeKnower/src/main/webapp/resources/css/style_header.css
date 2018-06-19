@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body{
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 header#header {
 	position: fixed;
@@ -22,7 +22,7 @@ div.container_main{
 	padding-left: 0px;
 	padding-right: 0px;
 	height: -webkit-fill-available;
-	overflow: hidden!important;
+	/* overflow: hidden!important; */
 }
 h1.logo_container{
 	padding-left: 50px;
