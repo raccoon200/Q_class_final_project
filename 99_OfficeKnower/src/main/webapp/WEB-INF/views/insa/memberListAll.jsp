@@ -180,32 +180,4 @@ function LoadImg(value) {
 	</div>
 </div>
 
-
-<%-- <div class="layer_box" style="margin-left: 10%; margin-top: -20%; background: pink; width: 70%;">
-<div class="title_layer text_variables">직원 정보</div>
-<div class="userView insa-layer">
-		<div class="profile">
-			<img src="${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/images/profile/default.jpg'"/>
-					</div>
-		<div class="proflie_right">
-			<dl>
-				<dd class="insa-layer-name">김희운</dd>
-				<dd>
-					<br>
-				</dd>
-				<dd>
-				</dd>
-			</dl>
-		</div>
-				<dl class="gon">
-			<dt><span class="text">입사일</span></dt>
-			<dd><span class="text">2018-05-21</span></dd>
-						<dt>사내 전화</dt>
-			<dd></dd>
-						<dt><span class="text">휴대전화</span></dt>
-			<dd><span class="text"></span></dd>
-																				</dl>
-			</div>
-</div> --%>
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
