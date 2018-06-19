@@ -20,6 +20,8 @@
 		startdate = #{startdate} , quitdate = #{quitdate}, starttime = #{starttime}, quittime = #{quittime} 
 		where  schedule_no	= #{schedule_no}
 	</update>
-	
+	<delete id="scheduleDelete">
+		delete from schedule where schedule_no = #{sid}
+	</delete>
 	
 </mapper>

@@ -39,4 +39,10 @@ public class CalendarDAOImpl implements CalendarDAO {
 		return sqlSession.update("calendar.scheduleUpdate",schedule);
 	}
 
+
+	@Override
+	public int scheduleDelete(String sid) {
+		return sqlSession.delete("calendar.scheduleDelete",sid);
+	}
+
 }

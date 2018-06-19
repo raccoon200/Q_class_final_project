@@ -39,4 +39,10 @@ public class CalendarServiceImpl implements CalendarService {
 		return calendarDAO.scheduleUpdate(schedule);
 	}
 
+
+	@Override
+	public int scheduleDelete(String sid) {
+		return calendarDAO.scheduleDelete(sid);
+	}
+
 }

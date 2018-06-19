@@ -15,4 +15,6 @@ public interface CalendarService {
 
 	int scheduleUpdate(Schedule schedule);
 
+	int scheduleDelete(String sid);
+
 }

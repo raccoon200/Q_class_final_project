@@ -15,4 +15,6 @@ public interface CalendarDAO {
 
 	int scheduleUpdate(Schedule schedule);
 
+	int scheduleDelete(String sid);
+
 }

@@ -80,6 +80,8 @@ public class CalendarContoroller {
 		String sid = request.getParameter("sid");
 		System.out.println("sid@controller"+sid);
 		
+		int result = calendarService.scheduleDelete(sid);
+		
 		return "redirect:/cal/calTest.do";
 	}
 	

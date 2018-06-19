@@ -476,7 +476,11 @@ function fn_submit(){
   </div>
 </div>
 <script>
-function fn_delete(){}
+function fn_delete(){
+	var sid = $("#schedule_noView").val();
+	location.href = '${pageContext.request.contextPath}/cal/scheduleDelete?sid='+sid;
+	
+}
 
 function fn_submitUpdate(){
 	
