@@ -87,6 +87,43 @@ dd {
     display: none;
 }
 </style>
+<script>
+function fn_profile(userId,userName,position,job, join, com, cell){
+	$(".insa-layer-name").text(userName);
+	$(".insa-layer-position").text(position +" / " + job);
+	$(".insa-layer-date").text(join);
+	$(".insa-layer-com").text(com);
+	$(".insa-layer-cell").text(cell);
+	$("#insa_info_layer").css('display','block');
+	$(".groupBox").css('display','none');
+	
+	if(userId =='<%= ((Member)request.getSession().getAttribute("memberLoggedIn")).getUserId()%>'){
+		$(".btn_upload").css('display','block');
+		$("#savebuttonDiv").css('display','block');
+	}else{
+		$("#savebuttonDiv").css('display','none');
+		$(".btn_upload").css('display','none');
+		$('.img2').attr('src', '${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}');
+		$('.img2').val('');
+	}
+}
+function fn_close(){
+	$("#insa_info_layer").css('display','none');	
+	$(".groupBox").css('display','block');	
+}
+function fn_addProfile(){
+	$("#photoUpload").trigger('click');
+}
+function LoadImg(value) {
+    if(value.files && value.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function (e) {
+              $('.img2').attr('src', e.target.result);
+         }
+         reader.readAsDataURL(value.files[0]);
+    }
+}
+</script>
 
 <div class="groupBox">
 	<hr /><br /><br />
@@ -136,79 +173,14 @@ dd {
 			</dl>
 		
 		<input type="file" name="" id="photoUpload"  style="opacity: 0; position: relative;" onchange="LoadImg(this);"/><br />
-		<input type="button" value="저장" class="btn btn-outline-primary" style="text-align: center;"/>
-		<input type="button" value="취소" class="btn btn-outline-primary"/>
+		<div id="savebuttonDiv" style="position: relative;left: 200px;width: 201px;bottom: 40px; display: none;">
+			<input type="button" value="저장" class="btn btn-outline-primary" style="text-align: center;"/> &nbsp;
+			<input type="button" value="취소" class="btn btn-outline-primary"/>
+		</div>
 	</div>
 </div>
 
-<script>
-function fn_profile(userId,userName,position,job, join, com, cell){
-	$(".insa-layer-name").text(userName);
-	$(".insa-layer-position").text(position +" / " + job);
-	$(".insa-layer-date").text(join);
-	$(".insa-layer-com").text(com);
-	$(".insa-layer-cell").text(cell);
-	$("#insa_info_layer").css('display','block');
-	$(".groupBox").css('display','none');
-	
-	if(userId =='<%= ((Member)request.getSession().getAttribute("memberLoggedIn")).getUserId()%>'){
-		$(".btn_upload").css('display','block');
-	}else{
-		$(".btn_upload").css('display','none');
-		$('.img2').attr('src', '${pageContext.request.contextPath }/resources/images/profile/${l.getPhoto()}');
-		$('.img2').val('');
-	}
-}
-function fn_close(){
-	$("#insa_info_layer").css('display','none');	
-	$(".groupBox").css('display','block');	
-}
-function fn_addProfile(){
-	$("#photoUpload").trigger('click');
-}
-function LoadImg(value) {
-    if(value.files && value.files[0]) {
-         var reader = new FileReader();
-         reader.onload = function (e) {
-              $('.img2').attr('src', e.target.result);
-         }
-         reader.readAsDataURL(value.files[0]);
-    }
-}
 
-/* $("#photoUpload").change(function(){
-	console.log($("#photoUpload").val());
-	var str = $("#photoUpload").val();
-	var n =str.lastIndexOf('\\');
-	console.log(($("#photoUpload").val()).substring((str.lastIndexOf('\\')+1),str.length));
-	/* $("#img2").attr("src",($("#photoUpload").val()).substring((str.lastIndexOf('\\')+1),str.length));
-	$("#img2").attr("src",str); */
-	
-/* 	 if(value.files && value.files[0]) {
-         var reader = new FileReader();
-         reader.onload = function (e) {
-              $('#img2').attr('src', e.target.result);
-         }
-         reader.readAsDataURL(value.files[0]);
-    } */
-/* 	var files = e.target.files;
-	var filesArr = Array.prototype.slice.call(files);
-	
-    filesArr.forEach(function(f) {
-        if(!f.type.match("image.*")) {
-            alert("확장자는 이미지 확장자만 가능합니다.");
-            return;
-        }
-
-        sel_file = f;
-
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $("#photoUpload").attr("src", e.target.result);
-        }
-        reader.readAsDataURL(f); */
-/* }); */
-</script>
 <%-- <div class="layer_box" style="margin-left: 10%; margin-top: -20%; background: pink; width: 70%;">
 <div class="title_layer text_variables">직원 정보</div>
 <div class="userView insa-layer">
