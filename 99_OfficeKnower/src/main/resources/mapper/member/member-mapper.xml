@@ -6,6 +6,12 @@
 	</select>
 	<resultMap type="com.kh.ok.member.model.vo.Member" id="memberMap">
 	</resultMap>
+	<select id="checkIdDuplicate" resultType="_int">
+		SELECT COUNT(*) AS CNT FROM TBL_USER WHERE USERID = #{userId}
+	</select>
+	<insert id="memberEnrollEnd">
+		insert into tbl_user(userId, password, userName, email, address, photo, sign, com_no, status) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, 1, 'N')
+	</insert>
 	<update id="memberOneUpdate" parameterType="member">
 		update tbl_user set job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, birthday=#{birthday}, address=#{address}, etc_inf=#{etc_inf} where userid=#{userId}
 	</update>

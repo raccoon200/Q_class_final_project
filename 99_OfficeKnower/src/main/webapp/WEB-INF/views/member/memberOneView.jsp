@@ -7,7 +7,11 @@
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="개인 정보 수정" name="pageTitle"/>
+	<jsp:param value="인사관리" name="pageTitle"/>
+</jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="인사관리" name="pageTitle"/>
+	<jsp:param value="내 정보 관리" name="selectMenu"/>
 </jsp:include>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
@@ -193,4 +197,4 @@ function fn_addressSum(){
 </script>
 
 
-<%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> --%> 
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
