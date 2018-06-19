@@ -75,7 +75,7 @@
 		});
 		/* 전자결재 */
 		$("#check_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/office/approval.do";
 		});
 		/* 주소록 */
 		$("#address_btn").on("click",function(){
@@ -93,7 +93,7 @@
 </script>
 </head>
 <body>
-    <div class="container">
+    <div class="container_main">
 		<header class="jumbotron" id="header">
 		<h1 class="logo_container">	
 			<a href="${pageContext.request.contextPath }/office/office_main.do">
@@ -149,7 +149,7 @@
 				<img src="${pageContext.request.contextPath }/resources/upload/member/${memberLoggedIn.photo}" alt="프로필" class="rounded-circle"/>
 			</div>
 			<div class="text">
-				<p>${memberLoggedIn.com_no}</p>
+				<p>${memberLoggedIn.com_name}</p>
 				<p>${memberLoggedIn.userId}</p>
 				<p>
 					<!-- 설정 URL등록해야됨 -->
