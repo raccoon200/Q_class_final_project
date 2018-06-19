@@ -19,4 +19,9 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.memberListAll(com_no);
 	}
 
+	@Override
+	public int profileUpdate(Member m) {
+		return insaDAO.profileUpdate(m);
+	}
+
 }
