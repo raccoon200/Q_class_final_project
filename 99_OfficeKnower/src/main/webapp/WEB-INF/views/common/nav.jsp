@@ -412,4 +412,3 @@
 	</c:if>
 </nav>
 <div id="sabu_container">
-asdf
