@@ -22,17 +22,9 @@ body {
     font-size : 14px;
 }
 #calendar {
-    max-width : 900px;
-    margin : 0 auto;
-    position: relative;
-    z-index: 1;
+    display: inline-block;
 }
-#back {
-  position: relative;
-  width : 1000px;
-  
-  z-index: 0;
-} 
+
 
 .fc-content{
 	cursor: pointer;
@@ -40,6 +32,16 @@ body {
 .fc-sat { color:#0066FF; }     /* 토요일 */
 .fc-sun { color:#FF0000; }    /* 일요일 */
 
+#calendarNav{
+	background:lightgray;
+	display: inline-block;
+	width: 300px;
+	height: 700px;
+}
+.container{
+	margin-left: 100px;
+	margin-right:100px;
+}
 </style>
 <script type="text/javascript">
     jQuery(document).ready(function() {
@@ -111,6 +113,14 @@ body {
         	
         	, dayClick: function(date, allDay, jsEvent, view) {
         		$(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		$(".fc-day-top").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		$(".fc-content-skeleton").children("table").children("tbody").children("tr").children("td").each(function(item){
+        			if($(this).attr("class") == null){
+        				$(this).attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        			}
+        		});
+        		
      		   var yy=date.format("YYYY");
      		   var mm=date.format("MM");
      		   var dd=date.format("DD");
@@ -387,13 +397,13 @@ body {
 
 </script>
 
-
+<div id="calendarNav">
+nav
+</div>
 
 <div id="calendar"></div>	
-<!-- view모달 대신 div 테스트용 -->
-<div id="viewTest">
-	<p id="viewInfo"></p>
-</div>
+
+
 <!-- Modal -->
 <!-- 일정 추가 모달 -->
 <div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
