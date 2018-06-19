@@ -63,7 +63,7 @@
 		/* 메뉴 컨테이너  URL연결 */
 		/* 인사 */
 		$("#insa_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/insa/memberListAll.do";
 		});
 		/* 일정관리 */
 		$("#sch_btn").on("click",function(){
@@ -153,7 +153,7 @@
 				<p>${memberLoggedIn.userId}</p>
 				<p>
 					<!-- 설정 URL등록해야됨 -->
-					<a href="#">설정</a>
+					<a href="${pageContext.request.contextPath }/member/memberOneSelect.do?userId=${memberLoggedIn.userId}">설정</a>
 				</p>
 				<!-- 로그아웃 -->
 				<button type="button" id="logout_btn" class="btn btn-outline-primary">로그아웃</button>

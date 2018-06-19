@@ -10,4 +10,6 @@ public interface MemberService {
 
 	int memberEnrollEnd(Member m);
 
+	int memberOneUpdate(Member member);
+
 }

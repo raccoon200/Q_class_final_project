@@ -10,4 +10,6 @@ public interface MemberDAO {
 
 	int memberEnrollEnd(Member m);
 
+	int memberOneUpdate(Member member);
+
 }

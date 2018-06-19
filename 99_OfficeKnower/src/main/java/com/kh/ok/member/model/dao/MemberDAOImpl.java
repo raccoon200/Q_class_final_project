@@ -25,4 +25,7 @@ public class MemberDAOImpl implements MemberDAO{
 	public int memberEnrollEnd(Member m) {
 		return sqlSession.insert("member.memberEnrollEnd", m);
 	}
+	public int memberOneUpdate(Member member) {
+		return sqlSession.update("member.memberOneUpdate",member);
+	}
 }
