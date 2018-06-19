@@ -261,28 +261,35 @@ body {
 						
         		  <c:forEach var="seche" items="${list}" varStatus="vs">
         		  	   if("${seche.schedule_no}" == event.id){
-						console.log("${seche.starttime}");
+						console.log("${seche.schedule_no}");
 						
-						
+            			 
+            			 html +="<div class='form-group row'>";
+       				 	 html +="<label for='calendar_nameView' class='col-sm-2 col-form-label'>캘린더</label>";
+       					 html +="<div class='col-sm-10'>";
+       				 	 html +="<input type='text' name='calendar_name' id='calendar_nameView' class='form-control' value='${seche.calendar_name}' readonly/></div></div>";
+            			 
+
 						 html +="<div class='form-group row'>";
        				 	 html +="<label for='titleView' class='col-sm-2 col-form-label'>일정 제목</label>";
        					 html +="<div class='col-sm-10'>";
+       					 html += "<input type='hidden' name='schedule_no' id='schedule_noView'  value='${seche.schedule_no}'/>"
        				 	 html +="<input type='text' name='title' id='titleView' class='form-control' value='${seche.title}'/></div></div>";
 						
 	       				 html +="<div class='form-group row'>";
-	    				 html +="<label for='titleView' class='col-sm-2 col-form-label'>작성자</label>";
+	    				 html +="<label for='writerView' class='col-sm-2 col-form-label'>작성자</label>";
 	    				 html +="<div class='col-sm-10'>";
 	    				 html += "<input type='hidden' name='userId' value='${seche.writer}'/>"
-	    				 html +="<input type='text' name='writerName' id='titleView' class='form-control' value='${seche.username}' readonly/></div></div>";
+	    				 html +="<input type='text' name='writer' id='writerView' class='form-control' value='${seche.username}' readonly/></div></div>";
 						
 	    				 html +="<div class='form-group row'>";
-        				 html +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
+        				 html +="<label for='startdateView' class='col-sm-2 col-form-label'>시작</label>";
         				 html += "<div class='row'>";
         				 html += "<div class='col'>";
-	        		     html +="<input type='date' name='startdate' id='startdate' class='form-control' value='${seche.startdate}' required/>";
+	        		     html +="<input type='date' name='startdate' id='startdateView' class='form-control' value='${seche.startdate}' required/>";
         				 html += "</div>";
         				 html += "<div class='col'>";
-	        		     html += "<select class='form-control' name='starttime' id='starttime'>";
+	        		     html += "<select class='form-control' name='starttime' id='starttimeView'>";
 	        			 
         				 html += "<option value='00:00' ${seche.starttime eq '00:00'?'selected':''}>오전 12:00</option>";
         				 html += "<option value='01:00' ${seche.starttime eq '01:00'?'selected':''}>오전 01:00</option>";
@@ -427,7 +434,7 @@ function fn_submit(){
 	 if(title==0){
 		alert("일정 제목을 입력해주세요.");
 		return;
-	}else if(starttime=="시작 시간 선택" || quittime=="종료 시간 선택"){
+	}else if(starttime=="시작" || quittime=="종료"){
 		alert("시작 시간과 종료 시간을 선택해주세요.");
 		return;
 	}else if(content==0){
@@ -461,7 +468,7 @@ function fn_submit(){
         <p id="scheduleInfo"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" >일정 수정</button>
+        <button type="button" class="btn btn-primary" onclick="fn_submitUpdate();" >일정 수정</button>
         <button type="button" class="btn btn-primary" onclick="fn_delete();">일정 삭제</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
@@ -470,6 +477,42 @@ function fn_submit(){
 </div>
 <script>
 function fn_delete(){}
+
+function fn_submitUpdate(){
+	
+	var title = $("#titleView").val().trim().length;
+	var content = $("#contentView").val().trim().length;
+	var starttime = $("#starttimeView option:selected").val().substring(0,2);
+	var quittime = $("#quittimeView option:selected").val().substring(0,2);
+	var stratdate = $("#startdateView").val().split('-');
+	var quitdate = $("#quitdateView").val().split('-');
+	
+	var sdate = new Date(stratdate[0], stratdate[1] - 1, stratdate[2]); 
+	var qdate = new Date(quitdate[0], quitdate[1] - 1, quitdate[2]); 
+
+	console.log(sdate.toDateString());
+	console.log(qdate.toDateString());
+
+
+	 if(title==0){
+		alert("일정 제목을 입력해주세요.");
+		return;
+	}else if(starttime=="시작 시간 선택" || quittime=="종료 시간 선택"){
+		alert("시작 시간과 종료 시간을 선택해주세요.");
+		return;
+	}else if(content==0){
+		alert("내용을 입력해주세요.");
+		return;
+	}else if(parseInt(starttime)>parseInt(quittime)){
+		alert("시간을 잘못 입력하셨습니다.");
+		return;
+	}else if (sdate>qdate) {
+		alert("날짜를 잘못 입력하셨습니다.");
+		return;
+	}
+	else updateFrm.submit();
+}
+
 
 </script>
 <!-- 일정보기 모달 끝 -->

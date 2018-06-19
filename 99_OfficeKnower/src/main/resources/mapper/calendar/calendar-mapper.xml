@@ -4,7 +4,7 @@
   <select id="selectSechedule" resultMap="list">
 		select s.* , u.username 
 		from schedule s join tbl_user u on (s.writer=u.userid)
-		where s.writer = #{userid} or s.writer = 'share'		
+		where s.writer = #{userid} or s.writer = 'share' order by s.schedule_no		
 	</select>
 	<resultMap type="schedule" id="list"></resultMap>
 	<select id="selectCalendar" resultType="HashMap">
@@ -15,5 +15,11 @@
 		insert into schedule values(seq_schedule.nextval, #{writer}, #{calendar_name}, #{title}
 		                            , #{content}, #{startdate},#{quitdate},default,#{com_no},#{starttime},#{quittime})
 	</insert>
+	<update id="scheduleUpdate">
+		update schedule set calendar_name = #{calendar_name},title = #{title}, content = #{content},
+		startdate = #{startdate} , quitdate = #{quitdate}, starttime = #{starttime}, quittime = #{quittime} 
+		where  schedule_no	= #{schedule_no}
+	</update>
+	
 	
 </mapper>

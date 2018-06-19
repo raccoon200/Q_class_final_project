@@ -33,4 +33,10 @@ public class CalendarServiceImpl implements CalendarService {
 		return calendarDAO.selectCalendar(userId);
 	}
 
+
+	@Override
+	public int scheduleUpdate(Schedule schedule) {
+		return calendarDAO.scheduleUpdate(schedule);
+	}
+
 }

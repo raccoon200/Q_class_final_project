@@ -33,4 +33,10 @@ public class CalendarDAOImpl implements CalendarDAO {
 		return sqlSession.selectList("calendar.selectCalendar",userId);
 	}
 
+
+	@Override
+	public int scheduleUpdate(Schedule schedule) {
+		return sqlSession.update("calendar.scheduleUpdate",schedule);
+	}
+
 }

@@ -83,7 +83,15 @@ public class CalendarContoroller {
 		return "redirect:/cal/calTest.do";
 	}
 	
-
+    @RequestMapping("/cal/scheduleUpdate")
+    public String scheduleUpdate(Schedule schedule, Model model) {
+    	System.out.println("업데이트용" +schedule);
+		
+		int result = calendarService.scheduleUpdate(schedule);
+		System.out.println("업데이트 result" + result);
+    	
+    	return "redirect:/cal/calTest.do";
+    }
 	
 	
 	
