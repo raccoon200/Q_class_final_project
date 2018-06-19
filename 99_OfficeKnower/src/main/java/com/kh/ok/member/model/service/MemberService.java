@@ -6,4 +6,8 @@ public interface MemberService {
 
 	Member selectUserId(String userId);
 
+	int checkIdDuplicate(String userId);
+
+	int memberEnrollEnd(Member m);
+
 }

@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+body{
+	overflow: hidden;
+}
 header#header {
 	position: fixed;
 	left : 0px;
@@ -11,9 +14,15 @@ header#header {
 	padding: 0;
 	border-bottom: 1px solid lightgray;
 }
-div.container{
+div.container_main{
 	position: relative;
-	margin-top: 100px;
+	margin-top: 60px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	height: -webkit-fill-available;
+	overflow: hidden!important;
 }
 h1.logo_container{
 	padding-left: 50px;
@@ -35,7 +44,6 @@ div.header_container{
 div#menu_container{
 	position: absolute;
 	width: 453px;
-	height: 300px;
 	padding: 20px 25px;
 	left: 59px;
 	top: 59px;
@@ -78,7 +86,7 @@ img#sp_icon_detail{
 }
 img#sp_icon_menu{
 	top: -9px;
-	left: 192px;
+	left: 186px;
 }
 div#notice-container{
 	position: absolute;

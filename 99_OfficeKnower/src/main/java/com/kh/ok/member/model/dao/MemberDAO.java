@@ -6,4 +6,8 @@ public interface MemberDAO {
 
 	Member selectUserId(String userId);
 
+	int checkIdDuplicate(String userId);
+
+	int memberEnrollEnd(Member m);
+
 }

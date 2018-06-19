@@ -271,8 +271,6 @@ body {
 						
         		  <c:forEach var="seche" items="${list}" varStatus="vs">
         		  	   if("${seche.schedule_no}" == event.id){
-						console.log("${seche.schedule_no}");
-						
             			 
             			 html +="<div class='form-group row'>";
        				 	 html +="<label for='calendar_nameView' class='col-sm-2 col-form-label'>캘린더</label>";
@@ -378,6 +376,7 @@ body {
             	html += "</from>";
             	console.log(html);
             	$("#scheduleInfo").html(html);
+            	console.log("4",$(".fc-content"));
             	//$("#calendarView").show();
             	
             	//div하나 만들어서 일단 test
@@ -389,12 +388,11 @@ body {
         	  } //eventClick끝        	
         	
         }); //fullCalnedar끝
-        	
 
-    
+        
+        //$(".fc-event").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+        //$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarView");
     }); //ready 끝
-    
-
 </script>
 
 <div id="calendarNav">
@@ -459,6 +457,7 @@ function fn_submit(){
 	}
 	else insertFrm.submit();
 }
+
 </script>
 
 <!--일정추가 모달 끝  -->
