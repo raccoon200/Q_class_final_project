@@ -45,4 +45,10 @@ public class CalendarDAOImpl implements CalendarDAO {
 		return sqlSession.delete("calendar.scheduleDelete",sid);
 	}
 
+
+	@Override
+	public List<Schedule> selectCalendarName(String userId) {
+		return sqlSession.selectList("calendar.selectCalendarName",userId);
+	}
+
 }

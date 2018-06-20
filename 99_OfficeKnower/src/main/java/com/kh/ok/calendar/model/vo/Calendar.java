@@ -4,18 +4,27 @@ public class Calendar {
 	private String calendarid;
 	private String calendar_name;
 	private String color;
+	private String type;
 	
 	
 	public Calendar() {}
 
-
-	public Calendar(String calendarid, String calendar_name, String color) {
+	public Calendar(String calendarid, String calendar_name, String color, String type) {
 		super();
 		this.calendarid = calendarid;
 		this.calendar_name = calendar_name;
 		this.color = color;
+		this.type = type;
 	}
 
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public String getCalendarid() {
 		return calendarid;
@@ -46,12 +55,13 @@ public class Calendar {
 		this.color = color;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Calendar [calendarid=" + calendarid + ", calendar_name=" + calendar_name + ", color=" + color + "]";
+		return "Calendar [calendarid=" + calendarid + ", calendar_name=" + calendar_name + ", color=" + color
+				+ ", type=" + type + "]";
 	}
-	
-	
+
+
+
 	
 }

@@ -23,9 +23,12 @@ body {
 }
 #calendar {
     display: inline-block;
+    width: 70%;
     
 }
-
+.fc-view-container{
+	display: inline-block;
+}
 
 .fc-content{
 	cursor: pointer;
@@ -37,11 +40,33 @@ body {
 	background:lightgray;
 	display: inline-block;
 	width: 300px;
-	height: 700px;
+	height: 1000px;
+	position: relative;
+	text-align: center;
+	margin-right: 50px;
+}
+
+#cal-mini{
+	position: absolute;
+}
+#cal-name{
+	position: absolute;
+ 	top: 200px;
+ 	left : 50px;
 }
 .container{
 	margin-left: 100px;
 	margin-right:100px;
+}
+#insertBtn{
+	width: 200px;
+	height : 50px;
+	margin-left : 50px;
+	margin-top : 70px;
+}
+
+.fc-view-container{
+	width : 80%;
 }
 </style>
 
@@ -406,16 +431,45 @@ function day(day){
     }); //ready 끝
 </script>
 
-<%-- <div id="calendarNav">
-	<div id="cal-mini">
-	
-<jsp:include page="/WEB-INF/views/calendar/cal-mini.jsp"></jsp:include>
-	</div>
-</div> --%>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#calendarInsert" onclick="buttonInsert();">
-  일정 추가
-</button>
+ <div id="calendarNav">
+	<div id="cal-mini">
+		<button id="insertBtn" type="button" class="btn btn-primary" data-toggle="modal" 
+		        data-target="#calendarInsert" onclick="buttonInsert();">
+		  일정 추가
+		</button>
+	</div>
+	
+	<div id="cal-name">
+		<span>내 캘린더</span>
+		<ul>
+		
+		 <c:if test="${not empty clist}">
+   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
+       			 <c:if test="${seche.WRITER ne 'share'}">
+   			 	   <li> ${seche.CALENDAR_NAME} </li>
+   			 	</c:if>
+   			</c:forEach>
+		</c:if>    
+	
+		</ul>
+		
+		<span>공유 캘린더</span>
+		<ul>
+			<c:if test="${not empty clist}">
+   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
+       			 <c:if test="${seche.WRITER eq 'share'}">
+   			 	   <li> ${seche.CALENDAR_NAME} </li>
+   			 	</c:if>
+   			</c:forEach>
+		</c:if>   
+		</ul>
+	</div>
+	
+</div> 
+
+
+
 <script>
 function buttonInsert(){
 	

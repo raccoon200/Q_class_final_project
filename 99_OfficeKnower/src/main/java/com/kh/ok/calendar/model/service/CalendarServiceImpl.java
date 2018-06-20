@@ -45,4 +45,10 @@ public class CalendarServiceImpl implements CalendarService {
 		return calendarDAO.scheduleDelete(sid);
 	}
 
+
+	@Override
+	public List<Schedule> selectCalendarName(String userId) {
+		return calendarDAO.selectCalendarName(userId);
+	}
+
 }

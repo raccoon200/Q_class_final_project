@@ -8,7 +8,7 @@
 	</select>
 	<resultMap type="schedule" id="list"></resultMap>
 	<select id="selectCalendar" resultType="HashMap">
-		select distinct calendar_name from schedule where writer = #{userid} or writer = 'share'
+		select distinct calendar_name,writer from schedule where writer = #{userid} or writer = 'share'
 	</select>
 	
 	<insert id="selectInsert">
@@ -23,5 +23,8 @@
 	<delete id="scheduleDelete">
 		delete from schedule where schedule_no = #{sid}
 	</delete>
+	<select id="selectCalendarName" resultMap="list">
+		select distinct calendar_name, writer from schedule where writer = #{userid} or writer = 'share'
+	</select>
 	
 </mapper>

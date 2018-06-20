@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.ok.calendar.model.service.CalendarService;
+import com.kh.ok.calendar.model.vo.Calendar;
 import com.kh.ok.calendar.model.vo.Schedule;
 import com.kh.ok.member.model.vo.Member;
 
@@ -40,7 +41,12 @@ public class CalendarContoroller {
 		}
 		
 		List<Schedule> list = calendarService.selectSechedule(userId);
+		List<String> clist = calendarService.selectCalendar(userId);
+		System.out.println("clist" + clist);
+	    
+		
 		model.addAttribute("list",list);
+		model.addAttribute("clist",clist);
 		model.addAttribute("memberLoggedIn",(Member)session.getAttribute("memberLoggedIn"));
 		
 		System.out.println("list@controller" + list);
