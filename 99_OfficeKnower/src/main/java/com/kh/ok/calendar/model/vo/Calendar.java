@@ -1,0 +1,57 @@
+package com.kh.ok.calendar.model.vo;
+
+public class Calendar {
+	private String calendarid;
+	private String calendar_name;
+	private String color;
+	
+	
+	public Calendar() {}
+
+
+	public Calendar(String calendarid, String calendar_name, String color) {
+		super();
+		this.calendarid = calendarid;
+		this.calendar_name = calendar_name;
+		this.color = color;
+	}
+
+
+	public String getCalendarid() {
+		return calendarid;
+	}
+
+
+	public void setCalendarid(String calendarid) {
+		this.calendarid = calendarid;
+	}
+
+
+	public String getCalendar_name() {
+		return calendar_name;
+	}
+
+
+	public void setCalendar_name(String calendar_name) {
+		this.calendar_name = calendar_name;
+	}
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Calendar [calendarid=" + calendarid + ", calendar_name=" + calendar_name + ", color=" + color + "]";
+	}
+	
+	
+	
+}
