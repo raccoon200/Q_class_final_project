@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<Map<String, String>> memberCompanyListAll(String com_no) {
 		return memberDAO.memberCompanyListAll(com_no);
-
+	}
 	public int memberEnrollEnd(Member m) {
 		return memberDAO.memberEnrollEnd(m);
 	}
