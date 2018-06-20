@@ -7,8 +7,10 @@
 	<jsp:param value="게시판" name="pageTitle"/>
 </jsp:include>
 	<!-- nav 시작 -->
-	
-	
+<jsp:include page="/WEB-INF/views/common/footer.jsp">
+	<jsp:param value="게시판" name="pageTitle"/>
+	<jsp:param value="" name="selectMenu"/>
+</jsp:include>	
 	<!-- nav 끝 -->
 
 	<table class="table table-hover">
