@@ -17,4 +17,9 @@ public class InsaDAOImpl implements InsaDAO {
 	public List<Member> memberListAll(String com_no) {
 		return sqlSession.selectList("insa.memberListAll",com_no);
 	}
+
+	@Override
+	public int profileUpdate(Member m) {
+		return sqlSession.update("insa.profileUpdate",m);
+	}
 }

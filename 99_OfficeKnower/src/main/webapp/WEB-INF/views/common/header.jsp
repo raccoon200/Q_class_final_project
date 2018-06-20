@@ -163,8 +163,6 @@
 			<span class="icon-sound-on" style="font-size: 30px; cursor: pointer;"></span>			
 		</div>
 		<div id="notice-container" class="header_container">
-			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_notice"/>
-		
-			asdf
+			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_notice"/>		
 		</div>
 		</header>

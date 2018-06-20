@@ -8,4 +8,6 @@ public interface InsaService {
 
 	List<Member> memberListAll(String com_no);
 
+	int profileUpdate(Member m);
+
 }
