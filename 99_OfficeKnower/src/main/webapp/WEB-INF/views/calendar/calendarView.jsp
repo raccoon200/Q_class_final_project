@@ -74,137 +74,137 @@ body {
 
 function day(day){
 	/* 캘린더 이름 가지고 오는 ajax / 캘린더 이름 가지고 온 다음 insert용 form만듦 */
-	   $.ajax({
-	        url : "<%=request.getContextPath()%>/cal/selectCalendar",
-	              type: "post",
-	              dataType : "json",
-	              success: function(data){
-	                 console.log(data);
-	                 data = data["list"];
-	                 
-	                   if(data==null){
-	             	  
-	                 }else {
-	                	 
-	                 	var html2 = "";
-	                 		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert' id='insertFrm' method='post' >";
-	                 		 html2 += "<div class='form-group row'>";
-	                 		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
-	                 		 html2 += "<div class='col-sm-10'>";
-	        				 html2 += "<select id='calendar_name' name='calendar_name' class='form-control'>"; 
-	               	     	 //html2 += "<option>캘린더 선택</option>";
-	                 	for(var index in data){
-	 						var c = data[index];
+ $.ajax({
+      url : "<%=request.getContextPath()%>/cal/selectCalendar",
+            type: "post",
+            dataType : "json",
+            success: function(data){
+               console.log(data);
+               data = data["list"];
+               
+                 if(data==null){
+           	  
+               }else {
+              	 
+               	var html2 = "";
+               		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert' id='insertFrm' method='post' >";
+                 		 html2 += "<div class='form-group row'>";
+                 		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
+                 		 html2 += "<div class='col-sm-10'>";
+        				 html2 += "<select id='calendar_name' name='calendar_name' class='form-control'>"; 
+               	     	 //html2 += "<option>캘린더 선택</option>";
+                 	for(var index in data){
+ 						var c = data[index];
 
-	 						 html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
+ 						 html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
 
-	                 	}
-	        				 html2 +="</select></div></div>";
-	        				 
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
-	        				 html2 +="<div class='col-sm-10'>";
-	        				 html2 +="<input type='text' name='title' id='title' class='form-control' required/></div></div>";
-	        				
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>작성자</label>";
-	        				 html2 +="<div class='col-sm-10'>";
-	        				 html2 +="<input type='hidden' value=${memberLoggedIn.com_no} name='com_no' id='com_no' />";
-	        				 html2 +="<input type='text' name='writer' id='writer' class='form-control' value=${memberLoggedIn.userId} readonly/></div></div>";
-	        				
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
-	        				 html2 += "<div class='row'>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+day+"' required/>";
-	        				 html2 += "</div>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 += "<select class='form-control' name='starttime' id='starttime'>";
-	        				 html2 += "<option>시작 시간 선택</option>";
-	        				 html2 += "<option value='00:00'>오전 12:00</option>";
-	        				 html2 += "<option value='01:00'>오전 01:00</option>";
-	        				 html2 += "<option value='02:00'>오전 02:00</option>";
-	        				 html2 += "<option value='03:00'>오전 03:00</option>";
-	        				 html2 += "<option value='04:00'>오전 04:00</option>";
-	        				 html2 += "<option value='05:00'>오전 05:00</option>";
-	        				 html2 += "<option value='06:00'>오전 06:00</option>";
-	        				 html2 += "<option value='07:00'>오전 07:00</option>";
-	        				 html2 += "<option value='08:00'>오전 08:00</option>";
-	        				 html2 += "<option value='09:00'>오전 09:00</option>";
-	        				 html2 += "<option value='10:00'>오전 10:00</option>";
-	        				 html2 += "<option value='11:00'>오전 11:00</option>";
-	        				 html2 += "<option value='12:00'>오전 12:00</option>";
-	        				 html2 += "<option value='13:00'>오후 01:00</option>";
-	        				 html2 += "<option value='14:00'>오후 02:00</option>";
-	        				 html2 += "<option value='15:00'>오후 03:00</option>";
-	        				 html2 += "<option value='16:00'>오후 04:00</option>";
-	        				 html2 += "<option value='17:00'>오후 05:00</option>";
-	        				 html2 += "<option value='18:00'>오후 06:00</option>";
-	        				 html2 += "<option value='19:00'>오후 07:00</option>";
-	        				 html2 += "<option value='20:00'>오후 08:00</option>";
-	        				 html2 += "<option value='21:00'>오후 09:00</option>";
-	        				 html2 += "<option value='22:00'>오후 10:00</option>";
-	        				 html2 += "<option value='23:00'>오후 11:00</option>";
-	        				 html2 += "</select>";
-	        				 html2 += "</div></div></div>";
-	        				 
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
-	        				 html2 += "<div class='row'>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+day+"' required/>";
-	        				 html2 += "</div>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 += "<select class='form-control' name='quittime' id='quittime'>";
-	        				 html2 += "<option>종료 시간 선택</option>";
-	        				 html2 += "<option value='00:00'>오전 12:00</option>";
-	        				 html2 += "<option value='01:00'>오전 01:00</option>";
-	        				 html2 += "<option value='02:00'>오전 02:00</option>";
-	        				 html2 += "<option value='03:00'>오전 03:00</option>";
-	        				 html2 += "<option value='04:00'>오전 04:00</option>";
-	        				 html2 += "<option value='05:00'>오전 05:00</option>";
-	        				 html2 += "<option value='06:00'>오전 06:00</option>";
-	        				 html2 += "<option value='07:00'>오전 07:00</option>";
-	        				 html2 += "<option value='08:00'>오전 08:00</option>";
-	        				 html2 += "<option value='09:00'>오전 09:00</option>";
-	        				 html2 += "<option value='10:00'>오전 10:00</option>";
-	        				 html2 += "<option value='11:00'>오전 11:00</option>";
-	        				 html2 += "<option value='12:00'>오전 12:00</option>";
-	        				 html2 += "<option value='13:00'>오후 01:00</option>";
-	        				 html2 += "<option value='14:00'>오후 02:00</option>";
-	        				 html2 += "<option value='15:00'>오후 03:00</option>";
-	        				 html2 += "<option value='16:00'>오후 04:00</option>";
-	        				 html2 += "<option value='17:00'>오후 05:00</option>";
-	        				 html2 += "<option value='18:00'>오후 06:00</option>";
-	        				 html2 += "<option value='19:00'>오후 07:00</option>";
-	        				 html2 += "<option value='20:00'>오후 08:00</option>";
-	        				 html2 += "<option value='21:00'>오후 09:00</option>";
-	        				 html2 += "<option value='22:00'>오후 10:00</option>";
-	        				 html2 += "<option value='23:00'>오후 11:00</option>";
-	        				 html2 += "</select>";
-	        				 html2 += "</div></div></div>";
-	        				 
-	        	
-	        				 
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
-        				     html2 +="<div class='col-sm-10'>";
-	        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' required></textarea> </div></div>";
+                 	}
+        				 html2 +="</select></div></div>";
+        				 
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
+        				 html2 +="<div class='col-sm-10'>";
+        				 html2 +="<input type='text' name='title' id='title' class='form-control' required/></div></div>";
+        				
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>작성자</label>";
+        				 html2 +="<div class='col-sm-10'>";
+        				 html2 +="<input type='hidden' value=${memberLoggedIn.com_no} name='com_no' id='com_no' />";
+        				 html2 +="<input type='text' name='writer' id='writer' class='form-control' value=${memberLoggedIn.userId} readonly/></div></div>";
+        				
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
+        				 html2 += "<div class='row'>";
+        				 html2 += "<div class='col'>";
+        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+day+"' required/>";
+        				 html2 += "</div>";
+        				 html2 += "<div class='col'>";
+        				 html2 += "<select class='form-control' name='starttime' id='starttime'>";
+        				 html2 += "<option>시작 시간 선택</option>";
+        				 html2 += "<option value='00:00'>오전 12:00</option>";
+        				 html2 += "<option value='01:00'>오전 01:00</option>";
+        				 html2 += "<option value='02:00'>오전 02:00</option>";
+        				 html2 += "<option value='03:00'>오전 03:00</option>";
+        				 html2 += "<option value='04:00'>오전 04:00</option>";
+        				 html2 += "<option value='05:00'>오전 05:00</option>";
+        				 html2 += "<option value='06:00'>오전 06:00</option>";
+        				 html2 += "<option value='07:00'>오전 07:00</option>";
+        				 html2 += "<option value='08:00'>오전 08:00</option>";
+        				 html2 += "<option value='09:00'>오전 09:00</option>";
+        				 html2 += "<option value='10:00'>오전 10:00</option>";
+        				 html2 += "<option value='11:00'>오전 11:00</option>";
+        				 html2 += "<option value='12:00'>오전 12:00</option>";
+        				 html2 += "<option value='13:00'>오후 01:00</option>";
+        				 html2 += "<option value='14:00'>오후 02:00</option>";
+        				 html2 += "<option value='15:00'>오후 03:00</option>";
+        				 html2 += "<option value='16:00'>오후 04:00</option>";
+        				 html2 += "<option value='17:00'>오후 05:00</option>";
+        				 html2 += "<option value='18:00'>오후 06:00</option>";
+        				 html2 += "<option value='19:00'>오후 07:00</option>";
+        				 html2 += "<option value='20:00'>오후 08:00</option>";
+        				 html2 += "<option value='21:00'>오후 09:00</option>";
+        				 html2 += "<option value='22:00'>오후 10:00</option>";
+        				 html2 += "<option value='23:00'>오후 11:00</option>";
+        				 html2 += "</select>";
+        				 html2 += "</div></div></div>";
+        				 
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
+        				 html2 += "<div class='row'>";
+        				 html2 += "<div class='col'>";
+        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+day+"' required/>";
+        				 html2 += "</div>";
+        				 html2 += "<div class='col'>";
+        				 html2 += "<select class='form-control' name='quittime' id='quittime'>";
+        				 html2 += "<option>종료 시간 선택</option>";
+        				 html2 += "<option value='00:00'>오전 12:00</option>";
+        				 html2 += "<option value='01:00'>오전 01:00</option>";
+        				 html2 += "<option value='02:00'>오전 02:00</option>";
+        				 html2 += "<option value='03:00'>오전 03:00</option>";
+        				 html2 += "<option value='04:00'>오전 04:00</option>";
+        				 html2 += "<option value='05:00'>오전 05:00</option>";
+        				 html2 += "<option value='06:00'>오전 06:00</option>";
+        				 html2 += "<option value='07:00'>오전 07:00</option>";
+        				 html2 += "<option value='08:00'>오전 08:00</option>";
+        				 html2 += "<option value='09:00'>오전 09:00</option>";
+        				 html2 += "<option value='10:00'>오전 10:00</option>";
+        				 html2 += "<option value='11:00'>오전 11:00</option>";
+        				 html2 += "<option value='12:00'>오전 12:00</option>";
+        				 html2 += "<option value='13:00'>오후 01:00</option>";
+        				 html2 += "<option value='14:00'>오후 02:00</option>";
+        				 html2 += "<option value='15:00'>오후 03:00</option>";
+        				 html2 += "<option value='16:00'>오후 04:00</option>";
+        				 html2 += "<option value='17:00'>오후 05:00</option>";
+        				 html2 += "<option value='18:00'>오후 06:00</option>";
+        				 html2 += "<option value='19:00'>오후 07:00</option>";
+        				 html2 += "<option value='20:00'>오후 08:00</option>";
+        				 html2 += "<option value='21:00'>오후 09:00</option>";
+        				 html2 += "<option value='22:00'>오후 10:00</option>";
+        				 html2 += "<option value='23:00'>오후 11:00</option>";
+        				 html2 += "</select>";
+        				 html2 += "</div></div></div>";
+        				 
+        	
+        				 
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
+       				     html2 +="<div class='col-sm-10'>";
+        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' required></textarea> </div></div>";
 
-	        				 
-	        				 $("#nows").html(html2).show();
+        				 
+        				 $("#nows").html(html2).show();
 
-	                 } 
+                 } 
 
-	              },
-	              error:function(jqxhr,textStatus,errorThrown){
-	                 console.log("ajax 처리실패!");
-	                 console.log(jqxhr);
-	                 console.log(textStatus);
-	                 console.log(errorThrown);
-	              }
-	                   
-	       }); // ajax end
+              },
+              error:function(jqxhr,textStatus,errorThrown){
+                 console.log("ajax 처리실패!");
+                 console.log(jqxhr);
+                 console.log(textStatus);
+                 console.log(errorThrown);
+              }
+                   
+  }); // ajax end
 }
 
 </script>
@@ -259,21 +259,6 @@ function day(day){
     		
     			</c:if>    
 
-                {
-                	id : 999
-                    ,  title : "All Day Event"
-                    , start : "2016-05-01"
-                    , end : ""
-                },
-                {
-                      title : "Birthday Party"
-                    , start : "2018-06-13T07:00"
-                },
-                {
-                      title : "Click for Google"
-                    , url : "http://google.com/"
-                    , start : "2016-05-28"
-                }
             ]
         	
         	, dayClick: function(date, allDay, jsEvent, view) {
@@ -295,7 +280,7 @@ function day(day){
      		   $("#nows").html(yy+"-"+mm+"-"+dd); 
      		   
      		   var date = yy+"-"+mm+"-"+dd;
-     		  day(date);
+     		   day(date);
      		   
      		   
      		   

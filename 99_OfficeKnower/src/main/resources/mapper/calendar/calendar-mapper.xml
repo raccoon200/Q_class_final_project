@@ -8,7 +8,9 @@
 	</select>
 	<resultMap type="schedule" id="list"></resultMap>
 	<select id="selectCalendar" resultType="HashMap">
-		select distinct calendar_name,writer from schedule where writer = #{userid} or writer = 'share'
+		select distinct calendar_name,writer,color 
+		from schedule join calendar using(calendar_name) 
+		where writer = #{userid} or writer = 'share'
 	</select>
 	
 	<insert id="selectInsert">
