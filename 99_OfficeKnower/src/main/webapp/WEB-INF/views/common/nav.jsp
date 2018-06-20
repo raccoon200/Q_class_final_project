@@ -145,10 +145,10 @@
 		<div class="menufield">
 			<ul class="menu_list">
 				<li>
-					<a href="">최근 게시물</a><br />
+					<a href="${pageContext.request.contextPath }/board/boardRecentList">최근 게시물</a><br />
 				</li>
 				<li>
-					<a href="#">중요 게시물</a><br />
+					<a href="${pageContext.request.contextPath }/board/boardImportantList">중요 게시물</a><br />
 				</li>
 				<li>
 					<a href="javascript:void(0)" class="depth1">
@@ -183,10 +183,10 @@
 				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "게시판관리자"}'>
 					<br />
 					<li>
-						<a href="#">게시판 만들기</a><br />
+						<a href="${pageContext.request.contextPath }/board/boardMenuForm">게시판 만들기</a><br />
 					</li>
 					<li>
-						<a href="#">게시판 관리</a><br />
+						<a href="${pageContext.request.contextPath }/board/boardMenuManage">게시판 관리</a><br />
 					</li>
 				</c:if>
 			</ul>

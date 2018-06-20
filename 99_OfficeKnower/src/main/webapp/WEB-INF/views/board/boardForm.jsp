@@ -6,6 +6,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시판" name="pageTitle"/>
 </jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="게시판" name="pageTitle"/>
+</jsp:include>
 <script>
 function validate() {
 	return true;
