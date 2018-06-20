@@ -1,11 +1,18 @@
 package com.kh.ok.member.controller;
 
+
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -19,10 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.ok.job.model.service.JobService;
+import com.kh.ok.job.model.vo.Job;
 import com.kh.ok.member.model.service.MemberService;
 import com.kh.ok.member.model.vo.Member;
 
@@ -36,8 +46,36 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@Autowired
+	private JobService jobService;
+	
+	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	//@Autowired	
+	//BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	@RequestMapping("/member/memberOneSelect.do")
+	public ModelAndView memberOneSelect(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+
+		Member member = memberService.selectUserId(userId);
+		List<Job> jlist = jobService.selectJobList(member.getCom_no());
+		
+		mav.addObject("member",member);
+		mav.addObject("jlist",jlist);
+		mav.setViewName("member/memberOneView");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/member/memberOneUpdate.do")
+	public String memberOneUpdate( Member member, HttpServletRequest request) {
+		
+		int result = memberService.memberOneUpdate(member);
+		
+		request.setAttribute("member", member);
+		return "redirect:/member/memberOneSelect.do?userId="+member.getUserId();
+	}
 	
 	@RequestMapping("/member/memberEnroll.do")
 	public ModelAndView memberEnroll() {
@@ -102,15 +140,15 @@ public class MemberController {
 		logger.debug("jsonStr="+jsonStr);
 		return jsonStr;
 	}
-	/*@RequestMapping("/member/memberEnrollEnd.do")
-	public ModelAndView insertBoard(Member m,
+	
+	@RequestMapping("/member/memberEnrollEnd.do")
+	public ModelAndView memberEnrollEnd(Member member,
 									@RequestParam(value="upFile",required=false)
 									MultipartFile[] upFiles,
 									HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-		logger.debug("게시판 페이지저장");
 		
-		logger.debug("upFiles.length="+upFiles.length);
+		System.out.println("upFiles.length="+upFiles.length);
 		logger.debug("upFile1="+upFiles[0].getOriginalFilename());
 		logger.debug("upFile2="+upFiles[1].getOriginalFilename());
 		
@@ -121,15 +159,19 @@ public class MemberController {
 										  .getServletContext()
 										  .getRealPath("/resources/upload/member");
 			
-			*//****** MultipartFile을 이용한 파일 업로드 처리로직 시작 ******//*
+			//****** MultipartFile을 이용한 파일 업로드 처리로직 시작 ******//*
+			String originalFileName = null;
+			String ext = null;
+			SimpleDateFormat sdf = null;
+			String renamedFileName = null;
 			for(MultipartFile f: upFiles) {
 				if(!f.isEmpty()) {
 					//파일명 재생성
-					String originalFileName = f.getOriginalFilename();
-					String ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+					originalFileName = f.getOriginalFilename();
+					ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+					sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
 					int rndNum = (int)(Math.random()*1000);
-					String renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+
+					renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+
 											"_"+rndNum+"."+ext;
 					try {
 						f.transferTo(new File(saveDirectory+"/"+renamedFileName));
@@ -138,28 +180,43 @@ public class MemberController {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					//VO객체 담기
-					Attachment attach = new Attachment();
-					attach.setOriginalFileName(originalFileName);
-					attach.setRenamedFileName(renamedFileName);
-					attachList.add(attach);
+					
 				}
 			}
-			*//****** MultipartFile을 이용한 파일 업로드 처리로직 끝 ******//*
-			logger.debug("attachList="+attachList);
 			
+			MultipartFile pf = upFiles[0];
+			if(!pf.isEmpty()) {
+				originalFileName = pf.getOriginalFilename();
+				ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+				sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*1000);
+				renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+
+										"_"+rndNum+"."+ext;
+				member.setPhoto(renamedFileName);
+			}
+			
+			pf = upFiles[1];
+			if(!pf.isEmpty()) {
+				originalFileName = pf.getOriginalFilename();
+				ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+				sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*1000);
+				renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+
+										"_"+rndNum+"."+ext;
+				member.setSign(renamedFileName);
+			}
+			System.out.println(member);
+			//****** MultipartFile을 이용한 파일 업로드 처리로직 끝 ******//*
+			//파일이름 멤버에 추가
 			//2.비지니스로직
-			int result = boardService.insertBoard(board, attachList);
-			int boardNo = board.getBoardNo();
-			logger.debug("boardNo@controller="+boardNo);
-			
+			int result = memberService.memberEnrollEnd(member);
+						
 			//3.view단 분기
 			String loc = "/";
 			String msg = "";
 			
 			if(result>0) {
 				msg = "게시물등록성공";
-				loc = "/board/boardView.do?no="+boardNo;
 			}
 			else
 				msg = "게시물등록실패";
@@ -169,11 +226,11 @@ public class MemberController {
 			mav.setViewName("common/msg");
 		
 		} catch(Exception e) {
-			throw new BoardException("게시물등록오류");
+			e.printStackTrace();
 		}
-		
 		return mav;
-	}*/
+	}
+
 	
 	@RequestMapping(value = "/member/memberCompanyListAll")
 	public @ResponseBody Map memberCompanyListAll(Locale locale, Model model, HttpSession session) {
@@ -197,5 +254,5 @@ public class MemberController {
 		
 		return result;
 	}
-	
+
 }

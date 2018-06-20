@@ -28,6 +28,7 @@
 	
 	<context:component-scan base-package="com.kh.ok" />
 	
+
 	<!-- #12.1 jsonView Bean 및 viewResolver 등록 -->
 	<!-- 요청한 viewName과 실제bean이름을 매핑해주는 BeanNameViewResolver를 사용함. -->
     <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
@@ -52,6 +53,12 @@
 		</beans:property>
 	</beans:bean>
 	<!--  13.1은 생략가능. 스프링 3.1이상에서는 annotaion-driven이 위 처리를 다 해주기 때문에  생략해도 상관없다-->
+
+
+	<!-- #10.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">   
+		<beans:property name="maxUploadSize" value="10485760" /> <!-- max 파일용량은 10MB이다. -->
+	</beans:bean>
 
 	
 </beans:beans>

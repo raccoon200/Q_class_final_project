@@ -22,7 +22,7 @@ public class Member {
 	private String com_no;
 	private String emp_no;
 	private String sign;
-	private String col;
+	private String grade;
 	private String com_name;
 	
 	public Member() {
@@ -54,7 +54,7 @@ public class Member {
 		this.com_no = com_no;
 		this.emp_no = emp_no;
 		this.sign = sign;
-		this.col = col;
+		this.grade = col;
 	}
 
 	public Member(String userId, String password, String userName, String dept, String position, String job,
@@ -81,7 +81,7 @@ public class Member {
 		this.com_no = com_no;
 		this.emp_no = emp_no;
 		this.sign = sign;
-		this.col = col;
+		this.grade = col;
 		this.com_name= com_name;
 	}
 	public String getUserId() {
@@ -236,12 +236,12 @@ public class Member {
 		this.sign = sign;
 	}
 
-	public String getCol() {
-		return col;
+	public String getGrade() {
+		return grade;
 	}
 
-	public void setCol(String col) {
-		this.col = col;
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
 	public String getCom_name() {
 		return com_name;
@@ -257,7 +257,7 @@ public class Member {
 				+ ", position=" + position + ", job=" + job + ", phone_com=" + phone_com + ", phone_cell=" + phone_cell
 				+ ", email=" + email + ", joinDate=" + joinDate + ", quitDate=" + quitDate + ", status=" + status
 				+ ", birthday=" + birthday + ", address=" + address + ", etc_inf=" + etc_inf + ", photo=" + photo
-				+ ", com_no=" + com_no + ", emp_no=" + emp_no + ", sign=" + sign + ", col=" + col +",com_name="+com_name+ "]";
+				+ ", com_no=" + com_no + ", emp_no=" + emp_no + ", sign=" + sign + ", grade=" + grade +",com_name="+com_name+ "]";
 	}
 
 	

@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+div.main_btn{
+    padding: 20px 25px 0;
+    margin: 0 auto;
+    overflow: hidden;
+    zoom: 1;
+}
+div.main_btn button{
+	width: 200px; 
+	height: 44px; 
+	font-size: 18px;
+}
+nav#leftMenu{
+    width: 250px;
+    height: -webkit-fill-available;
+    border: 0;
+    background: #e8ecee repeat;
+    display: inline-block;
+}
+div.menufield{
+    top: 0px;
+    height: 31em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 26px 0 0 25px;
+    padding-right: 12px;
+    overflow-x: hidden;
+    overflow: auto;
+    position: relative;
+}
+ul.menu_list li>a{
+	float: left;
+    max-width: 72%;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 15px;
+    color: #676767;
+    text-decoration: none;
+}
+ul.menu_list li{
+	list-style: none;
+	margin-top: 10px;
+	padding-left: 16px;
+}
+ul.menu_list{
+	padding: 0 0 20px 0;
+}
+ul.menu_list li>ul{
+	margin: 16px 0 0 0;
+	padding: 0;
+}
+img.fold{
+    float: left;
+    width: 15px;
+    position: absolute;
+    left: -17px;
+    top: 3.5px;
+}
+.hide{
+	display: none;
+}
+.show{
+	display: block;
+}
+a.depth1{
+	overflow: initial!important;
+    position: relative;
+
+}
+img.icon_edit{
+	position: absolute;
+    top: 0px;
+    left: -6px;
+    width: 18px;
+    cursor: pointer;
+}
+
+li.board_menu_name{
+	position: relative;
+}
+.menu_list li .strong{
+	color: #2985db!important;
+    font-weight: 700;	
+}
+span.title{
+	display: inline-block;
+    width: 100px;
+    color: #444;
+    font-weight: bold;
+}
+span.num{
+	color: #2985db;
+    font-weight: bold;
+}
+div#sabu_container{	
+    width: 83.5%;
+    height: -webkit-fill-available;
+    display: inline-block;
+    float: right;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 17px;
+    overflow-y: auto;
+}

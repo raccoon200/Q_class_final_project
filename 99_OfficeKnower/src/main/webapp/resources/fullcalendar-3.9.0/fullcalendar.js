@@ -64,7 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		var getter = module && module.__esModule ?
 /******/ 			function getDefault() { return module['default']; } :
 /******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		__webpack_require__.d(getter, '오전', getter);
 /******/ 		return getter;
 /******/ 	};
 /******/
@@ -2543,14 +2543,14 @@ var momComputableOptions = {
     // Produces format strings like "h:mma" -> "6:00pm"
     mediumTimeFormat: function (momOptions) {
         return momOptions.longDateFormat('LT')
-            .replace(/\s*a$/i, 'a'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
+            .replace(/\s*a$/i, '오전'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
     },
     // Produces format strings like "h(:mm)a" -> "6pm" / "6:30pm"
     smallTimeFormat: function (momOptions) {
         return momOptions.longDateFormat('LT')
             .replace(':mm', '(:mm)')
             .replace(/(\Wmm)$/, '($1)') // like above, but for foreign locales
-            .replace(/\s*a$/i, 'a'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
+            .replace(/\s*a$/i, '오전'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
     },
     // Produces format strings like "h(:mm)t" -> "6p" / "6:30p"
     extraSmallTimeFormat: function (momOptions) {
@@ -2564,7 +2564,7 @@ var momComputableOptions = {
         return momOptions.longDateFormat('LT')
             .replace(':mm', '')
             .replace(/(\Wmm)$/, '') // like above, but for foreign locales
-            .replace(/\s*a$/i, 'a'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
+            .replace(/\s*a$/i, '오전'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
     },
     // Produces format strings like "h:mm" -> "6:30" (with no AM/PM)
     noMeridiemTimeFormat: function (momOptions) {
@@ -4614,10 +4614,10 @@ Addition formatting tokens we want recognized
 */
 var specialTokens = {
     t: function (date) {
-        return moment_ext_1.oldMomentFormat(date, 'a').charAt(0);
+        return moment_ext_1.oldMomentFormat(date, '오전').charAt(0);
     },
     T: function (date) {
-        return moment_ext_1.oldMomentFormat(date, 'A').charAt(0);
+        return moment_ext_1.oldMomentFormat(date, '오전').charAt(0);
     }
 };
 /*

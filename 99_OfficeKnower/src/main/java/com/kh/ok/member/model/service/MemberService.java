@@ -11,6 +11,12 @@ public interface MemberService {
 
 	int checkIdDuplicate(String userId);
 
+
 	List<Map<String, String>> memberCompanyListAll(String com_no);
+
+	int memberEnrollEnd(Member m);
+
+	int memberOneUpdate(Member member);
+
 
 }

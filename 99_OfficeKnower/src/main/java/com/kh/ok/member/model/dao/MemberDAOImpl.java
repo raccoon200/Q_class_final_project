@@ -25,7 +25,15 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
+
 	public List<Map<String, String>> memberCompanyListAll(String com_no) {
 		return sqlSession.selectList("member.memberCompanyListAll", com_no);
+	}
+	public int memberEnrollEnd(Member m) {
+		return sqlSession.insert("member.memberEnrollEnd", m);
+	}
+	public int memberOneUpdate(Member member) {
+		return sqlSession.update("member.memberOneUpdate",member);
+
 	}
 }

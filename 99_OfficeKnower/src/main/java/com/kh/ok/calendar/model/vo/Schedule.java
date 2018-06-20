@@ -1,13 +1,15 @@
 package com.kh.ok.calendar.model.vo;
 
 public class Schedule {
-	private int schedule_no;
+	private String schedule_no;
 	private String writer;
 	private String calendar_name;
 	private String title;
 	private String content;
 	private String startdate;
+	private String starttime;
 	private String quitdate;
+	private String quittime;	
 	private String status;
 	private String com_no;
 	private String username;
@@ -16,11 +18,9 @@ public class Schedule {
 	public Schedule() {}
 
 
-
-
-
-	public Schedule(int schedule_no, String writer, String calendar_name, String title, String content,
-			String startdate, String quitdate, String status, String com_no, String username) {
+	public Schedule(String schedule_no, String writer, String calendar_name, String title, String content,
+			String startdate, String starttime, String quitdate, String quittime, String status, String com_no,
+			String username) {
 		super();
 		this.schedule_no = schedule_no;
 		this.writer = writer;
@@ -28,38 +28,21 @@ public class Schedule {
 		this.title = title;
 		this.content = content;
 		this.startdate = startdate;
+		this.starttime = starttime;
 		this.quitdate = quitdate;
+		this.quittime = quittime;
 		this.status = status;
 		this.com_no = com_no;
 		this.username = username;
 	}
 
 
-
-
-
-	public String getUsername() {
-		return username;
-	}
-
-
-
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
-
-
-
-	public int getSchedule_no() {
+	public String getSchedule_no() {
 		return schedule_no;
 	}
 
 
-	public void setSchedule_no(int schedule_no) {
+	public void setSchedule_no(String schedule_no) {
 		this.schedule_no = schedule_no;
 	}
 
@@ -114,6 +97,16 @@ public class Schedule {
 	}
 
 
+	public String getStarttime() {
+		return starttime;
+	}
+
+
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
+
+
 	public String getQuitdate() {
 		return quitdate;
 	}
@@ -121,6 +114,16 @@ public class Schedule {
 
 	public void setQuitdate(String quitdate) {
 		this.quitdate = quitdate;
+	}
+
+
+	public String getQuittime() {
+		return quittime;
+	}
+
+
+	public void setQuittime(String quittime) {
+		this.quittime = quittime;
 	}
 
 
@@ -144,17 +147,24 @@ public class Schedule {
 	}
 
 
+	public String getUsername() {
+		return username;
+	}
 
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 
 	@Override
 	public String toString() {
 		return "Schedule [schedule_no=" + schedule_no + ", writer=" + writer + ", calendar_name=" + calendar_name
-				+ ", title=" + title + ", content=" + content + ", startdate=" + startdate + ", quitdate=" + quitdate
-				+ ", status=" + status + ", com_no=" + com_no + ", username=" + username + "]";
+				+ ", title=" + title + ", content=" + content + ", startdate=" + startdate + ", starttime=" + starttime
+				+ ", quitdate=" + quitdate + ", quittime=" + quittime + ", status=" + status + ", com_no=" + com_no
+				+ ", username=" + username + "]";
 	}
 
 
-	
-	
+
 }

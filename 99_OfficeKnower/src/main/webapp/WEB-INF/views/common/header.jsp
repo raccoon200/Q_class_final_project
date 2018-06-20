@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>${pageTitle}</title>
+	<title>${param.pageTitle}</title>
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <!-- 부트스트랩관련 라이브러리 -->
@@ -63,7 +63,7 @@
 		/* 메뉴 컨테이너  URL연결 */
 		/* 인사 */
 		$("#insa_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/insa/memberListAll.do";
 		});
 		/* 일정관리 */
 		$("#sch_btn").on("click",function(){
@@ -75,7 +75,7 @@
 		});
 		/* 전자결재 */
 		$("#check_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/office/approval.do";
 		});
 		/* 주소록 */
 		$("#address_btn").on("click",function(){
@@ -87,13 +87,13 @@
 		});
 		/* 로그아웃 */
 		$("#logout_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/member/memberLogout.do";
 		});
 	});
 </script>
 </head>
 <body>
-    <div class="container">
+    <div class="container_main">
 		<header class="jumbotron" id="header">
 		<h1 class="logo_container">	
 			<a href="${pageContext.request.contextPath }/office/office_main.do">
@@ -133,9 +133,9 @@
 				<p>예약</p>
 			</div>
 		</div>
-		
+
 		<div id="userBox">
-			<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
+			<img src="${pageContext.request.contextPath }/resources/upload/member/${memberLoggedIn.photo}" class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
 			<div style="display: inline-block; margin: 12px 0 0 5px;">
 				${memberLoggedIn.userId} &nbsp;
 				<!-- ${memberLoggedIn.userId} -->
@@ -146,14 +146,14 @@
 		<div id="user-detail" class="header_container">
 		<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_detail"/>
 			<div class="pic">
-				<img src="${pageContext.request.contextPath }/resources/images/profile/default.jpg" alt="프로필" class="rounded-circle"/>
+				<img src="${pageContext.request.contextPath }/resources/upload/member/${memberLoggedIn.photo}" alt="프로필" class="rounded-circle"/>
 			</div>
 			<div class="text">
-				<p>${memberLoggedIn.com_no}</p>
+				<p>${memberLoggedIn.com_name}</p>
 				<p>${memberLoggedIn.userId}</p>
 				<p>
 					<!-- 설정 URL등록해야됨 -->
-					<a href="#">설정</a>
+					<a href="${pageContext.request.contextPath }/member/memberOneSelect.do?userId=${memberLoggedIn.userId}">설정</a>
 				</p>
 				<!-- 로그아웃 -->
 				<button type="button" id="logout_btn" class="btn btn-outline-primary">로그아웃</button>
@@ -163,8 +163,6 @@
 			<span class="icon-sound-on" style="font-size: 30px; cursor: pointer;"></span>			
 		</div>
 		<div id="notice-container" class="header_container">
-			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_notice"/>
-		
-			asdf
+			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_notice"/>		
 		</div>
 		</header>
