@@ -23,8 +23,5 @@
 	<delete id="scheduleDelete">
 		delete from schedule where schedule_no = #{sid}
 	</delete>
-	<select id="selectCalendarName" resultMap="list">
-		select distinct calendar_name, writer from schedule where writer = #{userid} or writer = 'share'
-	</select>
-	
+
 </mapper>

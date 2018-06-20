@@ -17,6 +17,6 @@ public interface CalendarDAO {
 
 	int scheduleDelete(String sid);
 
-	List<Schedule> selectCalendarName(String userId);
+	
 
 }

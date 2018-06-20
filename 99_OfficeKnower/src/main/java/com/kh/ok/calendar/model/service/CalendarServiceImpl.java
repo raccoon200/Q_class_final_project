@@ -46,9 +46,5 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 
-	@Override
-	public List<Schedule> selectCalendarName(String userId) {
-		return calendarDAO.selectCalendarName(userId);
-	}
 
 }
