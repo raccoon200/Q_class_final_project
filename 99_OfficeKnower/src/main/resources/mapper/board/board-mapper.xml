@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="board">
+	<select id="selectBoardBasicList" resultType="map">
+		select * from board
+	</select>
+	<select id="selectBoardCount" resultType="_int">
+		select count(*) from board
+	</select>
+	<insert id="insertBasicBoard">
+		insert into board values(seq_board_no.nextval, 1, #{title}, sysdate, #{content}, #{writer}, 'Y', #{original_file_name}, #{renamed_file_name}, #{count})
+	</insert>
+</mapper>
