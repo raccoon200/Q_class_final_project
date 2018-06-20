@@ -27,7 +27,7 @@
       <th scope="row">${board["BOARD_NO"]}</th>
       <td>${board["TITLE"]}</td>
       <td>${board["WRITER"]}</td>
-      <td>${board["RENAMED_FILE_NAME"]}</td>
+      <td><c:if test='${fn:length(board["RENAMED_FILE_NAME"])>0}' > <img src="${pageContext.request.contextPath}/resources/images/common/board_file_image.PNG" width="20px" alt="" /> </c:if></td>
       <td>${board["WRITEDATE"]}</td>
       <td>${board["COUNT"] }</td>
     </tr>
@@ -36,7 +36,7 @@
 
 </table>
 
-<input type="button" value="글쓰기" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'"/>
+<input type="button" value="글쓰기" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'"/>
 <script>
 function fn_boardView(no) {
 	location.href='${pageContext.request.contextPath }/board/boardView?boardNo='+no;

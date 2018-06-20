@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.ok.board.model.dao.BoardDAO;
 import com.kh.ok.board.model.vo.Board;
+import com.kh.ok.board.model.vo.BoardMenu;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -27,6 +28,24 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int insertBasicBoard(Board board) {
 		return boardDAO.insertBasicBoard(board);
+	}
+	@Override
+	public Board selectBoardView(int boardNo) {
+		return boardDAO.selectBoardView(boardNo);
+	}
+	@Override
+	public int updateBasicBoard(Board board) {
+		return boardDAO.updateBasicBoard(board);
+	}
+	@Override
+	public int deleteBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return boardDAO.deleteBoard(boardNo);
+	}
+	@Override
+	public int insertBoardMenu(BoardMenu boardMenu) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

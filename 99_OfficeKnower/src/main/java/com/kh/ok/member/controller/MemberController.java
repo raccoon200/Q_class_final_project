@@ -1,13 +1,19 @@
 package com.kh.ok.member.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -168,4 +174,28 @@ public class MemberController {
 		
 		return mav;
 	}*/
+	
+	@RequestMapping(value = "/member/memberCompanyListAll")
+	public @ResponseBody Map memberCompanyListAll(Locale locale, Model model, HttpSession session) {
+		
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		System.out.println(m.getUserId());
+		System.out.println(m.getCom_no());
+		
+		List<Map<String,String>> ls = memberService.memberCompanyListAll(m.getCom_no());
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		for(int i=0; i<ls.size(); i++) {
+			list.add(ls.get(i));
+		}
+		Map<String,String> map = new HashMap();
+		map.put("count", ""+ls.size());
+		list.add(map);
+		Map result = new HashMap();
+		result.put("members",  list);
+	
+		
+		
+		return result;
+	}
+	
 }

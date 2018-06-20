@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.kh.ok.board.model.vo.Board;
+import com.kh.ok.board.model.vo.BoardMenu;
 
 public interface BoardService {
 
@@ -14,5 +15,13 @@ public interface BoardService {
 	int selectBoardCount();
 
 	int insertBasicBoard(Board board);
+
+	Board selectBoardView(int boardNo);
+
+	int updateBasicBoard(Board board);
+
+	int deleteBoard(int boardNo);
+
+	int insertBoardMenu(BoardMenu boardMenu);
 	
 }

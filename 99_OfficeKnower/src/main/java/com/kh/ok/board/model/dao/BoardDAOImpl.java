@@ -31,6 +31,22 @@ public class BoardDAOImpl implements BoardDAO{
 		System.out.println("board : "+board);
 		return sqlSession.insert("board.insertBasicBoard",board);
 	}
+	@Override
+	public Board selectBoardView(int boardNo) {
+		return sqlSession.selectOne("board.selectBoardView", boardNo);
+	}
+	@Override
+	public int updateBasicBoard(Board board) {
+		if(board.getOriginal_file_name() != null && board.getRenamed_file_name()!=null) {
+			return sqlSession.update("board.updateBasicBoard",board);
+		}else {
+			return sqlSession.update("board.updateBasicBoardNoFile",board);
+		}
+	}
+	@Override
+	public int deleteBoard(int boardNo) {
+		return sqlSession.delete("board.deleteBoard", boardNo);
+	}
 	
 	
 }

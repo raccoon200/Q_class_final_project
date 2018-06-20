@@ -32,8 +32,10 @@ div#board-container input{
 }
 </style>
 <div id="board-container">
-	<form action="boardFormEnd.do" name="boardFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
-		<input type="text" name="title" id="boardTitle" placeholder="제목" class="form-control" required />
+	<form action="boardUpdateEnd.do" name="boardFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+		<input type="hidden" name="board_no" value="${board.board_no }" />
+		<input type="hidden" name="board_menu_no" value="${board.board_menu_no }" />
+		<input type="text" name="title" id="boardTitle" placeholder="제목" class="form-control" value="${board.title }" required />
 		<input type="text" name="writer" id="boardWriter" placeholder="작성자" class="form-control" value="${memberLoggedIn.userId }" readonly required />
 		<div class="input-group mb-3" style="padding:0px">
 		  <div class="input-group-prepend" style="padding:0px">
@@ -41,13 +43,14 @@ div#board-container input{
 		  </div>
 		  <div class="custom-file">
 		    <input type="file" class="custom-file-input" id="upFile1" name="upFile">
-		    <label class="custom-file-label" for="upFile">파일을 선택하세요</label>
+		    <label class="custom-file-label" for="upFile">"${board.original_file_name }"</label>
 		  </div>
 		</div>
 		
-		<textarea name="content" id="" cols="30" rows="10" class="form-control" required placeholder="내용"></textarea>
+		<textarea name="content" id="" cols="30" rows="10" class="form-control" required placeholder="내용">"${board.content }"</textarea>
 		<br />
-		<input type="submit" value="저장" class="btn btn-outline-success" />
+		<input type="submit" value="수정" class="btn btn-outline-primary" />
+		<input type="button" value="취소" class="btn btn-outline-secondary" />
 	</form>
 </div>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

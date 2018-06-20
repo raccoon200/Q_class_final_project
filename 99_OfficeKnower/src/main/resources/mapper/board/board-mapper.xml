@@ -2,12 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
 	<select id="selectBoardBasicList" resultType="map">
-		select * from board
+		select * from board where status='Y'
 	</select>
 	<select id="selectBoardCount" resultType="_int">
-		select count(*) from board
+		select count(*) from board where status='Y'
 	</select>
 	<insert id="insertBasicBoard">
-		insert into board values(seq_board_no.nextval, 1, #{title}, sysdate, #{content}, #{writer}, 'Y', #{original_file_name}, #{renamed_file_name}, #{count})
+		insert into board values(seq_board_no.nextval, 1, #{title}, sysdate, #{content}, #{writer}, 'Y', #{original_file_name}, #{renamed_file_name}, 0)
+		<!-- 전달할 board vo 객체의 boardNo 프로퍼티에 결과값을 담는다 -->
+		<selectKey keyProperty="board_no" resultType="_int" order="AFTER">
+			SELECT SEQ_BOARD_NO.CURRVAL FROM DUAL
+		</selectKey>
+	
 	</insert>
+	<select id="selectBoardView" resultType="com.kh.ok.board.model.vo.Board">
+		select * from board where board_no=#{boardNo}
+	</select>
+	<update id="updateBasicBoard">
+		update board set title=#{title}, content=#{content}, original_file_name=#{original_file_name}, renamed_file_name=#{renamed_file_name} where board_no=#{board_no}
+	</update>
+	<update id="updateBasicBoardNoFile">
+		update board set title=#{title}, content=#{content} where board_no=#{board_no}
+	</update>
+	<delete id="deleteBoard">
+		delete board where board_no=#{boardNo}
+	</delete>
 </mapper>

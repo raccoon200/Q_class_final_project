@@ -13,4 +13,10 @@ public interface BoardDAO {
 
 	int insertBasicBoard(Board board);
 
+	Board selectBoardView(int boardNo);
+
+	int updateBasicBoard(Board board);
+
+	int deleteBoard(int boardNo);
+
 }

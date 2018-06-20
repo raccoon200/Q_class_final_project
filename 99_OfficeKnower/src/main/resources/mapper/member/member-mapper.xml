@@ -9,4 +9,7 @@
 	<select id="checkIdDuplicate" resultType="_int">
 		SELECT COUNT(*) AS CNT FROM TBL_USER WHERE USERID = #{userId}
 	</select>
+	<select id="memberCompanyListAll" resultType="map">
+		select * from tbl_user where com_no=#{com_no}
+	</select>
 </mapper>
