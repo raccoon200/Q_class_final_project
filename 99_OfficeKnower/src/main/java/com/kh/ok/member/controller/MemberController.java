@@ -246,6 +246,7 @@ public class MemberController {
 		}
 		Map<String,String> map = new HashMap();
 		map.put("count", ""+ls.size());
+		
 		list.add(map);
 		Map result = new HashMap();
 		result.put("members",  list);

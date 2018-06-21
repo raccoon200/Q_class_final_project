@@ -140,7 +140,7 @@
 	<!-- 게시판 nav -->
 	<c:if test="${param.pageTitle eq '게시판'}">
 		<div class="main_btn">
-			<button type="button" class="btn btn-primary">글쓰기</button>
+			<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'">글쓰기</button>
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">

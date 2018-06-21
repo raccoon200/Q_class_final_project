@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.kh.ok.board.model.vo.Board;
+import com.kh.ok.board.model.vo.BoardBookMark;
+import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
 
 public interface BoardService {
@@ -23,5 +25,11 @@ public interface BoardService {
 	int deleteBoard(int boardNo);
 
 	int insertBoardMenu(BoardMenu boardMenu);
+
+	int insertBoardGroup(BoardGroup boardGroup);
+
+	int importantApply(BoardBookMark bbm);
+
+	int importantDelete(BoardBookMark bbm);
 	
 }

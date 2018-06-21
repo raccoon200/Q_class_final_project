@@ -34,6 +34,8 @@
 	border: 1px solid rgb(210,210,210);
 	border-radius: 4px;
 	padding:5px;
+	height:150px;
+	overflow-y: scroll;
 }
 #btn-board-menu-form{
 	display:block;
@@ -65,25 +67,25 @@ $.ajax( {
 				str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/'+memberList[index].PHOTO+'" alt="" />&nbsp;&nbsp;&nbsp;<span>'+memberList[index].USERID+
 				' </span> &nbsp;&nbsp; <span>'+memberList[index].USERNAME+'</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="'+memberList[index].USERID+'" alt="">'; 
 		  		str += '</div>';
-		  		
-			}
-			if(memberList[index].USERID==undefined) {
+					
+			}else {
 				str2 += memberList[index].count;
 			}
+				
 			
 		}	
+		
 	
 		$("#member-select").append(str);
-		$("#count").append(str2);
+		$("#count").text(str2);
 		
 	},
 	error : function(xhr, status, e) {
 		
 	}
 })
-function fn_deleteMember(userId) {
-	console.log(userId);
-}
+
+
 $(function() {
 	$("#member-select").children().hover(function() {
 	
@@ -91,10 +93,62 @@ $(function() {
 	}, function() {
 		$(this).css("background","white");
 	})
-	$("#member-select").children().children().next().next().click(function() {
-		console.log($("#member-select").children().val());
-	});
+	
 })
+
+$(function() {
+	$(".board-delete").click(function() {
+		//$(this).attr("value")를 하면 아이디값이 출력됨.
+		if($(':input[name=kind]:radio:checked').val()=="전사게시판") {
+			alert("전사게시판은 사용자를 삭제할 수 없습니다.");
+		}else if($(this).attr("value") == "${memberLoggedIn.userId}"){
+			alert("관리자 본인은 제외할 수 없습니다");
+		}else {
+			$(this).attr("value","");
+			$(this).parent().prev().remove();
+			$(this).parent().remove();
+			
+			$("#count").text($("[name=memberInfo]").length);
+		}
+	})
+
+})
+function fn_memberListView(){
+	$.ajax( {
+		type : "POST",
+		url : "${pageContext.request.contextPath}/member/memberCompanyListAll",
+		dataType : "json",
+		success : function(data) {
+			
+			console.log(data);
+			var memberList = data.members;
+			var str='';
+			var str2='';
+			for(index in memberList){	
+				if(memberList[index].USERID!=undefined){
+					str += '<input type="hidden" name="memberInfo" value="'+memberList[index].USERID+'">';
+					str += '<div value="'+memberList[index].USERID+'" id="'+memberList[index].USERID;
+					str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/'+memberList[index].PHOTO+'" alt="" />&nbsp;&nbsp;&nbsp;<span>'+memberList[index].USERID+
+					' </span> &nbsp;&nbsp; <span>'+memberList[index].USERNAME+'</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="'+memberList[index].USERID+'" alt="">'; 
+			  		str += '</div>';
+						
+				}else {
+					str2 += memberList[index].count;
+				}
+					
+				
+			}	
+			
+			$("#member-select").text("");
+			$("#member-select").append(str);
+			$("#count").text(str2);
+			
+		},
+		error : function(xhr, status, e) {
+			
+		}
+	})
+}
 </script>
 
 <form method="post" action="${pageContext.request.contextPath }/board/boardMenuFormEnd">
@@ -103,7 +157,7 @@ $(function() {
       <legend class="col-form-label col-sm-2 pt-0">게시판 종류</legend>
       <div class="col-sm-10">
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="kind" id="all-board-menu" value="전사게시판" checked>
+          <input class="form-check-input" type="radio" name="kind" id="all-board-menu" value="전사게시판" checked onclick="fn_memberListView()">
           <label class="form-check-label" for="all-board-menu">
             	전사게시판
           </label>
@@ -143,6 +197,7 @@ $(function() {
       <input type="text" class="form-control" name="title" id="boardMenuName" >
     </div>
   </div>
+  <input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" />
   <fieldset class="form-group">
     <div class="row">
       <legend class="col-form-label col-sm-2 pt-0">사용자</legend>

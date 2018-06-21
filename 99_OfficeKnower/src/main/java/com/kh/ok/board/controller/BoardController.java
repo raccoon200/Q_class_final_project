@@ -26,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ok.board.model.service.BoardService;
 import com.kh.ok.board.model.vo.Board;
+import com.kh.ok.board.model.vo.BoardBookMark;
+import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
 import com.kh.ok.member.model.vo.Member;
 
@@ -84,7 +86,7 @@ public class BoardController {
 		
 		Board board = boardService.selectBoardView(boardNo);
 		System.out.println("/board/boardView : "+board);
-		
+	
 		mav.addObject("board",board);
 		
 		return mav;
@@ -234,7 +236,7 @@ public class BoardController {
 		logger.debug("size = "+upFile.getSize());*/
 		
 		
-
+		
 		
 		try {
 			//1. 파일업로드처리
@@ -268,7 +270,7 @@ public class BoardController {
 			//2. 비지니스로직
 			int result = boardService.updateBasicBoard(board);	//여기까지는 boardNo가 0이지만 이 함수가 끝난후
 			int boardNo = board.getBoard_no();	//boardNo는 해당 no로 바뀐다.
-		
+			System.out.println("result : "+result + ", boardNo : "+boardNo);
 			//3. view단 분기
 			String loc= "/";
 			String msg = "";
@@ -319,7 +321,19 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("boardMenu : "+boardMenu);
 		System.out.println("memberInfo : "+memberInfo);
+		for(int i=0; i<memberInfo.length; i++) {
+			System.out.println(memberInfo[i]);
+		}
 		int result = boardService.insertBoardMenu(boardMenu);
+		
+		BoardGroup[] bg = new BoardGroup[memberInfo.length];
+		for(int i=0; i<bg.length; i++) {
+			bg[i] = new BoardGroup(boardMenu.getBoard_menu_no(), memberInfo[i]);
+			int result2 = boardService.insertBoardGroup(bg[i]);
+			if(result2<=0) {
+				result = 0; 
+			}
+		}
 		
 		String msg ="";
 		String loc ="";
@@ -334,5 +348,32 @@ public class BoardController {
 		mav.setViewName("common/msg");
 		return mav;
 		
+	}
+	
+	@RequestMapping(value = "/board/importantApply")
+	public int importantApply(@RequestParam(value="boardNo", required=false) int boardNo, HttpSession session) {
+		
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String userId = m.getUserId();
+		
+		BoardBookMark bbm = new BoardBookMark(boardNo, userId);
+		
+		/*int result = boardService.importantApply(bbm);
+		*/
+		return 0;
+		
+		/*mav.setViewName("board/boardView?boardNo="+boardNo);
+		return mav;*/
+	}
+	@RequestMapping(value = "/board/importantDelete")
+	public int importantDelete(@RequestParam(value="boardNo", required=false) int boardNo, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String userId = m.getUserId();
+		
+		BoardBookMark bbm = new BoardBookMark(boardNo, userId);
+		
+		//int result = boardService.importantDelete(bbm);
+		
+		return 0;
 	}
 }

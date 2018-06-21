@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.ok.board.model.vo.Board;
+import com.kh.ok.board.model.vo.BoardBookMark;
+import com.kh.ok.board.model.vo.BoardGroup;
+import com.kh.ok.board.model.vo.BoardMenu;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -46,6 +49,24 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public int deleteBoard(int boardNo) {
 		return sqlSession.delete("board.deleteBoard", boardNo);
+	}
+	@Override
+	public int insertBoardMenu(BoardMenu boardMenu) {
+		return sqlSession.insert("board.insertBoardMenu", boardMenu);
+	}
+	@Override
+	public int insertBoardGroup(BoardGroup boardGroup) {
+		return sqlSession.insert("board.insertBoardGroup", boardGroup);
+	}
+	@Override
+	public int importantApply(BoardBookMark bbm) {
+		//return sqlSession.insert("board.importantApply", bbm);
+		return 0;
+	}
+	@Override
+	public int importantDelete(BoardBookMark bbm) {
+		//return sqlSession.delete("board.importantDelete",bbm);
+		return 0;
 	}
 	
 	

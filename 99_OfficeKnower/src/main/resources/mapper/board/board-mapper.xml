@@ -27,4 +27,19 @@
 	<delete id="deleteBoard">
 		delete board where board_no=#{boardNo}
 	</delete>
+	<insert id="insertBoardMenu">
+		insert into board_menu values(seq_board_menu_no.nextval, #{title}, sysdate, 'Y', #{kind}, #{userId}, #{com_no})
+		<selectKey keyProperty="board_menu_no" resultType="_int" order="AFTER">
+			SELECT SEQ_BOARD_MENU_NO.CURRVAL FROM DUAL
+		</selectKey>	
+	</insert>
+	<insert id="insertBoardGroup">
+		insert into board_group values(#{board_menu_no}, #{userId})
+	</insert>
+	<!-- <insert id="importantApply">
+		insert into board_bookmark values(#{board_no}, #{userId})
+	</insert>
+	<delete id="importantDelete">
+		delete from board_bookmark where board_no=#{board_no} and userId=#{userId}
+	</delete> -->
 </mapper>
