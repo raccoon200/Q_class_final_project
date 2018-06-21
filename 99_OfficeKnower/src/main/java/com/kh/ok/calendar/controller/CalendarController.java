@@ -21,7 +21,7 @@ import com.kh.ok.calendar.model.vo.Schedule;
 import com.kh.ok.member.model.vo.Member;
 
 @Controller
-public class CalendarContoroller {
+public class CalendarController {
 
 	@Autowired
 	private CalendarService calendarService;
@@ -40,7 +40,13 @@ public class CalendarContoroller {
 			 userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();	
 		}
 		
-		List<Schedule> list = calendarService.selectSechedule(userId);
+		String calendar_name = request.getParameter("calendar_name");
+		System.out.println("calTest@calendar_name" + calendar_name);
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("userId", userId);
+		map.put("calendar_name", calendar_name);
+		List<Schedule> list = calendarService.selectSechedule(map);
 		List<String> clist = calendarService.selectCalendar(userId);
 		System.out.println("clist" + clist);
 	    
@@ -52,6 +58,36 @@ public class CalendarContoroller {
 		System.out.println("list@controller" + list);
 		return "calendar/calendarView";
 	}
+	
+	
+	@RequestMapping("/cal/calcalendar.do")
+	public String calendarView(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String userId = null;
+		if(session != null && session.getAttribute("memberLoggedIn") != null) {
+			 userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();	
+		}
+		
+		String calendar_name = request.getParameter("calendar_name");
+		System.out.println("calTest@calendar_name" + calendar_name);
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("userId", userId);
+		map.put("calendar_name", calendar_name);
+		List<Schedule> list = calendarService.calendarView(map);
+		
+
+		model.addAttribute("list",list);
+		model.addAttribute("memberLoggedIn",(Member)session.getAttribute("memberLoggedIn"));
+		
+		System.out.println("list@controller" + list);
+		return "calendar/calendarView";
+	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping("/cal/scheduleInsert")
 	public String scheduleInsert(Schedule schedule, Model model) {

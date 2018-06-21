@@ -17,8 +17,8 @@ public class CalendarServiceImpl implements CalendarService {
 	
 
 	@Override
-	public List<Schedule> selectSechedule(String userId) {
-		return calendarDAO.selectSechedule(userId);
+	public List<Schedule> selectSechedule(Map<String, String> map) {
+		return calendarDAO.selectSechedule(map);
 	}
 
 
@@ -43,6 +43,12 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public int scheduleDelete(String sid) {
 		return calendarDAO.scheduleDelete(sid);
+	}
+
+
+	@Override
+	public List<Schedule> calendarView(Map<String, String> map) {
+		return calendarDAO.calendarView(map);
 	}
 
 

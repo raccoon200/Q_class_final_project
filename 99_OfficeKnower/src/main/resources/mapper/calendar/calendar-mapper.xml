@@ -4,18 +4,29 @@
   <select id="selectSechedule" resultMap="list">
 		select s.* , u.username 
 		from schedule s join tbl_user u on (s.writer=u.userid)
-		where s.writer = #{userid} or s.writer = 'share' order by s.schedule_no		
+		where s.writer = #{userId} or s.writer = 'share' order by s.schedule_no		
 	</select>
+	<select id="calendarView" resultMap="list">
+		select s.* , u.username 
+		from schedule s join tbl_user u on (s.writer=u.userid)
+		where s.writer = #{userId} or s.writer = 'share' 
+		and calendar_name = #{calendar_name}	
+	</select>
+	
+	
 	<resultMap type="schedule" id="list"></resultMap>
 	<select id="selectCalendar" resultType="HashMap">
-		select distinct calendar_name,writer,color 
-		from schedule join calendar using(calendar_name) 
-		where writer = #{userid} or writer = 'share'
+		select distinct C.CALENDAR_NAME, C.CALENDARID, s.writer
+		from calendar c join schedule s on (c.calendarid = s.calendarid)
+		where writer = #{userId} or writer='share'
 	</select>
 	
 	<insert id="selectInsert">
-		insert into schedule values(seq_schedule.nextval, #{writer}, #{calendar_name}, #{title}
-		                            , #{content}, #{startdate},#{quitdate},default,#{com_no},#{starttime},#{quittime})
+		insert into schedule values(seq_schedule.nextval, #{writer}, 
+									(select distinct c.calendar_name
+									from calendar c join schedule s using(calendarid)
+									where calendarid = #{calendarid}), #{title}
+		                            , #{content}, #{startdate},#{quitdate},default,#{com_no},#{starttime},#{quittime},#{calendarid})
 	</insert>
 	<update id="scheduleUpdate">
 		update schedule set calendar_name = #{calendar_name},title = #{title}, content = #{content},

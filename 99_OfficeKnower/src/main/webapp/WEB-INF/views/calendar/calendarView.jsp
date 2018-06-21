@@ -91,14 +91,15 @@ function day(day){
                  		 html2 += "<div class='form-group row'>";
                  		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
                  		 html2 += "<div class='col-sm-10'>";
-        				 html2 += "<select id='calendar_name' name='calendar_name' class='form-control'>"; 
+        				 html2 += "<select id='calendarid' name='calendarid' class='form-control'>"; 
                	     	 //html2 += "<option>캘린더 선택</option>";
                  	for(var index in data){
  						var c = data[index];
 
- 						 html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
+ 						 html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"</option>";  
 
                  	}
+                 	
         				 html2 +="</select></div></div>";
         				 
         				 html2 +="<div class='form-group row'>";
@@ -281,7 +282,7 @@ function day(day){
      		   
      		   var date = yy+"-"+mm+"-"+dd;
      		   day(date);
-     		   
+     		//   $("#calendarid").attr("value",$("#calendar_name option:selected"));
      		   
      		   
         		
@@ -432,7 +433,9 @@ function day(day){
 		 <c:if test="${not empty clist}">
    			 <c:forEach var="seche" items="${clist}" varStatus="vs">
        			 <c:if test="${seche.WRITER ne 'share'}">
-   			 	   <li> ${seche.CALENDAR_NAME} </li>
+   			 	   <li> 
+			 	   	  <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}"> ${seche.CALENDAR_NAME}</a>
+   			 	   </li> 
    			 	</c:if>
    			</c:forEach>
 		</c:if>    

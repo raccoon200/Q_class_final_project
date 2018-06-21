@@ -17,8 +17,8 @@ public class CalendarDAOImpl implements CalendarDAO {
 
 
 	@Override
-	public List<Schedule> selectSechedule(String userId) {
-		return sqlSession.selectList("calendar.selectSechedule",userId);
+	public List<Schedule> selectSechedule(Map<String, String> map) {
+		return sqlSession.selectList("calendar.selectSechedule",map);
 	}
 
 
@@ -43,6 +43,12 @@ public class CalendarDAOImpl implements CalendarDAO {
 	@Override
 	public int scheduleDelete(String sid) {
 		return sqlSession.delete("calendar.scheduleDelete",sid);
+	}
+
+
+	@Override
+	public List<Schedule> calendarView(Map<String, String> map) {
+		return sqlSession.selectList("calendar.calendarView",map);
 	}
 
 

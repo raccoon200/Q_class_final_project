@@ -2,6 +2,7 @@ package com.kh.ok.calendar.model.vo;
 
 public class Schedule {
 	private String schedule_no;
+	private String calendarid;
 	private String writer;
 	private String calendar_name;
 	private String title;
@@ -18,11 +19,12 @@ public class Schedule {
 	public Schedule() {}
 
 
-	public Schedule(String schedule_no, String writer, String calendar_name, String title, String content,
-			String startdate, String starttime, String quitdate, String quittime, String status, String com_no,
-			String username) {
+	public Schedule(String schedule_no, String calendarid, String writer, String calendar_name, String title,
+			String content, String startdate, String starttime, String quitdate, String quittime, String status,
+			String com_no, String username) {
 		super();
 		this.schedule_no = schedule_no;
+		this.calendarid = calendarid;
 		this.writer = writer;
 		this.calendar_name = calendar_name;
 		this.title = title;
@@ -34,6 +36,19 @@ public class Schedule {
 		this.status = status;
 		this.com_no = com_no;
 		this.username = username;
+	}
+
+
+
+
+
+	public String getCalendarid() {
+		return calendarid;
+	}
+
+
+	public void setCalendarid(String calendarid) {
+		this.calendarid = calendarid;
 	}
 
 
@@ -159,11 +174,12 @@ public class Schedule {
 
 	@Override
 	public String toString() {
-		return "Schedule [schedule_no=" + schedule_no + ", writer=" + writer + ", calendar_name=" + calendar_name
-				+ ", title=" + title + ", content=" + content + ", startdate=" + startdate + ", starttime=" + starttime
-				+ ", quitdate=" + quitdate + ", quittime=" + quittime + ", status=" + status + ", com_no=" + com_no
-				+ ", username=" + username + "]";
+		return "Schedule [schedule_no=" + schedule_no + ", calendarid=" + calendarid + ", writer=" + writer
+				+ ", calendar_name=" + calendar_name + ", title=" + title + ", content=" + content + ", startdate="
+				+ startdate + ", starttime=" + starttime + ", quitdate=" + quitdate + ", quittime=" + quittime
+				+ ", status=" + status + ", com_no=" + com_no + ", username=" + username + "]";
 	}
+
 
 
 
