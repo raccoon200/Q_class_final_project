@@ -8,6 +8,9 @@
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="전자결재" name="pageTitle"/>
-	<jsp:param value="대기" name="selectMenu"/>
+	<jsp:param value="코드 관리" name="selectMenu"/>
 </jsp:include>
+<h4>코드 관리</h4>
+<hr />
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
