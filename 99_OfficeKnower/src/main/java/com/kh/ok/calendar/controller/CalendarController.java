@@ -82,6 +82,7 @@ public class CalendarController {
 		
 		System.out.println("list@controller" + list);
 		return "calendar/calendarView";
+		//return "common/nav";
 	}
 	
 	

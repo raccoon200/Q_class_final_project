@@ -358,10 +358,11 @@
 			</ul>
 		</div>
 	</c:if>
-	<!-- 게시판 nav -->
+	<!-- 일정관리 nav -->
 	<c:if test="${param.pageTitle eq '일정관리'}">
 		<div class="main_btn">
-			<button type="button" class="btn btn-primary">일정추가</button>
+			<button type="button" id="insertBtn" type="button" class="btn btn-primary" data-toggle="modal" 
+		        data-target="#calendarInsert" onclick="buttonInsert();">일정추가</button>
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
@@ -370,20 +371,25 @@
 						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
 						내 캘린더
 					</a>
+					
 					<br />
 					<ul class="depth2 hide">
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">켈린더1</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">켈린터2</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">반복문 돌리기</a><br />
-						</li>
+					
+					<c:if test="${not empty clist}">
+		   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
+		       			 <c:if test="${seche.WRITER ne 'share'}">
+		   			 	   
+							 <li class="board_menu_name">
+								<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
+								<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a>
+								&nbsp;&nbsp;&nbsp; <span id="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}');">수정</span>
+								<br />
+							</li>
+		   			 	</c:if>
+		   			</c:forEach>
+					</c:if>
+					
+						
 					</ul>
 				</li>
 				<li>
@@ -393,22 +399,26 @@
 					</a>
 					<br />
 					<ul class="depth2 hide">
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">공유 켈린더1</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />						
-							<a href="#">공유켈린터2</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">반복문 돌리기</a><br />
-						</li>
+						<c:if test="${not empty clist}">
+			   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
+			       			 <c:if test="${seche.WRITER eq 'share'}">
+			   			 	   
+								 <li class="board_menu_name">
+									<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
+									<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a><br />
+								</li>
+			   			 	</c:if>
+			   			</c:forEach>
+						</c:if>
 					</ul>
 				</li>
 			</ul>
 		</div>
 	</c:if>
 </nav>
+
+
+
+
+
 <div id="sabu_container">

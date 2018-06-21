@@ -29,7 +29,7 @@ body {
 }
 #calendar {
     display: inline-block;
-    width: 70%;
+    width: 90%;
     
 }
 .fc-view-container{
@@ -64,16 +64,29 @@ body {
 	margin-left: 100px;
 	margin-right:100px;
 }
-#insertBtn{
-	width: 200px;
-	height : 50px;
-	margin-left : 50px;
-	margin-top : 70px;
-}
+
 
 .fc-view-container{
-	width : 80%;
+	width : 100%;
 }
+
+#calupdate{
+	color : #B2CCFF;
+	cursor: pointer;
+	
+}
+#divCal{
+	font-size: 20px;
+	color: #0066FF
+}
+.red{color:red;}
+.yellow{color:yellow; }
+.orange{color:orange; }
+.green{color:green; }
+.blue{color:blue; }
+.navy{color:navy; }
+.purple{color:purple; }
+
 </style>
 
 <script>
@@ -212,6 +225,53 @@ function day(day){
               }
                    
   }); // ajax end
+} //day function end
+
+
+function calendarUpdateFrm(cal){
+	
+	$("#calupdate").attr("data-toggle", "modal").attr("data-target", "#calendarUpdate");
+
+	var html ="";
+	
+	html +="<div id='divCal'>" + cal + "</div><br>";
+	html +="<form action=''>";
+	html +="<div class='form-group row'>";
+ 	html +="<label for='name' class='col-sm-2 col-form-label'>캘린더 이름</label>";
+ 	html +="<div class='col-sm-10'>";
+ 	html +="<input type='text' name='calendar_name' id='name' class='form-control' value='"+cal+"'/></div></div>";
+ 	
+ 	html +="<div class='form-group row'>";
+ 	html +="<label for='Red' class='col-sm-2 col-form-label'>색상</label>";
+ 	html +="<div class='col-sm-10'>";
+ 	html += "<span class='red'>red</span>";
+ 	html += " &nbsp;<input type='radio' value='red' />";
+ 
+ 	html += "&nbsp;&nbsp;<span class='yellow'>yellow</span>";
+ 	html += " &nbsp;<input type='radio' value='yellow' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='orange'>orange</span>";
+ 	html += " &nbsp;<input type='radio' value='orange' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='green'>green</span>";
+ 	html += " &nbsp;<input type='radio' value='green' />";
+ 	
+ 	html += "<br><span class='blue'>blue</span>";
+ 	html += " &nbsp;<input type='radio' value='blue' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='navy'>navy</span>";
+ 	html += " &nbsp;<input type='radio' value='navy' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='purple'>purple</span>";
+ 	html += " &nbsp;<input type='radio' value='purple' />";
+ 	
+
+ 
+ 	
+ 	
+ 	
+ 	$("#calInfo").html(html);
+	
 }
 
 </script>
@@ -221,7 +281,7 @@ function day(day){
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
-        		, right: 'month,basicWeek,basicDay,listWeek' 
+        		, left: 'month,basicWeek,basicDay,listWeek' 
         	},
               defaultDate : new Date()
         	, locale : "ko"
@@ -426,44 +486,6 @@ function day(day){
 </script>
 
 
- <div id="calendarNav">
-	<div id="cal-mini">
-		<button id="insertBtn" type="button" class="btn btn-primary" data-toggle="modal" 
-		        data-target="#calendarInsert" onclick="buttonInsert();">
-		  일정 추가
-		</button>
-	</div>
-	
-	<div id="cal-name">
-		<span>내 캘린더</span>
-		<ul>
-		
-		 <c:if test="${not empty clist}">
-   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
-       			 <c:if test="${seche.WRITER ne 'share'}">
-   			 	   <li> 
-			 	   	  <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}"> ${seche.CALENDAR_NAME}</a>
-   			 	   </li> 
-   			 	</c:if>
-   			</c:forEach>
-		</c:if>    
-	
-		</ul>
-		
-		<span>공유 캘린더</span>
-		<ul>
-			<c:if test="${not empty clist}">
-   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
-       			 <c:if test="${seche.WRITER eq 'share'}">
-   			 	   <li> ${seche.CALENDAR_NAME} </li>
-   			 	</c:if>
-   			</c:forEach>
-		</c:if>   
-		</ul>
-	</div>
-	
-</div> 
-
 
 
 <script>
@@ -630,4 +652,26 @@ $(function(){
 
 </script>
 <!-- 일정보기 모달 끝 -->
+<!-- 캘린더 수정 모달 시작 --><!-- Modal -->
+<div class="modal fade" id="calendarUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">캘린더 수정</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="calInfo"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
