@@ -14,4 +14,11 @@ public class ApprovalController {
 		mav.setViewName("approval/approval_dagi");
 		return mav;
 	}
+	@RequestMapping("office/approval/code.do")
+	public ModelAndView aprovalCode() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("approval/admin/code");
+		return mav;
+	}
 }
