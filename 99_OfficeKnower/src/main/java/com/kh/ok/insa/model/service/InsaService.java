@@ -10,4 +10,8 @@ public interface InsaService {
 
 	int profileUpdate(Member m);
 
+	List<String> yearListGroup(String com_no);
+
+	List<String> positionListGroup(String com_no);
+
 }

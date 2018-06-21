@@ -24,4 +24,14 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.profileUpdate(m);
 	}
 
+	@Override
+	public List<String> yearListGroup(String com_no) {
+		return insaDAO.yearListGroup(com_no);
+	}
+
+	@Override
+	public List<String> positionListGroup(String com_no) {
+		return insaDAO.positionListGroup(com_no);
+	}
+
 }

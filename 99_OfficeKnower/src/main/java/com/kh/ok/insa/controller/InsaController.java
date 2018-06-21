@@ -2,13 +2,15 @@ package com.kh.ok.insa.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,9 +34,22 @@ public class InsaController {
 		if(request.getSession(false) != null);
 			m = (Member)request.getSession().getAttribute("memberLoggedIn");
 		List<Member> list =  insaService.memberListAll(m.getCom_no());
-		System.out.println("list="+list);
+		List<String> yearList = insaService.yearListGroup(m.getCom_no());
+		List<String> positionList = insaService.positionListGroup(m.getCom_no());
+		
+			
+		for(int i =0; i<list.size(); i++) {
+			if(list.get(i).getPosition() == null)
+				list.get(i).setPosition("미기재");
+		}
+			
+//		System.out.println(list);
+//		System.out.println(yearList);
+//		System.out.println(positionList);
 		
 		mav.addObject("list",list);
+		mav.addObject("yearList",yearList);
+		mav.addObject("positionList",positionList);
 		mav.setViewName("insa/memberListAll");
 		return mav;
 	}
@@ -61,5 +76,23 @@ public class InsaController {
 		int result = insaService.profileUpdate(m);
 		
 		return "redirect:/insa/memberListAll.do";
+	}
+	
+	@RequestMapping("/insa/memberManagement.do")
+	public ModelAndView memberManagement(@RequestParam(value="no", required=false, defaultValue="1") int boardNo,HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = null;
+		if(request.getSession(false) != null);
+			m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+		List<Member> list =  insaService.memberListAll(m.getCom_no());
+		List<String> yearList = insaService.yearListGroup(m.getCom_no());
+		List<String> positionList = insaService.positionListGroup(m.getCom_no());
+		
+		mav.addObject("list",list);
+		mav.addObject("yearList",yearList);
+		mav.addObject("positionList",positionList);
+		mav.setViewName("insa/insaMemberManagement");
+		return mav;
 	}
 }

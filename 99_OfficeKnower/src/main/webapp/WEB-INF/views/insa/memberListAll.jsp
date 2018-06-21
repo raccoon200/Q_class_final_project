@@ -16,10 +16,11 @@
 .groupBox {width: 100%;overflow: hidden; padding: 30px 0 0 0; min-height: 60px;}
 .groupBox .team {float: left; width: 200px;  padding-right: 20px;}
 .groupBox .people { margin: 0 0 0 220px;   width: 819px;}
-.groupBox .people li .img {
+.insaimg{
     width: 75px;
     height: 75px;
     overflow: hidden;
+    cursor: pointer;
 }
 .groupBox .people li p {
     text-overflow: ellipsis;
@@ -67,6 +68,7 @@ p.name {
     float: left;
     margin-left: 30px;
     border: 1px solid;
+    cursor: default;
 }
 dl dd {
     margin: 0 0 0 100px;
@@ -89,6 +91,29 @@ dd {
     margin-top: 40px;
     cursor: pointer;
     display: none;
+}
+div#insamenu_container{
+	position: absolute;
+	width: 140px; 
+	padding: 20px 25px;
+	left: 40px;
+	top: 35px;
+	border: 1px solid #ccc;
+	background: white;
+	display: inline-block;
+}
+div.insagroupBox{
+	position: relative;
+	margin-top: 60px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	/* height: -webkit-fill-available; */
+}
+.insa_span_menu{width: 100%; height: 20px; cursor: pointer;}
+.insa_span_menu:hover {
+	background: #ccc;
 }
 </style>
 <script>
@@ -128,25 +153,121 @@ function LoadImg(value) {
     }
 }
 function fn_profilePhoto(){
-	console.log('실행하니');
+	var val =$('#photoUpload').val().length;
+	if(val > 0){
+		$('#file_form').submit();		
+	}
 }
+$(function(){
+	$("#insamenu_icon").click(function(){
+		$("#insamenu_container").toggle();		
+	});
+	$(".insa_span_menu.insa_default").click(function(){
+		$(".yearpeople").hide();
+		$(".positionpeople").hide();
+		$(".defaultpeople").show();
+	});
+	$(".insa_span_menu.insa_year").click(function(){
+		$(".yearpeople").show();
+		$(".defaultpeople").hide();
+		$(".positionpeople").hide();
+	});
+	$(".insa_span_menu.insa_position").click(function(){
+		$(".yearpeople").hide();
+		$(".defaultpeople").hide();
+		$(".positionpeople").show();
+	});
+	$(".insa_span_menu.insa-photo").click(function(){
+		$(".insaimg").show();
+	});
+	$(".insa_span_menu.insa-onlyname").click(function(){
+		$(".insaimg").hide();
+	});
+});
 </script>
 
 <div class="groupBox">
-	<hr /><br /><br />
-	<div class="groupBox team">
-		${list.get(0).getCom_name()}[${list.size()}명]
+	<div class="insagroupBox">
+		<div id="insamenu_icon">
+			<span aria-hidden="true" class="icon-block-menu" style="font-size: 25px; color: lightgray; margin-left: 100px; cursor: pointer;"></span>
+			<div id="insamenu_container" class="header_container" style="display: none;">
+				<p style="font-weight: bold; font-size: 20px;">정렬</p>
+				<p class="insa_span_menu insa_default">조직</p>
+				<p class="insa_span_menu insa_year">입사년도</p> 
+				<p class="insa_span_menu insa_position">직위</p>
+				<hr />
+				<p style="font-weight: bold; font-size: 20px;">옵션</p> 
+				<p class="insa_span_menu insa-photo">사진표시</p> 
+				<p class="insa_span_menu insa-onlyname">이름만표시</p>
+			</div>
+		</div>
 	</div>
-	<div class="people">
+	<hr /><br /><br />
+	
+	<div class="groupBox team">
+		${list.get(0).getCom_name()}[${list.size()}명] 
+	</div>
+	<div class="people defaultpeople" style="display: block;">
 	<ul>
 		<c:forEach var="l" items="${list}" >
 			<li>
-				<img class="img" src="${pageContext.request.contextPath }/resources/upload/member/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/upload/member/default.jpg'" onclick="fn_profile('${l.getUserId()}','${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}','${l.getPhoto()}')"/>
+				<img class="insaimg" src="${pageContext.request.contextPath }/resources/upload/member/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/upload/member/default.jpg'" onclick="fn_profile('${l.getUserId()}','${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}','${l.getPhoto()}')"/>
 				<p class="name">${l.getUserName()}</p>
 			</li>
 		</c:forEach>
 	</ul>
 	</div>
+	<!-- 입사년도 -->
+	<div class="people yearpeople" style="display: none;">
+			<c:forEach var="y" items="${yearList}" varStatus="sts">
+				<c:forEach var="l" items="${list}" varStatus="sts2">
+					<c:if test="${sts2.count == 1}">
+						<p>${y}</p>
+						<hr />
+					</c:if>
+					<c:set var="yea" value="${l.getJoinDate()!=null?l.getJoinDate():'미기재 '}"/>	
+					<c:set var="year" value="${fn:substring(yea,0,4)}"/> 
+					<c:if test='${y eq (year != null?year:"미기재 ")}'>
+						<ul>
+						<li>
+							<img class="insaimg" src="${pageContext.request.contextPath }/resources/upload/member/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/upload/member/default.jpg'" onclick="fn_profile('${l.getUserId()}','${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}','${l.getPhoto()}')"/>
+							<p class="name">${l.getUserName()}</p>
+						</li>
+						</ul>
+					</c:if>
+					<c:if test="${sts2.count == list.size()}">
+						<p style="opacity: 0;">asd</p>
+						<br /><br /><br /><br /><br /><br />
+					</c:if>
+				</c:forEach>
+			</c:forEach>
+		<!-- </ul> -->
+	</div>
+	<!-- 직위 -->
+	<div class="people positionpeople" style="display: none;">	
+	<c:forEach var="p" items="${positionList}" varStatus="sts">
+				<c:forEach var="l" items="${list}" varStatus="sts2">
+					<c:set var="po" value="${l.getPosition()}"/>
+					<c:if test="${sts2.count == 1}">
+						<p>${p}</p>
+						<hr />
+					</c:if>
+					<c:if test='${p eq (year != null?po:"미기재")}'>
+						<ul>
+						<li>
+							<img class="insaimg" src="${pageContext.request.contextPath }/resources/upload/member/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/upload/member/default.jpg'" onclick="fn_profile('${l.getUserId()}','${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}','${l.getPhoto()}')"/>
+							<p class="name">${l.getUserName()}</p>
+						</li>
+						</ul>
+					</c:if>
+					<c:if test="${sts2.count == list.size()}">
+						<p style="opacity: 0;">asd</p>
+						<br /><br /><br /><br /><br /><br />
+					</c:if>
+				</c:forEach>
+			</c:forEach>
+	</div>
+	
 </div>
 
 <!-- 프로필 상자 -->
@@ -157,7 +278,9 @@ function fn_profilePhoto(){
 		<span class="btn_upload" onclick="fn_addProfile()"></span>
 		
 		<div class="profile">
+		<div style="cursor:pointer">
 			<img class="img2" src="${pageContext.request.contextPath }/resources/upload/member/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/upload/member/default.jpg'" style="background-size: 200px;"/>
+			</div>
 		<div class="proflie_right">
 			<dl style="margin-left: 150px;">
 				<dd class="insa-layer-name"></dd>
@@ -178,9 +301,9 @@ function fn_profilePhoto(){
 				<dd><span class="text insa-layer-cell"></span></dd>
 			</dl>
 		<form action="profileUpdate.do" id="file_form" method="post" enctype="multipart/form-data">
-			<input type="file" name="photoUpload" id="photoUpload"  style="opacity: 0; position: relative;" onchange="LoadImg(this);"/><br />
-			<div id="savebuttonDiv" style="position: relative;left: 200px;width: 201px;bottom: 40px; display: none;">
-				<input type="submit" value="저장" class="btn btn-outline-primary" style="text-align: center;" onclick="fn_profilePhoto()"/> &nbsp;
+			<input type="file" name="photoUpload" id="photoUpload"  style="opacity: 0; position: relative;" onchange="LoadImg(this);" value=""/><br />
+			<div id="savebuttonDiv" style="position: relative;left: 200px;width: 201px;bottom: 40px; display: none; ">
+				<input type="button" value="저장" class="btn btn-outline-primary" style="text-align: center;" onclick=" fn_profilePhoto()"/> &nbsp;
 				<input type="button" value="취소"  onclick="fn_close()" class="btn btn-outline-primary"/>
 			</div>
 		</form>

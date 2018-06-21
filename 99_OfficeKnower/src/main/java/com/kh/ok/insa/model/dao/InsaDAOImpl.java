@@ -22,4 +22,14 @@ public class InsaDAOImpl implements InsaDAO {
 	public int profileUpdate(Member m) {
 		return sqlSession.update("insa.profileUpdate",m);
 	}
+
+	@Override
+	public List<String> yearListGroup(String com_no) {
+		return sqlSession.selectList("insa.yearListGroup",com_no);
+	}
+
+	@Override
+	public List<String> positionListGroup(String com_no) {
+		return sqlSession.selectList("insa.positionListGroup",com_no);
+	}
 }
