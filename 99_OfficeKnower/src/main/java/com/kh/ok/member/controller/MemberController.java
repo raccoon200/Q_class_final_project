@@ -90,7 +90,7 @@ public class MemberController {
 			throws JsonProcessingException {
 		System.out.println(userId);
 		logger.debug("@ResponseBody-jsonString ajax : "+userId);
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		//jackson라이브러리에서 사용하는 바인더
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = null;
