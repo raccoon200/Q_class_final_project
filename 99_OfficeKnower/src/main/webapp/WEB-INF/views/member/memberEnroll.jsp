@@ -8,13 +8,13 @@
 <head>
 <meta charset="UTF-8">
 	<title>${param.pageTitle}</title>
-	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 	<script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 	<!-- 부트스트랩관련 라이브러리 -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<!-- 사용자작성 css -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+	<%-- <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" /> --%>
 </head>
 <style>
 div#enroll-container{
@@ -147,10 +147,40 @@ $(function(){
 		    <input type="file" class="custom-file-input" name="upFile" id="upFile2">
 		    <label class="custom-file-label" for="upFile2">파일을 선택하세요</label>
 		  </div>
+		</div> 
+		<div class="input-group mb-3" style="padding:0px">
+		<input type="text" class="form-control" name="comNo" id="comNo" placeholder="회사번호" />
+		<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#comNoModal">회사등록</button>
+		
 		</div>
+		<br />
 		<input type="submit" value="가입" class="btn btn-outline-success" />
 	</form>
 </div>
+<div class="modal fade" id="comNoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">회사등록</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
+	      <div class="modal-body">
+	        <input type="text" class="form-control" name="userId" id="userId" placeholder="아이디" required/>
+	        <br />
+	        <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required />
+	      </div>
+	      <div class="modal-footer">
+	        <button type="submit" class="btn btn-outline-success">로그인</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+	      </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
+	
 </body>
 </html>
 
