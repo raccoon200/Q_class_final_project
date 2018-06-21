@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <!-- 부트스트랩관련 라이브러리 -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <!-- 아이콘 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/Font-Face/style.css" />
@@ -63,7 +64,7 @@
 		/* 메뉴 컨테이너  URL연결 */
 		/* 인사 */
 		$("#insa_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/insa/memberListAll.do";
 		});
 		/* 일정관리 */
 		$("#sch_btn").on("click",function(){
@@ -153,7 +154,7 @@
 				<p>${memberLoggedIn.userId}</p>
 				<p>
 					<!-- 설정 URL등록해야됨 -->
-					<a href="#">설정</a>
+					<a href="${pageContext.request.contextPath }/member/memberOneSelect.do?userId=${memberLoggedIn.userId}">설정</a>
 				</p>
 				<!-- 로그아웃 -->
 				<button type="button" id="logout_btn" class="btn btn-outline-primary">로그아웃</button>
@@ -163,8 +164,6 @@
 			<span class="icon-sound-on" style="font-size: 30px; cursor: pointer;"></span>			
 		</div>
 		<div id="notice-container" class="header_container">
-			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_notice"/>
-		
-			asdf
+			<img src="${pageContext.request.contextPath }/resources/images/common/sp_icon.jpg" alt="" class="sp_icon" id="sp_icon_notice"/>		
 		</div>
 		</header>

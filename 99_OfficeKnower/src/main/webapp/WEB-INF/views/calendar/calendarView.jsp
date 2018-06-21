@@ -6,6 +6,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
 </jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
+</jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <link href="${pageContext.request.contextPath }/resources/fullcalendar-3.9.0/fullcalendar.print.css" rel="stylesheet" media="print"/>
@@ -14,10 +17,13 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/locale-all.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/gcal.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <style type="text/css">
 body {
-    margin :40px 10px;
-    padding : 0;
+    /* margin :40px 10px;
+    padding : 0; */
     font-family : "Lucida Grande", Helvetica, Arial, Verdana,sans-serif;
     font-size : 14px;
 }
@@ -266,8 +272,8 @@ function day(day){
         	
         		
         		$(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
-        		$(".fc-day-top").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
-        		$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		//$(".fc-day-top").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		//$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         		$(".fc-content-skeleton").children("table").children("tbody").children("tr").children("td").each(function(item){
         			if($(this).attr("class") == null){
         				$(this).attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
@@ -290,8 +296,10 @@ function day(day){
      	} //dayClick끝
         
         	, eventClick:function(event) {
+
         		$(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         		$(".fc-list-item-title").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+
         		var html ="";
             	html += "<form action='<%=request.getContextPath()%>/cal/scheduleUpdate' id='updateFrm' method='post'>";
 				   console.log("${memberLoggedIn.userId}");
@@ -410,7 +418,7 @@ function day(day){
         	  } //eventClick끝        	
         	
         }); //fullCalnedar끝
-
+        
         
         //$(".fc-event").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         //$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarView");
@@ -488,7 +496,7 @@ function buttonInsert(){
 
 <!-- Modal -->
 <!-- 일정 추가 모달 -->
-<div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+<div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -548,7 +556,7 @@ function fn_submit(){
 
 <!-- Modal -->
 <!-- 일정보기 모달 -->
-<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -609,7 +617,16 @@ function fn_submitUpdate(){
 	}
 	else updateFrm.submit();
 }
-
+$(function(){
+	$('#calendarInsert').on('shown.bs.modal', function (e) {
+		console.log("123");
+	    if ($('#calendarView').hasClass('show')){
+	        $(this).hide();
+	        $("#calendarView").focus();
+	        $(this).modal("hide");
+	    }
+	});
+});
 
 </script>
 <!-- 일정보기 모달 끝 -->

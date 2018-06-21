@@ -3,9 +3,10 @@ package com.kh.ok.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.ok.job.model.service.JobService;
+import com.kh.ok.job.model.vo.Job;
 import com.kh.ok.member.model.service.MemberService;
 import com.kh.ok.member.model.vo.Member;
 
@@ -38,8 +41,36 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@Autowired
+	private JobService jobService;
+	
+	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	//@Autowired	
+	//BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	@RequestMapping("/member/memberOneSelect.do")
+	public ModelAndView memberOneSelect(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+
+		Member member = memberService.selectUserId(userId);
+		List<Job> jlist = jobService.selectJobList(member.getCom_no());
+		
+		mav.addObject("member",member);
+		mav.addObject("jlist",jlist);
+		mav.setViewName("member/memberOneView");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/member/memberOneUpdate.do")
+	public String memberOneUpdate( Member member, HttpServletRequest request) {
+		
+		int result = memberService.memberOneUpdate(member);
+		
+		request.setAttribute("member", member);
+		return "redirect:/member/memberOneSelect.do?userId="+member.getUserId();
+	}
 	
 	@RequestMapping("/member/memberEnroll.do")
 	public ModelAndView memberEnroll() {

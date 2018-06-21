@@ -6,23 +6,30 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
-<jsp:include page="/WEB-INF/views/common/office_main.jsp">
-	<jsp:param value="" name="pageTitle"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="인사관리" name="pageTitle"/>
+</jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="인사관리" name="pageTitle"/>
+	<jsp:param value="내 정보 관리" name="selectMenu"/>
 </jsp:include>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <%
-	String[] add = (((Member)request.getAttribute("member")).getAddress()).split(",");
+	
+	String[] add = null; 
+	if(((Member)request.getAttribute("member")).getAddress() !=null)
+		add = (((Member)request.getAttribute("member")).getAddress()).split(",");
 %>
 <style>
-input[type=button].btn2 {
+/* input[type=button].btn2, input[type=submit].btn2{
     margin: 5px;
     background: white;
     border-color: #899bdb;
     padding: 5px;
     width: 110px;
-}
+} */
 .form-control{width: 250px;}
 </style>
 <script>
@@ -110,9 +117,9 @@ input[type=button].btn2 {
 			<tr>
 				<th>직무</th>
 				<td>
-					<select name="" id="job" class="custom-select" style="width: 250px;">
+					<select name="job" id="job" class="custom-select" style="width: 250px;">
 						<c:forEach var="j" items="${jlist}">
-							<option value="${j.job} }" ${j.job eq member.job?"selected":""}>${j.job}</option>
+							<option value="${j.job}" ${j.job eq member.job?"selected":""}>${j.job}</option>
 						</c:forEach>
 					</select>
 				</td>
@@ -156,10 +163,11 @@ input[type=button].btn2 {
 			<tr>
 				<th>자택주소</th>
 					<td>
-	                     <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add[0] %>"> 
-	                     <input type="button" class="btn2" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-	                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add[1] %>"> 
-	                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add[2] %>">
+	                     <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
+	                     <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
+	                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add!=null?add[1]:"" %>"> 
+	                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add!=null?add[2]:"" %>">
+	                     <input type="hidden" name="address" id="address" value="" />
 	                     <span id="guide" style="color: #999"></span>
 				</td>
 			</tr>
@@ -172,13 +180,21 @@ input[type=button].btn2 {
 			</tr>
 			<tr>
 				<th colspan="2">
-					<input type="submit" value="저장" />
+					<input type="submit" value="저장" onclick="fn_addressSum()" class="btn btn-outline-primary"/>
 				</th>
 			</tr>
 		</table>
 	</form>
 </div>
+<script>
+function fn_addressSum(){
+	if($("#sample4_postcode").val().trim().length != 0)
+	var add1 = $("#sample4_postcode").val() 
+			+","+ $("#sample4_roadAddress").val()
+			+","+ $("#sample4_jibunAddress").val();
+	$("#address").val(add1);
+}
+</script>
 
 
-
-<%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"/> --%> 
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
