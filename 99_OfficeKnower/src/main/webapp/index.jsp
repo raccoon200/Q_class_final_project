@@ -15,8 +15,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<!-- 사용자작성 css -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
-</head>
+<%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+ --%></head>
 <body>
 	indexpage !!!!!!!!!!!
 	<button onclick="location.href='${pageContext.request.contextPath}/member/memberOneSelect.do?userId=aabb'">눌러</button>
