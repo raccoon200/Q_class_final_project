@@ -28,7 +28,7 @@
 		<beans:property name="maxUploadSize" value="10485760" /> <!-- max 파일용량은 10MB이다. -->
 	</beans:bean>
 	
-	<interceptors>
+	<!-- <interceptors>
 		<interceptor>
 			<mapping path="/**"/>
 			
@@ -37,5 +37,5 @@
 			<exclude-mapping path="/member/checkIdDuplicate.do"/>
 			<beans:bean id="loginCheckIntercepter" class="com.kh.ok.common.intercepter.LoginCheckIntercepter"/>
 		</interceptor>
-	</interceptors>
+	</interceptors>  -->
 </beans:beans>

@@ -112,6 +112,26 @@ public class MemberController {
 			sessionStatus.setComplete();
 		return "redirect:/";
 	}
+	@RequestMapping("/member/checkComNameDuplicate.do")
+	@ResponseBody
+	public String checkComNameDuplicate(@RequestParam("comName") String comName) throws JsonProcessingException{
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		//jackson라이브러리에서 사용하는 바인더
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = null;
+		
+		//업무로직
+		int count = memberService.checkIdDuplicate(comName);
+		boolean isUsable = count==0?true:false;
+		
+		//jsonString변환
+		map.put("isUsable", isUsable);
+		jsonStr = mapper.writeValueAsString(map);
+		 
+		logger.debug("jsonStr="+jsonStr);
+		return jsonStr;
+	}
 	
 	@RequestMapping("/member/checkIdDuplicate.do")
 	@ResponseBody

@@ -82,6 +82,45 @@ $(function() {
          }
       });
    });
+   
+	$("[name=upFile]").on("change",function(){
+		//var fileName = $(this).val();
+		var fileName = $(this).prop("files")[0].name;
+		
+		$(this).next(".custom-file-label").html(fileName);
+	});
+	
+	$("#comName").on("keyup", function(key) {
+      var comName = $(this).val().trim();
+      
+      $.ajax({
+          /* url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do"; */ 
+          url : "checkComNameDuplicate.do", /*현재 디렉토리에서 상대주소*/
+          dataType : "json",
+          data : {comName:comName},  /*속성값(키):입력값*/
+          success : function(data) {
+              console.log(data); //true/ false
+              //if(data=="true") {
+              if(data.isUsable==true) {
+                 $(".guide.ok").show();
+                 $(".guide.error").hide();
+                 $(".guide.length").hide();
+                 $("#idDuplicateCheck").val(1);
+              }
+              else{
+                 $(".guide.error").show();
+                 $(".guide.ok").hide();
+                 $(".guide.length").hide();
+                 $("#idDuplicateCheck").val(0);
+                 
+              }
+          },
+          error:function(jqxhr, textStatus, errorThrown) {
+             console.log("ajax실패!", jqxhr, textStatus, errorThrown);
+          }
+       });
+      
+	});
 });
 /**
  * 유효성 검사 함수
@@ -96,14 +135,7 @@ function validate() {
    return true;
 }
 
-$(function(){
-	$("[name=upFile]").on("change",function(){
-		//var fileName = $(this).val();
-		var fileName = $(this).prop("files")[0].name;
-		
-		$(this).next(".custom-file-label").html(fileName);
-	});
-});
+
 
 </script>
 <body>
@@ -149,37 +181,15 @@ $(function(){
 		  </div>
 		</div> 
 		<div class="input-group mb-3" style="padding:0px">
-		<input type="text" class="form-control" name="comNo" id="comNo" placeholder="회사번호" />
-		<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#comNoModal">회사등록</button>
-		
+		    <span class="input-group-text">회사등록</span>
+		<input type="text" class="form-control" name="comName" id="comName" placeholder="회사이름" />		
+		<input type="text" class="form-control" name="comNo" id="comNo" value="회사번호" readonly/>
 		</div>
 		<br />
 		<input type="submit" value="가입" class="btn btn-outline-success" />
 	</form>
 </div>
-<div class="modal fade" id="comNoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">회사등록</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
-	      <div class="modal-body">
-	        <input type="text" class="form-control" name="userId" id="userId" placeholder="아이디" required/>
-	        <br />
-	        <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required />
-	      </div>
-	      <div class="modal-footer">
-	        <button type="submit" class="btn btn-outline-success">로그인</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-	      </div>
-	      </form>
-	    </div>
-	  </div>
-	</div>
+
 	
 </body>
 </html>
