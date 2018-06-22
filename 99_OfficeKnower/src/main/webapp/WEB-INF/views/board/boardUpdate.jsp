@@ -14,6 +14,8 @@ function validate() {
 	return true;
 }
 $(function() {
+	$("[name=upFile]").val() = ${"board.original_file_name"};
+	
 	$("[name=upFile]").on("change", function () {
 		//var fileName = $(this).val();
 		var fileName = $(this).prop("files")[0].name;
@@ -41,19 +43,12 @@ div#board-container{
 	text-align:center;
 	
 }
-#board-select-area{
-	width:200px;
-	height:40px;
-	border:1px solid rgb(210,210,210);
-	border-radius: 4px;
-}
-
 </style>
 <div id="board-container">
 	
-	<form action="boardFormEnd.do" name="boardFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
-
-		 
+	<form action="boardUpdateEnd.do" name="boardFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+		<input type="hidden" name="board_no" value="${board.board_no }" />
+		
 		<div class="input-group mb-3" style="padding:0px">
 			<div class="input-group-prepend" style="padding:0px">
 			    <span class="input-group-text">게시판</span>
@@ -64,13 +59,12 @@ div#board-container{
 			    </c:forEach>
 			 </select>
 		</div> 
-		
 		<div class="input-group mb-3" style="padding:0px">
 			<div class="input-group-prepend" style="padding:0px">
 			    <span class="input-group-text">제목</span>
 			</div>
 			<div class="custom-file">
-				<input type="text" name="title" id="boardTitle" class="form-control" required />
+				<input type="text" name="title" id="boardTitle" class="form-control" value="${board.title }" required />
 			</div>
 		</div>
 		
@@ -87,15 +81,15 @@ div#board-container{
 		    <span class="input-group-text">첨부파일</span>
 		  </div>
 		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="inputGroupFile01">
-		    <label class="custom-file-label" for="inputGroupFile01"></label>
+		    <input type="file" class="custom-file-input" name="upFile" id="inputGroupFile01" >
+		    <label class="custom-file-label" for="inputGroupFile01">${board.original_file_name }</label>
 		  </div>
 		</div>
 		<span class="input-group-text" id="input-group-text-cum">내용</span>
-		<textarea name="content" id="" cols="30" rows="10" class="form-control" required></textarea>
+		<textarea name="content" id="" cols="30" rows="10" class="form-control" required>${board.content }</textarea>
 		<br />
-		<input type="submit" value="등록" class="btn btn-outline-primary" />
-		<input type="button" value="취소" class="btn btn-outline-secondary" onclick='location.href="{pageContext.request.contextPath}/board/boardBasicList"' />
+		<input type="submit" value="수정" class="btn btn-outline-primary" />
+		<input type="button" value="취소" class="btn btn-outline-secondary" onclick='location.href="${pageContext.request.contextPath}/board/boardView.do?boardNo=${board.board_no}"' />
 	</form>
 </div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

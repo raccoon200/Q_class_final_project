@@ -2,12 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
 	<select id="selectBoardBasicList" resultType="map">
-		select * from board
+		select * from board where board_menu_no=#{boardMenuNo} and status='Y' order by board_no
 	</select>
 	<select id="selectBoardCount" resultType="_int">
-		select count(*) from board
+		select count(*) from board where status='Y'
 	</select>
 	<insert id="insertBasicBoard">
-		insert into board values(seq_board_no.nextval, 1, #{title}, sysdate, #{content}, #{writer}, 'Y', #{original_file_name}, #{renamed_file_name}, #{count})
+		insert into board values(seq_board_no.nextval, #{board_menu_no}, #{title}, sysdate, #{content}, #{writer}, 'Y', #{original_file_name}, #{renamed_file_name}, 0)
+		<!-- 전달할 board vo 객체의 boardNo 프로퍼티에 결과값을 담는다 -->
+		<selectKey keyProperty="board_no" resultType="_int" order="AFTER">
+			SELECT SEQ_BOARD_NO.CURRVAL FROM DUAL
+		</selectKey>
 	</insert>
+	<insert id="insertBasicBoardNoFile">
+		insert into board(board_no, board_menu_no, title, writedate, content, writer, status, count) values(seq_board_no.nextval, #{board_menu_no}, #{title}, sysdate, #{content}, #{writer}, 'Y', 0)
+		<!-- 전달할 board vo 객체의 boardNo 프로퍼티에 결과값을 담는다 -->
+		<selectKey keyProperty="board_no" resultType="_int" order="AFTER">
+			SELECT SEQ_BOARD_NO.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<select id="selectBoardView" resultType="com.kh.ok.board.model.vo.Board">
+		select A.*, B.photo profile from board A join tbl_user B on A.writer=B.userId where A.board_no=#{boardNo}
+	</select>
+	<select id="selectBookMark" resultType="_int">
+		select count(*) from board_bookmark where board_no=#{boardNo}
+	</select>
+	<update id="updateBasicBoard">
+		update board set title=#{title}, content=#{content}, original_file_name=#{original_file_name}, renamed_file_name=#{renamed_file_name} where board_no=#{board_no}
+	</update>
+	<update id="updateBasicBoardNoFile">
+		update board set title=#{title}, content=#{content} where board_no=#{board_no}
+	</update>
+	<delete id="deleteBoard">
+		delete board where board_no=#{boardNo}
+	</delete>
+	<insert id="insertBoardMenu">
+		insert into board_menu values(seq_board_menu_no.nextval, #{title}, sysdate, 'Y', #{kind}, #{userId}, #{com_no})
+		<selectKey keyProperty="board_menu_no" resultType="_int" order="AFTER">
+			SELECT SEQ_BOARD_MENU_NO.CURRVAL FROM DUAL
+		</selectKey>	
+	</insert>
+	<insert id="insertBoardGroup">
+		insert into board_group values(#{board_menu_no}, #{userId})
+	</insert>
+	<insert id="importantApply">
+		insert into board_bookmark values(#{board_no}, #{userId})
+	</insert>
+	<delete id="importantDelete">
+		delete from board_bookmark where board_no=#{board_no} and userId=#{userId}
+	</delete>
+	<update id="increaseBoardCount">
+		update board set count=count+1 where board_no=#{board_no}
+	</update>
+	<select id="selectBoardBookMark" resultType="_int">
+		select count(*) from board A join board_bookmark B on A.board_no=B.board_no where a.status='Y' and a.board_no=#{board_no} and b.userid=#{userId} order by A.board_no
+	</select>
+	<select id="selectBoardImportantList" resultType="map">
+		select * from board A join board_bookmark B using(board_no) where B.userId=#{userId} and A.status='Y'
+	</select>
+	<select id="selectBoardImportantCount" resultType="_int">
+		select count(*) from board A join board_bookmark B using(board_no) where B.userId=#{userId} and A.status='Y'
+	</select>
+	<select id="selectBoardRecentList" resultType="map">
+		select * from (select * from board A join board_group B using(board_menu_no) where userid=#{userId} order by writedate desc) where rownum <![CDATA[<=]]> 10
+	</select>
+	<select id="selectBoardMenuList" resultType="map">
+		select * from board_menu join board_group using(board_menu_no) where board_group.userid=#{userId}
+	</select>
+	<select id="selectBoardGroupList" resultType="map">
+		select * from board_menu where kind=#{string}
+	</select>
+	<select id="selectBoardBasicList_" resultType="map">
+		select * from board_menu where kind=#{string}
+	</select>
 </mapper>

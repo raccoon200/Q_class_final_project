@@ -9,7 +9,7 @@
 	<!-- nav 시작 -->
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="게시판" name="pageTitle"/>
-	<jsp:param value="전사 게시판" name="selectMenu"/>
+	<jsp:param value="최근 게시물" name="selectMenu"/>
 </jsp:include>	
 	<!-- nav 끝 -->
 
@@ -46,17 +46,6 @@ function fn_boardView(no) {
 }
 </script>
 
-<!-- 페이지바 처리 -->
-<% 
-int pageNum = Integer.parseInt(String.valueOf(request.getAttribute("pageNum")));
-int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));	
-int cPage=1;
-try{
-	cPage = Integer.parseInt(request.getParameter("cPage"));
-}catch(NumberFormatException e) {
-	
-}
-%>
-<%=com.kh.ok.board.common.util.Utils.getPageBar(pageNum, cPage, numPerPage, "boardBasicList")%>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

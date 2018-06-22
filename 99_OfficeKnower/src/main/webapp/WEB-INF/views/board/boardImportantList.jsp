@@ -9,7 +9,7 @@
 	<!-- nav 시작 -->
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="게시판" name="pageTitle"/>
-	<jsp:param value="전사 게시판" name="selectMenu"/>
+	<jsp:param value="중요 게시물" name="selectMenu"/>
 </jsp:include>	
 	<!-- nav 끝 -->
 

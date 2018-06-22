@@ -140,15 +140,15 @@
 	<!-- 게시판 nav -->
 	<c:if test="${param.pageTitle eq '게시판'}">
 		<div class="main_btn">
-			<button type="button" class="btn btn-primary">글쓰기</button>
+			<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'">글쓰기</button>
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
 				<li>
-					<a href="">최근 게시물</a><br />
+					<a href="${pageContext.request.contextPath }/board/boardRecentList">최근 게시물</a><br />
 				</li>
 				<li>
-					<a href="#">중요 게시물</a><br />
+					<a href="${pageContext.request.contextPath }/board/boardImportantList">중요 게시물</a><br />
 				</li>
 				<li>
 					<a href="javascript:void(0)" class="depth1">
@@ -161,10 +161,14 @@
 							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit icon_edit_board" alt="수정" />
 							<a href="#">사내공지</a><br />
 						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit icon_edit_board" alt="수정" />
-							<a href="#">목록들 반복문 돌려야함.</a><br />
-						</li>
+						<c:if test="${basicBoard != null}">
+							<c:forEach var="v" varStatus="vs" items="${basicBoard }">
+							<li class="board_menu_name">
+								<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit icon_edit_board" alt="수정" />
+								<a href="${pageContext.request.contextPath }/board/boardBasicList?board_menu_no=${v.BOARD_MENU_NO}">${v.TITLE}</a><br />
+							</li>
+							</c:forEach>
+						</c:if>
 					</ul>
 				</li>
 				<li>
@@ -174,19 +178,23 @@
 					</a>
 					<br />
 					<ul class="depth2 hide">
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit icon_edit_board" alt="수정" />
-							<a href="#">목록들 반복문 돌려야함.</a><br />
-						</li>
+						<c:if test="${basicBoard != null}">
+							<c:forEach var="v" varStatus="vs" items="${groupBoard }">
+							<li class="board_menu_name">
+								<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit icon_edit_board" alt="수정" />
+								<a href="${pageContext.request.contextPath }/board/boardBasicList?boardMenuNo=${v.BOARD_MENU_NO}">${v.TITLE}</a><br />
+							</li>
+							</c:forEach>
+						</c:if>
 					</ul>
 				</li>
 				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "게시판관리자"}'>
 					<br />
 					<li>
-						<a href="#">게시판 만들기</a><br />
+						<a href="${pageContext.request.contextPath }/board/boardMenuForm">게시판 만들기</a><br />
 					</li>
 					<li>
-						<a href="#">게시판 관리</a><br />
+						<a href="${pageContext.request.contextPath }/board/boardMenuManage">게시판 관리</a><br />
 					</li>
 				</c:if>
 			</ul>

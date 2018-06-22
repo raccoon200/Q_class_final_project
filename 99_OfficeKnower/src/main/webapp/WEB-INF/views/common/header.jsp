@@ -71,7 +71,7 @@
 		});
 		/* 게시판 */
 		$("#board_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/board/boardBasicList";
 		});
 		/* 전자결재 */
 		$("#check_btn").on("click",function(){
