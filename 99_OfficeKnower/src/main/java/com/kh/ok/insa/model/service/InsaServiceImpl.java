@@ -1,6 +1,7 @@
 package com.kh.ok.insa.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,21 @@ public class InsaServiceImpl implements InsaService {
 	@Override
 	public List<String> positionListGroup(String com_no) {
 		return insaDAO.positionListGroup(com_no);
+	}
+
+	@Override
+	public List<Member> selectmemberListAll(String com_no, int numPerPage, int cPage) {
+		return insaDAO.selectmemberListAll(com_no, numPerPage, cPage);
+	}
+
+	@Override
+	public int selectMemberListCnt(String com_no) {
+		return insaDAO.selectMemberListCnt(com_no);
+	}
+
+	@Override
+	public List<Member> insaMemberSearch(Map<String, String> map) {
+		return insaDAO.insaMemberSearch(map);
 	}
 
 }

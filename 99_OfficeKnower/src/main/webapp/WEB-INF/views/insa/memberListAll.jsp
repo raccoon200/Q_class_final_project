@@ -115,6 +115,8 @@ div.insagroupBox{
 .insa_span_menu:hover {
 	background: #ccc;
 }
+.people_p_add{display: inline; opacity: 0}
+.people_insatitle{float: left;}
 </style>
 <script>
 function fn_profile(userId,userName,position,job, join, com, cell,photo){
@@ -222,7 +224,7 @@ $(function(){
 			<c:forEach var="y" items="${yearList}" varStatus="sts">
 				<c:forEach var="l" items="${list}" varStatus="sts2">
 					<c:if test="${sts2.count == 1}">
-						<p>${y}</p>
+						<p class="people_insatitle">${y}</p><br />
 						<hr />
 					</c:if>
 					<c:set var="yea" value="${l.getJoinDate()!=null?l.getJoinDate():'미기재 '}"/>	
@@ -236,7 +238,7 @@ $(function(){
 						</ul>
 					</c:if>
 					<c:if test="${sts2.count == list.size()}">
-						<p style="opacity: 0;">asd</p>
+						<p  class="people_p_add">asd</p><p style="opacity: 0; height: 0px;">asd</p>
 						<br /><br /><br /><br /><br /><br />
 					</c:if>
 				</c:forEach>
@@ -249,7 +251,7 @@ $(function(){
 				<c:forEach var="l" items="${list}" varStatus="sts2">
 					<c:set var="po" value="${l.getPosition()}"/>
 					<c:if test="${sts2.count == 1}">
-						<p>${p}</p>
+						<p class="people_insatitle">${p}</p><br />
 						<hr />
 					</c:if>
 					<c:if test='${p eq (year != null?po:"미기재")}'>
@@ -261,7 +263,7 @@ $(function(){
 						</ul>
 					</c:if>
 					<c:if test="${sts2.count == list.size()}">
-						<p style="opacity: 0;">asd</p>
+						<p class="people_p_add">asd</p><p style="opacity: 0; height: 0px;">asd</p>
 						<br /><br /><br /><br /><br /><br />
 					</c:if>
 				</c:forEach>
