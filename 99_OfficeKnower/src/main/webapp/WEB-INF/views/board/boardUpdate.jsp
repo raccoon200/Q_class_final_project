@@ -48,6 +48,17 @@ div#board-container{
 	
 	<form action="boardUpdateEnd.do" name="boardFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
 		<input type="hidden" name="board_no" value="${board.board_no }" />
+		
+		<div class="input-group mb-3" style="padding:0px">
+			<div class="input-group-prepend" style="padding:0px">
+			    <span class="input-group-text">게시판</span>
+			</div>
+			<select class="form-control" id="board-menu-select" name="board_menu_no">
+				<c:forEach var="v" varStatus="vs" items="${board_menu_list }">
+			      <option value="${v.BOARD_MENU_NO }">${v.TITLE }</option>  
+			    </c:forEach>
+			 </select>
+		</div> 
 		<div class="input-group mb-3" style="padding:0px">
 			<div class="input-group-prepend" style="padding:0px">
 			    <span class="input-group-text">제목</span>

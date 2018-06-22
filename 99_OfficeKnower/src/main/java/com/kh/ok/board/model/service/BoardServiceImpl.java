@@ -20,8 +20,8 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private BoardDAO boardDAO;
 	@Override
-	public List<Map<String, String>> selectBoardBasicList(int cPage, int numPerPage) {
-		return boardDAO.selectBoardBasicList(cPage, numPerPage);
+	public List<Map<String, String>> selectBoardBasicList(int cPage, int numPerPage, int boardMenuNo) {
+		return boardDAO.selectBoardBasicList(cPage, numPerPage, boardMenuNo);
 	}
 	@Override
 	public int selectBoardCount() {
@@ -58,6 +58,38 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int importantDelete(BoardBookMark bbm) {
 		return boardDAO.importantDelete(bbm);
+	}
+	@Override
+	public int increaseBoardCount(int boardNo) {
+		return boardDAO.increaseBoardCount(boardNo);
+	}
+	@Override
+	public int selectBoardBookMark(BoardBookMark bbm) {
+		return boardDAO.selectBoardBookMark(bbm);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardImportantList(int cPage, int numPerPage, String userId) {
+		return boardDAO.selectBoardImportantList(cPage, numPerPage, userId);
+	}
+	@Override
+	public int selectBoardImportantCount(String userId) {
+		return boardDAO.selectBoardImportantCount(userId);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardRecentList(String userId) {
+		return boardDAO.selectBoardRecentList(userId);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardMenuList(String userId) {
+		return boardDAO.selectBoardMenuList(userId);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardGroupList(String string) {
+		return boardDAO.selectBoardGroupList(string);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardBasicList(String string) {
+		return boardDAO.selectBoardBasicList(string);
 	}
 	
 }

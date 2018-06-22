@@ -12,7 +12,7 @@ import com.kh.ok.board.model.vo.BoardMenu;
 
 public interface BoardService {
 
-	List<Map<String, String>> selectBoardBasicList(int cPage, int numPerPage);
+	List<Map<String, String>> selectBoardBasicList(int cPage, int numPerPage, int boardMenuNo);
 
 	int selectBoardCount();
 
@@ -31,5 +31,20 @@ public interface BoardService {
 	int importantApply(BoardBookMark bbm);
 
 	int importantDelete(BoardBookMark bbm);
+
+	int increaseBoardCount(int boardNo);
+
+	int selectBoardBookMark(BoardBookMark bbm);
+
+	List<Map<String, String>> selectBoardImportantList(int cPage, int numPerPage, String userId);
+
+	int selectBoardImportantCount(String userId);
+
+	List<Map<String, String>> selectBoardRecentList(String userId);
+
+	List<Map<String, String>> selectBoardMenuList(String userId);
+
+	List<Map<String, String>> selectBoardGroupList(String string);
 	
+	List<Map<String, String>> selectBoardBasicList(String string);
 }

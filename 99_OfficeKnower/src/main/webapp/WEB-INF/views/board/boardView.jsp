@@ -14,6 +14,7 @@
 
 <script>
 $(function() {
+	
 	$("#important-none").show();
 	$("#important-apply").hide();
 	
@@ -244,16 +245,17 @@ $(function() {
 
 	
 	<div id="important-area">
+		
 		<img src="${pageContext.request.contextPath }/resources/images/common/important_none.png" id="important-none" alt="" />
 		<img src="${pageContext.request.contextPath }/resources/images/common/important_apply.png" id="important-apply" alt="" />
 	</div>
 	<%-- <img src="${pageContext.request.contextPath}/resources/images/profile/${board.profile}" class="board-delete" alt=""> --%>
-	<img src="${pageContext.request.contextPath}/resources/images/profile/default.jpg" class="profile" alt="">
+	<img src="${pageContext.request.contextPath}/resources/images/profile/${board.profile}" class="profile" alt="">
 	<p id="title">${board.title }</p>
 	<p id="writer" class="sub">${board.writer }</p>
 	<p id="kind" class="sub"><%-- ${board.kind } --%>전사게시판</p>
-	<p id="count" class="sub"><%-- ${board.count } --%>읽은 사람 0</p>
-	<p id="writedate" class="sub"><%-- ${board.writeDate } --%> 날짜</p>
+	<p id="count" class="sub"><%-- ${board.count } --%>읽은 사람 ${board.count }</p>
+	<p id="writedate" class="sub"><%-- ${board.writeDate } --%> ${board.writeDate }</p>
 	<textarea id="content"cols="30" rows="10" readonly>${board.content }</textarea>
 	<div class="comment" id="comment">
 		<p id="comment-count"><span style="color:rgb(0,125,255); font-weight:bold">0</span>개의 댓글</p> <br /> <br />

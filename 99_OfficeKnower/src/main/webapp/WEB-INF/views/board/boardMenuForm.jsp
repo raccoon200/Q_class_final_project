@@ -150,7 +150,9 @@ function fn_memberListView(){
 	})
 }
 </script>
-
+<%-- <c:foreach var="v" varStatus="vs" items="${member_menu_list }">
+${v.get(index) }
+</c:foreach> --%>
 <form method="post" action="${pageContext.request.contextPath }/board/boardMenuFormEnd">
  	<fieldset class="form-group">
     <div class="row">

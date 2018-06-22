@@ -21,18 +21,21 @@ public class BoardDAOImpl implements BoardDAO{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	@Override
-	public List<Map<String, String>> selectBoardBasicList(int cPage, int numPerPage) {
+	public List<Map<String, String>> selectBoardBasicList(int cPage, int numPerPage, int boardMenuNo) {
 		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
-		return sqlSession.selectList("selectBoardBasicList" , null, rowBounds);
+		return sqlSession.selectList("board.selectBoardBasicList" , boardMenuNo, rowBounds);
 	}
 	@Override
 	public int selectBoardCount() {
-		return sqlSession.selectOne("selectBoardCount");
+		return sqlSession.selectOne("board.selectBoardCount");
 	}
 	@Override
 	public int insertBasicBoard(Board board) {
-		System.out.println("board : "+board);
-		return sqlSession.insert("board.insertBasicBoard",board);
+		if(board.getOriginal_file_name() != null && board.getRenamed_file_name()!=null) {
+			return sqlSession.insert("board.insertBasicBoard",board);
+		}else {
+			return sqlSession.insert("board.insertBasicBoardNoFile",board);
+		}
 	}
 	@Override
 	public Board selectBoardView(int boardNo) {
@@ -60,13 +63,46 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	@Override
 	public int importantApply(BoardBookMark bbm) {
-		//return sqlSession.insert("board.importantApply", bbm);
-		return 0;
+		return sqlSession.insert("board.importantApply", bbm);
+		//return 0;
 	}
 	@Override
 	public int importantDelete(BoardBookMark bbm) {
-		//return sqlSession.delete("board.importantDelete",bbm);
-		return 0;
+		return sqlSession.delete("board.importantDelete",bbm);
+		//return 0;
+	}
+	@Override
+	public int increaseBoardCount(int boardNo) {
+		return sqlSession.update("board.increaseBoardCount",boardNo);
+	}
+	@Override
+	public int selectBoardBookMark(BoardBookMark bbm) {
+		return sqlSession.selectOne("board.selectBoardBookMark", bbm);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardImportantList(int cPage, int numPerPage, String userId) {
+		RowBounds bound = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("board.selectBoardImportantList", userId, bound);
+	}
+	@Override
+	public int selectBoardImportantCount(String userId) {
+		return sqlSession.selectOne("board.selectBoardImportantCount", userId);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardRecentList(String userId) {
+		return sqlSession.selectList("board.selectBoardRecentList", userId);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardMenuList(String userId) {
+		return sqlSession.selectList("board.selectBoardMenuList", userId);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardGroupList(String string) {
+		return sqlSession.selectList("board.selectBoardGroupList", string);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardBasicList(String string) {
+		return sqlSession.selectList("board.selectBoardBasicList_", string);
 	}
 	
 	

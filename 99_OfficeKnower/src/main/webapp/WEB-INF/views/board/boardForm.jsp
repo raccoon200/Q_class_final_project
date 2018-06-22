@@ -41,10 +41,30 @@ div#board-container{
 	text-align:center;
 	
 }
+#board-select-area{
+	width:200px;
+	height:40px;
+	border:1px solid rgb(210,210,210);
+	border-radius: 4px;
+}
+
 </style>
 <div id="board-container">
 	
 	<form action="boardFormEnd.do" name="boardFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+
+		 
+		<div class="input-group mb-3" style="padding:0px">
+			<div class="input-group-prepend" style="padding:0px">
+			    <span class="input-group-text">게시판</span>
+			</div>
+			<select class="form-control" id="board-menu-select" name="board_menu_no">
+				<c:forEach var="v" varStatus="vs" items="${board_menu_list }">
+			      <option value="${v.BOARD_MENU_NO }">${v.TITLE }</option>  
+			    </c:forEach>
+			 </select>
+		</div> 
+		
 		<div class="input-group mb-3" style="padding:0px">
 			<div class="input-group-prepend" style="padding:0px">
 			    <span class="input-group-text">제목</span>
