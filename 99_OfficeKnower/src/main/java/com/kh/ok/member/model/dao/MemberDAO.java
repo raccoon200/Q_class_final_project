@@ -12,4 +12,6 @@ public interface MemberDAO {
 
 	int memberOneUpdate(Member member);
 
+	int checkComNameDuplicate(String comName);
+
 }

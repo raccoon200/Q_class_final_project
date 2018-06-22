@@ -15,4 +15,7 @@
 	<update id="memberOneUpdate" parameterType="member">
 		update tbl_user set job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, birthday=#{birthday}, address=#{address}, etc_inf=#{etc_inf} where userid=#{userId}
 	</update>
+	<select id="checkComNameDuplicate" resultType="map">
+		select count(*) as cnt from tbl_com where com_name = #{comName}
+	</select>
 </mapper>

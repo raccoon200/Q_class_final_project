@@ -29,4 +29,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.memberOneUpdate(member);
 	}
 
+	@Override
+	public int checkComNameDuplicate(String comName) {
+		return memberDAO.checkComNameDuplicate(comName);
+	}
+
 }

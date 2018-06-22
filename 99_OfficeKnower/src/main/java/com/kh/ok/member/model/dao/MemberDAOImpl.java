@@ -28,4 +28,9 @@ public class MemberDAOImpl implements MemberDAO{
 	public int memberOneUpdate(Member member) {
 		return sqlSession.update("member.memberOneUpdate",member);
 	}
+
+	@Override
+	public int checkComNameDuplicate(String comName) {
+		return sqlSession.selectOne("member.checkComNameDuplicate", comName);
+	}
 }

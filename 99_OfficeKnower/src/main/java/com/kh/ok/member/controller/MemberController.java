@@ -122,7 +122,7 @@ public class MemberController {
 		String jsonStr = null;
 		
 		//업무로직
-		int count = memberService.checkIdDuplicate(comName);
+		int count = memberService.checkComNameDuplicate(comName);
 		boolean isUsable = count==0?true:false;
 		
 		//jsonString변환
@@ -222,6 +222,14 @@ public class MemberController {
 			}
 			System.out.println(member);
 			//****** MultipartFile을 이용한 파일 업로드 처리로직 끝 ******//*
+			
+			String rawPassword = member.getPassword();
+			/**** password 암호화 시작 *****/
+			
+			String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
+			
+			member.setPassword(encodedPassword);
+			
 			//파일이름 멤버에 추가
 			//2.비지니스로직
 			int result = memberService.memberEnrollEnd(member);

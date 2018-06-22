@@ -106,6 +106,16 @@ $(function() {
                  $(".guide.error").hide();
                  $(".guide.length").hide();
                  $("#idDuplicateCheck").val(1);
+                 
+                 $.ajax({
+                	 url : "selectComSEQ.do",
+                	 dataType : "json",
+                	 success : function(data) {
+                		$("#comNo").value = data.comSEQ; 
+                	 }
+                	 });
+                 }
+                 }
               }
               else{
                  $(".guide.error").show();
