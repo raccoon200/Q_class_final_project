@@ -14,4 +14,6 @@ public interface MemberDAO {
 
 	int checkComNameDuplicate(String comName);
 
+	int selectComSEQ();
+
 }

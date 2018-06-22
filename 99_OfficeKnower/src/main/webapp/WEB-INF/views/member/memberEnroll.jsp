@@ -33,6 +33,18 @@ div#userId-container span.guide{
 }
 div#userId-container span.ok{color:green;}
 div#userId-container span.error{color:red;}
+
+div#comName-container{position:relative; padding:0px;}
+div#comName-container span.guide{
+	display:none;
+	font-size:12px;
+	position:absolute;
+	top:12px;
+	right:10px;
+}
+div#comName-container span.ok.comName{color:green;}
+div#comName-container span.error.comName{color:red;}
+div#comName-container span.empty.comName{color:red;}
 </style>
 <script>
 $(function() {
@@ -64,15 +76,15 @@ $(function() {
             console.log(data); //true/ false
             //if(data=="true") {
             if(data.isUsable==true) {
-               $(".guide.ok").show();
-               $(".guide.error").hide();
-               $(".guide.length").hide();
+               $(".guide.ok.userId").show();
+               $(".guide.error.userId").hide();
+               $(".guide.length.userId").hide();
                $("#idDuplicateCheck").val(1);
             }
             else{
-               $(".guide.error").show();
-               $(".guide.ok").hide();
-               $(".guide.length").hide();
+               $(".guide.error.userId").show();
+               $(".guide.ok.userId").hide();
+               $(".guide.length.userId").hide();
                $("#idDuplicateCheck").val(0);
                
             }
@@ -90,48 +102,51 @@ $(function() {
 		$(this).next(".custom-file-label").html(fileName);
 	});
 	
-	$("#comName").on("keyup", function(key) {
+	$("#comName").on("focusout", function(key) {
       var comName = $(this).val().trim();
-      
+      //if(key.keyCode==13) {
+      if(comName=='') {
+ 		 $(".guide.empty.comName").show();
+    	 $(".guide.ok.comName").hide();
+ 		 $(".guide.error.comName").hide();
+ 		 $("#comNo").val('');
+      } else {
       $.ajax({
           /* url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do"; */ 
           url : "checkComNameDuplicate.do", /*현재 디렉토리에서 상대주소*/
           dataType : "json",
           data : {comName:comName},  /*속성값(키):입력값*/
           success : function(data) {
-              console.log(data); //true/ false
+        	  
+        	  console.log(data); //true/ false
               //if(data=="true") {
-              if(data.isUsable==true) {
-                 $(".guide.ok").show();
-                 $(".guide.error").hide();
-                 $(".guide.length").hide();
-                 $("#idDuplicateCheck").val(1);
+              if(data.isUsableCom==true) {
                  
                  $.ajax({
                 	 url : "selectComSEQ.do",
                 	 dataType : "json",
                 	 success : function(data) {
-                		$("#comNo").value = data.comSEQ; 
+                         $(".guide.ok.comName").show();
+                		 $(".guide.error.comName").hide();
+                		 $(".guide.empty.comName").hide();
+                		 $("#comNo").val(data.comSEQ); 
                 	 }
                 	 });
-                 }
-                 }
-              }
+                	 }
               else{
-                 $(".guide.error").show();
-                 $(".guide.ok").hide();
-                 $(".guide.length").hide();
-                 $("#idDuplicateCheck").val(0);
-                 
+                 $(".guide.error.comName").show();
+                 $(".guide.ok.comName").hide(); 
+                 $(".guide.empty.comName").hide();
               }
           },
           error:function(jqxhr, textStatus, errorThrown) {
              console.log("ajax실패!", jqxhr, textStatus, errorThrown);
           }
        });
-      
+    //  }
+      }
+      });
 	});
-});
 /**
  * 유효성 검사 함수
  */
@@ -141,6 +156,10 @@ function validate() {
       alert("아이디는 최소 3글자 이상이어야 합니다.");
       userId.focus();
       return false;
+   }
+   if($("#idDuplicateCheck").val()==0) {
+	   alert("아이디 중복검사를 해주세요!");
+	   return false; 
    }
    return true;
 }
@@ -153,9 +172,9 @@ function validate() {
 	<form action="${pageContext.request.contextPath }/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 		<div id="userId-container">
 		<input type="text" class="form-control" name="userId" id="userId_" placeholder="아이디" required/>
-		<span class="guide ok">이 아이디는 사용가능합니다.</span>
-		<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-		<span class="guide length">아이디는 3글자 이상이여야 합니다.</span>
+		<span class="guide ok userId">이 아이디는 사용가능합니다.</span>
+		<span class="guide error userId">이 아이디는 사용할 수 없습니다.</span>
+		<span class="guide length userId">아이디는 3글자 이상이여야 합니다.</span>
 		<input type="hidden" id="idDuplicateCheck" value="0"/>
 		</div>
 		<br />
@@ -169,7 +188,7 @@ function validate() {
 		<br />
 		<input type="text" class="form-control" name="phone" id="phone" maxlength="11" placeholder="전화번호" required/>
 		<br />
-		<input type="text" class="form-control" name="address" id="address" placeholder="주소" />
+		<input type="text" class="form-control" name="address" id="address" placeholder="주소" required/>
 		<br />
 		<!-- 파일 -->
 		<div class="input-group mb-3" style="padding:0px">
@@ -177,7 +196,7 @@ function validate() {
 		    <span class="input-group-text">프로필 사진</span>
 		  </div>
 		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="upFile1">
+		    <input type="file" class="custom-file-input" name="upFile" id="upFile1" required>
 		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
 		  </div>
 		</div>
@@ -186,16 +205,20 @@ function validate() {
 		    <span class="input-group-text">SIGN 사진</span>
 		  </div>
 		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="upFile2">
+		    <input type="file" class="custom-file-input" name="upFile" id="upFile2" required>
 		    <label class="custom-file-label" for="upFile2">파일을 선택하세요</label>
 		  </div>
 		</div> 
 		<div class="input-group mb-3" style="padding:0px">
-		    <span class="input-group-text">회사등록</span>
-		<input type="text" class="form-control" name="comName" id="comName" placeholder="회사이름" />		
-		<input type="text" class="form-control" name="comNo" id="comNo" value="회사번호" readonly/>
+		<span class="input-group-text">회사등록</span>
+		<div id="comName-container">
+		<input type="text" class="form-control" name="com_name" id="comName" placeholder="회사이름" />
+		<span class="guide ok comName">사용가능합니다.</span>
+		<span class="guide error comName">이미 있습니다.</span>		
+		<span class="guide empty comName">공백은 안 됩니다.</span>		
+		<input type="text" class="form-control" name="com_no" id="comNo" readonly placeholder="회사번호"/>
 		</div>
-		<br />
+		</div>		
 		<input type="submit" value="가입" class="btn btn-outline-success" />
 	</form>
 </div>
