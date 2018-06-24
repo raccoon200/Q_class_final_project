@@ -35,6 +35,7 @@
 			<exclude-mapping path="/member/memberEnroll*"/>
 			<exclude-mapping path="/member/memberLogin*"/>
 			<exclude-mapping path="/member/checkIdDuplicate.do"/>
+			<exclude-mapping path="/resources/**"/>
 			<beans:bean id="loginCheckIntercepter" class="com.kh.ok.common.intercepter.LoginCheckIntercepter"/>
 		</interceptor>
 	</interceptors>
