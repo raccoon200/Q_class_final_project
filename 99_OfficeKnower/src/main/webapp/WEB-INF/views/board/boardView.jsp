@@ -14,10 +14,15 @@
 
 <script>
 $(function() {
-	
+	<c:if test="${board.bookmark eq 'N'}">
 	$("#important-none").show();
 	$("#important-apply").hide();
+	</c:if>
 	
+	<c:if test="${board.bookmark eq 'Y'}">
+	$("#important-none").hide();
+	$("#important-apply").show();
+	</c:if>
 	var boardNo = ${board.board_no};
 	$("#important-none").click(function() {
 		$("#important-none").hide();
@@ -114,6 +119,12 @@ div#board-container{
 	position:absolute;
 	color: rgb(150,150,150);
 	font-size:0.9em;	
+}
+#comment-delete {
+	top:0px;
+	left:650px;
+	color:rgb(0,125,255);
+	cursor:pointer;
 }
 #writer {
 	top:47px;
@@ -258,20 +269,28 @@ $(function() {
 	<p id="writedate" class="sub"><%-- ${board.writeDate } --%> ${board.writeDate }</p>
 	<textarea id="content"cols="30" rows="10" readonly>${board.content }</textarea>
 	<div class="comment" id="comment">
-		<p id="comment-count"><span style="color:rgb(0,125,255); font-weight:bold">0</span>개의 댓글</p> <br /> <br />
+		<p id="comment-count"><span style="color:rgb(0,125,255); font-weight:bold">${fn:length(commentList) }</span>개의 댓글</p> <br /> <br />
+		<c:forEach var="v" varStatus="vs" items="${commentList }">
 		<div class="comment-user">
-			<img src="${pageContext.request.contextPath}/resources/images/profile/default.jpg" class="comment-profile" alt="">
-			<p id="comment-writer" class="sub">${board.writer }</p>
-			<p id="comment-writedate" class="sub"><%-- ${board.writeDate } --%> 날짜</p>
-			<p id="comment-content" class="sub">내용내용</p>
+			<img src="${pageContext.request.contextPath}/resources/images/profile/${v.PHOTO}" class="comment-profile" alt="">
+			<c:if test="${memberLoggedIn.userId eq v.WRITER }">
+				<p id="comment-delete" class="sub" onclick="location.href='${pageContext.request.contextPath}/board/commentDelete?comment_no=${v.COMMENT_NO }&board_no=${v.BOARD_NO }'">삭제</p>
+			</c:if>
+			<p id="comment-writer" class="sub">${v.WRITER }</p>
+			<p id="comment-writedate" class="sub">${v.WRITEDATE }</p>
+			<p id="comment-content" class="sub">${v.CONTENT }</p>
 		</div>
+		</c:forEach>
 		
 	</div>
+	<form action="${pageContext.request.contextPath }/board/commentInsert" method="post">
 	<div class="comment" id="comment-insert">
+		<input type="hidden" name="board_no" value="${board.board_no }" />
+		<input type="hidden" name="writer" value="${memberLoggedIn.userId }" />
 		<textarea name="content" id="" cols="80" rows="1" id="comment-insert-area"></textarea>
-		<input  type="button" value="등록" class="btn btn-outline-primary" id="comment-insert-button"/>
+		<input  type="submit" value="등록" class="btn btn-outline-primary" id="comment-insert-button"/>
 	</div>
-	
+	</form>
 	
 	
 </div>

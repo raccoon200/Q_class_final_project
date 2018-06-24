@@ -9,6 +9,7 @@ import com.kh.ok.board.model.vo.Board;
 import com.kh.ok.board.model.vo.BoardBookMark;
 import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
+import com.kh.ok.board.model.vo.Comment;
 
 public interface BoardService {
 
@@ -47,4 +48,10 @@ public interface BoardService {
 	List<Map<String, String>> selectBoardGroupList(String string);
 	
 	List<Map<String, String>> selectBoardBasicList(String string);
+
+	int insertComment(Comment comment);
+
+	int deleteComment(int comment_no);
+
+	List<Map<String, String>> selectCommentList(int boardNo);
 }

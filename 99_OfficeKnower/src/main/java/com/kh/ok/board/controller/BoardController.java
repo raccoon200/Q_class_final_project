@@ -30,6 +30,7 @@ import com.kh.ok.board.model.vo.Board;
 import com.kh.ok.board.model.vo.BoardBookMark;
 import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
+import com.kh.ok.board.model.vo.Comment;
 import com.kh.ok.member.model.vo.Member;
 
 @Controller
@@ -56,9 +57,8 @@ public class BoardController {
 
 	@RequestMapping("/board/boardBasicList")
 	public ModelAndView selectBoardList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage,
-			HttpServletRequest request, @RequestParam(value = "boardMenuNo", required=false,  defaultValue = "1") int boardMenuNo) {
+			HttpServletRequest request, @RequestParam(value = "boardMenuNo", required=false,  defaultValue = "1") int board_menu_no) {
 		ModelAndView mav = new ModelAndView();
-
 		HttpSession session = request.getSession(false);
 		String userId = null;
 		if (session != null && session.getAttribute("memberLoggedIn") != null) {
@@ -68,7 +68,7 @@ public class BoardController {
 		// numPerPage 선언
 		int numPerPage = 5;
 
-		List<Map<String, String>> list = boardService.selectBoardBasicList(cPage, numPerPage, boardMenuNo);
+		List<Map<String, String>> list = boardService.selectBoardBasicList(cPage, numPerPage, board_menu_no);
 		System.out.println("list : " + list);
 
 		int pageNum = boardService.selectBoardCount();
@@ -202,6 +202,11 @@ public class BoardController {
 		}
 	
 		mav.addObject("board", board);
+	
+		List<Map<String,String>> commentList = boardService.selectCommentList(boardNo);
+		mav.addObject("commentList", commentList);
+		
+		
 		//////
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
 		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
@@ -543,5 +548,44 @@ public class BoardController {
 
 	}
 	
-	
+	@RequestMapping("/board/commentInsert")
+	public ModelAndView commentInsert(Comment comment) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(comment);
+		int result =boardService.insertComment(comment);
+		
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "댓글 등록 성공";
+			loc = "/board/boardView.do?boardNo=" + comment.getBoard_no();
+		} else
+			msg = "댓글 등록 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("/board/commentDelete")
+	public ModelAndView commentDelete(Comment comment) {
+ModelAndView mav = new ModelAndView();
+		
+		System.out.println(comment.getBoard_no());
+		
+		int result =boardService.deleteComment(comment.getComment_no());
+		
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "댓글 삭제 성공";
+			loc = "/board/boardView.do?boardNo=" + comment.getBoard_no();
+		} else
+			msg = "댓글 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
 }

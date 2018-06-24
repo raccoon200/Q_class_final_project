@@ -14,6 +14,7 @@ import com.kh.ok.board.model.vo.Board;
 import com.kh.ok.board.model.vo.BoardBookMark;
 import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
+import com.kh.ok.board.model.vo.Comment;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -103,6 +104,18 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<Map<String, String>> selectBoardBasicList(String string) {
 		return sqlSession.selectList("board.selectBoardBasicList_", string);
+	}
+	@Override
+	public int insertComment(Comment comment) {
+		return sqlSession.insert("board.insertComment", comment);
+	}
+	@Override
+	public int deleteComment(int comment_no) {
+		return sqlSession.delete("board.deleteComment", comment_no);
+	}
+	@Override
+	public List<Map<String, String>> selectCommentList(int boardNo) {
+		return sqlSession.selectList("board.selectCommentList", boardNo);
 	}
 	
 	
