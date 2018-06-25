@@ -73,7 +73,8 @@ body {
 .calupdate{
 	color : #6B66FF;
 	cursor: pointer;
-	
+	float: right;
+	padding-right: 20px;
 }
 
 .calinsert{
@@ -98,7 +99,12 @@ body {
 	float: left;
 	margin-right: 10px;
 }
-
+.fc-day-header{
+	
+	background: #EAEAEA;
+	font-size: 18px;
+	padding: 0;
+}
 .red{color: #F15F5F;}
 .yellow{color: #F2CB61; }
 .orange{color: #F29661; }
@@ -135,7 +141,12 @@ function day(day){
                  	for(var index in data){
  						var c = data[index];
 
- 						 html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"</option>";  
+ 						 if(c.TYPE=='내 캘린더'){
+ 							 
+ 						 	html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"(내 캘린더) </option>";  
+ 						 }else if(c.TYPE=='공유 캘린더'){
+ 							html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"(공유 캘린더) </option>";  
+ 						 }
  						// html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
 
                  	}
@@ -249,14 +260,14 @@ function day(day){
 } //day function end
 
 //캘린더 수정 모달 함수
-function calendarUpdateFrm(cal, id, color){
+function calendarUpdateFrm(cal, id, color,type){
 	
 	$(".calupdate").attr("data-toggle", "modal").attr("data-target", "#calendarUpdate");
 
 	var html ="";
 	
 	html +="<div style='display:inline-block; width:17px; height:17px; border:2px solid lightgray; background:"+color+";'></div>";
-	html +="&nbsp;&nbsp;&nbsp; <div id='divCal'>" + cal + "</div><br>";
+	html +="&nbsp;&nbsp;&nbsp; <div id='divCal'>" + cal + "</div><br><br>";
 	html +="<form action='<%=request.getContextPath()%>/cal/calUpdate' id='updateCalFrm' method='post'>";
 	html +="<div class='form-group row'>";
  	html +="<label for='name' class='col-sm-2 col-form-label'>캘린더 이름</label>";
@@ -268,27 +279,55 @@ function calendarUpdateFrm(cal, id, color){
  	html +="<label for='Red' class='col-sm-2 col-form-label'>색상</label>";
  	html +="<div class='col-sm-10'>";
  
- 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
- 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
+	if(type=='내 캘린더') {
+ 		
+	 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
+	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
+	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
+	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
+	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
+	 	
+	 	html += "<br><span class='blue'>파랑</span>";
+	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
+	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
+	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
+	 	html += "</div></div>";
+	 	
+ 	}else if(type=='공유 캘린더'){
+ 		html += "&nbsp;&nbsp;<span style='color:red'>빨강</span>";
+	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='red' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:yellow'>노랑</span>";
+	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='yellow' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:orange'>주황</span>";
+	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='orange' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:greed'>초록</span>";
+	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='green'/>";
+	 	
+	 	html += "<br><span style='color:blue'>파랑</span>";
+	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='blue' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:navy'>남색</span>";
+	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='navy'/>";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:purple'>보라</span>";
+	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='purple'/>"; 
+	 	html += "</div></div>";
+ 	}
  	
- 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
- 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
  	
- 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
- 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
- 	
- 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
- 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
- 	
- 	html += "<br><span class='blue'>파랑</span>";
- 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
- 	
- 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
- 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
- 	
- 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
- 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
- 	html += "</div></div>";
  	html += "</form>";
  	
  	$("#calInfo").html(html);
@@ -301,7 +340,7 @@ function calendarInsertFrm(cal){
 	
 	var html ="";
 	
-	html +="<div id='divCal'>" + cal + "</div><br>";
+	html +="<div id='divCal'>" + cal + "</div><br><br>";
 	html +="<form action='<%=request.getContextPath()%>/cal/calInsert' id='insertCalFrm' method='post'>";
 	html +="<div class='form-group row'>";
  	html +="<label for='name' class='col-sm-2 col-form-label'>캘린더 이름</label>";
@@ -313,28 +352,57 @@ function calendarInsertFrm(cal){
  	html +="<div class='form-group row'>";
  	html +="<label for='Red' class='col-sm-2 col-form-label'>색상</label>";
  	html +="<div class='col-sm-10'>";
-
- 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
- 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
  	
- 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
- 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
  	
- 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
- 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
- 	
- 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
- 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
- 	
- 	html += "<br><span class='blue'>파랑</span>";
- 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
- 	
- 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
- 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
- 	
- 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
- 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
- 	html += "</div></div>";
+ 	if(cal=='내 캘린더') {
+ 		
+	 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
+	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
+	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
+	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
+	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
+	 	
+	 	html += "<br><span class='blue'>파랑</span>";
+	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
+	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
+	 	
+	 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
+	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
+	 	html += "</div></div>";
+	 	
+ 	}else if(cal=='공유 캘린더'){
+ 		html += "&nbsp;&nbsp;<span style='color:red'>빨강</span>";
+	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='red' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:yellow'>노랑</span>";
+	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='yellow' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:orange'>주황</span>";
+	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='orange' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:greed'>초록</span>";
+	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='green'/>";
+	 	
+	 	html += "<br><span style='color:blue'>파랑</span>";
+	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='blue' />";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:navy'>남색</span>";
+	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='navy'/>";
+	 	
+	 	html += "&nbsp;&nbsp;<span style='color:purple'>보라</span>";
+	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='purple'/>"; 
+	 	html += "</div></div>";
+ 	}
+ 		
+ 		
  	html += "</form>";
  	
  	$("#calInsertInfo").html(html);
@@ -342,7 +410,7 @@ function calendarInsertFrm(cal){
 
 function calendardelete(id){
 	
-	if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+	if (confirm("캘린더를 삭제하시면 등록된 일정도 삭제됩니다.") == true){    //확인
 		location.href="<%=request.getContextPath()%>/cal/caldelete.do?calid="+id;
 	   
 	}else{   //취소
@@ -364,6 +432,14 @@ function calendardelete(id){
         		, left: 'month,basicWeek,basicDay,listWeek' 
         	},
               defaultDate : new Date()
+        	,buttonText: {
+        	    today : "오늘",
+        	    month : "월간",
+        	    basicWeek : "주간",
+        	    basicDay : "일간"
+        	    
+        	}
+        	
         	, locale : "ko"
        		, googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE"
             , eventSources : [
@@ -378,20 +454,22 @@ function calendardelete(id){
             , navLinks: true
             , editable : false
             , eventLimit : true
+            
             , events: [
             	 <c:if test="${not empty list}">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
-    			 	<c:if test="${seche.writer eq 'share'}">
+    			 	<c:if test="${seche.type eq '공유 캘린더'}">
     			 	 {
         				 id : "${seche.schedule_no}"
         			    , color : "${seche.color}"
+        			    , textColor : "white"
         				, title : "${seche.title}"
         				, start : "${seche.startdate}"+"T" +"${seche.starttime}"
         				, end : "${seche.quitdate}" +"T" +"${seche.quittime}"
         				 
         			 },
     			 	</c:if>
-        			 <c:if test="${seche.writer ne 'share'}">
+        			 <c:if test="${seche.type eq '내 캘린더'}">
     			 	 {
         				 id : "${seche.schedule_no}"
         				, color : "${seche.color}"
@@ -748,6 +826,7 @@ $(function(){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="fn_submitCalSubmit();">수정</button>
+        <button type="button" class="btn btn-primary" onclick="fn_calDelete()">삭제</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
@@ -770,6 +849,21 @@ function fn_submitCalSubmit(){
 	}else{
 		updateCalFrm.submit();
 	}
+	
+}
+
+function fn_calDelete(){
+	
+	var id = $("#calid").val();
+	console.log("deleteid=" +id);
+	
+	if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+		location.href="<%=request.getContextPath()%>/cal/caldelete.do?calid="+id;
+	   
+	}else{   //취소
+	    return;
+	}
+
 	
 }
 

@@ -387,10 +387,8 @@
 								<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a>
 								
 								<!-- 캘린더 수정 -->
-								&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}', '${seche.COLOR}');">수정</span>
-								<!-- 캘린더 삭제 -->
-								&nbsp; <span class="delete" onclick="calendardelete('${seche.CALENDARID}');">삭제</span>
-							
+								&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}', '${seche.COLOR}','${seche.TYPE}');">수정</span>
+								
 								<br />
 							</li>
 		   			 	</c:if>
@@ -422,9 +420,8 @@
 									
 									
 									<!-- 캘린더 수정 -->
-									&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}');">수정</span>
-									<!-- 캘린더 삭제 -->
-									&nbsp; <span class="delete" onclick="calendardelete('${seche.CALENDARID}');">삭제</span>
+									&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}','${seche.COLOR}','${seche.TYPE}');">수정</span>
+									
 								</li>
 			   			 	</c:if>
 			   			</c:forEach>

@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="calendar">
   <select id="selectSechedule" resultMap="list">
-		select s.* , u.username , c.color
+		select s.* , u.username , c.color, c.type
 		from schedule s join tbl_user u on (s.writer=u.userid)
                         join calendar c on (s.calendarid=c.calendarid)
-		where s.writer = #{userId} or s.writer = 'share' order by s.schedule_no
+		where c.type = '공유 캘린더' or s.writer = #{userId}
 			
 	</select>
 	<select id="calendarView" resultMap="list">
@@ -22,7 +22,7 @@
 		from calendar c join schedule s on (c.calendarid = s.calendarid)
 		where writer = #{userId} or writer='share'  -->
 		
-		select * from calendar where userid = #{userId} or userid='share'
+		select * from calendar where type='공유 캘린더' or userid=#{userId} order by type desc
 	</select>
 	
 	<insert id="selectInsert">
