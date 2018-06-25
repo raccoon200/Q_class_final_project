@@ -71,15 +71,19 @@ public class CalendarController {
 		}
 		
 		String calendar_name = request.getParameter("calendar_name");
+		String calendarid = request.getParameter("calendarid");
 		System.out.println("calTest@calendar_name" + calendar_name);
 		
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("userId", userId);
 		map.put("calendar_name", calendar_name);
+		map.put("calendarId", calendarid);
 		List<Schedule> list = calendarService.calendarView(map);
+		List<String> clist = calendarService.selectCalendar(userId);
 		
 
 		model.addAttribute("list",list);
+		model.addAttribute("clist",clist);
 		model.addAttribute("memberLoggedIn",(Member)session.getAttribute("memberLoggedIn"));
 		
 		System.out.println("list@controller" + list);

@@ -422,8 +422,8 @@
 								<%-- <img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" /> --%>
 								<div class="divBox" style="background:${seche.COLOR}"></div>
 								
-								<%-- <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a> --%>
-								${seche.CALENDAR_NAME}
+							    <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}&calendarid=${seche.CALENDARID}">${seche.CALENDAR_NAME}</a>
+								<%-- ${seche.CALENDAR_NAME} --%>
 								
 								<!-- 캘린더 수정 -->
 								&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}', '${seche.COLOR}','${seche.TYPE}');">수정</span>
@@ -456,7 +456,8 @@
 									
 								
 									<%-- <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a> --%>
-									${seche.CALENDAR_NAME}
+									 <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}&calendarid=${seche.CALENDARID}">${seche.CALENDAR_NAME}</a>
+									<%-- ${seche.CALENDAR_NAME} --%>
 									
 									<!-- 캘린더 수정 -->
 									&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}','${seche.COLOR}','${seche.TYPE}');">수정</span>

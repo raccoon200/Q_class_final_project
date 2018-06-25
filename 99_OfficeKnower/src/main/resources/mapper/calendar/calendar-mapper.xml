@@ -21,10 +21,15 @@
 	</select>
 	
 	<select id="calendarView" resultMap="list">
-		select s.* , u.username 
+		<!-- select s.* , u.username 
 		from schedule s join tbl_user u on (s.writer=u.userid)
 		where s.writer = #{userId} or s.writer = 'share' 
-		and calendar_name = #{calendar_name}	
+		and calendar_name = #{calendar_name} -->	
+		
+		select *
+		from schedule s join calendar c on (s.calendarid=c.calendarid)
+		where s.calendar_name = #{calendar_name} and c.calendarid=#{calendarId}
+	
 	</select>
 	
 	
