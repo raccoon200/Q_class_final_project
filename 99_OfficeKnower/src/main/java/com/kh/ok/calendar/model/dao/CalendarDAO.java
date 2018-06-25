@@ -19,6 +19,12 @@ public interface CalendarDAO {
 
 	List<Schedule> calendarView(Map<String, String> map);
 
+	int calUpdate(Map<String, String> map);
+
+	int calInsert(Map<String, String> map);
+
+	int calInsert(String calId);
+
 	
 
 }

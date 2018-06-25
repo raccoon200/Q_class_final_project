@@ -52,5 +52,23 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 
+	@Override
+	public int calUpdate(Map<String, String> map) {
+		return calendarDAO.calUpdate(map);
+	}
+
+
+	@Override
+	public int calInsert(Map<String, String> map) {
+		return calendarDAO.calInsert(map);
+	}
+
+
+	@Override
+	public int caldelete(String calId) {
+		return calendarDAO.calInsert(calId);
+	}
+
+
 
 }

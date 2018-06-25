@@ -367,45 +367,64 @@
 		<div class="menufield">
 			<ul class="menu_list">
 				<li>
-					<a href="javascript:void(0)" class="depth1">
+					<a href="javascript:void(0)" class="depth1" style="font-size:20px;">
 						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
 						내 캘린더
 					</a>
+						&nbsp;&nbsp;&nbsp; <span class="calinsert"  onclick="calendarInsertFrm('내 캘린더');">만들기</span>
 					
 					<br />
 					<ul class="depth2 hide">
 					
 					<c:if test="${not empty clist}">
 		   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
-		       			 <c:if test="${seche.WRITER ne 'share'}">
+		       			 <c:if test="${seche.TYPE eq '내 캘린더'}">
 		   			 	   
 							 <li class="board_menu_name">
-								<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
+								<%-- <img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" /> --%>
+								<div class="divBox" style="background:${seche.COLOR}"></div>
+								
 								<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a>
-								&nbsp;&nbsp;&nbsp; <span id="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}');">수정</span>
+								
+								<!-- 캘린더 수정 -->
+								&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}', '${seche.COLOR}');">수정</span>
+								<!-- 캘린더 삭제 -->
+								&nbsp; <span class="delete" onclick="calendardelete('${seche.CALENDARID}');">삭제</span>
+							
 								<br />
 							</li>
 		   			 	</c:if>
 		   			</c:forEach>
 					</c:if>
-					
-						
+
 					</ul>
 				</li>
+				<br />
 				<li>
-					<a href="javascript:void(0)" class="depth1">
+					<a href="javascript:void(0)" class="depth1" style="font-size:20px;">
 						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
 						공유 캘린더
 					</a>
+					&nbsp;&nbsp;&nbsp; <span class="calinsert"  onclick="calendarInsertFrm('공유 캘린더');">만들기</span>
+					
 					<br />
 					<ul class="depth2 hide">
 						<c:if test="${not empty clist}">
 			   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
-			       			 <c:if test="${seche.WRITER eq 'share'}">
+			       			 <c:if test="${seche.TYPE eq '공유 캘린더'}">
 			   			 	   
 								 <li class="board_menu_name">
-									<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-									<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a><br />
+									<%-- <img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" /> --%>
+									<div class="divBox" style="background:${seche.COLOR}"></div> &nbsp;&nbsp;
+									
+								
+									<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a>
+									
+									
+									<!-- 캘린더 수정 -->
+									&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}');">수정</span>
+									<!-- 캘린더 삭제 -->
+									&nbsp; <span class="delete" onclick="calendardelete('${seche.CALENDARID}');">삭제</span>
 								</li>
 			   			 	</c:if>
 			   			</c:forEach>

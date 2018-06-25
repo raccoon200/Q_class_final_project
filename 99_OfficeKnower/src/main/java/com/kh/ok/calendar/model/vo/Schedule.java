@@ -14,6 +14,7 @@ public class Schedule {
 	private String status;
 	private String com_no;
 	private String username;
+	private String color;
 	
 	
 	public Schedule() {}
@@ -21,7 +22,7 @@ public class Schedule {
 
 	public Schedule(String schedule_no, String calendarid, String writer, String calendar_name, String title,
 			String content, String startdate, String starttime, String quitdate, String quittime, String status,
-			String com_no, String username) {
+			String com_no, String username, String color) {
 		super();
 		this.schedule_no = schedule_no;
 		this.calendarid = calendarid;
@@ -36,10 +37,18 @@ public class Schedule {
 		this.status = status;
 		this.com_no = com_no;
 		this.username = username;
+		this.color = color;
 	}
 
 
+	public String getColor() {
+		return color;
+	}
 
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 
 	public String getCalendarid() {
@@ -177,7 +186,7 @@ public class Schedule {
 		return "Schedule [schedule_no=" + schedule_no + ", calendarid=" + calendarid + ", writer=" + writer
 				+ ", calendar_name=" + calendar_name + ", title=" + title + ", content=" + content + ", startdate="
 				+ startdate + ", starttime=" + starttime + ", quitdate=" + quitdate + ", quittime=" + quittime
-				+ ", status=" + status + ", com_no=" + com_no + ", username=" + username + "]";
+				+ ", status=" + status + ", com_no=" + com_no + ", username=" + username + ", color=" + color + "]";
 	}
 
 

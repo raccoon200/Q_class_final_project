@@ -6,6 +6,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
 </jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
+</jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <link href="${pageContext.request.contextPath }/resources/fullcalendar-3.9.0/fullcalendar.print.css" rel="stylesheet" media="print"/>
@@ -14,18 +17,24 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/fullcalendar.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/locale-all.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/gcal.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <style type="text/css">
 body {
-    margin :40px 10px;
-    padding : 0;
+    /* margin :40px 10px;
+    padding : 0; */
     font-family : "Lucida Grande", Helvetica, Arial, Verdana,sans-serif;
     font-size : 14px;
 }
 #calendar {
     display: inline-block;
+    width: 90%;
     
 }
-
+.fc-view-container{
+	display: inline-block;
+}
 
 .fc-content{
 	cursor: pointer;
@@ -37,162 +46,347 @@ body {
 	background:lightgray;
 	display: inline-block;
 	width: 300px;
-	height: 700px;
+	height: 1000px;
+	position: relative;
+	text-align: center;
+	margin-right: 50px;
+}
+
+#cal-mini{
+	position: absolute;
+}
+#cal-name{
+	position: absolute;
+ 	top: 200px;
+ 	left : 50px;
 }
 .container{
 	margin-left: 100px;
 	margin-right:100px;
 }
+
+
+.fc-view-container{
+	width : 100%;
+}
+
+.calupdate{
+	color : #6B66FF;
+	cursor: pointer;
+	
+}
+
+.calinsert{
+	color : #4641D9;
+	cursor: pointer;
+}
+.delete{
+	color : #6B66FF;
+	cursor: pointer;
+}
+
+#divCal{
+	font-size: 20px;
+	color: #0066FF
+}
+
+
+.red{color: #F15F5F;}
+.yellow{color: #F2CB61; }
+.orange{color: #F29661; }
+.green{color: #BCE55C; }
+.blue{color: #5CD1E5; }
+.navy{color: #6B66FF; }
+.purple{color: #D1B2FF; }
+
 </style>
 
 <script>
 
 function day(day){
 	/* 캘린더 이름 가지고 오는 ajax / 캘린더 이름 가지고 온 다음 insert용 form만듦 */
-	   $.ajax({
-	        url : "<%=request.getContextPath()%>/cal/selectCalendar",
-	              type: "post",
-	              dataType : "json",
-	              success: function(data){
-	                 console.log(data);
-	                 data = data["list"];
-	                 
-	                   if(data==null){
-	             	  
-	                 }else {
-	                	 
-	                 	var html2 = "";
-	                 		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert' id='insertFrm' method='post' >";
-	                 		 html2 += "<div class='form-group row'>";
-	                 		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
-	                 		 html2 += "<div class='col-sm-10'>";
-	        				 html2 += "<select id='calendar_name' name='calendar_name' class='form-control'>"; 
-	               	     	 //html2 += "<option>캘린더 선택</option>";
-	                 	for(var index in data){
-	 						var c = data[index];
+ $.ajax({
+      url : "<%=request.getContextPath()%>/cal/selectCalendar",
+            type: "post",
+            dataType : "json",
+            success: function(data){
+               console.log(data);
+               data = data["list"];
+               
+                 if(data==null){
+           	  
+               }else {
+              	 
+               	var html2 = "";
+               		 html2 +="<form action='<%=request.getContextPath()%>/cal/scheduleInsert' id='insertFrm' method='post' >";
+                 		 html2 += "<div class='form-group row'>";
+                 		 html2 += "<label for='calendarName' class='col-sm-2 col-form-label'>캘린더</label>";
+                 		 html2 += "<div class='col-sm-10'>";
+        				 html2 += "<select id='calendarid' name='calendarid' class='form-control'>"; 
+               	     	 //html2 += "<option>캘린더 선택</option>";
+                 	for(var index in data){
+ 						var c = data[index];
 
-	 						 html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
+ 						 html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"</option>";  
+ 						// html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
 
-	                 	}
-	        				 html2 +="</select></div></div>";
-	        				 
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
-	        				 html2 +="<div class='col-sm-10'>";
-	        				 html2 +="<input type='text' name='title' id='title' class='form-control' required/></div></div>";
-	        				
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>작성자</label>";
-	        				 html2 +="<div class='col-sm-10'>";
-	        				 html2 +="<input type='hidden' value=${memberLoggedIn.com_no} name='com_no' id='com_no' />";
-	        				 html2 +="<input type='text' name='writer' id='writer' class='form-control' value=${memberLoggedIn.userId} readonly/></div></div>";
-	        				
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
-	        				 html2 += "<div class='row'>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+day+"' required/>";
-	        				 html2 += "</div>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 += "<select class='form-control' name='starttime' id='starttime'>";
-	        				 html2 += "<option>시작 시간 선택</option>";
-	        				 html2 += "<option value='00:00'>오전 12:00</option>";
-	        				 html2 += "<option value='01:00'>오전 01:00</option>";
-	        				 html2 += "<option value='02:00'>오전 02:00</option>";
-	        				 html2 += "<option value='03:00'>오전 03:00</option>";
-	        				 html2 += "<option value='04:00'>오전 04:00</option>";
-	        				 html2 += "<option value='05:00'>오전 05:00</option>";
-	        				 html2 += "<option value='06:00'>오전 06:00</option>";
-	        				 html2 += "<option value='07:00'>오전 07:00</option>";
-	        				 html2 += "<option value='08:00'>오전 08:00</option>";
-	        				 html2 += "<option value='09:00'>오전 09:00</option>";
-	        				 html2 += "<option value='10:00'>오전 10:00</option>";
-	        				 html2 += "<option value='11:00'>오전 11:00</option>";
-	        				 html2 += "<option value='12:00'>오전 12:00</option>";
-	        				 html2 += "<option value='13:00'>오후 01:00</option>";
-	        				 html2 += "<option value='14:00'>오후 02:00</option>";
-	        				 html2 += "<option value='15:00'>오후 03:00</option>";
-	        				 html2 += "<option value='16:00'>오후 04:00</option>";
-	        				 html2 += "<option value='17:00'>오후 05:00</option>";
-	        				 html2 += "<option value='18:00'>오후 06:00</option>";
-	        				 html2 += "<option value='19:00'>오후 07:00</option>";
-	        				 html2 += "<option value='20:00'>오후 08:00</option>";
-	        				 html2 += "<option value='21:00'>오후 09:00</option>";
-	        				 html2 += "<option value='22:00'>오후 10:00</option>";
-	        				 html2 += "<option value='23:00'>오후 11:00</option>";
-	        				 html2 += "</select>";
-	        				 html2 += "</div></div></div>";
-	        				 
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
-	        				 html2 += "<div class='row'>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+day+"' required/>";
-	        				 html2 += "</div>";
-	        				 html2 += "<div class='col'>";
-	        				 html2 += "<select class='form-control' name='quittime' id='quittime'>";
-	        				 html2 += "<option>종료 시간 선택</option>";
-	        				 html2 += "<option value='00:00'>오전 12:00</option>";
-	        				 html2 += "<option value='01:00'>오전 01:00</option>";
-	        				 html2 += "<option value='02:00'>오전 02:00</option>";
-	        				 html2 += "<option value='03:00'>오전 03:00</option>";
-	        				 html2 += "<option value='04:00'>오전 04:00</option>";
-	        				 html2 += "<option value='05:00'>오전 05:00</option>";
-	        				 html2 += "<option value='06:00'>오전 06:00</option>";
-	        				 html2 += "<option value='07:00'>오전 07:00</option>";
-	        				 html2 += "<option value='08:00'>오전 08:00</option>";
-	        				 html2 += "<option value='09:00'>오전 09:00</option>";
-	        				 html2 += "<option value='10:00'>오전 10:00</option>";
-	        				 html2 += "<option value='11:00'>오전 11:00</option>";
-	        				 html2 += "<option value='12:00'>오전 12:00</option>";
-	        				 html2 += "<option value='13:00'>오후 01:00</option>";
-	        				 html2 += "<option value='14:00'>오후 02:00</option>";
-	        				 html2 += "<option value='15:00'>오후 03:00</option>";
-	        				 html2 += "<option value='16:00'>오후 04:00</option>";
-	        				 html2 += "<option value='17:00'>오후 05:00</option>";
-	        				 html2 += "<option value='18:00'>오후 06:00</option>";
-	        				 html2 += "<option value='19:00'>오후 07:00</option>";
-	        				 html2 += "<option value='20:00'>오후 08:00</option>";
-	        				 html2 += "<option value='21:00'>오후 09:00</option>";
-	        				 html2 += "<option value='22:00'>오후 10:00</option>";
-	        				 html2 += "<option value='23:00'>오후 11:00</option>";
-	        				 html2 += "</select>";
-	        				 html2 += "</div></div></div>";
-	        				 
-	        	
-	        				 
-	        				 html2 +="<div class='form-group row'>";
-	        				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
-        				     html2 +="<div class='col-sm-10'>";
-	        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' required></textarea> </div></div>";
+                 	}
+                 	
+        				 html2 +="</select></div></div>";
+        				 
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
+        				 html2 +="<div class='col-sm-10'>";
+        				 html2 +="<input type='text' name='title' id='title' class='form-control' required/></div></div>";
+        				
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='title' class='col-sm-2 col-form-label'>작성자</label>";
+        				 html2 +="<div class='col-sm-10'>";
+        				 html2 +="<input type='hidden' value=${memberLoggedIn.com_no} name='com_no' id='com_no' />";
+        				 html2 +="<input type='text' name='writer' id='writer' class='form-control' value=${memberLoggedIn.userId} readonly/></div></div>";
+        				
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='startdate' class='col-sm-2 col-form-label'>시작</label>";
+        				 html2 += "<div class='row'>";
+        				 html2 += "<div class='col'>";
+        				 html2 +="<input type='date' name='startdate' id='startdate' class='form-control' value='"+day+"' required/>";
+        				 html2 += "</div>";
+        				 html2 += "<div class='col'>";
+        				 html2 += "<select class='form-control' name='starttime' id='starttime'>";
+        				 html2 += "<option>시작 시간 선택</option>";
+        				 html2 += "<option value='00:00'>오전 12:00</option>";
+        				 html2 += "<option value='01:00'>오전 01:00</option>";
+        				 html2 += "<option value='02:00'>오전 02:00</option>";
+        				 html2 += "<option value='03:00'>오전 03:00</option>";
+        				 html2 += "<option value='04:00'>오전 04:00</option>";
+        				 html2 += "<option value='05:00'>오전 05:00</option>";
+        				 html2 += "<option value='06:00'>오전 06:00</option>";
+        				 html2 += "<option value='07:00'>오전 07:00</option>";
+        				 html2 += "<option value='08:00'>오전 08:00</option>";
+        				 html2 += "<option value='09:00'>오전 09:00</option>";
+        				 html2 += "<option value='10:00'>오전 10:00</option>";
+        				 html2 += "<option value='11:00'>오전 11:00</option>";
+        				 html2 += "<option value='12:00'>오전 12:00</option>";
+        				 html2 += "<option value='13:00'>오후 01:00</option>";
+        				 html2 += "<option value='14:00'>오후 02:00</option>";
+        				 html2 += "<option value='15:00'>오후 03:00</option>";
+        				 html2 += "<option value='16:00'>오후 04:00</option>";
+        				 html2 += "<option value='17:00'>오후 05:00</option>";
+        				 html2 += "<option value='18:00'>오후 06:00</option>";
+        				 html2 += "<option value='19:00'>오후 07:00</option>";
+        				 html2 += "<option value='20:00'>오후 08:00</option>";
+        				 html2 += "<option value='21:00'>오후 09:00</option>";
+        				 html2 += "<option value='22:00'>오후 10:00</option>";
+        				 html2 += "<option value='23:00'>오후 11:00</option>";
+        				 html2 += "</select>";
+        				 html2 += "</div></div></div>";
+        				 
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='quitdate' class='col-sm-2 col-form-label'>종료</label>";
+        				 html2 += "<div class='row'>";
+        				 html2 += "<div class='col'>";
+        				 html2 +="<input type='date' name='quitdate' id='quitdate' class='form-control' value='"+day+"' required/>";
+        				 html2 += "</div>";
+        				 html2 += "<div class='col'>";
+        				 html2 += "<select class='form-control' name='quittime' id='quittime'>";
+        				 html2 += "<option>종료 시간 선택</option>";
+        				 html2 += "<option value='00:00'>오전 12:00</option>";
+        				 html2 += "<option value='01:00'>오전 01:00</option>";
+        				 html2 += "<option value='02:00'>오전 02:00</option>";
+        				 html2 += "<option value='03:00'>오전 03:00</option>";
+        				 html2 += "<option value='04:00'>오전 04:00</option>";
+        				 html2 += "<option value='05:00'>오전 05:00</option>";
+        				 html2 += "<option value='06:00'>오전 06:00</option>";
+        				 html2 += "<option value='07:00'>오전 07:00</option>";
+        				 html2 += "<option value='08:00'>오전 08:00</option>";
+        				 html2 += "<option value='09:00'>오전 09:00</option>";
+        				 html2 += "<option value='10:00'>오전 10:00</option>";
+        				 html2 += "<option value='11:00'>오전 11:00</option>";
+        				 html2 += "<option value='12:00'>오전 12:00</option>";
+        				 html2 += "<option value='13:00'>오후 01:00</option>";
+        				 html2 += "<option value='14:00'>오후 02:00</option>";
+        				 html2 += "<option value='15:00'>오후 03:00</option>";
+        				 html2 += "<option value='16:00'>오후 04:00</option>";
+        				 html2 += "<option value='17:00'>오후 05:00</option>";
+        				 html2 += "<option value='18:00'>오후 06:00</option>";
+        				 html2 += "<option value='19:00'>오후 07:00</option>";
+        				 html2 += "<option value='20:00'>오후 08:00</option>";
+        				 html2 += "<option value='21:00'>오후 09:00</option>";
+        				 html2 += "<option value='22:00'>오후 10:00</option>";
+        				 html2 += "<option value='23:00'>오후 11:00</option>";
+        				 html2 += "</select>";
+        				 html2 += "</div></div></div>";
+        				 
+        	
+        				 
+        				 html2 +="<div class='form-group row'>";
+        				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
+       				     html2 +="<div class='col-sm-10'>";
+        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' required></textarea> </div></div>";
 
-	        				 
-	        				 $("#nows").html(html2).show();
+        				 
+        				 $("#nows").html(html2).show();
 
-	                 } 
+                 } 
 
-	              },
-	              error:function(jqxhr,textStatus,errorThrown){
-	                 console.log("ajax 처리실패!");
-	                 console.log(jqxhr);
-	                 console.log(textStatus);
-	                 console.log(errorThrown);
-	              }
-	                   
-	       }); // ajax end
+              },
+              error:function(jqxhr,textStatus,errorThrown){
+                 console.log("ajax 처리실패!");
+                 console.log(jqxhr);
+                 console.log(textStatus);
+                 console.log(errorThrown);
+              }
+                   
+  }); // ajax end
+} //day function end
+
+//캘린더 수정 모달 함수
+function calendarUpdateFrm(cal, id){
+	
+	$(".calupdate").attr("data-toggle", "modal").attr("data-target", "#calendarUpdate");
+
+	var html ="";
+	
+	html +="<div id='divCal'>" + cal + "</div><br>";
+	html +="<form action='<%=request.getContextPath()%>/cal/calUpdate' id='updateCalFrm' method='post'>";
+	html +="<div class='form-group row'>";
+ 	html +="<label for='name' class='col-sm-2 col-form-label'>캘린더 이름</label>";
+ 	html +="<div class='col-sm-10'>";
+	html +="<input type='hidden' name='calendarid' id='calid' value='"+id+"'/>";
+ 	html +="<input type='text' name='calendar_name' id='name' class='form-control' value='"+cal+"'/></div></div>";
+ 	
+ 	html +="<div class='form-group row'>";
+ 	html +="<label for='Red' class='col-sm-2 col-form-label'>색상</label>";
+ 	html +="<div class='col-sm-10'>";
+ 
+ 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
+ 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
+ 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
+ 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
+ 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
+ 	
+ 	html += "<br><span class='blue'>파랑</span>";
+ 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
+ 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
+ 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
+ 	html += "</div></div>";
+ 	html += "</form>";
+ 	
+ 	$("#calInfo").html(html);
+	
+} //캘린더 수정 모달 함수 끝
+
+//캘린더 등록 모달 함수
+function calendarInsertFrm(cal){
+	$(".calinsert").attr("data-toggle", "modal").attr("data-target", "#calendarNameInsert");
+	
+	var html ="";
+	
+	html +="<div id='divCal'>" + cal + "</div><br>";
+	html +="<form action='<%=request.getContextPath()%>/cal/calInsert' id='insertCalFrm' method='post'>";
+	html +="<div class='form-group row'>";
+ 	html +="<label for='name' class='col-sm-2 col-form-label'>캘린더 이름</label>";
+ 	html +="<div class='col-sm-10'>";
+	html +="<input type='hidden' name='calendarType' value='"+cal+"'/>";
+ 	html +="<input type='text' id='calName' name='calendar_name' class='form-control' /></div></div>";
+ 	
+ 	html +="<div class='form-group row'>";
+ 	html +="<label for='Red' class='col-sm-2 col-form-label'>색상</label>";
+ 	html +="<div class='col-sm-10'>";
+
+ 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
+ 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
+ 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
+ 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
+ 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
+ 	
+ 	html += "<br><span class='blue'>파랑</span>";
+ 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
+ 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
+ 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
+ 	html += "</div></div>";
+ 	html += "</form>";
+ 	
+ 	$("#calInsertInfo").html(html);
 }
+
+function calendardelete(id){
+	
+	if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+		location.href="<%=request.getContextPath()%>/cal/caldelete.do?calid="+id;
+	   
+	}else{   //취소
+	    return;
+	}
+
+
+	
+}
+
 
 </script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
+    	
+    	 $('#datepicker').datepicker({
+
+    	        showOn: "both",
+    	        buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+    	        buttonImageOnly: true,
+    	        buttonText: " ",
+    	        dateFormat:"yy-mm-dd",
+    	        onSelect: function (dateText, inst) {
+    	            $('#calendar').fullCalendar('gotoDate', dateText);
+    	        },
+
+    	    });
+
+
+    	
         jQuery("#calendar").fullCalendar({
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
-        		, right: 'month,basicWeek,basicDay,listWeek' 
+        		, left: 'month,basicWeek,basicDay,listWeek' 
+        		, right: 'prevMonth prev myCustomButton  next nextMonth'
         	},
+        	customButtons: {
+                datePickerButton: {
+                    themeIcon:'circle-triangle-s',
+                    click: function () {
+                        $('#datepicker').datepicker("show");
+
+                    }
+                }
+            },
+        	
               defaultDate : new Date()
         	, locale : "ko"
+        	,	timezone : 'local'
+            ,    height:750
+            ,   theme: true
+             ,   businessHours: true
+            
        		, googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE"
             , eventSources : [
                 // 대한민국의 공휴일
@@ -212,7 +406,7 @@ function day(day){
     			 	<c:if test="${seche.writer eq 'share'}">
     			 	 {
         				 id : "${seche.schedule_no}"
-        			    , color : "lightcoral"
+        			    , color : "${seche.color}"
         				, title : "${seche.title}"
         				, start : "${seche.startdate}"+"T" +"${seche.starttime}"
         				, end : "${seche.quitdate}" +"T" +"${seche.quittime}"
@@ -222,7 +416,7 @@ function day(day){
         			 <c:if test="${seche.writer ne 'share'}">
     			 	 {
         				 id : "${seche.schedule_no}"
-        				, color : "lightblue"
+        				, color : "${seche.color}"
         				, title : "${seche.title}"
         				, start : "${seche.startdate}" +"T" +"${seche.starttime}"
         				, end : "${seche.quitdate}"  +"T" +"${seche.quittime}" 
@@ -234,29 +428,14 @@ function day(day){
     		
     			</c:if>    
 
-                {
-                	id : 999
-                    ,  title : "All Day Event"
-                    , start : "2016-05-01"
-                    , end : ""
-                },
-                {
-                      title : "Birthday Party"
-                    , start : "2018-06-13T07:00"
-                },
-                {
-                      title : "Click for Google"
-                    , url : "http://google.com/"
-                    , start : "2016-05-28"
-                }
             ]
         	
         	, dayClick: function(date, allDay, jsEvent, view) {
         	
         		
         		$(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
-        		$(".fc-day-top").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
-        		$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		//$(".fc-day-top").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		//$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         		$(".fc-content-skeleton").children("table").children("tbody").children("tr").children("td").each(function(item){
         			if($(this).attr("class") == null){
         				$(this).attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
@@ -270,8 +449,8 @@ function day(day){
      		   $("#nows").html(yy+"-"+mm+"-"+dd); 
      		   
      		   var date = yy+"-"+mm+"-"+dd;
-     		  day(date);
-     		   
+     		   day(date);
+     		//   $("#calendarid").attr("value",$("#calendar_name option:selected"));
      		   
      		   
         		
@@ -279,8 +458,10 @@ function day(day){
      	} //dayClick끝
         
         	, eventClick:function(event) {
+
         		$(".fc-content").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         		$(".fc-list-item-title").attr("data-toggle", "modal").attr("data-target", "#calendarView");
+
         		var html ="";
             	html += "<form action='<%=request.getContextPath()%>/cal/scheduleUpdate' id='updateFrm' method='post'>";
 				   console.log("${memberLoggedIn.userId}");
@@ -327,7 +508,7 @@ function day(day){
         				 html += "<option value='09:00' ${seche.starttime eq '09:00'?'selected':''}>오전 09:00</option>";
         				 html += "<option value='10:00' ${seche.starttime eq '10:00'?'selected':''}>오전 10:00</option>";
         				 html += "<option value='11:00' ${seche.starttime eq '11:00'?'selected':''}>오전 11:00</option>";
-        				 html += "<option value='12:00' ${seche.starttime eq '12:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='12:00' ${seche.starttime eq '12:00'?'selected':''}>오후 12:00</option>";
         				 html += "<option value='13:00' ${seche.starttime eq '13:00'?'selected':''}>오후 01:00</option>";
         				 html += "<option value='14:00' ${seche.starttime eq '14:00'?'selected':''}>오후 02:00</option>";
         				 html += "<option value='15:00' ${seche.starttime eq '15:00'?'selected':''}>오후 03:00</option>";
@@ -364,7 +545,7 @@ function day(day){
         				 html += "<option value='09:00' ${seche.quittime eq '09:00'?'selected':''}>오전 09:00</option>";
         				 html += "<option value='10:00' ${seche.quittime eq '10:00'?'selected':''}>오전 10:00</option>";
         				 html += "<option value='11:00' ${seche.quittime eq '11:00'?'selected':''}>오전 11:00</option>";
-        				 html += "<option value='12:00' ${seche.quittime eq '12:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='12:00' ${seche.quittime eq '12:00'?'selected':''}>오후 12:00</option>";
         				 html += "<option value='13:00' ${seche.quittime eq '13:00'?'selected':''}>오후 01:00</option>";
         				 html += "<option value='14:00' ${seche.quittime eq '14:00'?'selected':''}>오후 02:00</option>";
         				 html += "<option value='15:00' ${seche.quittime eq '15:00'?'selected':''}>오후 03:00</option>";
@@ -399,23 +580,16 @@ function day(day){
         	  } //eventClick끝        	
         	
         }); //fullCalnedar끝
-
+        
         
         //$(".fc-event").attr("data-toggle", "modal").attr("data-target", "#calendarView");
         //$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarView");
     }); //ready 끝
 </script>
 
-<%-- <div id="calendarNav">
-	<div id="cal-mini">
-	
-<jsp:include page="/WEB-INF/views/calendar/cal-mini.jsp"></jsp:include>
-	</div>
-</div> --%>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#calendarInsert" onclick="buttonInsert();">
-  일정 추가
-</button>
+
+
 <script>
 function buttonInsert(){
 	
@@ -442,11 +616,11 @@ function buttonInsert(){
 </script>
 
 <div id="calendar"></div>	
-
+<p>Date <input type="text" id="datepicker"></p>
 
 <!-- Modal -->
 <!-- 일정 추가 모달 -->
-<div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+<div class="modal fade" id="calendarInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -506,7 +680,7 @@ function fn_submit(){
 
 <!-- Modal -->
 <!-- 일정보기 모달 -->
-<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" >
+<div class="modal fade" id="calendarView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -567,8 +741,101 @@ function fn_submitUpdate(){
 	}
 	else updateFrm.submit();
 }
-
+$(function(){
+	$('#calendarInsert').on('shown.bs.modal', function (e) {
+		console.log("123");
+	    if ($('#calendarView').hasClass('show')){
+	        $(this).hide();
+	        $("#calendarView").focus();
+	        $(this).modal("hide");
+	    }
+	});
+});
 
 </script>
 <!-- 일정보기 모달 끝 -->
+<!-- 캘린더 수정 모달 시작 --><!-- Modal -->
+<div class="modal fade" id="calendarUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">캘린더 수정</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="calInfo">
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="fn_submitCalSubmit();">수정</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function fn_submitCalSubmit(){
+	
+	var name = $("#name").val().trim().length;
+	var radio = $('input:radio[name=colorSelect]').is(':checked');
+	console.log(radio);
+
+	if(name==0){
+		alert("수정할 캘린더 이름을 입력해주세요.");
+		return;
+	}else if(radio==false){
+		alert("색상을 선택해주세요.");
+		return;
+	}else{
+		updateCalFrm.submit();
+	}
+	
+}
+
+</script>
+
+<!-- 캘린더 등록 시작 --><!-- Modal -->
+<div class="modal fade" id="calendarNameInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">캘린더 등록</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="calInsertInfo">
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="fn_calInsertSubmit();">등록</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function fn_calInsertSubmit(){
+	var name = $("#calName").val().trim().length;
+	var radio = $('input:radio[name=colorSelect]').is(':checked');
+	console.log(radio);
+
+	if(name==0){
+		alert("등록할 캘린더 이름을 입력해주세요.");
+		return;
+	}else if(radio==false){
+		alert("색상을 선택해주세요.");
+		return;
+	}else{
+		insertCalFrm.submit();
+	}
+	
+}
+
+</script>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -2,9 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="calendar">
   <select id="selectSechedule" resultMap="list">
-		select s.* , u.username 
+		select s.* , u.username , c.color
 		from schedule s join tbl_user u on (s.writer=u.userid)
-		where s.writer = #{userId} or s.writer = 'share' order by s.schedule_no		
+                        join calendar c on (s.calendarid=c.calendarid)
+		where s.writer = #{userId} or s.writer = 'share' order by s.schedule_no
+			
 	</select>
 	<select id="calendarView" resultMap="list">
 		select s.* , u.username 
@@ -16,16 +18,16 @@
 	
 	<resultMap type="schedule" id="list"></resultMap>
 	<select id="selectCalendar" resultType="HashMap">
-		select distinct C.CALENDAR_NAME, C.CALENDARID, s.writer
+		<!-- select distinct C.CALENDAR_NAME, C.CALENDARID, s.writer
 		from calendar c join schedule s on (c.calendarid = s.calendarid)
-		where writer = #{userId} or writer='share'
+		where writer = #{userId} or writer='share'  -->
+		
+		select * from calendar where userid = #{userId} or userid='share'
 	</select>
 	
 	<insert id="selectInsert">
 		insert into schedule values(seq_schedule.nextval, #{writer}, 
-									(select distinct c.calendar_name
-									from calendar c join schedule s using(calendarid)
-									where calendarid = #{calendarid}), #{title}
+									(select calendar_name from calendar where calendarid = #{calendarid}), #{title}
 		                            , #{content}, #{startdate},#{quitdate},default,#{com_no},#{starttime},#{quittime},#{calendarid})
 	</insert>
 	<update id="scheduleUpdate">
@@ -35,6 +37,15 @@
 	</update>
 	<delete id="scheduleDelete">
 		delete from schedule where schedule_no = #{sid}
+	</delete>
+	<update id="calUpdate">
+		update calendar set calendar_name = #{name}, color=#{color} where calendarid = #{calendarid}
+	</update>
+	<insert id="calInsert">
+		insert into calendar values(seq_calendar.nextval, #{calName}, #{calColor}, #{calType}, #{userId})
+	</insert>
+	<delete id="caldelete">
+		delete from calendar where calendarid= #{calId}
 	</delete>
 
 </mapper>

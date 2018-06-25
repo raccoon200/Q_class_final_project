@@ -52,5 +52,23 @@ public class CalendarDAOImpl implements CalendarDAO {
 	}
 
 
+	@Override
+	public int calUpdate(Map<String, String> map) {
+		return sqlSession.update("calendar.calUpdate",map);
+	}
+
+
+	@Override
+	public int calInsert(Map<String, String> map) {
+		return sqlSession.insert("calendar.calInsert",map);
+	}
+
+
+	@Override
+	public int calInsert(String calId) {
+		return sqlSession.insert("calendar.caldelete",calId);
+	}
+
+
 
 }

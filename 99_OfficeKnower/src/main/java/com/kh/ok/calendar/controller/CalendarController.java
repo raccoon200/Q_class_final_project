@@ -85,14 +85,60 @@ public class CalendarController {
 		//return "common/nav";
 	}
 	
+	@RequestMapping("/cal/calUpdate")
+	public String calUpdate(Model model, HttpServletRequest request) {
+		String calendarid = request.getParameter("calendarid");
+		String name = request.getParameter("calendar_name");
+		String color = request.getParameter("colorSelect");
+	    System.out.println("calUpdate" + calendarid);
+	    System.out.println("calUpdate" + name);
+	    System.out.println("calUpdate" + color);
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("calendarid", calendarid);
+		map.put("name", name);
+		map.put("color", color);
+		
+		int result = calendarService.calUpdate(map);
+		System.out.println(result);
+		return "redirect:/cal/calTest.do";
+	}
 	
 	
+	@RequestMapping("/cal/calInsert")
+	public String calInsert(Model model, HttpServletRequest request) {
+		String calName = request.getParameter("calendar_name");
+		String calColor = request.getParameter("colorSelect");
+		String calType = request.getParameter("calendarType");
+		String userId = request.getParameter("userid");
+		System.out.println("calInsert" + calName);
+		System.out.println("calInsert" + calColor);
+		
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("calName", calName);
+		map.put("calColor", calColor);
+		map.put("calType", calType);
+		map.put("userId", userId);
+		int result = calendarService.calInsert(map);
+		
+		return "redirect:/cal/calTest.do";
+	}
 	
+	@RequestMapping("/cal/caldelete.do")
+	public String caldelete(Model model, HttpServletRequest request) {
+		String calId = request.getParameter("calid");
+		
+		int result = calendarService.caldelete(calId);
+		System.out.println(result);
+		
+		return "redirect:/cal/calTest.do";
+	}
 	
-	
+
 	@RequestMapping("/cal/scheduleInsert")
 	public String scheduleInsert(Schedule schedule, Model model) {
-		System.out.println(schedule);
+		System.out.println("scheduleInsert" + schedule);
 		
 		int result = calendarService.selectInsert(schedule);
 		
