@@ -84,7 +84,7 @@
 		});
 		/* 예약 */
 		$("#reservation_btn").on("click",function(){
-			location.href = "${pageContext.request.contextPath}/";
+			location.href = "${pageContext.request.contextPath}/reservation/reservationListPage";
 		});
 		/* 로그아웃 */
 		$("#logout_btn").on("click",function(){

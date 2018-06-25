@@ -61,7 +61,7 @@
 					<a href="javascript:void(0)" class="depth1">
 						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
 						문서함
-					</a>
+					</a> 
 					<br />
 					<ul class="depth2 hide">
 						<li>
@@ -313,7 +313,7 @@
 	<!-- 예약 nav -->
 	<c:if test="${param.pageTitle eq '예약'}">
 		<div class="main_btn">
-			<button type="button" class="btn btn-primary">예약하기</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reservation">예약하기</button>
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
