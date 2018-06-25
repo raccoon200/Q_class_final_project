@@ -426,12 +426,12 @@ function calendardelete(id){
 <script type="text/javascript">
 
 
-    jQuery(document).ready(function() {
 	var mycal = $('input:checkbox[name=calChoice1]').is(':checked');
 	var sharecal = $('input:checkbox[name=calChoice2]').is(':checked');
 	console.log("mycal="+mycal);
 	console.log("sharecal="+sharecal);
 
+    jQuery(document).ready(function() {
 		jQuery("#calendar").fullCalendar({
         	customButtons: {
         	    myCustomButton: {

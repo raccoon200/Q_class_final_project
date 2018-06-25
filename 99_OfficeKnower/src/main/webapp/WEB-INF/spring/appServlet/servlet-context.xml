@@ -37,5 +37,5 @@
 			<exclude-mapping path="/member/checkIdDuplicate*"/>
 			<beans:bean id="loginCheckIntercepter" class="com.kh.ok.common.intercepter.LoginCheckIntercepter"/>
 		</interceptor>
-	</interceptors>  
+	</interceptors>   
 </beans:beans>

@@ -368,13 +368,39 @@
 		<!-- 캘린더 보기 -->
 		
 		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px; margin-top:25px;">
-  			<input type="checkbox" class="custom-control-input" name="calChoice1" id="customCheck1" >
+  			<input type="checkbox" class="custom-control-input" name="calChoice" id="customCheck1" onclick="fn_myCal('내 캘린더');"
+  			${type eq '내 캘린더'?"checked":""}>
   			<label class="custom-control-label" for="customCheck1">내 캘린더 보기</label>
 		</div>
+		 <script>
+		function fn_myCal(type,userId){
+			location.href='${pageContext.request.contextPath}/cal/myCal.do?type='+type;
+		}
+		</script> 
+		
 		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px;">
-  			<input type="checkbox" class="custom-control-input" name="calChoice2" id="customCheck2" >
+  			<input type="checkbox" class="custom-control-input" name="calChoice" id="customCheck2" value="공유 캘린더" onclick="fn_calchoice('공유 캘린더');"
+  			  ${type eq '공유 캘린더'?"checked":""}>
   			<label class="custom-control-label" for="customCheck2">공유 캘린더 보기</label>
 		</div>
+		<script>
+		function fn_calchoice(type){
+			location.href='${pageContext.request.contextPath}/cal/shareCal.do?type='+type;
+		}
+		</script>
+		
+		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px;">
+  			<input type="checkbox" class="custom-control-input" name="calChoice" id="customCheck3" value="공유 캘린더" onclick="fn_sumCal('같이');"
+  			  ${type eq '같이'?"checked":""}>
+  			<label class="custom-control-label" for="customCheck3">캘린더 같이 보기</label>
+		</div>
+		<script>
+		function fn_sumCal(type){
+			location.href='<%=request.getContextPath()%>/cal/calTest.do?type='+type;
+		}
+		</script>
+		
+		
 
 		<div class="menufield">
 			<ul class="menu_list">

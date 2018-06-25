@@ -25,6 +25,10 @@ public interface CalendarDAO {
 
 	int calInsert(String calId);
 
+	List<Schedule> shareCal(String type);
+
+	List<Schedule> myCal(Map<String, String> map);
+
 	
 
 }

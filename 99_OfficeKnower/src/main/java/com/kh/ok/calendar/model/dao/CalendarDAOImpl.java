@@ -70,5 +70,17 @@ public class CalendarDAOImpl implements CalendarDAO {
 	}
 
 
+	@Override
+	public List<Schedule> shareCal(String type) {
+		return sqlSession.selectList("calendar.shareCal",type);
+	}
+
+
+	@Override
+	public List<Schedule> myCal(Map<String, String> map) {
+		return sqlSession.selectList("calendar.myCal",map);
+	}
+
+
 
 }

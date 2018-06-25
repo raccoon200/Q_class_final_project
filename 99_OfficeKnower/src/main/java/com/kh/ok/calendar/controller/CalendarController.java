@@ -41,6 +41,7 @@ public class CalendarController {
 		}
 		
 		String calendar_name = request.getParameter("calendar_name");
+		String type = request.getParameter("type");
 		System.out.println("calTest@calendar_name" + calendar_name);
 		
 		Map<String,String> map = new HashMap<String,String>();
@@ -51,6 +52,7 @@ public class CalendarController {
 		System.out.println("clist" + clist);
 	    
 		
+		model.addAttribute("type",type);
 		model.addAttribute("list",list);
 		model.addAttribute("clist",clist);
 		model.addAttribute("memberLoggedIn",(Member)session.getAttribute("memberLoggedIn"));
@@ -184,6 +186,45 @@ public class CalendarController {
     	return "redirect:/cal/calTest.do";
     }
 	
+	@RequestMapping("/cal/shareCal.do")
+	public String shareCal(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String userId = null;
+		if(session != null && session.getAttribute("memberLoggedIn") != null) {
+			 userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();	
+		}
+		String type = request.getParameter("type");
+		
+		List<Schedule> list = calendarService.shareCal(type);
+		List<String> clist = calendarService.selectCalendar(userId);
+		model.addAttribute("list",list);
+		model.addAttribute("clist",clist);
+		model.addAttribute("type",type);
+		
+		return "calendar/calendarView";
+	}
+	
+	@RequestMapping("/cal/myCal.do")
+	public String myCal(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String userId = null;
+		if(session != null && session.getAttribute("memberLoggedIn") != null) {
+			 userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();	
+		}
+		String type = request.getParameter("type");
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("type", type);
+		map.put("userId", userId);
+
+		List<Schedule> list = calendarService.myCal(map);
+		System.out.println("내 일정..."+list);
+		List<String> clist = calendarService.selectCalendar(userId);
+		model.addAttribute("list",list);
+		model.addAttribute("clist",clist);
+		model.addAttribute("type",type);
+		
+		return "calendar/calendarView";
+	}
 	
 	
 	

@@ -70,5 +70,20 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 
+	@Override
+	public List<Schedule> shareCal(String type) {
+		return calendarDAO.shareCal(type);
+	}
+
+
+	@Override
+	public List<Schedule> myCal(Map<String, String> map) {
+		return calendarDAO.myCal(map);
+	}
+
+
+	
+
+
 
 }
