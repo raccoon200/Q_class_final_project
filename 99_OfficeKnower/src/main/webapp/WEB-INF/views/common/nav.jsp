@@ -364,6 +364,18 @@
 			<button type="button" id="insertBtn" type="button" class="btn btn-primary" data-toggle="modal" 
 		        data-target="#calendarInsert" onclick="buttonInsert();">일정추가</button>
 		</div>
+		
+		<!-- 캘린더 보기 -->
+		
+		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px; margin-top:25px;">
+  			<input type="checkbox" class="custom-control-input" name="calChoice1" id="customCheck1" >
+  			<label class="custom-control-label" for="customCheck1">내 캘린더 보기</label>
+		</div>
+		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px;">
+  			<input type="checkbox" class="custom-control-input" name="calChoice2" id="customCheck2" >
+  			<label class="custom-control-label" for="customCheck2">공유 캘린더 보기</label>
+		</div>
+
 		<div class="menufield">
 			<ul class="menu_list">
 				<li>
@@ -384,7 +396,8 @@
 								<%-- <img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" /> --%>
 								<div class="divBox" style="background:${seche.COLOR}"></div>
 								
-								<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a>
+								<%-- <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a> --%>
+								${seche.CALENDAR_NAME}
 								
 								<!-- 캘린더 수정 -->
 								&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}', '${seche.COLOR}','${seche.TYPE}');">수정</span>
@@ -416,8 +429,8 @@
 									<div class="divBox" style="background:${seche.COLOR}"></div> &nbsp;&nbsp;
 									
 								
-									<a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a>
-									
+									<%-- <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a> --%>
+									${seche.CALENDAR_NAME}
 									
 									<!-- 캘린더 수정 -->
 									&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}','${seche.COLOR}','${seche.TYPE}');">수정</span>

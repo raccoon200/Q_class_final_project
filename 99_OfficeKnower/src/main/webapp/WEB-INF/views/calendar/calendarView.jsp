@@ -30,7 +30,6 @@ body {
 #calendar {
     display: inline-block;
     width: 90%;
-    
 }
 .fc-view-container{
 	display: inline-block;
@@ -422,14 +421,31 @@ function calendardelete(id){
 }
 
 
+
 </script>
 <script type="text/javascript">
+
+
     jQuery(document).ready(function() {
-        jQuery("#calendar").fullCalendar({
+	var mycal = $('input:checkbox[name=calChoice1]').is(':checked');
+	var sharecal = $('input:checkbox[name=calChoice2]').is(':checked');
+	console.log("mycal="+mycal);
+	console.log("sharecal="+sharecal);
+
+		jQuery("#calendar").fullCalendar({
+        	customButtons: {
+        	    myCustomButton: {
+        	      text: 'custom!',
+        	      click: function() {
+        	        alert('clicked the custom button!');
+        	      }
+        	    }
+        	},
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
         		, left: 'month,basicWeek,basicDay,listWeek' 
+        		, right : 'myCustomButton'
         	},
               defaultDate : new Date()
         	,buttonText: {
@@ -456,7 +472,7 @@ function calendardelete(id){
             , eventLimit : true
             
             , events: [
-            	 <c:if test="${not empty list}">
+                <c:if test="${not empty list}">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
     			 	<c:if test="${seche.type eq '공유 캘린더'}">
     			 	 {
@@ -479,9 +495,8 @@ function calendardelete(id){
         				 
         			 },
     			 	</c:if>
-
+   
     			</c:forEach>
-    		
     			</c:if>    
 
             ]
