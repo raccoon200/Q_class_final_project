@@ -433,19 +433,11 @@ function calendardelete(id){
 
     jQuery(document).ready(function() {
 		jQuery("#calendar").fullCalendar({
-        	customButtons: {
-        	    myCustomButton: {
-        	      text: 'custom!',
-        	      click: function() {
-        	        alert('clicked the custom button!');
-        	      }
-        	    }
-        	},
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
         		, left: 'month,basicWeek,basicDay,listWeek' 
-        		, right : 'myCustomButton'
+        		, right : null
         	},
               defaultDate : new Date()
         	,buttonText: {
