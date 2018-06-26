@@ -1,4 +1,4 @@
-package com.kh.ok.breakTime.controller.model.vo;
+package com.kh.ok.breakTime.model.vo;
 
 public class Break {
 	private String userid;
@@ -6,18 +6,33 @@ public class Break {
 	private int reward_break;
 	private int regular_used_break;
 	private int reward_used_break;
+	private String username;
 	
 	
 	public Break() {}
 
 
-	public Break(String userid, int regular_break, int reward_break, int regular_used_break, int reward_used_break) {
+	public Break(String userid, int regular_break, int reward_break, int regular_used_break, int reward_used_break,
+			String username) {
 		super();
 		this.userid = userid;
 		this.regular_break = regular_break;
 		this.reward_break = reward_break;
 		this.regular_used_break = regular_used_break;
 		this.reward_used_break = reward_used_break;
+		this.username = username;
+	}
+
+
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 
@@ -74,9 +89,12 @@ public class Break {
 	@Override
 	public String toString() {
 		return "Break [userid=" + userid + ", regular_break=" + regular_break + ", reward_break=" + reward_break
-				+ ", regular_used_break=" + regular_used_break + ", reward_used_break=" + reward_used_break + "]";
+				+ ", regular_used_break=" + regular_used_break + ", reward_used_break=" + reward_used_break
+				+ ", username=" + username + "]";
 	}
-	
+
+
+
 	
 	
 	
