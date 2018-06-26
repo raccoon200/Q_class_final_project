@@ -230,7 +230,7 @@
 							<a href="#">휴가 신청</a><br />
 						</li>
 						<li>
-							<a href="#">휴가 현황</a><br />
+							<a href="${pageContext.request.contextPath}/break/myBreak.do">휴가 현황</a><br />
 						</li>
 					</ul>
 				</li>

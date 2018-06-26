@@ -147,10 +147,10 @@ public class InsaController {
 	public List<Member> insaMemberSearch(@RequestParam("searchKey") String searchKey,
 												@RequestParam("com_no") String com_no) throws JsonProcessingException {
 		
-		Map<String,String> map = new HashMap<>();
+		Map<String,String> map = new HashMap<String,String>();
 		map.put("searchKey", searchKey);
 		map.put("com_no", com_no);
-		List<Member> list = new ArrayList<>();	
+		List<Member> list = new ArrayList<Member>();	
 		
 		list = insaService.insaMemberSearch(map);
 		
