@@ -8,7 +8,7 @@
 	$(function(){
 		$(".depth1").click(function(){
 			$(this).siblings("ul.depth2").toggleClass("show");
-			if($(".depth2").hasClass("show")){
+			if($(this).siblings(".depth2").hasClass("show")){
 				$(this).children(".fold").attr("src", "${pageContext.request.contextPath }/resources/images/common/folder_icon_open.png");
 			}else{
 				$(this).children(".fold").attr("src", "${pageContext.request.contextPath }/resources/images/common/folder_icon.png");
@@ -30,6 +30,10 @@
 				$(this).addClass("strong");
 			}
 		});
+		if(${param.selectMenu ne null}){
+			$(".depth2").addClass("show");
+			$(".fold").attr("src", "${pageContext.request.contextPath }/resources/images/common/folder_icon_open.png");
+		}
 	});
 </script>
 <nav id="leftMenu">
@@ -123,7 +127,7 @@
 						<br />
 						<ul class="depth2 hide">
 							<li>
-								<a href="#">기본 정보</a><br />
+								<a href="${pageContext.request.contextPath }/office/approval/account.do">기본 정보</a><br />
 							</li>
 							<li>
 								<a href="${pageContext.request.contextPath }/office/approval/code.do">코드 관리</a><br />

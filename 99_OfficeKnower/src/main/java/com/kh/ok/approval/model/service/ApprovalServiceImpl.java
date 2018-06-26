@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.ok.approval.model.dao.ApprovalDAO;
+import com.kh.ok.approval.model.vo.Account;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.member.model.vo.Member;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
@@ -54,6 +56,26 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public int deptUpdate(Map<String, Object> map) {
 		return approvalDAO.deptUpdate(map);
+	}
+	@Override
+	public int deleteCode(Map<String, String> map) {
+		return approvalDAO.deleteCode(map);
+	}
+	@Override
+	public int deleteCodes(Map<String, Object> map) {
+		return approvalDAO.deleteCodes(map);
+	}
+	@Override
+	public List<Account> selectListAccount(String com_no) {
+		return approvalDAO.selectListAccount(com_no);
+	}
+	@Override
+	public List<Member> selectListByName(Map<String, String> map) {
+		return approvalDAO.selectListByName(map);
+	}
+	@Override
+	public int accountInsert(Account account) {
+		return approvalDAO.accountInsert(account);
 	}
 	
 }

@@ -7,9 +7,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.ok.approval.model.vo.Account;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.member.model.vo.Member;
 
 @Repository
 public class ApprovalDAOImpl implements ApprovalDAO {
@@ -64,6 +66,31 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	@Override
 	public int deptUpdate(Map<String, Object> map) {
 		return sqlSession.update("approval.deptUpdate", map);
+	}
+
+	@Override
+	public int deleteCode(Map<String, String> map) {
+		return sqlSession.delete("approval.deleteCode", map);
+	}
+
+	@Override
+	public int deleteCodes(Map<String, Object> map) {
+		return sqlSession.delete("approval.deleteCodes", map);
+	}
+
+	@Override
+	public List<Account> selectListAccount(String com_no) {
+		return sqlSession.selectList("approval.selectListAccount", com_no);
+	}
+
+	@Override
+	public List<Member> selectListByName(Map<String, String> map) {
+		return sqlSession.selectList("approval.selectListByName", map);
+	}
+
+	@Override
+	public int accountInsert(Account account) {
+		return sqlSession.insert("approval.accountInsert", account);
 	}
 
 }

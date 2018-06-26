@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.ok.approval.model.service.ApprovalService;
+import com.kh.ok.approval.model.vo.Account;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
@@ -179,6 +180,99 @@ public class ApprovalController {
 			mav.addObject("loc","/office/approval/code.do");
 			mav.addObject("msg","부서 수정에 실패했습니다. 관리자에게 문의해주세요.");
 			mav.addObject("tabSelected","dept");
+			mav.setViewName("common/msg");
+		}
+		
+		return mav;
+	}
+	@RequestMapping("/approval/deleteCode.do")
+	public ModelAndView deleteCode(@RequestParam("flag") String flag, @RequestParam("code") String code, @RequestParam("com_no") String com_no) {
+		ModelAndView mav = new ModelAndView();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("code", code);
+		map.put("com_no", com_no);
+		if("connection".equals(flag)) {
+			map.put("table", "connection");
+		}else if("gajong".equals(flag)) {
+			map.put("table", "tbl_title_of_account");
+		}else if("dept".equals(flag)) {
+			map.put("table", "tbl_dept");
+		}
+		
+		int result = approvalService.deleteCode(map);
+		
+		if(result > 0) {
+			mav.setViewName("redirect:/office/approval/code.do");
+			mav.addObject("tabSelected",flag);
+		}else {
+			mav.addObject("loc","/office/approval/code.do");
+			mav.addObject("msg","삭제에 실패했습니다. 관리자에게 문의해주세요.");
+			mav.addObject("tabSelected",flag);
+			mav.setViewName("common/msg");
+		}
+		return mav;
+	}
+	@RequestMapping("/approval/deleteCodes.do")
+	public ModelAndView deleteCodes(@RequestParam("flag") String flag, @RequestParam("code") String[] code, @RequestParam("com_no") String com_no) {
+		ModelAndView mav = new ModelAndView();
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("code = " + code);
+		System.out.println("flag= " + flag);
+		System.out.println("com_no = " + com_no);
+		map.put("code", code);
+		map.put("com_no", com_no);
+		if("connection".equals(flag)) {
+			map.put("table", "connection");
+		}else if("gajong".equals(flag)) {
+			map.put("table", "tbl_title_of_account");
+		}else if("dept".equals(flag)) {
+			map.put("table", "tbl_dept");
+		}
+		
+		int result = approvalService.deleteCodes(map);
+		if(result > 0) {
+			mav.setViewName("redirect:/office/approval/code.do");
+			mav.addObject("tabSelected",flag);
+		}else {
+			mav.addObject("loc","/office/approval/code.do");
+			mav.addObject("msg","삭제에 실패했습니다. 관리자에게 문의해주세요.");
+			mav.addObject("tabSelected",flag);
+			mav.setViewName("common/msg");
+		}
+		return mav;
+	}
+	@RequestMapping("/office/approval/account.do")
+	public ModelAndView selectListAccount(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		String com_no = ((Member)session.getAttribute("memberLoggedIn")).getCom_no();
+		List<Account> list = approvalService.selectListAccount(com_no);
+		mav.addObject("accountList", list);
+		mav.setViewName("approval/admin/account");
+		return mav;
+	}
+	@RequestMapping("/approval/selectListByName.do")
+	@ResponseBody
+	public Map<String, Object> selectListByName(@RequestParam("name") String name, @RequestParam("com_no") String com_no) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("name", name);
+		map.put("com_no", com_no);
+		
+		List<Member> list = approvalService.selectListByName(map);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("list", list);
+		return result;
+	}
+	@RequestMapping("/approval/accountInsert.do")
+	public ModelAndView accountInsert(Account account) {
+		ModelAndView mav = new ModelAndView();
+		
+		int result = approvalService.accountInsert(account);
+		if(result > 0) {
+			mav.setViewName("redirect:/office/approval/account.do");
+		}else {
+			mav.addObject("loc","/office/approval/account.do");
+			mav.addObject("msg","계좌 등록에 실패했습니다. 관리자에게 문의해주세요.");
 			mav.setViewName("common/msg");
 		}
 		

@@ -73,6 +73,85 @@ span.error{color:red;}
 		        }
 			});
 		});
+		$("#connectTotalCheck").on("click",function(){
+			$(".connectCheck").prop("checked",$(this).prop("checked"));
+			if($(this).prop("checked")){
+				$(".connectCheck").addClass("checked");
+			}else{
+				$(".connectCheck").removeClass("checked");				
+			}
+			if($(".connectCheck.checked").length==0){
+				$("#connectsDelete").hide();
+			}else{
+				$("#connectCnt").text($(".connectCheck.checked").length);
+				$("#connectsDelete").show();
+			}
+		});
+		$("#gajongTotalCheck").on("click",function(){
+			$(".gajongCheck").prop("checked",$(this).prop("checked"));
+			if($(this).prop("checked")){
+				$(".gajongCheck").addClass("checked");
+			}else{
+				$(".gajongCheck").removeClass("checked");				
+			}
+			if($(".gajongCheck.checked").length==0){
+				$("#gajongsDelete").hide();
+			}else{
+				$("#gajongCnt").text($(".gajongCheck.checked").length);
+				$("#gajongsDelete").show();
+			}
+		});
+		$("#deptTotalCheck").on("click",function(){
+			$(".deptCheck").prop("checked",$(this).prop("checked"));
+			if($(this).prop("checked")){
+				$(".deptCheck").addClass("checked");
+			}else{
+				$(".deptCheck").removeClass("checked");				
+			}
+			if($(".deptCheck.checked").length==0){
+				$("#deptsDelete").hide();
+			}else{
+				$("#deptCnt").text($(".deptCheck.checked").length);
+				$("#deptsDelete").show();
+			}
+		});
+		gajongsDelete
+		$(".deleteCheck").on("click", function(){
+			$(this).toggleClass("checked");
+		})
+		$(".connectCheck").on("change", function(){
+			if($(".connectCheck.checked").length==0){
+				$("#connectsDelete").hide();
+			}else{
+				$("#connectCnt").text($(".connectCheck.checked").length);
+				$("#connectsDelete").show();
+			}
+			if($(".connectCheck").not(".checked").length != 0){
+				$("#connectTotalCheck").prop("checked",false);
+			}
+		});
+		$(".gajongCheck").on("change", function(){
+			if($(".gajongCheck.checked").length==0){
+				$("#gajongsDelete").hide();
+			}else{
+				$("#gajongCnt").text($(".gajongCheck.checked").length);
+				$("#gajongsDelete").show();
+			}
+			if($(".gajongCheck").not(".checked").length != 0){
+				$("#gajongTotalCheck").prop("checked",false);
+			}
+		});
+		$(".deptCheck").on("change", function(){
+			if($(".deptCheck.checked").length==0){
+				$("#deptsDelete").hide();
+			}else{
+				$("#deptCnt").text($(".deptCheck.checked").length);
+				$("#deptsDelete").show();
+			}
+			if($(".deptCheck").not(".checked").length != 0){
+				$("#deptTotalCheck").prop("checked",false);
+			}
+		});
 	});
 	function fn_validate(frm){
 		frm.find("input.codeDuplicate").val()
@@ -96,6 +175,26 @@ span.error{color:red;}
 			$("#deptUpdateModal").find("input[name=preCode]").val(code);		
 		}
 	}
+	function fn_delete(flag, code, com_no){
+		if(confirm("삭제하겠습니까?")){
+			location.href="${pageContext.request.contextPath}/approval/deleteCode.do?flag="+flag+"&code="+code+"&com_no="+com_no;
+		}
+	};
+	function fn_connectionsDelete(){
+		if(confirm("정말로 삭제하시겠습니까?")){		
+			document.connectionsDelete.submit();
+		}
+	}
+	function fn_gajongsDelete(){
+		if(confirm("정말로 삭제하시겠습니까?")){		
+			document.gajongsDelete.submit();
+		}
+	}
+	function fn_deptsDelete(){
+		if(confirm("정말로 삭제하시겠습니까?")){		
+			document.deptsDelete.submit();
+		}
+	}
 </script>
 <h4>코드 관리</h4>
 <hr />
@@ -113,123 +212,140 @@ span.error{color:red;}
 </ul>
 <div class="tab-content" id="myTabContent">
 	<div class='tab-pane fade <%=tabSelected == null || "connection".equals(tabSelected)?"active show":""%>' id="connection" role="tabpanel" aria-labelledby="connection-tab">
-		<p>		
-			<input type="checkbox" name="" id="totalCheck" />&nbsp;<label for="totalCheck">전체선택</label>&nbsp;
-			<a href="javascript:void(0)" data-toggle="modal" data-target="#connectionInsertModal"> + 거래처 추가</a>
-		</p>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col">코드</th>
-					<th scope="col">거래처명</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:if test="${!empty connectList}">
-					<c:forEach items="${connectList}" var="connect">
+		<form action="${pageContext.request.contextPath}/approval/deleteCodes.do" method="post" name="connectionsDelete">
+			<p>		
+				<input type="checkbox" name="" id="connectTotalCheck"/>&nbsp;<label for="totalCheck">전체선택</label>&nbsp;
+				<a href="javascript:void(0)" data-toggle="modal" data-target="#connectionInsertModal"> + 거래처 추가</a>&nbsp;
+				<a href="javascript:void(0)" id="connectsDelete" style="display: none;" onclick="fn_connectionsDelete();">삭제 <span id="connectCnt"></span></a>
+			</p>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">코드</th>
+						<th scope="col">거래처명</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${!empty connectList}">
+						<input type="hidden" name="com_no" value="${memberLoggedIn.com_no}"/>
+						<input type="hidden" name="flag" value="connection"/>
+						<c:forEach items="${connectList}" var="connect">
+							<tr>
+								<th scope="row">
+									<input type="checkbox" class="deleteCheck connectCheck" name="code" value="${connect.code}" /> ${connect.code}
+								</th>
+								<td>
+									${connect.connection_name}
+									<span style="float: right;">					
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#connectionUpdateModal" onclick="fn_update('connect','${connect.code}', '${connect.connection_name}')">
+											수정
+										</a>/<a href="javascript:void(0)" onclick="fn_delete('connection', '${connect.code}', '${connect.com_no}')">삭제</a>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty connectList}">
 						<tr>
-							<th scope="row">
-								<input type="checkbox" name="" value="${connect.code}" /> ${connect.code}
-							</th>
-							<td>
-								${connect.connection_name}
-								<span style="float: right;">					
-									<a href="javascript:void(0)" data-toggle="modal" data-target="#connectionUpdateModal" onclick="fn_update('connect','${connect.code}', '${connect.connection_name}')">
-										수정
-									</a>/<a href="#">삭제</a>
-								</span>
+							<td colspan="2" style="text-align: center">
+								거래처가 없습니다.
 							</td>
 						</tr>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty connectList}">
-					<tr>
-						<td colspan="2" style="text-align: center">
-							거래처가 없습니다.
-						</td>
-					</tr>
-				</c:if>
-			</tbody>
-		</table>
+					</c:if>
+				</tbody>
+			</table>
+		</form>
 	</div>
 	<div class='tab-pane fade <%="gajong".equals(tabSelected)?"active show":""%>' id="gajong" role="tabpanel" aria-labelledby="gajong-tab">
-		<p>		
-			<input type="checkbox" name="" id="totalCheck" />&nbsp;<label for="totalCheck">전체선택</label>&nbsp;
-			<a href="javascript:void(0)" data-toggle="modal" data-target="#gajongInsertModal"> + 계정과목 추가</a>
-		</p>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col">코드</th>
-					<th scope="col">계정과목명</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:if test="${!empty toaList}">
-					<c:forEach items="${toaList}" var="toa">
+		<form action="${pageContext.request.contextPath}/approval/deleteCodes.do" method="post" name="gajongsDelete">
+			<p>		
+				<input type="checkbox" name="" id="gajongTotalCheck" />&nbsp;<label for="totalCheck">전체선택</label>&nbsp;
+				<a href="javascript:void(0)" data-toggle="modal" data-target="#gajongInsertModal"> + 계정과목 추가</a>
+				<a href="javascript:void(0)" id="gajongsDelete" style="display: none;" onclick="fn_gajongsDelete();">삭제 <span id="gajongCnt"></span></a>
+			</p>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">코드</th>
+						<th scope="col">계정과목명</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${!empty toaList}">
+						<input type="hidden" name="com_no" value="${memberLoggedIn.com_no}"/>
+						<input type="hidden" name="flag" value="gajong"/>
+						<c:forEach items="${toaList}" var="toa">
+							<tr>
+								<th scope="row">
+									<input type="checkbox" class="deleteCheck gajongCheck" name="code" value="${toa.code}" /> ${toa.code}
+								</th>
+								<td>
+									${toa.title_of_account}
+									<span style="float: right;">					
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#gajongUpdateModal" onclick="fn_update('gajong','${toa.code}', '${toa.title_of_account}')">수정</a>
+										/<a href="javascript:void(0)" onclick="fn_delete('gajong', '${toa.code}', '${toa.com_no}')">삭제</a>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty toaList}">
 						<tr>
-							<th scope="row">
-								<input type="checkbox" name="" value="${toa.code}" /> ${toa.code}
-							</th>
-							<td>
-								${toa.title_of_account}
-								<span style="float: right;">					
-									<a href="javascript:void(0)" data-toggle="modal" data-target="#gajongUpdateModal" onclick="fn_update('gajong','${toa.code}', '${toa.title_of_account}')">수정</a>/<a href="#">삭제</a>
-								</span>
+							<td colspan="2" style="text-align: center">
+								계정 과목이 없습니다.
 							</td>
 						</tr>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty toaList}">
-					<tr>
-						<td colspan="2" style="text-align: center">
-							계정 과목이 없습니다.
-						</td>
-					</tr>
-				</c:if>
-			</tbody>
-		</table>
+					</c:if>
+				</tbody>
+			</table>
+		</form>
 	</div>
 	<div class='tab-pane fade <%="dept".equals(tabSelected)?"active show":""%>' id="dept" role="tabpanel" aria-labelledby="dept-tab">
-		<p>		
-			<input type="checkbox" name="" id="totalCheck" />&nbsp;<label for="totalCheck">전체선택</label>&nbsp;
-			<a href="javascript:void(0)" data-toggle="modal" data-target="#deptInsertModal"> + 부서 추가</a>
-		</p>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col">코드</th>
-					<th scope="col">거래처명</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:if test="${!empty deptList}">
-					<c:forEach items="${deptList}" var="dept">
+		<form action="${pageContext.request.contextPath}/approval/deleteCodes.do" method="post" name="deptsDelete">
+			<p>		
+				<input type="checkbox" name="" id="deptTotalCheck" />&nbsp;<label for="totalCheck">전체선택</label>&nbsp;
+				<a href="javascript:void(0)" data-toggle="modal" data-target="#deptInsertModal"> + 부서 추가</a>
+				<a href="javascript:void(0)" id="deptsDelete" style="display: none;" onclick="fn_deptsDelete();">삭제 <span id="deptCnt"></span></a>
+			</p>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">코드</th>
+						<th scope="col">거래처명</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${!empty deptList}">
+						<input type="hidden" name="com_no" value="${memberLoggedIn.com_no}"/>
+						<input type="hidden" name="flag" value="dept"/>
+						<c:forEach items="${deptList}" var="dept">
+							<tr>
+								<th scope="row">
+									<input type="checkbox" name="code" class="deleteCheck deptCheck" value="${dept.code}" /> ${dept.code}
+								</th>
+								<td>
+									${dept.dept}
+									<span style="float: right;">					
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#deptUpdateModal" onclick="fn_update('dept','${dept.code}', '${dept.dept}')">수정</a>
+										/<a href="javascript:void(0)" onclick="fn_delete('dept', '${dept.code}', '${dept.com_no}')">삭제</a>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty deptList}">
 						<tr>
-							<th scope="row">
-								<input type="checkbox" name="" value="${dept.code}" /> ${dept.code}
-							</th>
-							<td>
-								${dept.dept}
-								<span style="float: right;">					
-									<a href="javascript:void(0)" data-toggle="modal" data-target="#deptUpdateModal" onclick="fn_update('dept','${dept.code}', '${dept.dept}')">수정</a>/<a href="#">삭제</a>
-								</span>
+							<td colspan="2" style="text-align: center">
+								부서가 없습니다.
 							</td>
 						</tr>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty deptList}">
-					<tr>
-						<td colspan="2" style="text-align: center">
-							부서가 없습니다.
-						</td>
-					</tr>
-				</c:if>
-			</tbody>
-		</table>
+					</c:if>
+				</tbody>
+			</table>
+		</form>
 	</div>
 </div>
-
+ 
 <!-- 거래처 insertModal -->
 <div class="modal fade" id="connectionInsertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -280,7 +396,7 @@ span.error{color:red;}
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form action="${pageContext.request.contextPath}/approval/gajongInsert.do" method="post" onsubmit="return fn_validate($(this));">
+			<form action="${pageContext.request.contextPath}/approval/gajongInsert.do" method="post" onsubmit="return fn_validate($(this)`);">
 				<div class="modal-body">
 					<table class="table" style="margin-bottom: 0px;">
 						<tr>

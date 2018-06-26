@@ -3,9 +3,11 @@ package com.kh.ok.approval.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.ok.approval.model.vo.Account;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.member.model.vo.Member;
 
 public interface ApprovalService {
 
@@ -28,5 +30,15 @@ public interface ApprovalService {
 	int gajongUpdate(Map<String, Object> map);
 
 	int deptUpdate(Map<String, Object> map);
+
+	int deleteCode(Map<String, String> map);
+
+	int deleteCodes(Map<String, Object> map);
+
+	List<Account> selectListAccount(String com_no);
+
+	List<Member> selectListByName(Map<String, String> map);
+
+	int accountInsert(Account account);
 
 }
