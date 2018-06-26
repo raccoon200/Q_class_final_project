@@ -5,7 +5,6 @@
 	<select id="memberListAll" resultType="member">
 		select u.* ,(select com_name from tbl_com c where c.com_no=u.com_no) com_name from tbl_user u where com_no=#{com_no}
 	</select>
-	
 	<select id="selectUserId" resultMap="memberMap">
 		select u.*,(select com_name from tbl_com c where c.com_no=u.com_no) com_name from tbl_user u where userId=#{userId}
 	</select>
@@ -34,7 +33,30 @@
 		from tbl_user 
 		where com_no=#{com_no}
 		<if test="searchKey != null">
-		and userid like '%'||#{searchKey}||'%' or username  like '%'||#{searchKey}||'%' 
+		and username  like '%'||#{searchKey}||'%' 
 		</if>
+	</select>
+	<select id="insaSelectMemberSearch" resultType="member">
+		select u.*, (select com_name from tbl_com c where c.com_no=u.com_no) com_name from tbl_user u 
+		where u.com_no=#{com_no} 
+		<if test="searchKey != null">
+		and username like '%'||#{searchKey}||'%' 
+		</if>
+		order by u.username
+	</select>
+	<select id="selectSelectMemberListCnt" resultType="_int">
+		select count(*) from tbl_user where com_no=#{com_no}
+		<if test="searchKey != null">
+		and username like '%'||#{searchKey}||'%' 
+		</if>
+	</select>
+	<select id="memberSelectManagement" resultType="member">
+		select u.* ,(select com_name from tbl_com c where c.com_no=(select com_no from tbl_user where userid=#{userId})) com_name from tbl_user u where userId=#{userId}
+	</select>
+	<select id="selectPositionList" resultType="position">
+		select * from tbl_position where com_no=#{com_no}
+	</select>
+		<select id="checkIdDuplicate" resultType="_int">
+		select count(*) from tbl_user where com_no=#{comNo} and emp_no=#{empNo}
 	</select>
 </mapper>

@@ -60,7 +60,7 @@ public class MemberController {
 
 		Member member = memberService.selectUserId(userId);
 		List<Job> jlist = jobService.selectJobList(member.getCom_no());
-		
+		 
 		mav.addObject("member",member);
 		mav.addObject("jlist",jlist);
 		mav.setViewName("member/memberOneView");

@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.ok.insa.model.vo.Position;
 import com.kh.ok.member.model.vo.Member;
 
 @Repository
@@ -48,5 +49,30 @@ public class InsaDAOImpl implements InsaDAO {
 	@Override
 	public List<Member> insaMemberSearch(Map<String, String> map) {
 		return sqlSession.selectList("insa.insaMemberSearch",map);
+	}
+
+	@Override
+	public List<Member> insaSelectMemberSearch(String com_no, int numPerPage, int cPage, Map<String, String> map) {
+		return sqlSession.selectList("insa.insaSelectMemberSearch",map,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int selectSelectMemberListCnt(Map<String, String> map) {
+		return sqlSession.selectOne("insa.selectSelectMemberListCnt",map);
+	}
+
+	@Override
+	public Member memberSelectManagement(String userId) {
+		return sqlSession.selectOne("insa.memberSelectManagement",userId);
+	}
+
+	@Override
+	public List<Position> selectPositionList(String com_no) {
+		return sqlSession.selectList("insa.selectPositionList",com_no);
+	}
+
+	@Override
+	public int checkIdDuplicate(Map<String, String> no) {
+		return sqlSession.selectOne("insa.checkIdDuplicate",no);
 	}
 }
