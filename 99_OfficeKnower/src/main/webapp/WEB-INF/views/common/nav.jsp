@@ -247,7 +247,7 @@
 								<a href="#">조직 관리</a><br />
 							</li>
 							<li>
-								<a href="#">사용자 관리</a><br />
+								<a href="${pageContext.request.contextPath}/insa/memberManagement.do">사용자 관리</a><br />
 							</li>
 							<li>
 								<a href="#">직위/직무 관리</a><br />
