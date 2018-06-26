@@ -26,7 +26,11 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+			<param-value>
+					/WEB-INF/spring/appServlet/servlet-context.xml
+					<!-- #9.1. aop를 위한 설정파일 추가하기 -->
+            		/WEB-INF/spring/appServlet/aspect-context.xml
+            </param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

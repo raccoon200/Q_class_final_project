@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	<!-- #9.2 aop관련 태그 작성 -->
+	<!-- ====================== 선언적 AOP 시작 ====================== -->
+	<!-- <bean id="loggerAspect" class="com.kh.aop.common.aop.LoggerAspect_"></bean> -->
+	<!-- aop 작성 -->
+	<!-- <aop:config>
+		<aop:aspect ref="loggerAspect" id="loggerAspect">
+			<aop:pointcut expression="execution(* com.kh.aop.memo..*(..))" id="pcForAll"/>
+			<aop:around method="loggerAdvice" pointcut-ref="pcForAll"/>
+		</aop:aspect>
+	</aop:config> -->
+	<!-- ====================== 선언적 AOP 끝    ====================== -->
+	<!-- ====================== 프로그래밍적 AOP 시작 ====================== -->
+	<aop:aspectj-autoproxy/>
+	<!-- ====================== 프로그래밍적 AOP 끝    ====================== -->
+
+</beans>

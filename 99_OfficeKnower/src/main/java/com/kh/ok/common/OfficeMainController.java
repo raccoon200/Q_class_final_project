@@ -1,4 +1,4 @@
-package com.kh.ok;
+package com.kh.ok.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +9,6 @@ public class OfficeMainController {
 	@RequestMapping("/office/office_main.do")
 	public ModelAndView showOfficeMain() {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("pageTitle", "오피스 홈");
 		mav.setViewName("common/office_main");
 		return mav;
 	}
