@@ -270,4 +270,14 @@ public class InsaController {
 		map.put("isUsable", isUsable);
 		return map;
 	}
+	
+	@RequestMapping("/insa/insaMemberOneUpdate.do")
+	public String insaMemberOneUpdate(Member member) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("insaMemberOneUpdate="+member);
+		
+		int result = insaService.insaMemberOneUpdate(member);
+		
+		return "redirect:/insa/memberSelectManagement.do?userId="+member.getUserId();
+	}
 }

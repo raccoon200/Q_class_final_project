@@ -60,6 +60,7 @@ $(function(){
 	$("#emp_no").on("keyup",function(){
 		var empNo = $(this).val().trim();
 		var comNo = ${member.com_no};
+		var oldEmpNo = ${member.emp_no != null ?member.emp_no:"0"};
 		
 		if(empNo.length==0){
 			$(".guide.error").hide();
@@ -67,7 +68,12 @@ $(function(){
 			$("#idDuplicateCheck").val(0);
 			return;
 		}
-		
+		if(empNo == oldEmpNo){
+			$(".guide.error").hide();
+			$(".guide.ok").hide();
+			$("#idDuplicateCheck").val(2);
+			return;
+		}
 		$.ajax({
 			url : "checkIdDuplicate.do",
 			data : {empNo:empNo,
@@ -93,7 +99,8 @@ $(function(){
 		});		
 	});
 });
-
+</script>
+<script>
    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
    function sample4_execDaumPostcode() {
       new daum.Postcode(
@@ -154,7 +161,7 @@ $(function(){
 <h3>사용자 수정</h3>
 <hr />
 <div class="table-responsive">
-	<form action="memberOneUpdate.do" method="post">
+	<form action="insaMemberOneUpdate.do" method="post">
 		<table class="table table-hover" style="width: 600px;">
 	<tr>
 		<td>
@@ -171,7 +178,7 @@ $(function(){
 				<br />
 				<li>
 					<span>Id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					<label><input type="text" class="form-control" id="userName" name="userName" value="${member.userId}" readonly></label>
+					<label><input type="text" class="form-control" id="userId" name="userId" value="${member.userId}" readonly></label>
 				</li>
 			</ul>
 		</td>
@@ -180,7 +187,7 @@ $(function(){
 				<th>사번</th>
 				<td>
 					<div id="emp_no-container">
-						<input type="text" class="form-control" id="emp_no" name="emp_no" value="${member.emp_no }" >
+						<input type="number" class="form-control" id="emp_no" name="emp_no" value="${member.emp_no }" >
 						<span class="guide ok"> 사용가능합니다.</span>
 						<span class="guide error">사용할 수 없습니다.</span>
 						<input type="hidden" id="idDuplicateCheck" value="0" />
@@ -197,6 +204,7 @@ $(function(){
 				<th>소속</th>
 				<td>
 					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" >
+					<input type="hidden" class="form-control" id="com_no" name="com_no" value="${member.com_no}" >
 				</td>
 			</tr>
 			<tr>

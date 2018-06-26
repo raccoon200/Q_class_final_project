@@ -75,4 +75,9 @@ public class InsaDAOImpl implements InsaDAO {
 	public int checkIdDuplicate(Map<String, String> no) {
 		return sqlSession.selectOne("insa.checkIdDuplicate",no);
 	}
+
+	@Override
+	public int insaMemberOneUpdate(Member member) {
+		return sqlSession.update("insa.insaMemberOneUpdate",member);
+	}
 }

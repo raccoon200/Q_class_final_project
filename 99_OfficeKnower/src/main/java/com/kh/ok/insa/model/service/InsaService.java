@@ -32,4 +32,6 @@ public interface InsaService {
 
 	int checkIdDuplicate(Map<String, String> no);
 
+	int insaMemberOneUpdate(Member member);
+
 }

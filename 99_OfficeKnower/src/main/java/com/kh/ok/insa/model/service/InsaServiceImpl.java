@@ -76,4 +76,9 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.checkIdDuplicate(no);
 	}
 
+	@Override
+	public int insaMemberOneUpdate(Member member) {
+		return insaDAO.insaMemberOneUpdate(member);
+	}
+
 }
