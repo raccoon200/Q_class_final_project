@@ -80,4 +80,14 @@ public class InsaDAOImpl implements InsaDAO {
 	public int insaMemberOneUpdate(Member member) {
 		return sqlSession.update("insa.insaMemberOneUpdate",member);
 	}
+
+	@Override
+	public int insaMemberDelete(Map<String, Object> map) {
+		return sqlSession.delete("insa.insaMemberDelete",map);
+	}
+
+	@Override
+	public int insaMemberUpdate(Map<String, Object> map) {
+		return sqlSession.update("insa.insaMemberUpdate",map);
+	}
 }

@@ -34,4 +34,8 @@ public interface InsaService {
 
 	int insaMemberOneUpdate(Member member);
 
+	int insaMemberDelete(Map<String, Object> map);
+
+	int insaMemberUpdate(Map<String, Object> map);
+
 }

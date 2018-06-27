@@ -141,6 +141,11 @@ public class InsaController {
 		List<String> yearList = insaService.yearListGroup(m.getCom_no());
 		List<String> positionList = insaService.positionListGroup(m.getCom_no());
 		
+		List<Job> jlist = jobService.selectJobList(m.getCom_no());
+		List<Position> plist = insaService.selectPositionList(m.getCom_no());
+		
+		mav.addObject("jlist",jlist);
+		mav.addObject("plist",plist);
 		mav.addObject("yearList",yearList);
 		mav.addObject("positionList",positionList);
 		mav.setViewName("insa/insaMemberManagement");
@@ -279,5 +284,63 @@ public class InsaController {
 		int result = insaService.insaMemberOneUpdate(member);
 		
 		return "redirect:/insa/memberSelectManagement.do?userId="+member.getUserId();
+	}
+	
+	@RequestMapping("/insa/updateModal.do")
+	public String updateModa(@RequestParam(value="position", required=false, defaultValue="") String position,
+			@RequestParam(value="job", required=false, defaultValue="") String job,
+			@RequestParam(value="status", required=false, defaultValue="") String status,
+			@RequestParam(value="userId", required=false, defaultValue="") String userId,
+			@RequestParam(value="updateType", required=false, defaultValue="") String updateType,
+				HttpServletRequest request) {
+		
+		
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+		return "redirect:/insa/memberManagement.do";
+	}
+
+	@RequestMapping("/insa/insaMemberDelete.do")
+	public String insaMemberDelete(@RequestParam(value="position", required=false, defaultValue="") String position,
+			@RequestParam(value="job", required=false, defaultValue="") String job,
+			@RequestParam(value="status", required=false, defaultValue="") String status,
+			@RequestParam(value="userId", required=false, defaultValue="") String[] userId,
+			@RequestParam(value="updateType", required=false, defaultValue="delete") String updateType,
+			HttpServletRequest request) {
+	/*	System.out.println("position=" + position);
+		System.out.println("job=" + job);
+		System.out.println("status=" + status);
+		System.out.println("userId=" + userId);
+		System.out.println("updateType=" + updateType);*/
+		
+		int result = 0;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("position", position);
+		map.put("job", job);
+		map.put("status", status);
+		map.put("userId", userId);
+		map.put("updateType", updateType);
+		
+		switch(updateType) {
+		case "position":
+			job = ""; status ="";
+			result = insaService.insaMemberUpdate(map);
+			break;
+		case "job":
+			position=""; status="";
+			result = insaService.insaMemberUpdate(map);
+			break;
+		case "status":
+			position=""; job="";
+			result = insaService.insaMemberUpdate(map);
+			break;
+		case "delete":
+			position=""; job=""; status="";
+			result = insaService.insaMemberDelete(map);
+			break;
+		}
+		
+		return "redirect:/insa/memberManagement.do";
 	}
 }

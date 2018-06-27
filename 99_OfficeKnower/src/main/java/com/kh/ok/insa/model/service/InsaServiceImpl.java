@@ -81,4 +81,14 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.insaMemberOneUpdate(member);
 	}
 
+	@Override
+	public int insaMemberDelete(Map<String, Object> map) {
+		return insaDAO.insaMemberDelete(map);
+	}
+
+	@Override
+	public int insaMemberUpdate(Map<String, Object> map) {
+		return insaDAO.insaMemberUpdate(map);
+	}
+
 }

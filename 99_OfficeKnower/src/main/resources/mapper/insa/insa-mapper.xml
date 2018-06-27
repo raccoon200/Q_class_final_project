@@ -66,4 +66,26 @@
 	</if>
 	 where userid=#{userId}
 	</update>
+	<delete id="insaMemberDelete">
+		delete from tbl_user where userId in
+		<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<update id="insaMemberUpdate">
+		update tbl_user set 
+		<if test='updateType == "position"'>
+			position=#{position}
+		</if>
+		<if test='updateType == "job"'>
+			job=#{job}
+		</if>
+		<if test='updateType == "status"'>
+			status=#{status}
+		</if>
+		where userId in
+		<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
 </mapper>
