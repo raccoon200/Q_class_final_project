@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.ok.breakTime.model.service.BreakService;
 import com.kh.ok.breakTime.model.vo.Break;
@@ -43,11 +43,26 @@ public class BreakController {
 		return "break/myBreak";
 	}
 	
-	
-	@RequestMapping("/break/breakCal.do")
-	public String breakCal() {
+	@RequestMapping("/break/breakCreate.do")
+	public String breakCreate() {
 		
-		return "break/myBreak";
+		
+		return "break/breakCreate";
 	}
 	
+	@RequestMapping("/break/searchMember.do")
+	@ResponseBody
+	public String searchMember(HttpServletRequest request) {
+		String enrolldate1 = request.getParameter("enrolldate1");
+		String enrolldate2 = request.getParameter("enrolldate2");
+		String name_com = request.getParameter("name_com");
+		
+		System.out.println("enrolldate1" + enrolldate1);
+		System.out.println("enrolldate2" + enrolldate2);
+		System.out.println("name_com" + name_com);
+		
+		
+		
+		return "break/breakCreate";
+	}
 }

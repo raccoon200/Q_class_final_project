@@ -89,8 +89,7 @@
      		   
      		   var date = yy+"-"+mm+"-"+dd;
      		   day(date);
-     		//   $("#calendarid").attr("value",$("#calendar_name option:selected"));
-     		   
+     		
      		   
         		
      		       
@@ -135,8 +134,6 @@
         }); //fullCalnedar끝
         
         
-        //$(".fc-event").attr("data-toggle", "modal").attr("data-target", "#calendarView");
-        //$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarView");
     }); //ready 끝
 </script>
 

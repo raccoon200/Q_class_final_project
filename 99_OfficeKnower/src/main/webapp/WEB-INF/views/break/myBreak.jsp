@@ -80,7 +80,7 @@ $("#cal").on('click', function() {
 			</c:forEach>
 		   </c:if>
 	
-	<br />
+	<br /><br />
 	
 		<table class="table table-bordered">
 		  <thead>
@@ -110,7 +110,7 @@ $("#cal").on('click', function() {
 			      <td>${bre.reward_break}일</td>
 			      <td>${bre.regular_used_break}일</td>
 			      <td>${bre.reward_used_break}일</td>
-			      <td> ${bre.reward_break - bre.regular_used_break}일</td>
+			      <td> ${bre.regular_break - bre.regular_used_break}일</td>
 			      <td>${bre.reward_break - bre.regular_used_break}일</td>
 			    </tr>
 			</c:forEach>

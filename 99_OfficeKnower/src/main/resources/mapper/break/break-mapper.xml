@@ -11,9 +11,16 @@
 	</select>
   	<resultMap type="break" id="list"></resultMap>
   	<select id="selectBreakList" resultType="map">
-  		select u.username, c.com_name, kind, startdate,breakdays, BREAK_REQUEST_NO ,enddate 
+  		<!-- select u.username, c.com_name, kind, startdate,breakdays, BREAK_REQUEST_NO ,enddate 
 		from break_request b join tbl_user u on (b.userid=u.userid)
                     		 join tbl_com c on (b.com_no=c.com_no)
-		where b.com_no=#{comId}
+		where b.com_no=#{comId}  -->
+		
+		select u.username, c.com_name, kind, startdate, breakdays, BREAK_REQUEST_NO ,enddate
+		from break b join tbl_user u on (b.userid=u.userid)
+             		 join tbl_com c on (c.com_no=u.com_no)
+            		 join (select * from break_request where APPROVAL_STATUS=0)r on (b.userid=r.userid)
+		where u.com_no=#{comId}
+		
   	</select>
 </mapper>

@@ -257,6 +257,7 @@
 							</li>
 						</ul>
 					</li>
+										
 					<li>
 						<a href="javascript:void(0)" class="depth1">
 							<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
@@ -268,7 +269,7 @@
 								<a href="#">기본설정</a><br />
 							</li>
 							<li>
-								<a href="#">휴가 생성</a><br />
+								<a href="${pageContext.request.contextPath}/break/breakCreate.do">휴가 생성</a><br />
 							</li>
 							<li>
 								<a href="#">직원 휴가 관리</a><br />
