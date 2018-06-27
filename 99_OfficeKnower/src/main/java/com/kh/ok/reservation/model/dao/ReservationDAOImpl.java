@@ -19,15 +19,27 @@ public class ReservationDAOImpl implements ReservationDAO {
 	public List<Reservation> reservationListPage(String userId) {
 		return sqlsession.selectList("reservation.reservationListPage", userId);
 	}
-
+	
+	@Override
+	public List<Reservation> reservationListPageN(String userId) {
+		return sqlsession.selectList("reservation.reservationListPageN", userId);
+	}
+	
 	@Override
 	public List<Resources> selectResourcesList(String com_no) {
 		return sqlsession.selectList("reservation.selectResourcesList", com_no);
 	}
-
+	
 	@Override
 	public List<Map<String, String>> selectCategory(String com_no) {
 		return sqlsession.selectList("reservation.selectCategory", com_no);
 	}
+
+	@Override
+	public int reservationEnroll(Reservation reservation) {
+		return sqlsession.insert("reservation.reservationEnroll", reservation);
+	}
+
+	
 
 }

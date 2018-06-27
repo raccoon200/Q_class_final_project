@@ -14,4 +14,8 @@ public interface ReservationDAO {
 
 	List<Map<String, String>> selectCategory(String com_no);
 
+	int reservationEnroll(Reservation reservation);
+
+	List<Reservation> reservationListPageN(String userId);
+
 }

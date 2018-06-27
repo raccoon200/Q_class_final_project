@@ -118,7 +118,7 @@ public class MemberController {
 	@ResponseBody
 	public String checkIdDuplicate(@RequestParam("userId") String userId) 
 			throws JsonProcessingException {
-		System.out.println(userId);
+		//System.out.println(userId);
 		logger.debug("@ResponseBody-jsonString ajax : "+userId);
 		Map<String,Object> map = new HashMap<String, Object>();
 		//jackson라이브러리에서 사용하는 바인더
@@ -144,7 +144,7 @@ public class MemberController {
 									HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		
-		System.out.println("upFiles.length="+upFiles.length);
+		//System.out.println("upFiles.length="+upFiles.length);
 		logger.debug("upFile1="+upFiles[0].getOriginalFilename());
 		logger.debug("upFile2="+upFiles[1].getOriginalFilename());
 		
@@ -201,7 +201,7 @@ public class MemberController {
 										"_"+rndNum+"."+ext;
 				member.setSign(renamedFileName);
 			}
-			System.out.println(member);
+			//System.out.println(member);
 			//****** MultipartFile을 이용한 파일 업로드 처리로직 끝 ******//*
 			
 			String rawPassword = member.getPassword();
@@ -262,7 +262,7 @@ public class MemberController {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = null;
 		int comSEQ = memberService.selectComSEQ();
-		System.out.println(comSEQ);
+		//System.out.println(comSEQ);
 		map.put("comSEQ", comSEQ);
 		jsonStr = mapper.writeValueAsString(map);
 		return jsonStr;

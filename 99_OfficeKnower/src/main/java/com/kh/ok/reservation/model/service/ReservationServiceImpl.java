@@ -30,4 +30,14 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationDAO.selectCategory(com_no);
 	}
 
+	@Override
+	public int reservationEnroll(Reservation reservation) {
+		return reservationDAO.reservationEnroll(reservation);
+	}
+
+	@Override
+	public List<Reservation> reservationListPageN(String userId) {
+		return reservationDAO.reservationListPageN(userId);
+	}
+
 }

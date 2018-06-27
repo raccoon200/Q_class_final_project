@@ -7,8 +7,8 @@ public class Reservation {
 	private String writer;
 	private String category;
 	private int res_no;
-	private Date startdate;
-	private Date quitdate;
+	private String startdate;
+	private String quitdate;
 	private String purpose;
 	private String quit_status;
 	private String photo;
@@ -40,16 +40,16 @@ public class Reservation {
 	public void setRes_no(int res_no) {
 		this.res_no = res_no;
 	}
-	public Date getStartdate() {
+	public String getStartdate() {
 		return startdate;
 	}
-	public void setStartdate(Date startdate) {
+	public void setStartdate(String startdate) {
 		this.startdate = startdate;
 	}
-	public Date getQuitdate() {
+	public String getQuitdate() {
 		return quitdate;
 	}
-	public void setQuitdate(Date quitdate) {
+	public void setQuitdate(String quitdate) {
 		this.quitdate = quitdate;
 	}
 	public String getPurpose() {
@@ -89,7 +89,7 @@ public class Reservation {
 		this.res_name = res_name;
 	}
 	
-	public Reservation(int reservation_no, String writer, String category, int res_no, Date startdate, Date quitdate,
+	public Reservation(int reservation_no, String writer, String category, int res_no, String startdate, String quitdate,
 			String purpose, String quit_status, String photo, String approval_status, String com_no, String res_name) {
 		this.reservation_no = reservation_no;
 		this.writer = writer;
