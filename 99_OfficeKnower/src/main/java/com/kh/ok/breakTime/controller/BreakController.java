@@ -1,5 +1,7 @@
 package com.kh.ok.breakTime.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import com.kh.ok.member.model.vo.Member;
 
 @Controller
 public class BreakController {
+	
 	@Autowired
 	BreakService breakService;
 	
@@ -52,17 +55,57 @@ public class BreakController {
 	
 	@RequestMapping("/break/searchMember.do")
 	@ResponseBody
-	public String searchMember(HttpServletRequest request) {
+	public Map<String,Object> searchMember(HttpServletRequest request) {
 		String enrolldate1 = request.getParameter("enrolldate1");
 		String enrolldate2 = request.getParameter("enrolldate2");
 		String name_com = request.getParameter("name_com");
 		
+		
 		System.out.println("enrolldate1" + enrolldate1);
 		System.out.println("enrolldate2" + enrolldate2);
 		System.out.println("name_com" + name_com);
+		Map<String,String> map = new HashMap<String,String>();
+		Map<String,Object> mlist = new HashMap<String, Object>();
+		map.put("enrolldate1",enrolldate1);
+		map.put("enrolldate2",enrolldate2);
+		map.put("name_com",name_com);
 		
+		List<Map<String,String>> memberList = breakService.searchMember(map);
+		mlist.put("list",memberList);
+		System.out.println("memberList=" + memberList);
 		
-		
-		return "break/breakCreate";
+		return mlist;
 	}
+	
+	@RequestMapping("/break/choiceMember.do")
+	@ResponseBody
+	public Map<String,Object> choiceMember(HttpServletRequest request){
+		String[] userid = request.getParameter("userid").split(",");
+		System.out.println("userid"+userid);
+		
+		
+		//맵은 값이 안들어가 ㅠㅠㅠ
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> choiceList = new HashMap<String,Object>();
+		
+		
+		List<String> userList = new ArrayList<String>();
+		if(userid.length>1) {
+			
+			for(int i=0; i<userid.length; i++) {
+				userList.add(userList.size(), userid[i]);
+				System.out.println("userList" + userList);
+			}
+		}
+		map.put("userList", userList);
+		
+		List<Map<String,String>> memberList = breakService.choiceMember(map);
+		choiceList.put("memberList", memberList);
+		
+		System.out.println("다중" +memberList);
+		
+		return choiceList;
+	}
+	
+	
 }

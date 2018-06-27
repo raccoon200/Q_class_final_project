@@ -23,4 +23,41 @@
 		where u.com_no=#{comId}
 		
   	</select>
+  	
+  	<select id="searchMember" resultType="map">
+  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+		from tbl_user t left join break b on(t.userid=b.userid)
+                        join tbl_com c on (t.com_no=c.com_no)
+        where 1=1
+        <if test="name_com != null and name_com!=''">
+ 		and c.com_name like '%'||#{name_com}||'%' or t.username like '%'||#{name_com}||'%'
+ 		
+ 		</if>
+       <!--  <if test="(enddate1 != null or enddate1!='') and (enddate2 != null or enddate2!='')">
+ 		and joindate between #{enddate1} and #{enddate2}
+ 		</if>
+        <if test="(enddate1 != null or enddate1!='' and enddate2 == null and enddate2 ==''">
+ 		and joindate between #{enddate1} and sysdate
+ 		</if> -->
+  		<if test="enddate1 != null and enddate1 !=''">
+  			and joindate between #{enddate1} and
+  			<if test="enddate2 != null and enddate2 !=''">
+  				#{enddate2}
+  			</if>
+  			<if test="!(enddate2 != null and enddate2 !='')">
+  				sysdate
+  			</if>
+  		</if>
+  	</select> 
+  	
+  	<select id="choiceMember"  resultType="map" parameterType="list">
+  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+		from tbl_user t left join break b on(t.userid=b.userid)
+                        join tbl_com c on (t.com_no=c.com_no)
+        where t.userid in
+        <foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
+			#{clist}
+		</foreach> 
+  	</select>
+  	
 </mapper>

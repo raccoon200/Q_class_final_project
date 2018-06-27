@@ -25,4 +25,16 @@ public class BreakDAOImpl implements BreakDAO {
 		return sqlSession.selectList("break.selectBreakList",comId);
 	}
 
+	@Override
+	public List<Map<String, String>> searchMember(Map<String, String> map) {
+		return sqlSession.selectList("break.searchMember",map);
+	}
+
+
+
+	@Override
+	public List<Map<String, String>> choiceMember(Map<String, Object> map) {
+		return sqlSession.selectList("break.choiceMember",map);
+	}
+
 }

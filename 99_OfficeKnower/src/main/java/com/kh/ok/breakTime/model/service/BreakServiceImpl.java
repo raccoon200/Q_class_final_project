@@ -23,4 +23,15 @@ public class BreakServiceImpl implements BreakService {
 	public List<Map<String, String>> selectBreakList(String comId) {
 		return breakDao.selectBreakList(comId);
 	}
+
+	@Override
+	public List<Map<String, String>> searchMember(Map<String, String> map) {
+		return breakDao.searchMember(map);
+	}
+
+
+	@Override
+	public List<Map<String, String>> choiceMember(Map<String, Object> map) {
+		return breakDao.choiceMember(map);
+	}
 }

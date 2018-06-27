@@ -11,4 +11,8 @@ public interface BreakService {
 
 	List<Map<String, String>> selectBreakList(String comId);
 
+	List<Map<String, String>> searchMember(Map<String, String> map);
+
+	List<Map<String, String>> choiceMember(Map<String, Object> map);
+
 }

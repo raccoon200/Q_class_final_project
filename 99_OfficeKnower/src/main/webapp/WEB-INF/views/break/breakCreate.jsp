@@ -39,11 +39,91 @@
 	font-size:20px;
 	color:#0055FF;
 }
+#memberTable{
+	height : 400px;
+	overflow-y: scroll;
+	verflow-x:hidden
+}
 </style>
 <script>
-function(){
+
+$(function(){
+	
 	$("#rewardBreak").hide();
-}
+});
+
+function fn_select(){
+	/* var userid = $("input:checkbox[name='choice']").val();
+	alert(userid); */
+	var userid = "";
+	$("input[name=choice]:checked").each(function() {
+
+		userid += $(this).val() + ",";
+
+		/* console.log(userid);
+
+		location.href = "${pageContext.request.contextPath}/break/choiceMember.do?userid="+userid; */
+		
+	});
+	
+	$.ajax({
+	      url : "${pageContext.request.contextPath}/break/choiceMember.do",
+	            type: "post",
+	            data : {userid:userid},
+	            dataType : "json",
+	            success: function(data){
+	               console.log(data);
+	               data = data["list"];
+	               
+	               var html = "";
+               	if(data==null){
+	           	  
+              	}else {
+              	
+            	   	html += "<table class='table table-bordered' >";
+            	  	html += "<thead>";
+    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
+    			    html += "<th scope='col'>";
+    			    html += "<input type='checkbox' name='selectAll' id='selectAll' />";
+    			    html += "</th>";
+    			    html += "<th scope='col' rowspan='2'>이름</th>";
+    			    html += "<th scope='col' rowspan='2'>ID</th>";
+    			    html += "<th scope='col' rowspan='2'>소속</th>";
+    			    html += "<th scope='col' rowspan='2'>연차</th>";
+    			    html += "<th scope='col' colspan='2'>포상</th>";
+    			    html += "</tr>";			    
+    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
+   			     
+  			        html += "<td>현재</td>";  
+  			     	html += "<td>생성 후</td>";  
+  			    	html += "</tr>";
+    			    html += "</thead>";
+    			    
+    			    
+    			    
+    			    
+    			    
+    			    
+    			    
+    			    
+    			    
+    			    
+    			    
+               	} 
+
+	              },
+	              error:function(jqxhr,textStatus,errorThrown){
+	                 console.log("ajax 처리실패!");
+	                 console.log(jqxhr);
+	                 console.log(textStatus);
+	                 console.log(errorThrown);
+	              }
+	                   
+	  }); // ajax end
+	
+	
+		  
+}	
 </script>
 
 
@@ -97,32 +177,34 @@ function(){
       		포상 휴가 일수를 입력한 후 '지금 생성하기'를 클릭하세요.
       	</p>
       	<br /><br />
-      	<table class="table table-bordered">
-		  <thead>
-		    <tr style="background:#F6F6F6; text-align:center;">
-		      <th scope="col" rowspan="2">이름</th>
-		      <th scope="col"  rowspan="2">ID</th>
-		      <th scope="col"  rowspan="2">소속</th>
-		      <th scope="col"  rowspan="2">연차</th>
-		      <th scope="col" colspan="2">포상</th>
-		    </tr>
-		  
-		    <tr style="background:#F6F6F6;text-align:center;"> 
-		     
-		      <td>현재</td>  
-		      <td>생성 후</td>  
-		    </tr>
-		    </thead>
-		  <tbody>
-		  
-		  <c:if test="${not empty myBreak}">
-		  <c:forEach var="bre" items="${myBreak}">
-			   
-			</c:forEach>
-		   </c:if>
-		  </tbody>
-		</table>
-	
+      	
+      	<div>
+	      	<table class="table table-bordered">
+			  <thead>
+			    <tr style="background:#F6F6F6; text-align:center;">
+			      <th scope="col" rowspan="2">이름</th>
+			      <th scope="col"  rowspan="2">ID</th>
+			      <th scope="col"  rowspan="2">소속</th>
+			      <th scope="col"  rowspan="2">연차</th>
+			      <th scope="col" colspan="2">포상</th>
+			    </tr>
+			  
+			    <tr style="background:#F6F6F6;text-align:center;"> 
+			     
+			      <td>현재</td>  
+			      <td>생성 후</td>  
+			    </tr>
+			    </thead>
+			  <tbody>
+			  
+			  <c:if test="${not empty myBreak}">
+			  <c:forEach var="bre" items="${myBreak}">
+				   
+				</c:forEach>
+			   </c:if>
+			  </tbody>
+			</table>
+		</div>
 
       </td>
   
@@ -167,34 +249,30 @@ function(){
 		
 		<!-- </form> -->
 		<br /><br />
-			<table class="table table-bordered">
-		  <thead>
-		    <tr style="background:#F6F6F6; text-align:center;">
-		      <th scope="col" >
-		      	<input type="checkbox" name="" id="" />
-		      </th>
-		      <th scope="col" >이름</th>
-		      <th scope="col" >ID</th>
-		      <th scope="col" >소속</th>
-		      <th scope="col" >연차</th>
-		      <th scope="col" >포상</th>
-		    </tr>
-		  
-		    </thead>
-		  <tbody>
-		  
-		  <c:if test="${not empty myBreak}">
-		  <c:forEach var="bre" items="${myBreak}">
-			   <tr>
-			   		<td>
-			   			<input type="checkbox" name="" id="" />
-			   		</td>
-			   		<td></td>
-			   </tr>
-			</c:forEach>
-		   </c:if>
-		  </tbody>
-		</table>
+		
+		<div id="memberTable">
+		
+			<table class="table table-bordered" >
+			  <thead>
+			    <tr style="background:#F6F6F6; text-align:center;">
+			      <th scope="col" >
+			      	<input type="checkbox" name="selectAll" id="selectAll" />
+			      </th>
+			      <th scope="col" >이름</th>
+			      <th scope="col" >ID</th>
+			      <th scope="col" >소속</th>
+			      <th scope="col" >연차</th>
+			      <th scope="col" >포상</th>
+			    </tr>
+			  
+			    </thead>
+			</table>
+			<table class="table table-bordered" id="table">
+			</table>
+	
+		</div>
+			<input type="button" class="btn btn-link" style="margin-left:250px; border:1px solid;" value="선택" onclick="fn_select();" />
+			<input type="button" class="btn btn-secondary"  value="닫기" onclick="fn_close();"/>
 		
 		
 </div> <!-- 팝업창 div 끝 -->
@@ -249,13 +327,23 @@ $(function(){
 		$("#backgroundSmsLayer").remove();
 
 		$("#divInnerBox").hide();
-		$(".close").hidea();
+		$(".close").hide();
 
 	});
 
 
 
 });
+
+function fn_close(){
+	$("body").css("overflow","auto");
+
+	$("#backgroundSmsLayer").remove();
+
+	$("#divInnerBox").hide();
+	$(".close").hide();
+	
+}
 
 
 
@@ -273,7 +361,7 @@ function fn_ajaxMember(){
 	var name_com = $("#name_com").val();
 	
 	$.ajax({
-	      url : "${pageContext.request.contextPath}/break/searchMember.do",
+	      url : "<%=request.getContextPath()%>/break/searchMember.do",
 	            type: "post",
 	            data : {enrolldate1:enrolldate1, enrolldate2:enrolldate2, name_com:name_com},
 	            dataType : "json",
@@ -281,18 +369,59 @@ function fn_ajaxMember(){
 	               console.log(data);
 	               data = data["list"];
 	               
-	                 if(data==null){
+                 	if(data==null){
 	           	  
-	               }else {
+	              	}else {
 	              	
+	            	  	var html = ""; 
+	            	  	
+	            	  	html += "<form action=''>";
+	            	   	html += "<table class='table table-bordered' >";
+	            	  	html += "<thead>";
+	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
+	    			    html += "<th scope='col'>";
+	    			    html += "<input type='checkbox' name='selectAll' id='selectAll' />";
+	    			    html += "</th>";
+	    			    html += "<th scope='col' >이름</th>";
+	    			    html += "<th scope='col' >ID</th>";
+	    			    html += "<th scope='col' >소속</th>";
+	    			    html += "<th scope='col' >연차</th>";
+	    			    html += "<th scope='col' >포상</th>";
+	    			    html += "</tr>";
+	    			    html += "</thead>"; 
+	            	   
 	                 	for(var index in data){
 	 						var c = data[index];
-
+	 						console.log("에이작스" +c);	
+	
+	 						html += "<tr>";
+	 						html += "<th scope='row'> <input type='checkbox' name='choice' value='"+c.USERID+"'/> </th>";
+	 						html += "<td>" + c.USERNAME + "</td>";
+	 						html += "<td>" + c.USERID + "</td>";
+	 						html += "<td>" + c.COM_NAME + "</td>";
+	 						
+	 						if(c.REGULAR_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REGULAR_BREAK +"일 </td>";
+	 						}
+	 						
+	 						if(c.REWARD_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REWARD_BREAK + "일</td>";
+	 						}
+	 						
+	 						html += "</tr>";
 	                 	}
+	 						html += "</table>";
+	 						html += "</form>";
+	 						
+	 						$("#memberTable").html(html);
 	                 	
 	        				 
 
-	                 } 
+                 	} 
 
 	              },
 	              error:function(jqxhr,textStatus,errorThrown){
@@ -303,6 +432,9 @@ function fn_ajaxMember(){
 	              }
 	                   
 	  }); // ajax end
+	  
+	  
+  
 	
 }
 
