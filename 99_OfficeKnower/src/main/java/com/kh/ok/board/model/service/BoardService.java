@@ -3,13 +3,12 @@ package com.kh.ok.board.model.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
 import com.kh.ok.board.model.vo.Board;
 import com.kh.ok.board.model.vo.BoardBookMark;
 import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
 import com.kh.ok.board.model.vo.Comment;
+import com.kh.ok.member.model.vo.Member;
 
 public interface BoardService {
 
@@ -45,13 +44,30 @@ public interface BoardService {
 
 	List<Map<String, String>> selectBoardMenuList(String userId);
 
-	List<Map<String, String>> selectBoardGroupList(String string);
+	List<Map<String, String>> selectBoardGroupList(BoardMenu boardMenuParam);
 	
-	List<Map<String, String>> selectBoardBasicList(String string);
+	List<Map<String, String>> selectBoardBasicList(BoardMenu boardMenuParam);
 
 	int insertComment(Comment comment);
 
 	int deleteComment(int comment_no);
 
 	List<Map<String, String>> selectCommentList(int boardNo);
+
+	List<Map<String, String>> selectBoardMenuManageList(Member m);
+
+	BoardMenu selectBoardMenu(int board_menu_no);
+
+	int deleteBoardMenu(int boardMenuNo);
+
+	List<Map<String, String>> selectDeptList(String com_no);
+
+	List<Map<String, String>> selectBoardMenuMember(Member member);
+
+	String selectComName(String com_no);
+
+	List<Map<String, String>> selectBoardMemberList(int board_menu_no);
+
+	int updateBoardMenu(BoardMenu boardMenu);
+
 }

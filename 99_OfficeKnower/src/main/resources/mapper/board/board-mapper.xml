@@ -70,10 +70,10 @@
 		select * from board_menu join board_group using(board_menu_no) where board_group.userid=#{userId}
 	</select>
 	<select id="selectBoardGroupList" resultType="map">
-		select * from board_menu where kind=#{string}
+		select * from board_menu where kind=#{kind} and com_no=#{com_no} and status='Y'
 	</select>
 	<select id="selectBoardBasicList_" resultType="map">
-		select * from board_menu where kind=#{string}
+		select * from board_menu where kind=#{kind} and com_no=#{com_no} and status='Y'
 	</select>
 	<insert id="insertComment">
 		insert into tbl_comment values(seq_tbl_comment_comment_no.nextval, #{board_no}, #{writer}, #{content}, sysdate, 'Y')
@@ -84,4 +84,32 @@
 	<delete id="deleteComment">
 		delete from tbl_comment where comment_no=#{comment_no}
 	</delete>
+	<select id="selectBoardMenuManageList" resultType="map">
+		select distinct A.board_menu_no, A.title, A.createdate, A.kind, A.userId,A.com_no, case when A.status='Y' then '사용' else '미사용' end status from board_menu A join tbl_user B on A.COM_NO = B.COM_NO where a.status='Y' or a.status='M'
+	</select>
+	<select id="selectBoardMenu" resultType="com.kh.ok.board.model.vo.BoardMenu">
+		select * from board_menu where board_menu_no=#{board_menu_no}
+	</select>
+	<delete id="deleteBoardMenu">
+		update board_menu set status='N' where board_menu_no=#{boardMenuNo}
+	</delete>
+	<select id="selectBoardMenuMember" resultType="map">
+		select a.userid, a.dept, a.username, a.photo from tbl_user A join tbl_dept B on A.dept = B.dept
+	</select>
+	<select id="selectDeptList" resultType="map">
+		select * from tbl_dept where com_no=#{com_no} 
+	</select>
+	<select id="selectBoardMenuMember_" resultType="map">
+		select * from tbl_user where com_no=#{com_no} and dept=#{dept}
+	</select>
+	<select id="selectComName" resultType="String">
+		select com_name from tbl_com where com_no=#{com_no}
+	</select>
+	<select id="boardMemberList" resultType="map">
+		select * from board_group A join tbl_user B on A.userid=B.userid  where board_menu_no=#{board_menu_no}
+	</select>
+	<update id="updateBoardMenu">
+		update board_menu set title=#{title}, kind=#{kind} where board_menu_no=#{board_menu_no}
+	</update>
+	
 </mapper>

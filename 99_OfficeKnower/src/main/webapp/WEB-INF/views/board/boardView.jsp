@@ -142,20 +142,19 @@ div#board-container{
 	top:47px;
 	left:410px;
 }
-textarea#content{
+div#content{
  	border:none; 
 	width:100%;
-	margin-top:100px;
-	min-height:200px;
+	min-height:180px;
+	
+	
 }
-
 #comment-insert {
 	height:60px;
 	padding:10px;
 	position:relative;
 }
-.comment{
-
+.comment{ 
 	width:100%;
 	background:rgb(246,247,248);
 	border:none;
@@ -163,6 +162,7 @@ textarea#content{
 }
 #comment{
 	padding-bottom:0px;
+	
 }
 .comment-profile{
 	width:30px;
@@ -227,7 +227,23 @@ textarea#content{
 #top-btn-delete{
 	left:90px;
 }
-
+#file {
+	font-size: 0.9em;
+	color:rgb(50,50,50);
+	cursor:pointer;
+	float:left;
+	padding-left:10px;
+}
+#board-content{
+	float:left;
+	padding-left:10px;
+	height:200px;
+	width:800px;
+	overflow-y: scroll;
+}
+#board-content p {
+	text-align:left;
+}
 </style>
 <script>
 $(function() {
@@ -267,7 +283,15 @@ $(function() {
 	<p id="kind" class="sub"><%-- ${board.kind } --%>전사게시판</p>
 	<p id="count" class="sub"><%-- ${board.count } --%>읽은 사람 ${board.count }</p>
 	<p id="writedate" class="sub"><%-- ${board.writeDate } --%> ${board.writeDate }</p>
-	<textarea id="content"cols="30" rows="10" readonly>${board.content }</textarea>
+	<br /><br /><br />
+	<hr>
+	<p id="file" onclick="fileDownload('${board.original_file_name}', '${board.renamed_file_name }')">첨부파일  :  ${board.original_file_name }</p>
+	<br clear="both"/>
+	<div id="board-content">
+		${board.content }
+	</div>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<!-- <textarea id="content"cols="30" rows="10" readonly></textarea> -->
 	<div class="comment" id="comment">
 		<p id="comment-count"><span style="color:rgb(0,125,255); font-weight:bold">${fn:length(commentList) }</span>개의 댓글</p> <br /> <br />
 		<c:forEach var="v" varStatus="vs" items="${commentList }">

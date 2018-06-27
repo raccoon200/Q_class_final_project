@@ -37,8 +37,8 @@
 	</c:if>
 
 </table>
-
-<input type="button" value="글쓰기" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'"/>
+<%-- 
+<input type="button" value="글쓰기" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'"/> --%>
 <script>
 function fn_boardView(no) {
 	location.href='${pageContext.request.contextPath }/board/boardView?boardNo='+no;
