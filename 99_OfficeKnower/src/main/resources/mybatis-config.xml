@@ -6,5 +6,9 @@
 		<typeAlias type="com.kh.ok.job.model.vo.Job" alias="job"/>
 		<typeAlias type="com.kh.ok.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.ok.breakTime.model.vo.Break" alias="break"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Connect" alias="connection"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Title_of_Account" alias="gajong"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Dept" alias="dept"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Account" alias="account"/>
 	</typeAliases>
 </configuration>
