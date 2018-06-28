@@ -145,8 +145,25 @@ a#editName{
 	}
 	function fn_validate(){
 		var regExp = /^[0-9]+$/;
+		var isUsable;
 		if($("#frm").find("[name=userId]").val() == ""){
 			return false;			
+		}
+		$.ajax({
+			url: "${pageContext.request.contextPath}/approval/accountDuplicate.do",
+			type: "post",
+			data: {userId:$("#frm").find("[name=userId]").val(), com_no: $("#frm").find("[name=com_no]").val()},
+			dataType: "json",
+			success: function(data){
+				isUsable = data.isUsable;
+			},
+			error: function(jqxhr, textStatus, errorThrown) {
+	            console.log("ajax실패!", jqxhr, textStatus, errorThrown);
+	        }
+		});
+		if(!isUsable){
+			alert("이미 등록되었습니다.")
+			return false;
 		}
 		if($("#frm").find("select").val()==""){
 			alert("은행을 선택해주세요.");
@@ -158,6 +175,33 @@ a#editName{
 			return false;
 		}
 		return true;
+	}
+	function fn_update(userId, name, bankName, account_no){
+		$("#accountUpdateModal").find("#accountName").val(name);
+		$("#accountUpdateModal").find(".guide.ok").text(userId);
+		$("#accountUpdateModal").find(".guide.ok").show();		
+		$("#accountUpdateModal").find("[name=userId]").val(userId);		
+		$("#accountUpdateModal").find("option").removeAttr("selected");			
+		$("#accountUpdateModal").find("option[value="+bankName+"]").attr("selected","selected");			
+		$("#accountUpdateModal").find("input[name=account_no]").val(account_no);	
+	}
+	function fn_validate_update(){
+		if($("#frmUpdate").find("select").val()==""){
+			alert("은행을 선택해주세요.");
+			$("#frmUpdate").find("select").focus();
+			return false;
+		}
+		if(!regExp.test($("[name=account_no]").val())){
+			alert("계좌번호는 숫자만 입력해주세요.");
+			$("#frmUpdate").find("[name=account_no]").focus();
+			return false;
+		}
+		return true;
+	}
+	function fn_delete(userId){
+		if(confirm("정말로 삭제하시겠습니까?")){
+			location.href = "${pageContext.request.contextPath}/approval/accountDelete.do?userId="+userId;
+		}
 	}
 </script>
 <h4>기본 정보</h4>
@@ -201,7 +245,7 @@ a#editName{
 								<td>
 									${account.reg_date}
 									<span style="float: right;">					
-										<a href="javascript:void(0)" data-toggle="modal" data-target="#accountUpdateModal" onclick="fn_update('${account.userId}', '${account.bankName},'${account.account_no}')">
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#accountUpdateModal" onclick="fn_update('${account.userId}', '${account.name}','${account.bankName}','${account.account_no}')">
 											수정
 										</a>/<a href="javascript:void(0)" onclick="fn_delete('${account.userId}')">삭제</a>
 									</span>
@@ -282,6 +326,70 @@ a#editName{
 				<div class="modal-footer">
 					<button type="reset" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 					<button type="submit" class="btn btn-primary">추가</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 부서 updateModal -->
+<div class="modal fade" id="accountUpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalCenterTitle">계좌 수정</h5>
+		  		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form action="${pageContext.request.contextPath}/approval/accountUpdate.do" id="frmUpdate" method="post" onsubmit="return fn_validate_update();">
+				<div class="modal-body">
+					<table class="table" style="margin-bottom: 0px;">
+						<tr>
+							<th>이름</th>
+							<td>
+								<input type="text" class="form-control name" name="name" id="accountName" autocomplete="off" readonly required />
+								<input type="hidden" name="userId" value=""/>
+								<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
+								<span class="guide ok"></span>
+							</td>
+						</tr>
+						<tr>
+							<th>은행명</th>
+							<td>
+								<select class="form-control" name="bankName">
+									<option value="">은행명</option>
+  									<option value="국민은행">국민은행</option>
+									<option value="신한은행">신한은행</option>
+									<option value="우리은행">우리은행</option>
+									<option value="KEB하나은행">KEB하나은행</option>
+									<option value="KDB산업은행">KDB산업은행</option>
+									<option value="IBK기업은행">IBK기업은행</option>
+									<option value="한국수출입은행">한국수출입은행</option>
+									<option value="NH농협은행">NH농협은행</option>
+									<option value="수협은행">수협은행</option>
+									<option value="대구은행">대구은행</option>
+									<option value="부산은행">부산은행</option>
+									<option value="경남은행">경남은행</option>
+									<option value="광주은행">광주은행</option>
+									<option value="전북은행">전북은행</option>
+									<option value="제주은행">제주은행</option>
+									<option value="SC제일은행">SC제일은행</option>
+									<option value="한국씨티은행">한국씨티은행</option>
+									<option value="우체국">우체국</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>계좌번호</th>
+							<td>
+								<input type="text" class="form-control" name="account_no" id="" required placeholder="-없이 숫자만"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="submit" class="btn btn-primary">수정</button>
 				</div>
 			</form>
 		</div>

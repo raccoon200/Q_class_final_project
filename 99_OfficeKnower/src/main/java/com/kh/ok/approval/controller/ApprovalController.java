@@ -1,7 +1,12 @@
 package com.kh.ok.approval.controller;
 
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -276,6 +281,69 @@ public class ApprovalController {
 			mav.setViewName("common/msg");
 		}
 		
+		return mav;
+	}
+	@RequestMapping("/approval/accountDuplicate.do")
+	@ResponseBody
+	public Map<String, Object> accountDuplicate(@RequestParam("com_no") String com_no, @RequestParam("userId") String userId){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("com_no", com_no);
+		map.put("userId", userId);
+		
+		int result = approvalService.accountDuplicate(map);
+		boolean isUsable = result>0?false:true;
+		map.put("isUsable",isUsable);
+		
+		return map;
+	}
+	@RequestMapping("/approval/accountUpdate.do")
+	public ModelAndView accountUpdate(Account account) {
+		ModelAndView mav = new ModelAndView();
+		
+		int result = approvalService.accountUpdate(account);
+		if(result > 0) {
+			mav.setViewName("redirect:/office/approval/account.do");
+		}else {
+			mav.addObject("loc","/office/approval/account.do");
+			mav.addObject("msg","계좌 수정에 실패했습니다. 관리자에게 문의해주세요.");
+			mav.setViewName("common/msg");
+		}
+		return mav;
+	}
+	@RequestMapping("/approval/accountDelete.do")
+	public ModelAndView accountDelete(@RequestParam("userId") String userId) {
+		ModelAndView mav = new ModelAndView();
+		
+		int result = approvalService.accountDelete(userId);
+		if(result > 0) {
+			mav.setViewName("redirect:/office/approval/account.do");
+		}else {
+			mav.addObject("loc","/office/approval/account.do");
+			mav.addObject("msg","계좌 수정에 실패했습니다. 관리자에게 문의해주세요.");
+			mav.setViewName("common/msg");
+		}
+		return mav;
+	}
+	@RequestMapping("/approval/approvalInsert.do")
+	public ModelAndView approvalInsert(Locale locale) {
+		ModelAndView mav = new ModelAndView();
+		
+		Date date = new Date();		
+		DateFormat yearFormat = new SimpleDateFormat("yyyy");
+		DateFormat monthFormat = new SimpleDateFormat("MM");
+
+		System.out.println(monthFormat.format(date));
+		System.out.println(((Integer.parseInt(monthFormat.format(date))/10)>0?"":"0")+(Integer.parseInt(monthFormat.format(date))-1));
+		System.out.println(((Integer.parseInt(monthFormat.format(date))/10)>0?"":"0")+(Integer.parseInt(monthFormat.format(date))-2));
+		
+		mav.addObject("year", yearFormat.format(date));
+		mav.addObject("year_1", ""+(Integer.parseInt(yearFormat.format(date))-1));
+		mav.addObject("year_2", ""+(Integer.parseInt(yearFormat.format(date))-2));
+		mav.addObject("month", monthFormat.format(date));
+		mav.addObject("month_1", ((Integer.parseInt(monthFormat.format(date))/10)>0?"":"0")+(Integer.parseInt(monthFormat.format(date))-1));
+		mav.addObject("month_2", ((Integer.parseInt(monthFormat.format(date))/10)>0?"":"0")+(Integer.parseInt(monthFormat.format(date))-2));
+		
+		mav.setViewName("approval/approvalInsert");
 		return mav;
 	}
 }

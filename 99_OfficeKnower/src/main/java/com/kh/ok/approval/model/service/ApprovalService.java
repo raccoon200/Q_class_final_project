@@ -41,4 +41,10 @@ public interface ApprovalService {
 
 	int accountInsert(Account account);
 
+	int accountDuplicate(Map<String, Object> map);
+
+	int accountUpdate(Account account);
+
+	int accountDelete(String userId);
+
 }

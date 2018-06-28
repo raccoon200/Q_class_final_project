@@ -34,12 +34,15 @@
 			$(".depth2").addClass("show");
 			$(".fold").attr("src", "${pageContext.request.contextPath }/resources/images/common/folder_icon_open.png");
 		}
+		var parentsWidth = $("div.container_main").css("width");
+		var navWidth = $("nav#leftMenu").css("width");
+		$("div#sabu_container").css("width",parseFloat(parentsWidth)-parseFloat(navWidth)+"px");
 	});
 </script>
 <nav id="leftMenu">
 	<c:if test="${param.pageTitle eq '전자결재'}">
 		<div class="main_btn">
-			<button type="button" class="btn btn-primary">작성하기</button>
+			<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/approval/approvalInsert.do'">작성하기</button>
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">

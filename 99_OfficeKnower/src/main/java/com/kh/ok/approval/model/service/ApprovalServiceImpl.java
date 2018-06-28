@@ -77,5 +77,17 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int accountInsert(Account account) {
 		return approvalDAO.accountInsert(account);
 	}
+	@Override
+	public int accountDuplicate(Map<String, Object> map) {
+		return approvalDAO.accountDuplicate(map);
+	}
+	@Override
+	public int accountUpdate(Account account) {
+		return approvalDAO.accountUpdate(account);
+	}
+	@Override
+	public int accountDelete(String userId) {
+		return approvalDAO.accountDelete(userId);
+	}
 	
 }

@@ -49,4 +49,13 @@
 	<insert id="accountInsert" parameterType="account">
 		insert into account values(#{userId},#{name},#{bankName},#{account_no}, sysdate, #{com_no})
 	</insert>
+	<select id="accountDuplicate" resultType="_int">
+		select count(*) from account where com_no = #{com_no} and userid = #{userId}
+	</select>
+	<update id="accountUpdate">
+		update account set bankname = #{bankName}, account_no = #{account_no} where com_no = #{com_no} and userid = #{userId}
+	</update>
+	<delete id="accountDelete">
+		delete from account where userId = #{userId}
+	</delete>
 </mapper>

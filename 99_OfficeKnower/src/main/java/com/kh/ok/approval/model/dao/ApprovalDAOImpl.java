@@ -93,4 +93,19 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.insert("approval.accountInsert", account);
 	}
 
+	@Override
+	public int accountDuplicate(Map<String, Object> map) {
+		return sqlSession.selectOne("approval.accountDuplicate", map);
+	}
+
+	@Override
+	public int accountUpdate(Account account) {
+		return sqlSession.update("approval.accountUpdate", account);
+	}
+
+	@Override
+	public int accountDelete(String userId) {
+		return sqlSession.delete("approval.accountDelete", userId);
+	}
+
 }
