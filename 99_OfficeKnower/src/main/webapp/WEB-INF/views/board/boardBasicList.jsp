@@ -9,10 +9,10 @@
 	<!-- nav 시작 -->
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="게시판" name="pageTitle"/>
-	<jsp:param value="전사 게시판" name="selectMenu"/>
+	<jsp:param value="${board_menu_title }" name="selectMenu"/>
 </jsp:include>	
 	<!-- nav 끝 -->
-
+	<p style="font-size:2em; color:rgb(0,125,255);">${board_menu_title }</p>
 	<table class="table table-hover">
 
     <tr>
@@ -37,8 +37,8 @@
 	</c:if>
 
 </table>
-
-<input type="button" value="글쓰기" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'"/>
+<%-- 
+<input type="button" value="글쓰기" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/board/boardForm'"/> --%>
 <script>
 function fn_boardView(no) {
 	location.href='${pageContext.request.contextPath }/board/boardView?boardNo='+no;

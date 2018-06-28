@@ -13,6 +13,8 @@ import com.kh.ok.board.model.vo.Board;
 import com.kh.ok.board.model.vo.BoardBookMark;
 import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
+import com.kh.ok.board.model.vo.Comment;
+import com.kh.ok.member.model.vo.Member;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -84,12 +86,57 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.selectBoardMenuList(userId);
 	}
 	@Override
-	public List<Map<String, String>> selectBoardGroupList(String string) {
-		return boardDAO.selectBoardGroupList(string);
+	public List<Map<String, String>> selectBoardGroupList(BoardMenu boardMenu) {
+		return boardDAO.selectBoardGroupList(boardMenu);
 	}
 	@Override
-	public List<Map<String, String>> selectBoardBasicList(String string) {
-		return boardDAO.selectBoardBasicList(string);
+	public List<Map<String, String>> selectBoardBasicList(BoardMenu boardMenu) {
+		return boardDAO.selectBoardBasicList(boardMenu);
 	}
+	@Override
+	public int insertComment(Comment comment) {
+		return boardDAO.insertComment(comment);
+	}
+	@Override
+	public int deleteComment(int comment_no) {
+		return boardDAO.deleteComment(comment_no);
+	}
+	@Override
+	public List<Map<String, String>> selectCommentList(int boardNo) {
+		return boardDAO.selectCommentList(boardNo);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardMenuManageList(Member m) {
+		return boardDAO.selectBoardMenuManageList(m);
+	}
+	@Override
+	public BoardMenu selectBoardMenu(int board_menu_no) {
+		return boardDAO.selectBoardMenu(board_menu_no);
+	}
+	@Override
+	public int deleteBoardMenu(int boardMenuNo) {
+		return boardDAO.deleteBoardMenu(boardMenuNo);
+	}
+	@Override
+	public List<Map<String, String>> selectDeptList(String com_no) {
+		return boardDAO.selectDeptList(com_no);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardMenuMember(Member member) {
+		return boardDAO.selectBoardMenuMember(member);
+	}
+	@Override
+	public String selectComName(String com_no) {
+		return boardDAO.selectComName(com_no);
+	}
+	@Override
+	public List<Map<String, String>> selectBoardMemberList(int board_menu_no) {
+		return boardDAO.selectBoardMemberList(board_menu_no);
+	}
+	@Override
+	public int updateBoardMenu(BoardMenu boardMenu) {
+		return boardDAO.updateBoardMenu(boardMenu);
+	}
+
 	
 }

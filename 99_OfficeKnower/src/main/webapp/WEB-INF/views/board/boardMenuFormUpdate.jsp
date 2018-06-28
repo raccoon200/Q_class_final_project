@@ -8,7 +8,7 @@
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="게시판" name="pageTitle"/>
-	<jsp:param value="게시판 만들기" name="selectMenu"/>
+	<jsp:param value="${board_menu_title }" name="selectMenu"/>
 </jsp:include>	
 <style>
 #member-select{
@@ -109,10 +109,31 @@ ul.menu_list li {
 </style>
 <script>
 $(function() {
-	$("#user-add").hide();
-})
+	if("${_boardMenu.kind}" == "전사게시판"){
+		$("#user-add").hide();
+	}else if("${_boardMenu.kind}" == "그룹게시판"){
+		$("#user-add").show();
+	}
+	<c:forEach var="v" items="${_boardGroupList}">
+	var str='';
+		str += '<input type="hidden" name="memberInfo" value="${v.USERID}"/>';
+		str += '<div value="${v.USERID}" id="${v.USERID}';
+		str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/${v.PHOTO}" alt="" />&nbsp;&nbsp;&nbsp;<span>${v.USERID}</span> &nbsp;&nbsp; <span>${v.USERNAME}</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="${v.USERID}" alt="">'
 
-$.ajax( {
+		str += '</div>'; 
+		/* $("area3-table").children().remove(); */
+	 	$("#member-select").append(str);	
+	 	
+	 
+	</c:forEach>
+	$("#count").text("");
+ 	$("#count").append(${fn:length(_boardGroupList)});
+})
+	
+
+
+
+/* $.ajax( {
 	type : "POST",
 	url : "${pageContext.request.contextPath}/member/memberCompanyListAll",
 	dataType : "json",
@@ -145,8 +166,8 @@ $.ajax( {
 	},
 	error : function(xhr, status, e) {
 		
-	}
-})
+	} 
+})*/
 
 
 $(function() {
@@ -251,18 +272,20 @@ function fn_memberListView(){
 <%-- <c:foreach var="v" varStatus="vs" items="${member_menu_list }">
 ${v.get(index) }
 </c:foreach> --%>
-<form method="post" action="${pageContext.request.contextPath }/board/boardMenuFormEnd">
+
+<form method="post" action="${pageContext.request.contextPath }/board/boardMenuFormUpdateEnd">
+	<input type="hidden" name="board_menu_no" value="${_boardMenu.board_menu_no }"/>
  	<fieldset class="form-group">
     <div class="row">
       <legend class="col-form-label col-sm-2 pt-0">게시판 종류</legend>
       <div class="col-sm-10">
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="kind" id="all-board-menu" value="전사게시판" checked onclick="fn_memberListView()">
+          <input class="form-check-input" type="radio" name="kind" id="all-board-menu" <c:if test="${_boardMenu.kind eq '전사게시판' }">checked</c:if> value="전사게시판"  onclick="fn_memberListView()">
           <label class="form-check-label" for="all-board-menu">
             	전사게시판
           </label>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input class="form-check-input" type="radio" name="kind" id="group-board-menu" value="그룹게시판" onclick="fn_memberListGroup()"/>
+          <input class="form-check-input" type="radio" name="kind" id="group-board-menu" <c:if test="${_boardMenu.kind eq '그룹게시판' }">checked</c:if> value="그룹게시판" onclick="fn_memberListGroup()"/>
           <label class="form-check-label" for="group-board-menu">
             	그룹게시판
           </label>
@@ -276,12 +299,12 @@ ${v.get(index) }
       <legend class="col-form-label col-sm-2 pt-0">사용 여부</legend>
       <div class="col-sm-10">
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="status" id="board-menu-status-Y" value="Y" checked>
+          <input class="form-check-input" type="radio" name="status" id="board-menu-status-Y" value="Y" <c:if test="${_boardMenu.status eq 'Y ' }">checked</c:if> >
           <label class="form-check-label" for="board-menu-status-Y">
             	사용
           </label>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input class="form-check-input" type="radio" name="status" id="board-menu-status-M" value="M">
+          <input class="form-check-input" type="radio" name="status" id="board-menu-status-M" <c:if test="${_boardMenu.status eq 'M ' }">checked</c:if>  value="M">
           <label class="form-check-label" for="board-menu-status-M">
             	미사용
           </label>
@@ -294,7 +317,7 @@ ${v.get(index) }
   <div class="form-group row">
     <label for="boardMenuName" class="col-sm-2 col-form-label">이름</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="title" id="boardMenuName" >
+      <input type="text" class="form-control" name="title" id="boardMenuName" value="${_boardMenu.title }">
     </div>
   </div>
   <input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" />
@@ -374,7 +397,7 @@ ${v.get(index) }
  <input type="hidden" name="userId" value="${memberLoggedIn.userId }" />
   <br /><br /><br /><br /><br /><br /><br /><br />
   <div id="btn-board-menu-form">
-	  <input type="submit" class="btn btn-primary" value="등록"/>
+	  <input type="submit" class="btn btn-primary" value="수정"/>
 	  <input type="button" value="취소" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/board/boardBasicList'"/>
   </div>
 </form>
@@ -429,7 +452,7 @@ function fn_memberListGroup() {
 		 var str='';
 		 str += '<input type="hidden" name="memberInfo" value="${memberLoggedIn.userId}"/>';
 		str += '<div value="${memberLoggedIn.userId}" id="${memberLoggedIn.userId}';
-		str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/${memberLoggedIn.photo}" alt="" />&nbsp;&nbsp;&nbsp;<span>${memberLoggedIn.userId}</span> &nbsp;&nbsp; <span>${memberLoggedIn.userName}</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="${memberLoggedIn.userId}" alt="">'
+		str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/${memberLoggedIn.photo}" alt="" />&nbsp;&nbsp;&nbsp;<span>${memberLoggedIn.userId}</span> &nbsp;&nbsp; <span>zz${memberLoggedIn.userName}</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="${memberLoggedIn.userId}" alt="">'
 	
   		str += '</div>'; 
 	 	$("#member-select").append(str);	 
@@ -449,8 +472,8 @@ function fn_groupAdd(){
 	}));
 	for(var i=0; i<ids.length; i++){
 		var str='';
-		 str += '<input type="hidden" name="memberInfo" value="${memberLoggedIn.userId}"/>';
-		str += '<div value="'+ids[i]+'" id="${memberLoggedIn.userId}';
+		 str += '<input type="hidden" name="memberInfo" value="'+ids[i]+'"/>';
+		str += '<div value="'+ids[i]+'" id="'+ids[i];
 		str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/'+photos[i]+'" alt="" />&nbsp;&nbsp;&nbsp;<span>'+ids[i]+'</span> &nbsp;&nbsp; <span>'+names[i]+'</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="'+ids[i]+'" alt="">'
 	
  		str += '</div>'; 

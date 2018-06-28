@@ -4,9 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,14 +24,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.ok.board.model.service.BoardService;
 import com.kh.ok.board.model.vo.Board;
 import com.kh.ok.board.model.vo.BoardBookMark;
 import com.kh.ok.board.model.vo.BoardGroup;
 import com.kh.ok.board.model.vo.BoardMenu;
+import com.kh.ok.board.model.vo.Comment;
 import com.kh.ok.member.model.vo.Member;
 
 @Controller
@@ -38,70 +44,62 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping("/board/test")
-	public ModelAndView board() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/test2");
-		return mav;
-	}
-
-	@RequestMapping("/board/boardTest")
-	public ModelAndView boardTest(String id1, String id2) {
-		System.out.println(id1);
-		System.out.println(id2);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("board/test");
-		return mav;
-	}
-
 	@RequestMapping("/board/boardBasicList")
 	public ModelAndView selectBoardList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage,
-			HttpServletRequest request, @RequestParam(value = "boardMenuNo", required=false,  defaultValue = "1") int boardMenuNo) {
+			HttpServletRequest request,
+			@RequestParam(value = "boardMenuNo", required = false, defaultValue = "1") int board_menu_no) {
 		ModelAndView mav = new ModelAndView();
-
 		HttpSession session = request.getSession(false);
 		String userId = null;
+		String com_no = null;
 		if (session != null && session.getAttribute("memberLoggedIn") != null) {
-			userId = ((Member) session.getAttribute("memberLoggedIn")).getUserId();
+			Member m = (Member) session.getAttribute("memberLoggedIn");
+			userId = m.getUserId();
+			com_no = m.getCom_no();
 		}
 
 		// numPerPage 선언
 		int numPerPage = 5;
 
-		List<Map<String, String>> list = boardService.selectBoardBasicList(cPage, numPerPage, boardMenuNo);
-		System.out.println("list : " + list);
+		List<Map<String, String>> list = boardService.selectBoardBasicList(cPage, numPerPage, board_menu_no);
+		BoardMenu boardMenu = boardService.selectBoardMenu(board_menu_no);
 
 		int pageNum = boardService.selectBoardCount();
 		mav.addObject("list", list);
 		mav.addObject("numPerPage", numPerPage);
 		mav.addObject("cPage", cPage);
 		mav.addObject("pageNum", pageNum);
-
-		
+		mav.addObject("board_menu_title", boardMenu.getTitle());
+		mav.addObject("currentMenuNo", board_menu_no);
+		mav.addObject("board_menu_kind", boardMenu.getKind());
 		//////
-		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
-		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
-		
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
 		mav.addObject("groupBoard", groupBoard);
 		mav.addObject("basicBoard", basicBoard);
 		//////
-		
-		
+
 		return mav;
 
 	}
-	
+
 	@RequestMapping("/board/boardImportantList")
-	public ModelAndView selectImportantBoardList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage,
-			HttpServletRequest request, HttpSession session) {
+	public ModelAndView selectImportantBoardList(
+			@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpServletRequest request,
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		
 		session = request.getSession(false);
 		String userId = null;
-
+		String com_no = null;
 		if (session != null && session.getAttribute("memberLoggedIn") != null) {
 			userId = ((Member) session.getAttribute("memberLoggedIn")).getUserId();
+			com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
 		}
 
 		// numPerPage 선언
@@ -115,46 +113,54 @@ public class BoardController {
 		mav.addObject("cPage", cPage);
 		mav.addObject("pageNum", pageNum);
 
-		
 		//////
-		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
-		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
-		
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
 		mav.addObject("groupBoard", groupBoard);
 		mav.addObject("basicBoard", basicBoard);
 		//////
 		return mav;
 
 	}
-	@RequestMapping("/board/boardRecentList") 
+
+	@RequestMapping("/board/boardRecentList")
 	public ModelAndView selectRecentBoardList(HttpServletRequest request, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		
 		session = request.getSession(false);
 		String userId = null;
-
+		String com_no = null;
 		if (session != null && session.getAttribute("memberLoggedIn") != null) {
 			userId = ((Member) session.getAttribute("memberLoggedIn")).getUserId();
+			com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
 		}
-
-		
 
 		List<Map<String, String>> list = boardService.selectBoardRecentList(userId);
 
 		mav.addObject("list", list);
 		//////
-		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
-		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
-		
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
 		mav.addObject("groupBoard", groupBoard);
 		mav.addObject("basicBoard", basicBoard);
 		//////
 		return mav;
 
 	}
+
 	@RequestMapping("/board/boardView")
-	public ModelAndView selectBoardView(@RequestParam int boardNo, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ModelAndView selectBoardView(@RequestParam int boardNo, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
 		// 쿠키검사 (조회수)
@@ -189,23 +195,31 @@ public class BoardController {
 			response.addCookie(boardCookie);
 
 		}
-	
-	
+
 		Board board = boardService.selectBoardView(boardNo);
 		System.out.println("/board/boardView : " + board);
 		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
 		BoardBookMark bbm = new BoardBookMark(boardNo, m.getUserId());
-		if(boardService.selectBoardBookMark(bbm)>0) {
+		if (boardService.selectBoardBookMark(bbm) > 0) {
 			board.setBookmark("Y");
-		}else {
+		} else {
 			board.setBookmark("N");
 		}
-	
+
 		mav.addObject("board", board);
+
+		List<Map<String, String>> commentList = boardService.selectCommentList(boardNo);
+		mav.addObject("commentList", commentList);
+
 		//////
-		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
-		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
-		
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
 		mav.addObject("groupBoard", groupBoard);
 		mav.addObject("basicBoard", basicBoard);
 		//////
@@ -213,27 +227,34 @@ public class BoardController {
 	}
 
 	@RequestMapping("/board/boardForm")
-	public ModelAndView selectBoardForm(HttpSession session) {
+	public ModelAndView selectBoardForm(HttpSession session,
+			@RequestParam(value = "boardMenuNo", required = false, defaultValue = "0") int boardMenuNo) {
 		String userId = null;
-		if(session.getAttribute("memberLoggedIn")!=null) {
-			userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();
+		String com_no = null;
+		if (session.getAttribute("memberLoggedIn") != null) {
+			userId = ((Member) session.getAttribute("memberLoggedIn")).getUserId();
+			com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
 		}
-		
-		List<Map<String,String>> board_menu_list = boardService.selectBoardMenuList(userId);
+
+		List<Map<String, String>> board_menu_list = boardService.selectBoardMenuList(userId);
 		System.out.println(board_menu_list);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("board_menu_list", board_menu_list);
-		
+		mav.addObject("currentMenuNo", boardMenuNo);
 		//////
-		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
-		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
-		
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
 		mav.addObject("groupBoard", groupBoard);
 		mav.addObject("basicBoard", basicBoard);
 		//////
 		return mav;
 	}
-	
+
 	@RequestMapping("/board/boardFormEnd.do")
 	public ModelAndView insertBoard(Board board, @RequestParam(value = "upFile", required = false) MultipartFile upFile,
 			HttpServletRequest request) {
@@ -366,20 +387,26 @@ public class BoardController {
 	public ModelAndView boardUpdate(@RequestParam int boardNo, HttpSession session) {
 		Board board = boardService.selectBoardView(boardNo);
 		ModelAndView mav = new ModelAndView();
-		String userId=null;
-		if(session.getAttribute("memberLoggedIn")!=null) {
-			userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();
+		String userId = null;
+		String com_no = null;
+		if (session.getAttribute("memberLoggedIn") != null) {
+			userId = ((Member) session.getAttribute("memberLoggedIn")).getUserId();
+			com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
 		}
-		
-		List<Map<String,String>> board_menu_list = boardService.selectBoardMenuList(userId);
+
+		List<Map<String, String>> board_menu_list = boardService.selectBoardMenuList(userId);
 		System.out.println(board_menu_list);
 		mav.addObject("board", board);
 		mav.addObject("board_menu_list", board_menu_list);
-		
+
 		//////
-		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
-		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
-		
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
 		mav.addObject("groupBoard", groupBoard);
 		mav.addObject("basicBoard", basicBoard);
 		//////
@@ -436,7 +463,7 @@ public class BoardController {
 			// 3. view단 분기
 			String loc = "/";
 			String msg = "";
-	
+
 			if (result > 0) {
 				msg = "게시물 수정 성공";
 				loc = "/board/boardView.do?boardNo=" + boardNo;
@@ -472,12 +499,24 @@ public class BoardController {
 
 	// 게시판 만들기
 	@RequestMapping("/board/boardMenuForm")
-	public ModelAndView boardMenuForm() {
+	public ModelAndView boardMenuForm(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		String com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
+		String com_name = boardService.selectComName(com_no);
+		List<Map<String, String>> deptList = boardService.selectDeptList(com_no);
+
+		mav.addObject("deptList", deptList);
+
+		mav.addObject("com_name", com_name);
+
 		//////
-		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList("그룹게시판");
-		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList("전사게시판");
-		
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
 		mav.addObject("groupBoard", groupBoard);
 		mav.addObject("basicBoard", basicBoard);
 		//////
@@ -542,6 +581,176 @@ public class BoardController {
 		int result = boardService.importantDelete(bbm);
 
 	}
+
+	@RequestMapping("/board/commentInsert")
+	public ModelAndView commentInsert(Comment comment) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(comment);
+		int result = boardService.insertComment(comment);
+
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "댓글 등록 성공";
+			loc = "/board/boardView.do?boardNo=" + comment.getBoard_no();
+		} else
+			msg = "댓글 등록 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+
+	@RequestMapping("/board/commentDelete")
+	public ModelAndView commentDelete(Comment comment) {
+		ModelAndView mav = new ModelAndView();
+
+		System.out.println(comment.getBoard_no());
+
+		int result = boardService.deleteComment(comment.getComment_no());
+
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "댓글 삭제 성공";
+			loc = "/board/boardView.do?boardNo=" + comment.getBoard_no();
+		} else
+			msg = "댓글 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+
+	@RequestMapping("/board/boardMenuManage")
+	public ModelAndView boardMenuManage(HttpSession session) {
+
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
+		List<Map<String, String>> list = boardService.selectBoardMenuManageList(m);
+
+		mav.addObject("list", list);
+
+		//////
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
+		mav.addObject("groupBoard", groupBoard);
+		mav.addObject("basicBoard", basicBoard);
+		//////
+		return mav;
+	}
+
+	@RequestMapping("/board/boardMenuDelete")
+	public ModelAndView boardMenuDelete(@RequestParam int boardMenuNo) {
+		ModelAndView mav = new ModelAndView();
+		int result = boardService.deleteBoardMenu(boardMenuNo);
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "게시판 삭제 성공";
+			loc = "/board/boardMenuManage";
+		} else
+			msg = "게시판 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+
+	@RequestMapping(value = "/board/selectBoardMenuMember")
+	public @ResponseBody Map selectBoardMenuMember(@RequestParam String dept, HttpSession session) throws JsonProcessingException, UnsupportedEncodingException {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		Member member = new Member();
+		member.setCom_no(com_no);
+		member.setDept(dept);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = null;
+
+		List<Map<String, String>> memberList = boardService.selectBoardMenuMember(member);
 	
+		/*map.put("memberList", memberList);
+		jsonStr = mapper.writeValueAsString(map);*/
+		Map result = new HashMap();
+		result.put("memberList",  memberList);
+		return result;
+
+	}
 	
+	@RequestMapping("/board/boardMenuFormUpdate")
+	public ModelAndView boardMenuFormUpdate(@RequestParam int boardMenuNo, HttpSession session ) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("boardMenu : "+boardMenuNo);
+		BoardMenu boardMenu = boardService.selectBoardMenu(boardMenuNo);
+		List<Map<String, String>> boardGroupList = boardService.selectBoardMemberList(boardMenu.getBoard_menu_no());
+		mav.addObject("_boardMenu", boardMenu);
+		mav.addObject("_boardGroupList", boardGroupList);
+		
+		String com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
+		String com_name = boardService.selectComName(com_no);
+		List<Map<String, String>> deptList = boardService.selectDeptList(com_no);
+
+		mav.addObject("deptList", deptList);
+
+		mav.addObject("com_name", com_name);
+
+		//////
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
+		mav.addObject("groupBoard", groupBoard);
+		mav.addObject("basicBoard", basicBoard);
+		//////
+		return mav;
+	}
+	@RequestMapping("/board/boardMenuFormUpdateEnd")
+	public ModelAndView boardMenuFormUpdateEnd(BoardMenu boardMenu, @RequestParam String[] memberInfo) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("boardMenu : " + boardMenu);
+		System.out.println("memberInfo : " + memberInfo);
+		for (int i = 0; i < memberInfo.length; i++) {
+			System.out.println(memberInfo[i]);
+		}
+		int result = boardService.updateBoardMenu(boardMenu);
+
+		BoardGroup[] bg = new BoardGroup[memberInfo.length];
+		for (int i = 0; i < bg.length; i++) {
+			bg[i] = new BoardGroup(boardMenu.getBoard_menu_no(), memberInfo[i]);
+			System.out.println("----");
+			System.out.println(bg[i].getBoard_menu_no()+", "+bg[i].getUserId());
+			
+			int result2 = boardService.insertBoardGroup(bg[i]);
+			if (result2 <= 0) {
+				result = 0;
+			}
+		}
+
+		String msg = "";
+		String loc = "";
+		if (result > 0) {
+			msg = "게시판 수정 성공";
+			loc = "/board/boardBasicList";
+		} else
+			msg = "게시판 생성 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+
+	}
 }
