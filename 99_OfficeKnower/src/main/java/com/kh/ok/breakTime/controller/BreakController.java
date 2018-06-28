@@ -125,6 +125,9 @@ public class BreakController {
 		for(int i=0; i<userid.length; i++) {
 			System.out.println(",가 들어가서 그런가?= " +userid[i]);
 		}
+		String enrolldate1 = request.getParameter("enrolldate1");
+		String enrolldate2 = request.getParameter("enrolldate2");
+		String name_com = request.getParameter("name_com");
 		
 		HttpSession session = request.getSession(false);
 		String comId = null;
@@ -145,6 +148,9 @@ public class BreakController {
 		}
 		map.put("userList", userList);
 		map.put("comId", comId);
+		map.put("enrolldate1",enrolldate1);
+		map.put("enrolldate2",enrolldate2);
+		map.put("name_com",name_com);
 		
 		List<Map<String,String>> deleteAfterMember = breakService.choiceMemberDelete(map);
 		System.out.println("지우고 남은 회원=" + deleteAfterMember);

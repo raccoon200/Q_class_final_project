@@ -36,38 +36,28 @@ th{
 <br /><br />
 
 <div>
-	<ul class="nav nav-tabs">
+	
+<ul class="nav nav-tabs" id="myTab" role="tablist">
 	  <li class="nav-item">
-	    <a class="nav-link " href="${pageContext.request.contextPath}/break/myBreak.do" >내 휴가</a>
+	    <a class="nav-link active" id="myBreak-tab" data-toggle="tab" href="#myBreak" role="tab" aria-controls="myBreak" aria-selected="true">내 휴가</a>
 	  </li>
 	  <li class="nav-item">
-	    <%-- <a class="nav-link" href="${pageContext.request.contextPath}/break/breakCal.do" id="cal">휴가 캘린더</a> --%>
-	    <a class="nav-link" id="cal">휴가 캘린더</a>
+	    <a class="nav-link" id="cal-tab" data-toggle="tab" role="tab" href="#Bcalendar" aria-controls="Bcalendar" aria-selected="false">휴가 캘린더</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="#">휴가 신청 관리</a>
+	    <a class="nav-link" id="request-tab" data-toggle="tab" href="#request" role="tab" aria-controls="request" aria-selected="false">Contact</a>
 	  </li>
-	  
-	</ul>
-</div>
-<script>
+</ul>
 
-$(function(){
-	$("#breakCal").hide();
-});
+</div> 
 
-
-$("#cal").on('click', function() {
-   $("#break").hide();
-   $("#breakCal").show();
-
-});
-</script>
 
 <br /><br />
 
+<!-- div모음 -->
+<div class="tab-content" id="myTabContent">
 <!-- 내 휴가 -->
-<div id="break">
+<div class="tab-pane fade show active" id="myBreak" role="tabpanel" aria-labelledby="myBreak-tab">
 	
 		<c:if test="${not empty myBreak}">
 		  <c:forEach var="bre" items="${myBreak}">
@@ -122,11 +112,24 @@ $("#cal").on('click', function() {
 </div> <!-- 내 휴가 탭 -->
 
 
-<!-- 휴가캘린더 -->
-<div id="breakCal">
 
-	<jsp:include page="/WEB-INF/views/break/breakCal.jsp"/>
-</div>
+
+<!-- 휴가캘린더 -->
+ <div class="tab-pane fade" id="Bcalendar" role="tabpanel" aria-labelledby="cal-tab">
+	<div id="breakCal">
+	
+		<jsp:include page="/WEB-INF/views/break/breakCal.jsp"/>
+	</div>
+</div> <!-- 휴가 캘린더 탭 끝 -->
+
+<!-- 휴가 신청 관리 -->
+
+ <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="request-tab">
+ 
+ 	휴가 신청 관리 div
+ </div>
+
+</div> <!-- div 모음 끝 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
 

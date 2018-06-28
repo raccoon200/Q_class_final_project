@@ -33,12 +33,7 @@
  		and t.status='Y' and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
  		
  		</if>
-       <!--  <if test="(enddate1 != null or enddate1!='') and (enddate2 != null or enddate2!='')">
- 		and joindate between #{enddate1} and #{enddate2}
- 		</if>
-        <if test="(enddate1 != null or enddate1!='' and enddate2 == null and enddate2 ==''">
- 		and joindate between #{enddate1} and sysdate
- 		</if> -->
+     
   		<if test="enddate1 != null and enddate1 !=''">
   			and joindate between #{enddate1} and
   			<if test="enddate2 != null and enddate2 !=''">
@@ -62,15 +57,35 @@
   	
   	<select id="choiceMemberDelete" resultType="map" parameterType="list">
   		select a.* 
-		from (select t.username, t.userid, c.com_name, b.regular_break, b.reward_break, t.status
-			  from tbl_user t left join break b on(t.userid=b.userid)
-              			           join tbl_com c on (t.com_no=c.com_no)
+		from (
+		
+		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+		from tbl_user t left join break b on(t.userid=b.userid)
+                        join tbl_com c on (t.com_no=c.com_no)
         where 1=1
- 		and  t.status='Y' and t.com_no =#{comId} and t.username like '%배%')a
+        <if test="name_com != null and name_com!=''">
+ 		and t.status='Y' and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
+ 		
+ 		</if>
+     
+  		<if test="enddate1 != null and enddate1 !=''">
+  			and joindate between #{enddate1} and
+  			<if test="enddate2 != null and enddate2 !=''">
+  				#{enddate2}
+  			</if>
+  			<if test="!(enddate2 != null and enddate2 !='')">
+  				sysdate
+  			</if>
+  		</if>
+ 		
+ 		 )a
+		
+		
 		where userid not in 
 		<foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
 			#{clist}
 		</foreach> 
+	
   	
   	</select>
   	
