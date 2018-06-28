@@ -104,6 +104,7 @@ $(function() {
 	
 	$("#comName").on("focusout", function(key) {
       var comName = $(this).val().trim();
+      console.log(comName);
       //if(key.keyCode==13) {
       if(comName=='') {
  		 $(".guide.empty.comName").show();
@@ -113,7 +114,7 @@ $(function() {
       } else {
       $.ajax({
           /* url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do"; */ 
-          url : "checkComNameDuplicate.do", /*현재 디렉토리에서 상대주소*/
+          url : "checkComNameDuplicate.do", /*현재 디렉토리에서 상대주소*/ 
           dataType : "json",
           data : {comName:comName},  /*속성값(키):입력값*/
           success : function(data) {
@@ -143,7 +144,7 @@ $(function() {
              console.log("ajax실패!", jqxhr, textStatus, errorThrown);
           }
        });
-    //  }
+
       }
       });
 	});
