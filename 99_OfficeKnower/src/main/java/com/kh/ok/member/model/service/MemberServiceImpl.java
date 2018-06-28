@@ -36,4 +36,14 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
+	@Override
+	public int checkComNameDuplicate(String comName) {
+		return memberDAO.checkComNameDuplicate(comName);
+	}
+
+	@Override
+	public int selectComSEQ() {
+		return memberDAO.selectComSEQ();
+	}
+
 }

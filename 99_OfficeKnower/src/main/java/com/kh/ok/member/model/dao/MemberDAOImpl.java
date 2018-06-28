@@ -30,10 +30,25 @@ public class MemberDAOImpl implements MemberDAO{
 		return sqlSession.selectList("member.memberCompanyListAll", com_no);
 	}
 	public int memberEnrollEnd(Member m) {
-		return sqlSession.insert("member.memberEnrollEnd", m);
+		if(m.getCom_no().equals("") || m.getCom_name().equals(""))
+			return sqlSession.insert("member.memberEnrollEnd", m);
+		else {
+			sqlSession.insert("member.memberComCreate", m);
+			return sqlSession.insert("member.memberEnrollEndCom", m);
+		}
 	}
 	public int memberOneUpdate(Member member) {
 		return sqlSession.update("member.memberOneUpdate",member);
 
+	}
+
+	@Override
+	public int checkComNameDuplicate(String comName) {
+		return sqlSession.selectOne("member.checkComNameDuplicate", comName);
+	}
+
+	@Override
+	public int selectComSEQ() {
+		return sqlSession.selectOne("member.selectComSEQ");
 	}
 }

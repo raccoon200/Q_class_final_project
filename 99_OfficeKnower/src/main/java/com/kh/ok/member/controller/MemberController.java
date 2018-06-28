@@ -118,11 +118,12 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	
 	@RequestMapping("/member/checkIdDuplicate.do")
 	@ResponseBody
 	public String checkIdDuplicate(@RequestParam("userId") String userId) 
 			throws JsonProcessingException {
-		System.out.println(userId);
+		//System.out.println(userId);
 		logger.debug("@ResponseBody-jsonString ajax : "+userId);
 		Map<String,Object> map = new HashMap<String, Object>();
 		//jackson라이브러리에서 사용하는 바인더
@@ -148,7 +149,7 @@ public class MemberController {
 									HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		
-		System.out.println("upFiles.length="+upFiles.length);
+		//System.out.println("upFiles.length="+upFiles.length);
 		logger.debug("upFile1="+upFiles[0].getOriginalFilename());
 		logger.debug("upFile2="+upFiles[1].getOriginalFilename());
 		
@@ -205,8 +206,16 @@ public class MemberController {
 										"_"+rndNum+"."+ext;
 				member.setSign(renamedFileName);
 			}
-			System.out.println(member);
+			//System.out.println(member);
 			//****** MultipartFile을 이용한 파일 업로드 처리로직 끝 ******//*
+			
+			String rawPassword = member.getPassword();
+			/**** password 암호화 시작 *****/
+			
+			String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
+			
+			member.setPassword(encodedPassword);
+			
 			//파일이름 멤버에 추가
 			//2.비지니스로직
 			int result = memberService.memberEnrollEnd(member);
@@ -216,10 +225,10 @@ public class MemberController {
 			String msg = "";
 			
 			if(result>0) {
-				msg = "게시물등록성공";
+				msg = "회원가입 성공";
 			}
 			else
-				msg = "게시물등록실패";
+				msg = "회원가입 실패";
 			
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
@@ -231,7 +240,6 @@ public class MemberController {
 		return mav;
 	}
 
-	
 	@RequestMapping(value = "/member/memberCompanyListAll")
 	public @ResponseBody Map memberCompanyListAll(Locale locale, Model model, HttpSession session) {
 		
@@ -256,4 +264,36 @@ public class MemberController {
 		return result;
 	}
 
+	@RequestMapping("/member/checkComNameDuplicate.do")
+	@ResponseBody
+	public String checkComNameDuplicate(@RequestParam("comName") String comName) throws JsonProcessingException{
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		//jackson라이브러리에서 사용하는 바인더
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = null;
+		
+		//업무로직
+		int count = memberService.checkComNameDuplicate(comName);
+		boolean isUsableCom = count==0?true:false;
+		
+		//jsonString변환
+		map.put("isUsableCom", isUsableCom);
+		jsonStr = mapper.writeValueAsString(map);
+		 
+		logger.debug("jsonStr="+jsonStr);
+		return jsonStr;
+	}
+	@RequestMapping("/member/selectComSEQ.do")
+	@ResponseBody
+	public String selectComSEQ() throws JsonProcessingException {
+		Map<String,Object> map = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = null;
+		int comSEQ = memberService.selectComSEQ();
+		//System.out.println(comSEQ);
+		map.put("comSEQ", comSEQ);
+		jsonStr = mapper.writeValueAsString(map);
+		return jsonStr;
+	}
 }

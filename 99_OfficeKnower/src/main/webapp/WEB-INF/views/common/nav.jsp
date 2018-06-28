@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style_nav.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/style_nav.css" />
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
 <script>
 	$(function(){
 		$(".depth1").click(function(){
@@ -22,11 +27,11 @@
 		if('${memberLoggedIn.grade}' != '슈퍼관리자' || '${memberLoggedIn.grade}' != '게시판관리자'){
 			$("img.icon_edit icon_edit_board").hide();
 		}
-		$(".menu_list li a").each(function(index,item){
+		$(".menu_list li a").each(function(index, item) {
 			console.log(item.text.trim());
 			console.log("${param.selectMenu}");
 			console.log(item.text.trim() == "${param.selectMenu}");
-			if(item.text.trim() == "${param.selectMenu}"){
+			if (item.text.trim() == "${param.selectMenu}") {
 				$(this).addClass("strong");
 			}
 		});
@@ -37,6 +42,39 @@
 		var parentsWidth = $("div.container_main").css("width");
 		var navWidth = $("nav#leftMenu").css("width");
 		$("div#sabu_container").css("width",parseFloat(parentsWidth)-parseFloat(navWidth)+"px");
+		$("#datepicker1").datepicker(
+				{
+					dateFormat : 'yy/mm/dd',
+					prevText : '이전 달',
+					nextText : '다음 달',
+					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+							'8월', '9월', '10월', '11월', '12월' ],
+					monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
+							'7월', '8월', '9월', '10월', '11월', '12월' ],
+					dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
+					dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
+					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+					showMonthAfterYear : true,
+					changeMonth : true,
+					changeYear : true,
+					yearSuffix : '년'
+				});
+
+		var date = new Date();
+
+		var year = date.getFullYear(); //년도
+		var month = date.getMonth() + 1; //월
+		var day = date.getDate(); //일
+
+		if ((day + "").length < 2) { // 일이 한자리 수인 경우 앞에 0을 붙여주기 위해
+			day = "0" + day;
+		}
+		if ((month + "").length < 2) { // 일이 한자리 수인 경우 앞에 0을 붙여주기 위해
+			month = "0" + month;
+		}
+		var getToday = year + "-" + month + "-" + day; // 오늘 날짜 (2017-02-07)
+
+		$("#datepicker1").val(getToday);
 	});
 </script>
 <nav id="leftMenu">
@@ -46,85 +84,43 @@
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
-				<li>
-					<a href="${pageContext.request }/office/approval.do">대기</a><br />
+				<li><a href="${pageContext.request }/office/approval.do">대기</a><br />
 				</li>
-				<li>
-					<a href="#">예정</a><br />
-				</li>
-				<li>
-					<a href="#">진행</a><br />
-				</li>
-				<li>
-					<a href="#">완료</a><br />
-				</li>
-				<li>
-					<a href="#">수신 대기</a><br />
-				</li>
-				<li>
-					<a href="#">회람 대기</a><br />
-				</li>
-				<li>
-					<a href="javascript:void(0)" class="depth1">
-						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
-						문서함
-					</a>
-					<br />
+				<li><a href="#">예정</a><br /></li>
+				<li><a href="#">진행</a><br /></li>
+				<li><a href="#">완료</a><br /></li>
+				<li><a href="#">수신 대기</a><br /></li>
+				<li><a href="#">회람 대기</a><br /></li>
+				<li><a href="javascript:void(0)" class="depth1"> <img
+						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
+						alt="폴더" class="fold" /> 문서함
+				</a> <br />
 					<ul class="depth2 hide">
-						<li>
-							<a href="#">전체</a><br />
-						</li>
-						<li>
-							<a href="#">기안</a><br />
-						</li>
-						<li>
-							<a href="#">결제</a><br />
-						</li>
-						<li>
-							<a href="#">수신</a><br />
-						</li>
-						<li>
-							<a href="#">회람/참조</a><br />
-						</li>
-						<li>
-							<a href="#">반려</a><br />
-						</li>
-						<li>
-							<a href="#">임시 보관</a><br />
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="#">설정</a><br />
-				</li>
-				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "전자결재관리자"}'>
-					<li>
-						<a href="javascript:void(0)" class="depth1">
-							<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
-							관리자 설정
-						</a>
-						<br />
+						<li><a href="#">전체</a><br /></li>
+						<li><a href="#">기안</a><br /></li>
+						<li><a href="#">결제</a><br /></li>
+						<li><a href="#">수신</a><br /></li>
+						<li><a href="#">회람/참조</a><br /></li>
+						<li><a href="#">반려</a><br /></li>
+						<li><a href="#">임시 보관</a><br /></li>
+					</ul></li>
+				<li><a href="#">설정</a><br /></li>
+				<c:if
+					test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "전자결재관리자"}'>
+					<li><a href="javascript:void(0)" class="depth1"> <img
+							src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
+							alt="폴더" class="fold" /> 관리자 설정
+					</a> <br />
 						<ul class="depth2 hide">
-							<li>
-								<a href="#">관리자 추가</a><br />
-							</li>
-							<li>
-								<a href="#">기본 설정</a><br />
-							</li>
-							<li>
-								<a href="#">양식함 관리</a><br />
-							</li>
-							<li>
-								<a href="#">전체 문서 목록</a><br />
-							</li>
-							<li>
-								<a href="#">삭제 문서 목록</a><br />
-							</li>
-						</ul>
-					</li>
+							<li><a href="#">관리자 추가</a><br /></li>
+							<li><a href="#">기본 설정</a><br /></li>
+							<li><a href="#">양식함 관리</a><br /></li>
+							<li><a href="#">전체 문서 목록</a><br /></li>
+							<li><a href="#">삭제 문서 목록</a><br /></li>
+						</ul></li>
 					<li>
-						<a href="javascript:void(0)" class="depth1">
-							<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
+						<a href="javascript:void(0)" class="depth1"> 
+							<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold" /> 
 							회계 정보 관리
 						</a>
 						<br />
@@ -164,9 +160,9 @@
 					</a>
 					<br />
 					<ul class="depth2 hide">
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit icon_edit_board" alt="수정" />
-							<a href="#">사내공지</a><br />
+						<li class="board_menu_name"><img
+							src="${pageContext.request.contextPath }/resources/images/common/edit (1).png"
+							class="icon_edit icon_edit_board" alt="수정" /> <a href="#">사내공지</a><br />
 						</li>
 						<c:if test="${basicBoard != null}">
 							<c:forEach var="v" varStatus="vs" items="${basicBoard }">
@@ -211,35 +207,30 @@
 	<c:if test="${param.pageTitle eq '인사관리'}">
 		<div class="main_btn">
 			<!-- 남은 휴가 가지고 와야함. 안가지고 오면 오류 생김. 차라리 Member에 남은 휴가를 포함 시켜 memberLoggedIn에 남기는게 좋을 것 같음... 아님 뭐 세션에 남은 휴가만 남기든가?? -->
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<span class="title">남은 휴가</span>
-				<span class="num" id="left_vation_num">10</span>일			
+			<p>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="title">남은 휴가</span> <span
+					class="num" id="left_vation_num">10</span>일
 			</p>
 		</div>
 		<hr />
 		<div class="menufield">
 			<ul class="menu_list">
-				<li>
-					<a href="javascript:void(0)" class="depth1">
-						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
-						인사 정보
-					</a>
-					<br />
+				<li><a href="javascript:void(0)" class="depth1"> <img
+						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
+						alt="폴더" class="fold" /> 인사 정보
+				</a> <br />
 					<ul class="depth2 hide">
-						<li>
-							<a href="${pageContext.request.contextPath}/insa/memberListAll.do">직원 목록</a><br />
-						</li>
-						<li>
-							<a href="${pageContext.request.contextPath }/member/memberOneSelect.do?userId=${memberLoggedIn.userId}">내 정보 관리</a><br />
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:void(0)" class="depth1">
-						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
-						휴가
-					</a>
-					<br />
+						<li><a
+							href="${pageContext.request.contextPath}/insa/memberListAll.do">직원
+								목록</a><br /></li>
+						<li><a
+							href="${pageContext.request.contextPath }/member/memberOneSelect.do?userId=${memberLoggedIn.userId}">내
+								정보 관리</a><br /></li>
+					</ul></li>
+				<li><a href="javascript:void(0)" class="depth1"> <img
+						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
+						alt="폴더" class="fold" /> 휴가
+				</a> <br />
 					<ul class="depth2 hide">
 						<li>
 							<a href="#">휴가 신청</a><br />
@@ -251,12 +242,10 @@
 				</li>
 				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "인사관리관리자"}'>
 					<br />
-					<li>
-						<a href="javascript:void(0)" class="depth1">
-							<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
-							인사관리
-						</a>
-						<br />
+					<li><a href="javascript:void(0)" class="depth1"> <img
+							src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
+							alt="폴더" class="fold" /> 인사관리
+					</a> <br />
 						<ul class="depth2 hide">
 							<li>
 								<a href="#">조직 관리</a><br />
@@ -302,74 +291,49 @@
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
-				<li>
-					<a href="#">개인 주소록&nbsp;<span class="badge badge-secondary">2</span></a><br />
-				</li>
-				<li>
-					<a href="#">공유 주소록&nbsp;<span class="badge badge-secondary">2</span></a><br />
-				</li>
-				<li>
-					<a href="#">휴지통&nbsp;<span class="badge badge-secondary">2</span></a><br />
-				</li>
-				<li>
-					<a href="javascript:void(0)" class="depth1">
-						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
-						환경설정
-					</a>
-					<br />
+				<li><a href="#">개인 주소록&nbsp;<span
+						class="badge badge-secondary">2</span></a><br /></li>
+				<li><a href="#">공유 주소록&nbsp;<span
+						class="badge badge-secondary">2</span></a><br /></li>
+				<li><a href="#">휴지통&nbsp;<span
+						class="badge badge-secondary">2</span></a><br /></li>
+				<li><a href="javascript:void(0)" class="depth1"> <img
+						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
+						alt="폴더" class="fold" /> 환경설정
+				</a> <br />
 					<ul class="depth2 hide">
-						<li>
-							<a href="#">기본정보 설정</a><br />
-						</li>
-					</ul>
-				</li>
+						<li><a href="#">기본정보 설정</a><br /></li>
+					</ul></li>
 			</ul>
 		</div>
 	</c:if>
 	<!-- 예약 nav -->
 	<c:if test="${param.pageTitle eq '예약'}">
 		<div class="main_btn">
-			<button type="button" class="btn btn-primary">예약하기</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+				data-target="#reservation">예약하기</button>
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
-				<li>
-					<a href="#">나의 예약 목록</a><br />
-				</li>
+				<li><a href="#">나의 예약 목록</a><br /></li>
 				<!-- 여기 반복문 돌리시길........................... -->
-				<li>
-					<a href="#">회의실</a><br />
-				</li>
-				<li>
-					<a href="#">여기 반복문</a><br />
-				</li>
+				<li><a href="#">회의실</a><br /></li>
+				<li><a href="#">여기 반복문</a><br /></li>
 				<!---------------------------------------------->
-				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "예약관리자"}'>
+				<c:if
+					test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "예약관리자"}'>
 					<br />
-					<li>
-						<a href="javascript:void(0)" class="depth1">
-							<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
-							예약 관리
-						</a>
-						<br />
+					<li><a href="javascript:void(0)" class="depth1"> <img
+							src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
+							alt="폴더" class="fold" /> 예약 관리
+					</a> <br />
 						<ul class="depth2 hide">
-							<li>
-								<a href="#">승인 관리</a><br />
-							</li>
-							<li>
-								<a href="#">반납 관리</a><br />
-							</li>
-							<li>
-								<a href="#">카테고리 관리</a><br />
-							</li>
-							<li>
-								<a href="#">자원관리</a><br />
-							</li>
-							<li>
-								<a href="#">예약 관리자</a><br />
-							</li>
-						</ul>
-					</li>
+							<li><a href="#">승인 관리</a><br /></li>
+							<li><a href="#">반납 관리</a><br /></li>
+							<li><a href="#">카테고리 관리</a><br /></li>
+							<li><a href="#">자원관리</a><br /></li>
+							<li><a href="#">예약 관리자</a><br /></li>
+						</ul></li>
 				</c:if>
 			</ul>
 		</div>
@@ -428,8 +392,7 @@
 						&nbsp;&nbsp;&nbsp; <span class="calinsert"  onclick="calendarInsertFrm('내 캘린더');">만들기</span>
 					
 					<br />
-					<ul class="depth2 hide">
-					
+					<ul class="depth2 hide">	
 					<c:if test="${not empty clist}">
 		   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
 		       			 <c:if test="${seche.TYPE eq '내 캘린더'}">
@@ -489,8 +452,164 @@
 	</c:if>
 </nav>
 
-
-
-
-
 <div id="sabu_container">
+	<div class="modal fade" id="reservation" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">예약하기</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form
+					action="${pageContext.request.contextPath}/reservation/reservationEnroll"
+					method="post">
+					<div class="modal-body">
+						<table class="table">
+							<tr>
+								<td>자원 이름</td>
+								<td><select class="selectpicker" name="res_name">
+										<c:if test="${resources != null}">
+											<c:forEach var="a" begin="0" end="${fn:length(resources)}"
+												step="1">
+												<optgroup label="${category[a].CATEGORY}">
+													<c:forEach items="${resources}" var="resource">
+														<c:if test="${category[a].CATEGORY eq resource.category}">
+															<option value="${resource.category}*${resource.res_no }*${resource.resource__name}">${resource.resource__name}</option>
+														</c:if>
+														<br />
+													</c:forEach>
+											</c:forEach>
+											</optgroup>
+										</c:if>
+								</select></td>
+							</tr>
+							<tr>
+								<td>예약날짜</td>
+								<td><input type="text" name="startdate" id="datepicker1"></td>
+							</tr>
+							<tr>
+								<td>예약시간</td>
+								<td>
+								<select name="start" class="select-box" style="width: 125px;">
+									<option value="00:00">오전 0:00</option>
+									<option value="00:30">오전 0:30</option>
+									<option value="01:00">오전 1:00</option>
+									<option value="01:30">오전 1:30</option>
+									<option value="02:00">오전 2:00</option>
+									<option value="02:30">오전 2:30</option>
+									<option value="03:00">오전 3:00</option>
+									<option value="03:30">오전 3:30</option>
+									<option value="04:00">오전 4:00</option>
+									<option value="04:30">오전 4:30</option>
+									<option value="05:00">오전 5:00</option>
+									<option value="05:30">오전 5:30</option>
+									<option value="06:00">오전 6:00</option>
+									<option value="06:30">오전 6:30</option>
+									<option value="07:00">오전 7:00</option>
+									<option value="07:30">오전 7:30</option>
+									<option value="08:00">오전 8:00</option>
+									<option value="08:30">오전 8:30</option>
+									<option value="09:00">오전 9:00</option>
+									<option value="09:30">오전 9:30</option>
+									<option value="10:00">오전 10:00</option>
+									<option value="10:30">오전 10:30</option>
+									<option value="11:00">오전 11:00</option>
+									<option value="11:30">오전 11:30</option>
+									<option value="12:00">오후 12:00</option>
+									<option value="12:30">오후 12:30</option>
+									<option value="13:00">오후 1:00</option>
+									<option value="13:30">오후 1:30</option>
+									<option value="14:00">오후 2:00</option>
+									<option value="14:30">오후 2:30</option>
+									<option value="15:00">오후 3:00</option>
+									<option value="15:30">오후 3:30</option>
+									<option value="16:00">오후 4:00</option>
+									<option value="16:30">오후 4:30</option>
+									<option value="17:00">오후 5:00</option>
+									<option value="17:30">오후 5:30</option>
+									<option value="18:00">오후 6:00</option>
+									<option value="18:30">오후 6:30</option>
+									<option value="19:00">오후 7:00</option>
+									<option value="19:30">오후 7:30</option>
+									<option value="20:00">오후 8:00</option>
+									<option value="20:30">오후 8:30</option>
+									<option value="21:00">오후 9:00</option>
+									<option value="21:30">오후 9:30</option>
+									<option value="22:00">오후 10:00</option>
+									<option value="22:30">오후 10:30</option>
+									<option value="23:00">오후 11:00</option>
+									<option value="23:30">오후 11:30</option>
+								</select>
+								~
+								<select name="end" class="select-box" style="width: 125px;">
+									<option value="00:00">오전 0:00</option>
+									<option value="00:30">오전 0:30</option>
+									<option value="01:00">오전 1:00</option>
+									<option value="01:30">오전 1:30</option>
+									<option value="02:00">오전 2:00</option>
+									<option value="02:30">오전 2:30</option>
+									<option value="03:00">오전 3:00</option>
+									<option value="03:30">오전 3:30</option>
+									<option value="04:00">오전 4:00</option>
+									<option value="04:30">오전 4:30</option>
+									<option value="05:00">오전 5:00</option>
+									<option value="05:30">오전 5:30</option>
+									<option value="06:00">오전 6:00</option>
+									<option value="06:30">오전 6:30</option>
+									<option value="07:00">오전 7:00</option>
+									<option value="07:30">오전 7:30</option>
+									<option value="08:00">오전 8:00</option>
+									<option value="08:30">오전 8:30</option>
+									<option value="09:00">오전 9:00</option>
+									<option value="09:30">오전 9:30</option>
+									<option value="10:00">오전 10:00</option>
+									<option value="10:30">오전 10:30</option>
+									<option value="11:00">오전 11:00</option>
+									<option value="11:30">오전 11:30</option>
+									<option value="12:00">오후 12:00</option>
+									<option value="12:30">오후 12:30</option>
+									<option value="13:00">오후 1:00</option>
+									<option value="13:30">오후 1:30</option>
+									<option value="14:00">오후 2:00</option>
+									<option value="14:30">오후 2:30</option>
+									<option value="15:00">오후 3:00</option>
+									<option value="15:30">오후 3:30</option>
+									<option value="16:00">오후 4:00</option>
+									<option value="16:30">오후 4:30</option>
+									<option value="17:00">오후 5:00</option>
+									<option value="17:30">오후 5:30</option>
+									<option value="18:00">오후 6:00</option>
+									<option value="18:30">오후 6:30</option>
+									<option value="19:00">오후 7:00</option>
+									<option value="19:30">오후 7:30</option>
+									<option value="20:00">오후 8:00</option>
+									<option value="20:30">오후 8:30</option>
+									<option value="21:00">오후 9:00</option>
+									<option value="21:30">오후 9:30</option>
+									<option value="22:00">오후 10:00</option>
+									<option value="22:30">오후 10:30</option>
+									<option value="23:00">오후 11:00</option>
+									<option value="23:30">오후 11:30</option>
+								</select>
+								</td>
+								</tr>
+								<tr>
+								<td>사용용도</td>
+								<td><textarea name="purpose"></textarea></td>
+								</tr>
+
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-outline-success">예약</button>
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">취소</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>

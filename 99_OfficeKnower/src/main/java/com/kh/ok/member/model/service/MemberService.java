@@ -19,4 +19,8 @@ public interface MemberService {
 	int memberOneUpdate(Member member);
 
 
+	int checkComNameDuplicate(String comName);
+
+	int selectComSEQ();
+
 }

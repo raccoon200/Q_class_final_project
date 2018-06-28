@@ -9,14 +9,22 @@
 	<select id="checkIdDuplicate" resultType="_int">
 		SELECT COUNT(*) AS CNT FROM TBL_USER WHERE USERID = #{userId}
 	</select>
-	<select id="memberCompanyListAll" resultType="map">
-		select * from tbl_user where com_no=#{com_no}
-	</select>
-	<insert id="memberEnrollEnd">
-		insert into tbl_user(userId, password, userName, email, address, photo, sign, com_no, status) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, 1, 'N')
-	</insert>
 	<update id="memberOneUpdate" parameterType="member">
 		update tbl_user set job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, birthday=#{birthday}, address=#{address}, etc_inf=#{etc_inf} where userid=#{userId}
 	</update>
-
+	<select id="checkComNameDuplicate" resultType="_int">
+		select count(*) as cnt from tbl_com where com_name = #{comName}
+	</select>
+	<select id="selectComSEQ" resultType="_int">
+		select seq_com.nextval comSEQ from dual
+	</select>
+	<insert id="memberEnrollEnd">
+		insert into tbl_user(userId, password, userName, email, address, photo, sign, status) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, 'N')
+	</insert>
+	<insert id="memberEnrollEndCom">
+		insert into tbl_user(userId, password, userName, email, address, photo, sign, com_no, status) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, #{com_no}, 'N')
+	</insert>
+	<insert id="memberComCreate">
+		insert into tbl_com values (#{com_no}, #{com_name})
+	</insert>
 </mapper>

@@ -12,6 +12,8 @@
 		<typeAlias type="com.kh.ok.approval.model.vo.Dept" alias="dept"/>
 		<typeAlias type="com.kh.ok.approval.model.vo.Account" alias="account"/>
 		<typeAlias type="com.kh.ok.address.model.vo.Address" alias="address"/>
+		<typeAlias type="com.kh.ok.reservation.model.vo.Reservation" alias="reservation" />
+		<typeAlias type="com.kh.ok.reservation.model.vo.Resources" alias="resources" />		
 	</typeAliases>
 </configuration>
 
