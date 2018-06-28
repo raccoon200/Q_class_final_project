@@ -53,31 +53,31 @@
 		}
 	</style>
 
-	<script src="/static/scripts/language.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/Sly.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/common_new.js?v=27283" type="text/javascript"></script>
-		<script src="/static/scripts/jquery-1.7.1.min.js?v=27283" type="text/javascript"></script>
+	<script src="/static/scripts/language.js" type="text/javascript"></script>
+	<script src="/static/scripts/Sly.js" type="text/javascript"></script>
+	<script src="/static/scripts/common_new.js" type="text/javascript"></script>
+		<script src="/static/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
 		<!-- <script src="/static/scripts/jquery-1.11.2.min.js?v=27283" type="text/javascript"></script> -->
-	<script src="/static/scripts/jcommon.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jvalidateMessage.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jorgtree.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jaddressbook.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jajaxBasic.js?v=27283" type="text/javascript"></script>
-		<script src="/static/scripts/jquery/jquery.toastmessage.js?v=27283" type="text/javascript"></script>
+	<script src="/static/scripts/jcommon.js" type="text/javascript"></script>
+	<script src="/static/scripts/jvalidateMessage.js" type="text/javascript"></script>
+	<script src="/static/scripts/jorgtree.js" type="text/javascript"></script>
+	<script src="/static/scripts/jaddressbook.js" type="text/javascript"></script>
+	<script src="/static/scripts/jajaxBasic.js" type="text/javascript"></script>
+		<script src="/static/scripts/jquery/jquery.toastmessage.js" type="text/javascript"></script>
 	<!-- Frontend devteam -->
 
 	<!-- <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js?v=27283"></script> -->
-	<script src="/static/scripts/jquery-ui-1.11.4/jquery-ui.min.js?v=27283" type="text/javascript"></script>
-	<script src="/static/ui/js/main.js?v=27283"></script>
+	<script src="/static/scripts/jquery-ui-1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="/static/ui/js/main.js"></script>
 		
 
-		<script src="/static/scripts/addr/addrNewCommon.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/file-upload/ng-file-upload-shim.min.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/angular_1.2.28.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/file-upload/ng-file-upload.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/addr/angularjsFactory.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/addr/angularjsAddressCtrl.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/hiworks/ngPage/pagination_factory.js?v=27283" type="text/javascript"></script>
+		<script src="/static/scripts/addr/addrNewCommon.js" type="text/javascript"></script>
+	<script src="/static/scripts/AngularJS/file-upload/ng-file-upload-shim.min.js" type="text/javascript"></script>
+	<script src="/static/scripts/AngularJS/angular_1.2.28.js" type="text/javascript"></script>
+	<script src="/static/scripts/AngularJS/file-upload/ng-file-upload.js" type="text/javascript"></script>
+	<script src="/static/scripts/addr/angularjsFactory.js" type="text/javascript"></script>
+	<script src="/static/scripts/addr/angularjsAddressCtrl.js" type="text/javascript"></script>
+	<script src="/static/scripts/AngularJS/hiworks/ngPage/pagination_factory.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
 		jQuery(document).ready(function () {
@@ -224,20 +224,7 @@
 
 										<span class="count">2</span>
 									</li>
-				<li>
-					<div class="  depth1">
-						<a href="#" class="foldtop">
-							<span class="icon fold "><em class="blind">내 환경설정 접고/펴기 토글</em></span>            
-							<span class="listname fold ">환경설정</span>
-							</a>
-					</div>
-					<ul class="depth2 hide  ">
-						<li><a href="/views/address/main/setting">기본정보 설정</a></li>
-						<li><a href="/views/address/main/import">주소록 가져오기 </a></li>
-						<li><a href="/views/address/main/export">주소록 내보내기</a></li>
-						<li><a href="/views/address/main/print_address" >인쇄하기</a></li>
-					</ul>
-				</li>
+
 			</ul>
 		</div>
 	</div>        	
@@ -465,7 +452,7 @@
 		<div class="to-add" style='height: 350px; overflow: auto;'>
 			<dl class="after" ng-if="DetailData.email != '' " >
 				<dt>이메일</dt>
-				<dd><a href="https://mail.office.hiworks.com/kh1234/mail/webmail/m_write/new/address/{{initData.kind}}/{{DetailData.no}}">{{DetailData.email}}</a></dd>
+				<dd><a href="https://com.kh.ok/kh1234/mail/webmail/m_write/new/address/{{initData.kind}}/{{DetailData.no}}">{{DetailData.email}}</a></dd>
 			</dl>
 			<dl class="after" ng-repeat="ext_email_one in DetailData.ext_email">
 				<dt></dt>

@@ -120,7 +120,7 @@
 	});
 
 </script>	
-	<!--<form name="addressAdd" action="${pageContext.request.contextPath}/addr/addressAdd.do" method="post"> -->
+	
 </head>
 <!-- start  -->
 <div>
@@ -145,25 +145,12 @@
 
 										<span class="count">2</span>
 									</li>
-				<li>
-					<div class="  depth1">
-						<a href="#" class="foldtop">
-							<span class="icon fold "><em class="blind">내 환경설정 접고/펴기 토글</em></span>            
-							<span class="listname fold ">환경설정</span>
-							</a>
-					</div>
-					<ul class="depth2 hide  ">
-						<li><a href="/address/main/setting">기본정보 설정</a></li>
-						<li><a href="/address/main/import">주소록 가져오기 </a></li>
-						<li><a href="/address/main/export">주소록 내보내기</a></li>
-						<li><a href="/address/main/print_address" >인쇄하기</a></li>
-					</ul>
-				</li>
+			
 			</ul>
 		</div>
 	</div>        	
 			<!-- left End -->
-		</div>
+	
 
 						<div id="contents" >
 			<div ng-app="AddrAddApp" ng-controller="AddrAddCtrl">

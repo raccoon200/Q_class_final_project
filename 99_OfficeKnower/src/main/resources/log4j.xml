@@ -60,7 +60,7 @@
 	
 	<!-- @실습문제 : AOP를 통해 로그인내역 출력하기 -->
 	<appender name="loginLogger" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="file" value="C:\\Workspaces\\sts_workspace\\01_HelloSpring\\src\\main\\resources\\logs\\login\\login-logger.log"/>
+		<param name="file" value="C:\\Workspaces\\sts_workspace\\ok\\src\\main\\resources\\logs\\login\\login-logger.log"/>
 		<param name="Append" value="true"/>
 		<param name="DataPattern" value=".yyyy-MM-dd"/>
 		<layout class="org.apache.log4j.PatternLayout">
@@ -69,7 +69,7 @@
 	</appender>
 
     <!-- @실습문제 : AOP를 통해 로그인내역 출력하기 -->
-	<logger name="com.kh.spring.common.aop.AfterReturningAdviceAspect" 
+	<logger name="com.kh.ok.common.aop.AfterReturningAdviceAspect" 
 			additivity="false">
 		<level value="info"/>
 		<appender-ref ref="loginLogger"/>
@@ -103,16 +103,16 @@
 	
 	-->
 	<!-- Application Loggers -->
-	<logger name="com.kh.spring">
+	<logger name="com.kh.ok">
 		<level value="debug" />
 	</logger>
 	
 	<!-- #8.1. loggerInterceptor 출력하기 -->
-	<logger name="com.kh.spring.common.interceptor.LoggerInterceptor">
+	<logger name="com.kh.ok.common.interceptor.LoggerInterceptor">
 		<level value="debug"/>
 	</logger>
 	
-	<logger name="com.kh.spring.log4j.Log4jTest" 
+	<logger name="com.kh.ok.log4j.Log4jTest" 
 			additivity="true">
 		<level value="debug" />
 		<appender-ref ref="console"/>

@@ -22,17 +22,8 @@
 	<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#loginModal">로그인</button>
 	&nbsp;
     <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-	<!-- 주소추가  -->
-	<!-- 조직도 레이어 관련 css, css 파일이 정리되면 파일로 이동해야함. -->
 	
-	
-					
-		<!-- 	<li class='ADDR'>
-				<a href="">
-					<span class="icon"></span>
-					<span class="fold">주소록</span> -->
-						<!-- 주소추가  -->
-						
+	<!-- 주소추가  -->			
 	<button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/address/addressView.do'">주소록</button>
 	
 	<button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/address/addressAdd.do'">주소추가</button>
