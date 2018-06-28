@@ -2,8 +2,18 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<typeAliases>
+		<typeAlias type="com.kh.ok.calendar.model.vo.Schedule" alias="schedule"/>
+		<typeAlias type="com.kh.ok.job.model.vo.Job" alias="job"/>
+		<typeAlias type="com.kh.ok.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.ok.insa.model.vo.Position" alias="position"/>
+		<typeAlias type="com.kh.ok.breakTime.model.vo.Break" alias="break"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Connect" alias="connection"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Title_of_Account" alias="gajong"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Dept" alias="dept"/>
+		<typeAlias type="com.kh.ok.approval.model.vo.Account" alias="account"/>
 		<typeAlias type="com.kh.ok.address.model.vo.Address" alias="address"/>
-		
+		<typeAlias type="com.kh.ok.reservation.model.vo.Reservation" alias="reservation" />
+		<typeAlias type="com.kh.ok.reservation.model.vo.Resources" alias="resources" />		
 	</typeAliases>
 </configuration>
 

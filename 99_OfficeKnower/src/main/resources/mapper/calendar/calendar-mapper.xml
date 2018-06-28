@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="calendar">
+  <select id="selectSechedule" resultMap="list">
+		select s.* , u.username , c.color, c.type
+		from schedule s join tbl_user u on (s.writer=u.userid)
+                        join calendar c on (s.calendarid=c.calendarid)
+		where c.type = '공유 캘린더' or s.writer = #{userId}
+			
+	</select>
+	<select id="shareCal" resultMap="list">
+		select * 
+		from schedule join calendar using(calendarid)
+		where type=#{type}
+	</select>
+	<select id="myCal" resultMap="list">
+		select *
+		from schedule s join calendar c on(s.calendarid=c.calendarid)
+		where s.writer=#{userId} and c.type =#{type}
+	
+	</select>
+	
+	<select id="calendarView" resultMap="list">
+		<!-- select s.* , u.username 
+		from schedule s join tbl_user u on (s.writer=u.userid)
+		where s.writer = #{userId} or s.writer = 'share' 
+		and calendar_name = #{calendar_name} -->	
+		
+		select *
+		from schedule s join calendar c on (s.calendarid=c.calendarid)
+		where s.calendar_name = #{calendar_name} and c.calendarid=#{calendarId}
+	
+	</select>
+	
+	
+	<resultMap type="schedule" id="list"></resultMap>
+	<select id="selectCalendar" resultType="HashMap">
+		<!-- select distinct C.CALENDAR_NAME, C.CALENDARID, s.writer
+		from calendar c join schedule s on (c.calendarid = s.calendarid)
+		where writer = #{userId} or writer='share'  -->
+		
+		select * from calendar where type='공유 캘린더' or userid=#{userId} order by type desc
+	</select>
+	
+	<insert id="selectInsert">
+		insert into schedule values(seq_schedule.nextval, #{writer}, 
+									(select calendar_name from calendar where calendarid = #{calendarid}), #{title}
+		                            , #{content}, #{startdate},#{quitdate},default,#{com_no},#{starttime},#{quittime},#{calendarid})
+	</insert>
+	<update id="scheduleUpdate">
+		update schedule set calendar_name = #{calendar_name},title = #{title}, content = #{content},
+		startdate = #{startdate} , quitdate = #{quitdate}, starttime = #{starttime}, quittime = #{quittime} 
+		where  schedule_no	= #{schedule_no}
+	</update>
+	<delete id="scheduleDelete">
+		delete from schedule where schedule_no = #{sid}
+	</delete>
+	<update id="calUpdate">
+		update calendar set calendar_name = #{name}, color=#{color} where calendarid = #{calendarid}
+	</update>
+	<insert id="calInsert">
+		insert into calendar values(seq_calendar.nextval, #{calName}, #{calColor}, #{calType}, #{userId})
+	</insert>
+	<delete id="caldelete">
+		delete from calendar where calendarid= #{calId}
+	</delete>
+
+</mapper>

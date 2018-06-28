@@ -13,7 +13,11 @@ header div#header-container h2 	{margin:30px 10px 0px 10px;}
 /********** content **********/
 section#content		{min-height:600px;}
 
-
+/* 센터로고 이미지 */
+section#content img#center-image {
+    display:  block;
+    margin: 100px auto;
+}
 
 /********** footer **********/
 footer		{background-color:#f8f9fa; background-clip:content-box; clear:both; height:95px; text-align:center;}
