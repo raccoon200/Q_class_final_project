@@ -2,6 +2,7 @@ package com.kh.ok.calendar.model.vo;
 
 public class Schedule {
 	private String schedule_no;
+	private String calendarid;
 	private String writer;
 	private String calendar_name;
 	private String title;
@@ -13,16 +14,18 @@ public class Schedule {
 	private String status;
 	private String com_no;
 	private String username;
-	
+	private String color;
+	private String type;
 	
 	public Schedule() {}
 
 
-	public Schedule(String schedule_no, String writer, String calendar_name, String title, String content,
-			String startdate, String starttime, String quitdate, String quittime, String status, String com_no,
-			String username) {
+	public Schedule(String schedule_no, String calendarid, String writer, String calendar_name, String title,
+			String content, String startdate, String starttime, String quitdate, String quittime, String status,
+			String com_no, String username, String color, String type) {
 		super();
 		this.schedule_no = schedule_no;
+		this.calendarid = calendarid;
 		this.writer = writer;
 		this.calendar_name = calendar_name;
 		this.title = title;
@@ -34,6 +37,38 @@ public class Schedule {
 		this.status = status;
 		this.com_no = com_no;
 		this.username = username;
+		this.color = color;
+		this.type = type;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+	public String getCalendarid() {
+		return calendarid;
+	}
+
+
+	public void setCalendarid(String calendarid) {
+		this.calendarid = calendarid;
 	}
 
 
@@ -159,11 +194,15 @@ public class Schedule {
 
 	@Override
 	public String toString() {
-		return "Schedule [schedule_no=" + schedule_no + ", writer=" + writer + ", calendar_name=" + calendar_name
-				+ ", title=" + title + ", content=" + content + ", startdate=" + startdate + ", starttime=" + starttime
-				+ ", quitdate=" + quitdate + ", quittime=" + quittime + ", status=" + status + ", com_no=" + com_no
-				+ ", username=" + username + "]";
+		return "Schedule [schedule_no=" + schedule_no + ", calendarid=" + calendarid + ", writer=" + writer
+				+ ", calendar_name=" + calendar_name + ", title=" + title + ", content=" + content + ", startdate="
+				+ startdate + ", starttime=" + starttime + ", quitdate=" + quitdate + ", quittime=" + quittime
+				+ ", status=" + status + ", com_no=" + com_no + ", username=" + username + ", color=" + color
+				+ ", type=" + type + "]";
 	}
+
+
+	
 
 
 

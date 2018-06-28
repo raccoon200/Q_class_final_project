@@ -164,7 +164,7 @@ public class InsaController {
 		if(request.getSession(false) != null);
 		m = (Member)request.getSession().getAttribute("memberLoggedIn");
 
-		Map<String,String> map = new HashMap<>();
+		Map<String,String> map = new HashMap<String,String>();
 		map.put("searchKey", searchKey);
 		map.put("com_no", m.getCom_no());
 
@@ -227,13 +227,13 @@ public class InsaController {
 		if(request.getSession(false) != null);
 		m = (Member)request.getSession().getAttribute("memberLoggedIn");
 		
-		Map<String,String> map = new HashMap<>();
+		Map<String,String> map = new HashMap<String,String>();
 		map.put("searchKey", searchKey);
 		map.put("com_no", m.getCom_no());
 		System.out.println(map.get("com_no"));
 		System.out.println(map.get("searchKey"));
 		
-		List<Member> list = new ArrayList<>();	
+		List<Member> list = new ArrayList<Member>();	
 		
 		list = insaService.insaMemberSearch(map);
 		
@@ -261,9 +261,9 @@ public class InsaController {
 	@ResponseBody
 	public Map<String,Object> checkIdDuplicate(@RequestParam("empNo") String empNo
 						,@RequestParam("comNo") String comNo) throws JsonProcessingException {
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		
-		Map<String,String> no = new HashMap<>();
+		Map<String,String> no = new HashMap<String,String>();
 		no.put("empNo", empNo);
 		no.put("comNo", comNo);
 		
@@ -315,7 +315,7 @@ public class InsaController {
 		
 		int result = 0;
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("position", position);
 		map.put("job", job);
 		map.put("status", status);

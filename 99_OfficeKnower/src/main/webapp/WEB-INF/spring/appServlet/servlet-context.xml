@@ -27,7 +27,6 @@
 	</beans:bean>
 
 	<context:component-scan base-package="com.kh.ok" />
-	
 
 	<!-- #12.1 jsonView Bean 및 viewResolver 등록 -->
 	<!-- 요청한 viewName과 실제bean이름을 매핑해주는 BeanNameViewResolver를 사용함. -->

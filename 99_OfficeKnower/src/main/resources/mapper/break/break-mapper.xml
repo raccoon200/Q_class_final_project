@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="break">
+	<select id="selectMyBreak" resultMap="list">
+		select b.*, username
+		from break b join tbl_user u on (b.userid=u.userid)
+		where b.userid=#{userId} 
+		
+		<!-- select * from break where userid=#{userId}; -->
+	</select>
+  	<resultMap type="break" id="list"></resultMap>
+  	<select id="selectBreakList" resultType="map">
+  		<!-- select u.username, c.com_name, kind, startdate,breakdays, BREAK_REQUEST_NO ,enddate 
+		from break_request b join tbl_user u on (b.userid=u.userid)
+                    		 join tbl_com c on (b.com_no=c.com_no)
+		where b.com_no=#{comId}  -->
+		
+		select u.username, c.com_name, kind, startdate, breakdays, BREAK_REQUEST_NO ,enddate
+		from break b join tbl_user u on (b.userid=u.userid)
+             		 join tbl_com c on (c.com_no=u.com_no)
+            		 join (select * from break_request where APPROVAL_STATUS=0)r on (b.userid=r.userid)
+		where u.com_no=#{comId}
+		
+  	</select>
+  	
+  	<select id="searchMember" resultType="map">
+  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+		from tbl_user t left join break b on(t.userid=b.userid)
+                        join tbl_com c on (t.com_no=c.com_no)
+        where 1=1
+        <if test="name_com != null and name_com!=''">
+ 		and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
+ 		
+ 		</if>
+       <!--  <if test="(enddate1 != null or enddate1!='') and (enddate2 != null or enddate2!='')">
+ 		and joindate between #{enddate1} and #{enddate2}
+ 		</if>
+        <if test="(enddate1 != null or enddate1!='' and enddate2 == null and enddate2 ==''">
+ 		and joindate between #{enddate1} and sysdate
+ 		</if> -->
+  		<if test="enddate1 != null and enddate1 !=''">
+  			and joindate between #{enddate1} and
+  			<if test="enddate2 != null and enddate2 !=''">
+  				#{enddate2}
+  			</if>
+  			<if test="!(enddate2 != null and enddate2 !='')">
+  				sysdate
+  			</if>
+  		</if>
+  	</select> 
+  	
+  	<select id="choiceMember"  resultType="map" parameterType="list">
+  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+		from tbl_user t left join break b on(t.userid=b.userid)
+                        join tbl_com c on (t.com_no=c.com_no)
+        where t.userid in
+        <foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
+			#{clist}
+		</foreach> 
+  	</select>
+  	
+</mapper>

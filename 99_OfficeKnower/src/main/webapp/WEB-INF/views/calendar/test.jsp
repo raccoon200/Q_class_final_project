@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<<<<<<< HEAD
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -31,6 +30,7 @@ body {
 #calendar {
     display: inline-block;
     width: 90%;
+    
 }
 .fc-view-container{
 	display: inline-block;
@@ -73,8 +73,7 @@ body {
 .calupdate{
 	color : #6B66FF;
 	cursor: pointer;
-	float: right;
-	padding-right: 20px;
+	
 }
 
 .calinsert{
@@ -88,23 +87,10 @@ body {
 
 #divCal{
 	font-size: 20px;
-	color : darkgray;
-	display: inline-block;
+	color: #0066FF
 }
-.divBox{
-	width: 16px;
-	height: 16px;
-	display: inline-block;
-	border: 2px solid darkgray;
-	float: left;
-	margin-right: 10px;
-}
-.fc-day-header{
-	
-	background: #EAEAEA;
-	font-size: 18px;
-	padding: 0;
-}
+
+
 .red{color: #F15F5F;}
 .yellow{color: #F2CB61; }
 .orange{color: #F29661; }
@@ -141,12 +127,7 @@ function day(day){
                  	for(var index in data){
  						var c = data[index];
 
- 						 if(c.TYPE=='내 캘린더'){
- 							 
- 						 	html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"(내 캘린더) </option>";  
- 						 }else if(c.TYPE=='공유 캘린더'){
- 							html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"(공유 캘린더) </option>";  
- 						 }
+ 						 html2 += "<option value='"+c.CALENDARID+"'>"+ c.CALENDAR_NAME+"</option>";  
  						// html2 += "<option>"+ c.CALENDAR_NAME+"</option>";  
 
                  	}
@@ -260,14 +241,13 @@ function day(day){
 } //day function end
 
 //캘린더 수정 모달 함수
-function calendarUpdateFrm(cal, id, color,type){
+function calendarUpdateFrm(cal, id){
 	
 	$(".calupdate").attr("data-toggle", "modal").attr("data-target", "#calendarUpdate");
 
 	var html ="";
 	
-	html +="<div style='display:inline-block; width:17px; height:17px; border:2px solid lightgray; background:"+color+";'></div>";
-	html +="&nbsp;&nbsp;&nbsp; <div id='divCal'>" + cal + "</div><br><br>";
+	html +="<div id='divCal'>" + cal + "</div><br>";
 	html +="<form action='<%=request.getContextPath()%>/cal/calUpdate' id='updateCalFrm' method='post'>";
 	html +="<div class='form-group row'>";
  	html +="<label for='name' class='col-sm-2 col-form-label'>캘린더 이름</label>";
@@ -279,55 +259,27 @@ function calendarUpdateFrm(cal, id, color,type){
  	html +="<label for='Red' class='col-sm-2 col-form-label'>색상</label>";
  	html +="<div class='col-sm-10'>";
  
-	if(type=='내 캘린더') {
- 		
-	 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
-	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
-	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
-	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
-	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
-	 	
-	 	html += "<br><span class='blue'>파랑</span>";
-	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
-	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
-	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
-	 	html += "</div></div>";
-	 	
- 	}else if(type=='공유 캘린더'){
- 		html += "&nbsp;&nbsp;<span style='color:red'>빨강</span>";
-	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='red' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:yellow'>노랑</span>";
-	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='yellow' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:orange'>주황</span>";
-	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='orange' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:greed'>초록</span>";
-	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='green'/>";
-	 	
-	 	html += "<br><span style='color:blue'>파랑</span>";
-	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='blue' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:navy'>남색</span>";
-	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='navy'/>";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:purple'>보라</span>";
-	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='purple'/>"; 
-	 	html += "</div></div>";
- 	}
+ 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
+ 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
  	
+ 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
+ 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
  	
+ 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
+ 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
+ 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
+ 	
+ 	html += "<br><span class='blue'>파랑</span>";
+ 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
+ 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
+ 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
+ 	html += "</div></div>";
  	html += "</form>";
  	
  	$("#calInfo").html(html);
@@ -340,69 +292,39 @@ function calendarInsertFrm(cal){
 	
 	var html ="";
 	
-	html +="<div id='divCal'>" + cal + "</div><br><br>";
+	html +="<div id='divCal'>" + cal + "</div><br>";
 	html +="<form action='<%=request.getContextPath()%>/cal/calInsert' id='insertCalFrm' method='post'>";
 	html +="<div class='form-group row'>";
  	html +="<label for='name' class='col-sm-2 col-form-label'>캘린더 이름</label>";
  	html +="<div class='col-sm-10'>";
 	html +="<input type='hidden' name='calendarType' value='"+cal+"'/>";
-	html +="<input type='hidden' name='userid' value=${memberLoggedIn.userId}  />";
  	html +="<input type='text' id='calName' name='calendar_name' class='form-control' /></div></div>";
  	
  	html +="<div class='form-group row'>";
  	html +="<label for='Red' class='col-sm-2 col-form-label'>색상</label>";
  	html +="<div class='col-sm-10'>";
+
+ 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
+ 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
  	
+ 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
+ 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
  	
- 	if(cal=='내 캘린더') {
- 		
-	 	html += "&nbsp;&nbsp;<span class='red'>빨강</span>";
-	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='#F15F5F' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='yellow'>노랑</span>";
-	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='#F2CB61' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
-	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
-	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
-	 	
-	 	html += "<br><span class='blue'>파랑</span>";
-	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
-	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
-	 	
-	 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
-	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
-	 	html += "</div></div>";
-	 	
- 	}else if(cal=='공유 캘린더'){
- 		html += "&nbsp;&nbsp;<span style='color:red'>빨강</span>";
-	 	html += " &nbsp;<input type='radio' id='red' name='colorSelect' value='red' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:yellow'>노랑</span>";
-	 	html += " &nbsp;<input type='radio' id='yellow' name='colorSelect' value='yellow' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:orange'>주황</span>";
-	 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='orange' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:greed'>초록</span>";
-	 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='green'/>";
-	 	
-	 	html += "<br><span style='color:blue'>파랑</span>";
-	 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='blue' />";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:navy'>남색</span>";
-	 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='navy'/>";
-	 	
-	 	html += "&nbsp;&nbsp;<span style='color:purple'>보라</span>";
-	 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='purple'/>"; 
-	 	html += "</div></div>";
- 	}
- 		
- 		
+ 	html += "&nbsp;&nbsp;<span class='orange'>주황</span>";
+ 	html += " &nbsp;<input type='radio' id='orange' name='colorSelect' value='#F29661' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='green'>초록</span>";
+ 	html += " &nbsp;<input type='radio' id='green' name='colorSelect' value='#BCE55C'/>";
+ 	
+ 	html += "<br><span class='blue'>파랑</span>";
+ 	html += " &nbsp;<input type='radio' id='blue' name='colorSelect' value='#5CD1E5' />";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='navy'>남색</span>";
+ 	html += " &nbsp;<input type='radio' id='navy' name='colorSelect' value='#6B66FF'/>";
+ 	
+ 	html += "&nbsp;&nbsp;<span class='purple'>보라</span>";
+ 	html += " &nbsp;<input type='radio' id='purple' name='colorSelect' value='#D1B2FF'/>"; 
+ 	html += "</div></div>";
  	html += "</form>";
  	
  	$("#calInsertInfo").html(html);
@@ -410,7 +332,7 @@ function calendarInsertFrm(cal){
 
 function calendardelete(id){
 	
-	if (confirm("캘린더를 삭제하시면 등록된 일정도 삭제됩니다.") == true){    //확인
+	if (confirm("정말 삭제하시겠습니까??") == true){    //확인
 		location.href="<%=request.getContextPath()%>/cal/caldelete.do?calid="+id;
 	   
 	}else{   //취소
@@ -422,34 +344,49 @@ function calendardelete(id){
 }
 
 
-
 </script>
 <script type="text/javascript">
-
-
-	var mycal = $('input:checkbox[name=calChoice1]').is(':checked');
-	var sharecal = $('input:checkbox[name=calChoice2]').is(':checked');
-	console.log("mycal="+mycal);
-	console.log("sharecal="+sharecal);
-
     jQuery(document).ready(function() {
-		jQuery("#calendar").fullCalendar({
+    	
+    	 $('#datepicker').datepicker({
+
+    	        showOn: "both",
+    	        buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+    	        buttonImageOnly: true,
+    	        buttonText: " ",
+    	        dateFormat:"yy-mm-dd",
+    	        onSelect: function (dateText, inst) {
+    	            $('#calendar').fullCalendar('gotoDate', dateText);
+    	        },
+
+    	    });
+
+
+    	
+        jQuery("#calendar").fullCalendar({
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
         		, left: 'month,basicWeek,basicDay,listWeek' 
-        		, right : null
+        		, right: 'prevMonth prev myCustomButton  next nextMonth'
         	},
-              defaultDate : new Date()
-        	,buttonText: {
-        	    today : "오늘",
-        	    month : "월간",
-        	    basicWeek : "주간",
-        	    basicDay : "일간"
-        	    
-        	}
+        	customButtons: {
+                datePickerButton: {
+                    themeIcon:'circle-triangle-s',
+                    click: function () {
+                        $('#datepicker').datepicker("show");
+
+                    }
+                }
+            },
         	
+              defaultDate : new Date()
         	, locale : "ko"
+        	,	timezone : 'local'
+            ,    height:750
+            ,   theme: true
+             ,   businessHours: true
+            
        		, googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE"
             , eventSources : [
                 // 대한민국의 공휴일
@@ -463,22 +400,20 @@ function calendardelete(id){
             , navLinks: true
             , editable : false
             , eventLimit : true
-            
             , events: [
-                <c:if test="${not empty list}">
+            	 <c:if test="${not empty list}">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
-    			 	<c:if test="${seche.type eq '공유 캘린더'}">
+    			 	<c:if test="${seche.writer eq 'share'}">
     			 	 {
         				 id : "${seche.schedule_no}"
         			    , color : "${seche.color}"
-        			    , textColor : "white"
         				, title : "${seche.title}"
         				, start : "${seche.startdate}"+"T" +"${seche.starttime}"
         				, end : "${seche.quitdate}" +"T" +"${seche.quittime}"
         				 
         			 },
     			 	</c:if>
-        			 <c:if test="${seche.type eq '내 캘린더'}">
+        			 <c:if test="${seche.writer ne 'share'}">
     			 	 {
         				 id : "${seche.schedule_no}"
         				, color : "${seche.color}"
@@ -488,8 +423,9 @@ function calendardelete(id){
         				 
         			 },
     			 	</c:if>
-   
+
     			</c:forEach>
+    		
     			</c:if>    
 
             ]
@@ -572,7 +508,7 @@ function calendardelete(id){
         				 html += "<option value='09:00' ${seche.starttime eq '09:00'?'selected':''}>오전 09:00</option>";
         				 html += "<option value='10:00' ${seche.starttime eq '10:00'?'selected':''}>오전 10:00</option>";
         				 html += "<option value='11:00' ${seche.starttime eq '11:00'?'selected':''}>오전 11:00</option>";
-        				 html += "<option value='12:00' ${seche.starttime eq '12:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='12:00' ${seche.starttime eq '12:00'?'selected':''}>오후 12:00</option>";
         				 html += "<option value='13:00' ${seche.starttime eq '13:00'?'selected':''}>오후 01:00</option>";
         				 html += "<option value='14:00' ${seche.starttime eq '14:00'?'selected':''}>오후 02:00</option>";
         				 html += "<option value='15:00' ${seche.starttime eq '15:00'?'selected':''}>오후 03:00</option>";
@@ -609,7 +545,7 @@ function calendardelete(id){
         				 html += "<option value='09:00' ${seche.quittime eq '09:00'?'selected':''}>오전 09:00</option>";
         				 html += "<option value='10:00' ${seche.quittime eq '10:00'?'selected':''}>오전 10:00</option>";
         				 html += "<option value='11:00' ${seche.quittime eq '11:00'?'selected':''}>오전 11:00</option>";
-        				 html += "<option value='12:00' ${seche.quittime eq '12:00'?'selected':''}>오전 12:00</option>";
+        				 html += "<option value='12:00' ${seche.quittime eq '12:00'?'selected':''}>오후 12:00</option>";
         				 html += "<option value='13:00' ${seche.quittime eq '13:00'?'selected':''}>오후 01:00</option>";
         				 html += "<option value='14:00' ${seche.quittime eq '14:00'?'selected':''}>오후 02:00</option>";
         				 html += "<option value='15:00' ${seche.quittime eq '15:00'?'selected':''}>오후 03:00</option>";
@@ -680,7 +616,7 @@ function buttonInsert(){
 </script>
 
 <div id="calendar"></div>	
-
+<p>Date <input type="text" id="datepicker"></p>
 
 <!-- Modal -->
 <!-- 일정 추가 모달 -->
@@ -818,9 +754,6 @@ $(function(){
 
 </script>
 <!-- 일정보기 모달 끝 -->
-<<<<<<< HEAD
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-=======
 <!-- 캘린더 수정 모달 시작 --><!-- Modal -->
 <div class="modal fade" id="calendarUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -837,7 +770,6 @@ $(function(){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="fn_submitCalSubmit();">수정</button>
-        <button type="button" class="btn btn-primary" onclick="fn_calDelete()">삭제</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
@@ -860,21 +792,6 @@ function fn_submitCalSubmit(){
 	}else{
 		updateCalFrm.submit();
 	}
-	
-}
-
-function fn_calDelete(){
-	
-	var id = $("#calid").val();
-	console.log("deleteid=" +id);
-	
-	if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-		location.href="<%=request.getContextPath()%>/cal/caldelete.do?calid="+id;
-	   
-	}else{   //취소
-	    return;
-	}
-
 	
 }
 
@@ -922,4 +839,3 @@ function fn_calInsertSubmit(){
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
->>>>>>> refs/remotes/origin/heewoon

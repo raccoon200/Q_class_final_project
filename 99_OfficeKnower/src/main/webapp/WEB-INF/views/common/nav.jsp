@@ -245,7 +245,7 @@
 							<a href="#">휴가 신청</a><br />
 						</li>
 						<li>
-							<a href="#">휴가 현황</a><br />
+							<a href="${pageContext.request.contextPath}/break/myBreak">휴가 현황</a><br />
 						</li>
 					</ul>
 				</li>
@@ -272,6 +272,7 @@
 							</li>
 						</ul>
 					</li>
+										
 					<li>
 						<a href="javascript:void(0)" class="depth1">
 							<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
@@ -283,7 +284,7 @@
 								<a href="#">기본설정</a><br />
 							</li>
 							<li>
-								<a href="#">휴가 생성</a><br />
+								<a href="${pageContext.request.contextPath}/break/breakCreate.do">휴가 생성</a><br />
 							</li>
 							<li>
 								<a href="#">직원 휴가 관리</a><br />
@@ -373,57 +374,123 @@
 			</ul>
 		</div>
 	</c:if>
-	<!-- 게시판 nav -->
+	<!-- 일정관리 nav -->
 	<c:if test="${param.pageTitle eq '일정관리'}">
 		<div class="main_btn">
-			<button type="button" class="btn btn-primary">일정추가</button>
+			<button type="button" id="insertBtn" type="button" class="btn btn-primary" data-toggle="modal" 
+		        data-target="#calendarInsert" onclick="buttonInsert();">일정추가</button>
 		</div>
+		
+		<!-- 캘린더 보기 -->
+		
+		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px; margin-top:25px;">
+  			<input type="checkbox" class="custom-control-input" name="calChoice" id="customCheck1" onclick="fn_myCal('내 캘린더');"
+  			${type eq '내 캘린더'?"checked":""}>
+  			<label class="custom-control-label" for="customCheck1">내 캘린더 보기</label>
+		</div>
+		 <script>
+		function fn_myCal(type,userId){
+			location.href='${pageContext.request.contextPath}/cal/myCal.do?type='+type;
+		}
+		</script> 
+		
+		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px;">
+  			<input type="checkbox" class="custom-control-input" name="calChoice" id="customCheck2" value="공유 캘린더" onclick="fn_calchoice('공유 캘린더');"
+  			  ${type eq '공유 캘린더'?"checked":""}>
+  			<label class="custom-control-label" for="customCheck2">공유 캘린더 보기</label>
+		</div>
+		<script>
+		function fn_calchoice(type){
+			location.href='${pageContext.request.contextPath}/cal/shareCal.do?type='+type;
+		}
+		</script>
+		
+		<div class="custom-control custom-checkbox" style="text-align:left; margin-left:25px;">
+  			<input type="checkbox" class="custom-control-input" name="calChoice" id="customCheck3" value="공유 캘린더" onclick="fn_sumCal('같이');"
+  			  ${type eq '같이'?"checked":""}>
+  			<label class="custom-control-label" for="customCheck3">캘린더 같이 보기</label>
+		</div>
+		<script>
+		function fn_sumCal(type){
+			location.href='<%=request.getContextPath()%>/cal/calTest.do?type='+type;
+		}
+		</script>
+		
+		
+
 		<div class="menufield">
 			<ul class="menu_list">
 				<li>
-					<a href="javascript:void(0)" class="depth1">
+					<a href="javascript:void(0)" class="depth1" style="font-size:20px;">
 						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
 						내 캘린더
 					</a>
+						&nbsp;&nbsp;&nbsp; <span class="calinsert"  onclick="calendarInsertFrm('내 캘린더');">만들기</span>
+					
 					<br />
 					<ul class="depth2 hide">
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">켈린더1</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">켈린터2</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">반복문 돌리기</a><br />
-						</li>
+					
+					<c:if test="${not empty clist}">
+		   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
+		       			 <c:if test="${seche.TYPE eq '내 캘린더'}">
+		   			 	   
+							 <li class="board_menu_name">
+								<%-- <img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" /> --%>
+								<div class="divBox" style="background:${seche.COLOR}"></div>
+								
+							    <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}&calendarid=${seche.CALENDARID}">${seche.CALENDAR_NAME}</a>
+								<%-- ${seche.CALENDAR_NAME} --%>
+								
+								<!-- 캘린더 수정 -->
+								&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}', '${seche.COLOR}','${seche.TYPE}');">수정</span>
+								
+								<br />
+							</li>
+		   			 	</c:if>
+		   			</c:forEach>
+					</c:if>
+
 					</ul>
 				</li>
+				<br />
 				<li>
-					<a href="javascript:void(0)" class="depth1">
+					<a href="javascript:void(0)" class="depth1" style="font-size:20px;">
 						<img src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png" alt="폴더" class="fold"/>
 						공유 캘린더
 					</a>
+					&nbsp;&nbsp;&nbsp; <span class="calinsert"  onclick="calendarInsertFrm('공유 캘린더');">만들기</span>
+					
 					<br />
 					<ul class="depth2 hide">
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">공유 켈린더1</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />						
-							<a href="#">공유켈린터2</a><br />
-						</li>
-						<li class="board_menu_name">
-							<img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" />
-							<a href="#">반복문 돌리기</a><br />
-						</li>
+						<c:if test="${not empty clist}">
+			   			 <c:forEach var="seche" items="${clist}" varStatus="vs">
+			       			 <c:if test="${seche.TYPE eq '공유 캘린더'}">
+			   			 	   
+								 <li class="board_menu_name">
+									<%-- <img src="${pageContext.request.contextPath }/resources/images/common/edit (1).png" class="icon_edit" alt="수정" /> --%>
+									<div class="divBox" style="background:${seche.COLOR}"></div> &nbsp;&nbsp;
+									
+								
+									<%-- <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}">${seche.CALENDAR_NAME}</a> --%>
+									 <a href="<%=request.getContextPath()%>/cal/calcalendar.do?calendar_name=${seche.CALENDAR_NAME}&calendarid=${seche.CALENDARID}">${seche.CALENDAR_NAME}</a>
+									<%-- ${seche.CALENDAR_NAME} --%>
+									
+									<!-- 캘린더 수정 -->
+									&nbsp;&nbsp;&nbsp; <span class="calupdate"  onclick="calendarUpdateFrm('${seche.CALENDAR_NAME}','${seche.CALENDARID}','${seche.COLOR}','${seche.TYPE}');">수정</span>
+									
+								</li>
+			   			 	</c:if>
+			   			</c:forEach>
+						</c:if>
 					</ul>
 				</li>
 			</ul>
 		</div>
 	</c:if>
 </nav>
+
+
+
+
+
 <div id="sabu_container">

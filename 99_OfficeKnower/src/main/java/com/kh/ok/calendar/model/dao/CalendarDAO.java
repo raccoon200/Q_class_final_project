@@ -7,7 +7,7 @@ import com.kh.ok.calendar.model.vo.Schedule;
 
 public interface CalendarDAO {
 
-	List<Schedule> selectSechedule(String userId);
+	List<Schedule> selectSechedule(Map<String, String> map);
 
 	int selectInsert(Schedule schedule);
 
@@ -16,5 +16,19 @@ public interface CalendarDAO {
 	int scheduleUpdate(Schedule schedule);
 
 	int scheduleDelete(String sid);
+
+	List<Schedule> calendarView(Map<String, String> map);
+
+	int calUpdate(Map<String, String> map);
+
+	int calInsert(Map<String, String> map);
+
+	int calInsert(String calId);
+
+	List<Schedule> shareCal(String type);
+
+	List<Schedule> myCal(Map<String, String> map);
+
+	
 
 }
