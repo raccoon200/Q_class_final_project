@@ -343,4 +343,24 @@ public class InsaController {
 		
 		return "redirect:/insa/memberManagement.do";
 	}
+
+	@RequestMapping("/insa/positionManagement.do")
+	@ResponseBody
+	public ModelAndView positionManagement(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+			
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+		// 업무로직
+		List<Position> plist = insaService.selectPositionList(m.getCom_no());
+		List<Job> jlist = jobService.selectJobList(m.getCom_no());
+		
+		System.out.println(plist);
+		System.out.println(jlist);
+		
+		mav.addObject("plist", plist);
+		mav.addObject("jlist", jlist);
+		mav.setViewName("insa/insaPositionJobManagement");
+		return mav;
+	}
 }
