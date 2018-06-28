@@ -118,5 +118,38 @@ public class BreakController {
 		return choiceList;
 	}
 	
-	
+	@RequestMapping("/break/choiceMemberDelete.do")
+	@ResponseBody
+	public Map<String,Object> choiceMemberDelete(HttpServletRequest request){
+		String[] userid = request.getParameter("userid").split(",");
+		for(int i=0; i<userid.length; i++) {
+			System.out.println(",가 들어가서 그런가?= " +userid[i]);
+		}
+		
+		HttpSession session = request.getSession(false);
+		String comId = null;
+		if(session != null && session.getAttribute("memberLoggedIn") != null) {
+			 comId = ((Member)session.getAttribute("memberLoggedIn")).getCom_no();
+		}
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> deleteAfterList = new HashMap<String,Object>();
+		
+		List<String> userList = new ArrayList<String>();
+		if(userid.length>0) {
+			
+			for(int i=0; i<userid.length; i++) {
+				userList.add(userList.size(), userid[i]);
+				System.out.println("userList" + userList);
+			}
+		}
+		map.put("userList", userList);
+		map.put("comId", comId);
+		
+		List<Map<String,String>> deleteAfterMember = breakService.choiceMemberDelete(map);
+		System.out.println("지우고 남은 회원=" + deleteAfterMember);
+		deleteAfterList.put("deleteAfterMember", deleteAfterMember);
+		
+		return deleteAfterList;
+	}
 }

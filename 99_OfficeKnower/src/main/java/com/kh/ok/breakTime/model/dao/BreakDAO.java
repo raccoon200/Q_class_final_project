@@ -15,4 +15,6 @@ public interface BreakDAO {
 
 	List<Map<String, String>> choiceMember(Map<String, Object> map);
 
+	List<Map<String, String>> choiceMemberDelete(Map<String, Object> map);
+
 }

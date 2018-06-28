@@ -37,4 +37,9 @@ public class BreakDAOImpl implements BreakDAO {
 		return sqlSession.selectList("break.choiceMember",map);
 	}
 
+	@Override
+	public List<Map<String, String>> choiceMemberDelete(Map<String, Object> map) {
+		return sqlSession.selectList("break.choiceMemberDelete",map);
+	}
+
 }

@@ -20,7 +20,7 @@
 		from break b join tbl_user u on (b.userid=u.userid)
              		 join tbl_com c on (c.com_no=u.com_no)
             		 join (select * from break_request where APPROVAL_STATUS=0)r on (b.userid=r.userid)
-		where u.com_no=#{comId}
+		where u.status='Y' and u.com_no=#{comId}
 		
   	</select>
   	
@@ -30,7 +30,7 @@
                         join tbl_com c on (t.com_no=c.com_no)
         where 1=1
         <if test="name_com != null and name_com!=''">
- 		and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
+ 		and t.status='Y' and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
  		
  		</if>
        <!--  <if test="(enddate1 != null or enddate1!='') and (enddate2 != null or enddate2!='')">
@@ -54,10 +54,24 @@
   		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
 		from tbl_user t left join break b on(t.userid=b.userid)
                         join tbl_com c on (t.com_no=c.com_no)
-        where t.userid in
+        where t.status='Y' and t.userid in
         <foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
 			#{clist}
 		</foreach> 
+  	</select>
+  	
+  	<select id="choiceMemberDelete" resultType="map" parameterType="list">
+  		select a.* 
+		from (select t.username, t.userid, c.com_name, b.regular_break, b.reward_break, t.status
+			  from tbl_user t left join break b on(t.userid=b.userid)
+              			           join tbl_com c on (t.com_no=c.com_no)
+        where 1=1
+ 		and  t.status='Y' and t.com_no =#{comId} and t.username like '%배%')a
+		where userid not in 
+		<foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
+			#{clist}
+		</foreach> 
+  	
   	</select>
   	
 </mapper>

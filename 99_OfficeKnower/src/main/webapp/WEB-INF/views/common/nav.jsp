@@ -41,6 +41,9 @@
 		}
 		var parentsWidth = $("div.container_main").css("width");
 		var navWidth = $("nav#leftMenu").css("width");
+		console.log(parentsWidth);
+		console.log(navWidth);
+		console.log(parseFloat(parentsWidth)-parseFloat(navWidth));
 		$("div#sabu_container").css("width",parseFloat(parentsWidth)-parseFloat(navWidth)+"px");
 		$("#datepicker1").datepicker(
 				{

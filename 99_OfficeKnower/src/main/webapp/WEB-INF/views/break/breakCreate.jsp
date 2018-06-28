@@ -51,6 +51,24 @@ $(function(){
 	$("#rewardBreak").hide();
 });
 
+function checkAll(){
+	if($("#selectAll").is(':checked')){
+		$("input[name=choice]").prop("checked",true);
+	}else{
+		$("input[name=choice]").prop("checked",false);
+	}
+}
+
+
+function checkAllDelete(){
+	if($("#selectedMemberAll").is(':checked')){
+		$("input[name=selectedMember]").prop("checked",true);
+	}else{
+		$("input[name=selectedMember]").prop("checked",false);
+	}
+}
+
+
 function fn_select(){
 	/* var userid = $("input:checkbox[name='choice']").val();
 	alert(userid); */
@@ -67,6 +85,7 @@ function fn_select(){
 		
 	});
 	
+	//선택된 회원 보여주는 에이작스 
 	$.ajax({
 	      url : "${pageContext.request.contextPath}/break/choiceMember.do",
 	            type: "post",
@@ -85,6 +104,7 @@ function fn_select(){
 	            	   	html += "<table class='table table-bordered' >";
 	            	  	html += "<thead>";
 	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
+	    			    html += "<th scope='row' rowspan='2'> <input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </th>";
 	    			    html += "<th scope='col' rowspan='2'>이름</th>";
 	    			    html += "<th scope='col' rowspan='2'>ID</th>";
 	    			    html += "<th scope='col' rowspan='2'>소속</th>";
@@ -106,6 +126,7 @@ function fn_select(){
 							cnt *= 1;
 							cnt += 1;
 	 						html += "<tr style='text-align:center;'>";
+	 						html += "<th scope='row'> <input type='checkbox' name='selectedMember' value='"+c.USERID+"'/> </th>";
 	 						html += "<td>" + c.USERNAME + "</td>";
 	 						html += "<td>" + c.USERID + "</td>";
 	 						html += "<td>" + c.COM_NAME + "</td>";
@@ -153,6 +174,100 @@ function fn_select(){
 	$(".close").hide();  
 		   
 }	
+
+//포상휴가 선택된 멤버 삭제하는 에이작스
+function rewardMemberDelete(){
+	var userid = "";
+	$("input[name=selectedMember]:checked").each(function() {
+
+		userid += $(this).val() + ",";
+		console.log(userid)
+
+	});
+	
+	$.ajax({
+	      url : "${pageContext.request.contextPath}/break/choiceMemberDelete.do",
+	            type: "post",
+	            data : {userid:userid},
+	            dataType : "json",
+	            success: function(data){
+	               console.log(data);
+	               data = data["deleteAfterMember"];
+	               
+	               	 if(data==null){
+	               		console.log("여기에 들어와...??/");
+	              	}else { 
+	              		console.log("에이작스 들어오는 거지..??/");
+	            	   var html = "";
+	            	   var cnt = "";
+	            	   	html += "<table class='table table-bordered' >";
+	            	  	html += "<thead>";
+	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
+	    			    html += "<th scope='row' rowspan='2'> <input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </th>";
+	    			    html += "<th scope='col' rowspan='2'>이름</th>";
+	    			    html += "<th scope='col' rowspan='2'>ID</th>";
+	    			    html += "<th scope='col' rowspan='2'>소속</th>";
+	    			    html += "<th scope='col' rowspan='2'>연차</th>";
+	    			    html += "<th scope='col' colspan='2'>포상</th>";
+	    			    html += "</tr>";			    
+	    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
+	   			     
+	  			        html += "<td>현재</td>";  
+	  			     	html += "<td>생성 후</td>";  
+	  			    	html += "</tr>";
+	    			    html += "</thead>";
+	    			    
+	    			    for(var index in data){
+	 						var c = data[index];
+							console.log("c"+c[1]);
+	 						
+							cnt = index;
+							cnt *= 1;
+							cnt += 1;
+	 						html += "<tr style='text-align:center;'>";
+	 						html += "<th scope='row'> <input type='checkbox' name='selectedMember' value='"+c.USERID+"'/> </th>";
+	 						html += "<td>" + c.USERNAME + "</td>";
+	 						html += "<td>" + c.USERID + "</td>";
+	 						html += "<td>" + c.COM_NAME + "</td>";
+	 						
+	 						if(c.REGULAR_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REGULAR_BREAK +"일 </td>";
+	 						}
+	 						
+	 						if(c.REWARD_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REWARD_BREAK + "일</td>";
+	 						}
+	 						
+	 						html += "<td> <input type='text' name='reward' id='reward' value='0'/> 일</td>";
+	 						html += "</tr>";
+	                 	}
+	 						html += "</table>";
+	    			    
+	 					//	$("#memberTable").html(html);
+	 						$("#selectedMember").html(html);
+	 						$("#memberCnt").html(cnt);
+	 						
+	    			    
+	               	} 
+
+	              },
+	              error:function(jqxhr,textStatus,errorThrown){
+	                 console.log("ajax 처리실패!");
+	                 console.log(jqxhr);
+	                 console.log(textStatus);
+	                 console.log(errorThrown);
+	              }
+	                   
+	  }); // ajax end
+	
+}
+
+
+
 </script>
 
 
@@ -206,13 +321,16 @@ function fn_select(){
       		포상 휴가 일수를 입력한 후 '지금 생성하기'를 클릭하세요.
       	</p>
       	
-      	<p id="memberCnt"></p>
+      	대상자 <span id="memberCnt"> 0 </span> 명
       	<br /><br />
       	
       	<div id="selectedMember">
 	      	<table class="table table-bordered">
 			  <thead>
 			    <tr style="background:#F6F6F6; text-align:center;">
+			 	  <th scope="col" rowspan="2" >
+			      	<input type="checkbox" name="" id="" />
+			      </th>
 			      <th scope="col" rowspan="2">이름</th>
 			      <th scope="col"  rowspan="2">ID</th>
 			      <th scope="col"  rowspan="2">소속</th>
@@ -231,6 +349,8 @@ function fn_select(){
 			  </tbody>
 			</table>
 		</div>
+
+		<div style="color: lightblue; font-size:20px;" onclick='rewardMemberDelete()'> 삭제</div>
 
       </td>
   
@@ -406,7 +526,7 @@ function fn_ajaxMember(){
 	            	  	html += "<thead>";
 	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
 	    			    html += "<th scope='col'>";
-	    			    html += "<input type='checkbox' name='selectAll' id='selectAll' />";
+	    			    html += "<input type='checkbox' name='selectAll' id='selectAll' onclick='checkAll()'/>";
 	    			    html += "</th>";
 	    			    html += "<th scope='col' >이름</th>";
 	    			    html += "<th scope='col' >ID</th>";
