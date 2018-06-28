@@ -63,7 +63,6 @@
 		</tr>
 	</thead>
 	<tbody>
-	reservationNoClick
 		<c:forEach var="listN" items="${listN}">
 			<c:if test='${!empty listN}'>
 				<tr>
@@ -87,6 +86,7 @@
 <script>
 function fn_reservationNoClick(val){
 <c:set var="reservationNoClick" value="val"></c:set> 
+alert(${reservationNoClick});
 }
 </script>
 
@@ -107,26 +107,7 @@ function fn_reservationNoClick(val){
 				method="post">
 				<div class="modal-body">
 					<table class="table">
-					<tr>
-					<th>자원 이름</th>
-					<th>예약 시간</th>
-					<th>등록자</th>
-					<th>사용 용도</th>
-					<th>예약 상태</th>
-					</tr>
-						<c:forEach var="listN" items="${listN}">
-						<c:if test='${!empty listN}'>
-							<tr>
-					<td>${listN.reservation_no}</td>
-					<td>${listN.category }</td>
-					<td>${listN.res_name }</td>
-					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
-					<td>${listN.startdate}~ ${listN.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservation" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value)">승인 대기중</button></td>
-				</tr>
-			</c:if>
-		</c:forEach>	
+
 					</table>
 				</div>
 				<div class="modal-footer">
