@@ -45,7 +45,8 @@ function fn_hide(){
 }
 
 function fn_positionAdd(){
-	console.log("1");
+	$("#insa_position_table").append("<tr><th></th><td><td></tr>");
+	console.log($("#insa_position_table>tr:last>th").val());
 }
 </script>
 <div class="insa_management" style="width: 95%;">
@@ -64,7 +65,7 @@ function fn_positionAdd(){
 
 <br /><br />   
 <form action="${pageContext.request.contextPath}/insa/insaMemberDelete.do" name="insaMemberDelete">
-	<table class="table" style="width: 300px;">
+	<table id="insa_position_table"class="table" style="width: 300px;">
 		<thead class="thead-light">
 		<tr>
 			<th class="plist_th_count">등급</th>
