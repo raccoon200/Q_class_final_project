@@ -12,12 +12,17 @@ public class Board {
 	private String status;
 	private String original_file_name;
 	private String renamed_file_name;
+	private int count;
+	private String bookmark;
+	private String profile;
 	
+
+
 	public Board() {}
 
 	
 	public Board(int board_menu_no, String title, String content, String writer, String original_file_name,
-			String renamed_file_name) {
+			String renamed_file_name, int count, String bookmark) {
 		super();
 		this.board_menu_no = board_menu_no;
 		this.title = title;
@@ -25,6 +30,16 @@ public class Board {
 		this.writer = writer;
 		this.original_file_name = original_file_name;
 		this.renamed_file_name = renamed_file_name;
+		this.count = count;
+		this.bookmark = bookmark;
+	}
+	public String getProfile() {
+		return profile;
+	}
+
+
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 
@@ -99,7 +114,18 @@ public class Board {
 	public void setRenamed_file_name(String renamed_file_name) {
 		this.renamed_file_name = renamed_file_name;
 	}
-
+	public void setCount(int count) {
+		this.count = count;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setBookmark(String bookmark) {
+		this.bookmark = bookmark;
+	}
+	public String getBookmark() {
+		return bookmark;
+	}
 
 	@Override
 	public String toString() {

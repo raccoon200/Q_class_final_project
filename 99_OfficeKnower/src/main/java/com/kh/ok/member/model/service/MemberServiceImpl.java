@@ -1,5 +1,8 @@
 package com.kh.ok.member.model.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +25,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public List<Map<String, String>> memberCompanyListAll(String com_no) {
+		return memberDAO.memberCompanyListAll(com_no);
+	}
 	public int memberEnrollEnd(Member m) {
 		return memberDAO.memberEnrollEnd(m);
 	}
 	public int memberOneUpdate(Member member) {
 		return memberDAO.memberOneUpdate(member);
+
 	}
 
 }
