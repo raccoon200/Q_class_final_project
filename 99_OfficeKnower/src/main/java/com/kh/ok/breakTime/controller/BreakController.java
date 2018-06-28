@@ -60,15 +60,25 @@ public class BreakController {
 		String enrolldate2 = request.getParameter("enrolldate2");
 		String name_com = request.getParameter("name_com");
 		
+		HttpSession session = request.getSession(false);
+		String comId = null;
+		if(session != null && session.getAttribute("memberLoggedIn") != null) {
+			 comId = ((Member)session.getAttribute("memberLoggedIn")).getCom_no();
+		}
 		
+
 		System.out.println("enrolldate1" + enrolldate1);
 		System.out.println("enrolldate2" + enrolldate2);
 		System.out.println("name_com" + name_com);
+		System.out.println("comId" + comId);
+		
+		
 		Map<String,String> map = new HashMap<String,String>();
 		Map<String,Object> mlist = new HashMap<String, Object>();
 		map.put("enrolldate1",enrolldate1);
 		map.put("enrolldate2",enrolldate2);
 		map.put("name_com",name_com);
+		map.put("comId",comId);
 		
 		List<Map<String,String>> memberList = breakService.searchMember(map);
 		mlist.put("list",memberList);
@@ -81,16 +91,17 @@ public class BreakController {
 	@ResponseBody
 	public Map<String,Object> choiceMember(HttpServletRequest request){
 		String[] userid = request.getParameter("userid").split(",");
-		System.out.println("userid"+userid);
+		for(int i=0; i<userid.length; i++) {
+			System.out.println(",가 들어가서 그런가?= " +userid[i]);
+		}
 		
 		
-		//맵은 값이 안들어가 ㅠㅠㅠ
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> choiceList = new HashMap<String,Object>();
 		
 		
 		List<String> userList = new ArrayList<String>();
-		if(userid.length>1) {
+		if(userid.length>0) {
 			
 			for(int i=0; i<userid.length; i++) {
 				userList.add(userList.size(), userid[i]);

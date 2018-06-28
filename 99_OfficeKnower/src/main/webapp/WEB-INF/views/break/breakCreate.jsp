@@ -19,8 +19,7 @@
 }
 #rewardBreak{
 	width : 90%;
-	height : 700px;
-	
+	height : 600px;
 	position:relative;
 }
 #divInnerBox{
@@ -55,14 +54,16 @@ $(function(){
 function fn_select(){
 	/* var userid = $("input:checkbox[name='choice']").val();
 	alert(userid); */
+	
+	
 	var userid = "";
 	$("input[name=choice]:checked").each(function() {
 
 		userid += $(this).val() + ",";
 
-		/* console.log(userid);
+		console.log(userid)
 
-		location.href = "${pageContext.request.contextPath}/break/choiceMember.do?userid="+userid; */
+		/*location.href = "${pageContext.request.contextPath}/break/choiceMember.do?userid="+userid; */
 		
 	});
 	
@@ -73,43 +74,65 @@ function fn_select(){
 	            dataType : "json",
 	            success: function(data){
 	               console.log(data);
-	               data = data["list"];
+	               data = data["memberList"];
 	               
-	               var html = "";
-               	if(data==null){
-	           	  
-              	}else {
-              	
-            	   	html += "<table class='table table-bordered' >";
-            	  	html += "<thead>";
-    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
-    			    html += "<th scope='col'>";
-    			    html += "<input type='checkbox' name='selectAll' id='selectAll' />";
-    			    html += "</th>";
-    			    html += "<th scope='col' rowspan='2'>이름</th>";
-    			    html += "<th scope='col' rowspan='2'>ID</th>";
-    			    html += "<th scope='col' rowspan='2'>소속</th>";
-    			    html += "<th scope='col' rowspan='2'>연차</th>";
-    			    html += "<th scope='col' colspan='2'>포상</th>";
-    			    html += "</tr>";			    
-    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
-   			     
-  			        html += "<td>현재</td>";  
-  			     	html += "<td>생성 후</td>";  
-  			    	html += "</tr>";
-    			    html += "</thead>";
-    			    
-    			    
-    			    
-    			    
-    			    
-    			    
-    			    
-    			    
-    			    
-    			    
-    			    
-               	} 
+	               	 if(data==null){
+	               		console.log("여기에 들어와...??/");
+	              	}else { 
+	              		console.log("에이작스 들어오는 거지..??/");
+	            	   var html = "";
+	            	   var cnt = "";
+	            	   	html += "<table class='table table-bordered' >";
+	            	  	html += "<thead>";
+	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
+	    			    html += "<th scope='col' rowspan='2'>이름</th>";
+	    			    html += "<th scope='col' rowspan='2'>ID</th>";
+	    			    html += "<th scope='col' rowspan='2'>소속</th>";
+	    			    html += "<th scope='col' rowspan='2'>연차</th>";
+	    			    html += "<th scope='col' colspan='2'>포상</th>";
+	    			    html += "</tr>";			    
+	    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
+	   			     
+	  			        html += "<td>현재</td>";  
+	  			     	html += "<td>생성 후</td>";  
+	  			    	html += "</tr>";
+	    			    html += "</thead>";
+	    			    
+	    			    for(var index in data){
+	 						var c = data[index];
+							console.log("c"+c[1]);
+	 						
+							cnt = index;
+							cnt *= 1;
+							cnt += 1;
+	 						html += "<tr style='text-align:center;'>";
+	 						html += "<td>" + c.USERNAME + "</td>";
+	 						html += "<td>" + c.USERID + "</td>";
+	 						html += "<td>" + c.COM_NAME + "</td>";
+	 						
+	 						if(c.REGULAR_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REGULAR_BREAK +"일 </td>";
+	 						}
+	 						
+	 						if(c.REWARD_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REWARD_BREAK + "일</td>";
+	 						}
+	 						
+	 						html += "<td> <input type='text' name='reward' id='reward' value='0'/> 일</td>";
+	 						html += "</tr>";
+	                 	}
+	 						html += "</table>";
+	    			    
+	 					//	$("#memberTable").html(html);
+	 						$("#selectedMember").html(html);
+	 						$("#memberCnt").html(cnt);
+	 						
+	    			    
+	               	} 
 
 	              },
 	              error:function(jqxhr,textStatus,errorThrown){
@@ -121,8 +144,14 @@ function fn_select(){
 	                   
 	  }); // ajax end
 	
-	
-		  
+
+    $("body").css("overflow","auto");
+
+	$("#backgroundSmsLayer").remove();
+
+	$("#divInnerBox").hide();
+	$(".close").hide();  
+		   
 }	
 </script>
 
@@ -171,14 +200,16 @@ function fn_select(){
   </thead>
   <tbody>
     <tr>
-      <th scope="row" style="width:300px; height:500px; background:#F6F6F6;text-align:center;">휴가 일수</th>
+      <th scope="row" style="width:300px; height:400px; background:#F6F6F6;text-align:center;">휴가 일수</th>
       <td>
       	<p>
       		포상 휴가 일수를 입력한 후 '지금 생성하기'를 클릭하세요.
       	</p>
+      	
+      	<p id="memberCnt"></p>
       	<br /><br />
       	
-      	<div>
+      	<div id="selectedMember">
 	      	<table class="table table-bordered">
 			  <thead>
 			    <tr style="background:#F6F6F6; text-align:center;">
@@ -196,12 +227,7 @@ function fn_select(){
 			    </tr>
 			    </thead>
 			  <tbody>
-			  
-			  <c:if test="${not empty myBreak}">
-			  <c:forEach var="bre" items="${myBreak}">
-				   
-				</c:forEach>
-			   </c:if>
+
 			  </tbody>
 			</table>
 		</div>
@@ -236,7 +262,7 @@ function fn_select(){
 			</div>
 			
 			<div class='form-group row'>
-				<label for='startdate' class='col-sm-2 col-form-label'>이름/조직</label>
+				<label for='startdate' class='col-sm-2 col-form-label'>이름</label>
 				<div class='row'>
 					<div class='col'>
 						<input type='text' name='name_com' id='name_com' class='form-control' /> 

@@ -25,7 +25,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
     
-        jQuery("#calendar").fullCalendar({
+        jQuery("#calendar2").fullCalendar({
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
@@ -158,7 +158,7 @@
   </div>
 </div>
 
-<div id="calendar"></div>	
+<div id="calendar2"></div>	
 
 
 

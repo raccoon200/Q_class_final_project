@@ -30,7 +30,7 @@
                         join tbl_com c on (t.com_no=c.com_no)
         where 1=1
         <if test="name_com != null and name_com!=''">
- 		and c.com_name like '%'||#{name_com}||'%' or t.username like '%'||#{name_com}||'%'
+ 		and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
  		
  		</if>
        <!--  <if test="(enddate1 != null or enddate1!='') and (enddate2 != null or enddate2!='')">
