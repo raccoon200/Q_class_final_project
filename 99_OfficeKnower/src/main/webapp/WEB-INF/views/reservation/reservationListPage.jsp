@@ -12,6 +12,7 @@
 	<jsp:param value="예약" name="pageTitle" />
 	<jsp:param value="나의 예약 목록" name="selectMenu" />
 </jsp:include>
+
 <strong>나의 예약 목록</strong>
 <hr />
 <strong>예약 목록</strong>
@@ -72,7 +73,7 @@
 					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
 					<td>${listN.startdate}~ ${listN.quitdate}</td>
 					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservation" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value)">승인 대기중</button></td>
+				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value)">승인 대기중</button></td>
 				</tr>
 			</c:if>
 		</c:forEach>
@@ -86,7 +87,6 @@
 <script>
 function fn_reservationNoClick(val){
 <c:set var="reservationNoClick" value="val"></c:set> 
-alert(${reservationNoClick});
 }
 </script>
 
@@ -107,7 +107,9 @@ alert(${reservationNoClick});
 				method="post">
 				<div class="modal-body">
 					<table class="table">
-
+					<tr>
+					<th>${reservationNoClick}</th>
+					</tr>
 					</table>
 				</div>
 				<div class="modal-footer">
@@ -119,3 +121,4 @@ alert(${reservationNoClick});
 		</div>
 	</div>
 </div>
+<jsp:include page="/WEB-INF/views/reservation/reservationModal.jsp"/>

@@ -40,7 +40,7 @@ public class ReservationController {
 		List<Resources> resources =  reservationService.selectResources(com_no);
 		List<Map<String, String>> category = reservationService.selectCategory(com_no);
 	//	System.out.println(list);
-//		System.out.println(resources);
+	//	System.out.println(resources);
 //		System.out.println(category);
 //		System.out.println(listN);
 		mav.addObject("list", list);

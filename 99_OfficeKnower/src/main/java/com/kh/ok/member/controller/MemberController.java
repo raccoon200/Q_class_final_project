@@ -218,6 +218,7 @@ public class MemberController {
 			
 			//파일이름 멤버에 추가
 			//2.비지니스로직
+			System.out.println(member);
 			int result = memberService.memberEnrollEnd(member);
 						
 			//3.view단 분기

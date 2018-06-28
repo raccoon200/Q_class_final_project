@@ -212,7 +212,7 @@ function validate() {
 		<div class="input-group mb-3" style="padding:0px">
 		<span class="input-group-text">회사등록</span>
 		<div id="comName-container">
-		<input type="text" class="form-control" name="com_name" id="comName" placeholder="회사이름" />
+		<input type="text" class="form-control" name="com_name" id="comName" placeholder="회사이름" autocomplete="off"/>
 		<span class="guide ok comName">사용가능합니다.</span>
 		<span class="guide error comName">이미 있습니다.</span>		
 		<span class="guide empty comName">공백은 안 됩니다.</span>		
