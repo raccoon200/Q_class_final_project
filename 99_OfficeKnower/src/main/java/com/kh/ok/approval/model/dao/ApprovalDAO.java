@@ -50,5 +50,16 @@ public interface ApprovalDAO {
 	List<Member> selectaccountListByName(Map<String, String> map);
 
 	List<Member> selectListMember(String com_no);
+	int signUpdate(Member m);
+
+	List<Map<String, String>> selectListAdmin();
+
+	int deleteAdmin(Member m);
+
+	List<Map<String, String>> adminSelect(String userName);
+
+	int adminInsert(Member m);
+
+	Member selectMember(String userId);
 
 }

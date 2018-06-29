@@ -64,4 +64,25 @@
 	<select id="selectListMember" resultType="member">
 		select u.*, c.com_name as com_name from tbl_user u join tbl_com c on u.com_no = c.com_no where u.com_no = #{com_no} and u.status ='Y'
 	</select>
+	<update id="signUpdate">
+		update tbl_user set sign=#{sign} where userId=#{userId} 
+	</update>
+	<select id="selectListAdmin" resultType="map">
+		select * from tbl_user where grade='슈퍼관리자' or grade like '%전자결재관리자%'
+	</select>
+	<update id="deleteAdmin">
+		update tbl_user set grade=#{grade} where userId=#{userId}
+	</update>
+	<update id="deleteAdminNull">
+		update tbl_user set grade=null where userId=#{userId}
+	</update>
+	<select id="adminSelect" resultType="map">
+		select * from tbl_user where userName like #{userName}
+	</select>
+	<select id="memberSelect" resultType="member">
+		select * from tbl_user where userId=#{userId}
+	</select>
+	<update id="adminInsert">
+		update tbl_user set grade=#{grade} where userId=#{userId}
+	</update>
 </mapper>

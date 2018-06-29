@@ -46,9 +46,20 @@ public interface ApprovalService {
 	int accountUpdate(Account account);
 
 	int accountDelete(String userId);
+	
+	int updateSign(Member m);
 
 	List<Member> selectaccountListByName(Map<String, String> map);
 
 	List<Member> selectListMember(String com_no);
 
+	List<Map<String, String>> selectListAdmin();
+
+	int deleteAdmin(Member m);
+
+	List<Map<String, String>> selectAdmin(String userName);
+
+	int adminInsert(Member m);
+
+	Member selectMember(String userId);
 }

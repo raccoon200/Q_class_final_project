@@ -104,7 +104,7 @@
 						<li><a href="#">반려</a><br /></li>
 						<li><a href="#">임시 보관</a><br /></li>
 					</ul></li>
-				<li><a href="#">설정</a><br /></li>
+				<li><a href="${pageContext.request.contextPath }/approval/approvalSetting.do">설정</a><br /></li>
 				<c:if
 					test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "전자결재관리자"}'>
 					<li><a href="javascript:void(0)" class="depth1"> <img
@@ -112,7 +112,7 @@
 							alt="폴더" class="fold" /> 관리자 설정
 					</a> <br />
 						<ul class="depth2 hide">
-							<li><a href="#">관리자 추가</a><br /></li>
+							<li><a href="${pageContext.request.contextPath }/approval/admin/approvalAdminInsert.do">관리자 추가</a><br /></li>
 							<li><a href="#">기본 설정</a><br /></li>
 							<li><a href="#">양식함 관리</a><br /></li>
 							<li><a href="#">전체 문서 목록</a><br /></li>

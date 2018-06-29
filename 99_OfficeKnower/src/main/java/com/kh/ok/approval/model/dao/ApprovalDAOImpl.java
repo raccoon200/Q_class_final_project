@@ -117,5 +117,38 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	public List<Member> selectListMember(String com_no) {
 		return sqlSession.selectList("approval.selectListMember", com_no);
 	}
+	@Override
+	public int signUpdate(Member m) {
+		return sqlSession.update("approval.signUpdate", m);
+	}
+
+	@Override
+	public List<Map<String, String>> selectListAdmin() {
+		return sqlSession.selectList("approval.selectListAdmin");
+	}
+
+	@Override
+	public int deleteAdmin(Member m) {
+		if(m.getGrade()!="") {
+			return sqlSession.update("approval.deleteAdmin", m);
+		}else {
+			return sqlSession.update("approval.deleteAdminNull",m);
+		}
+	}
+
+	@Override
+	public List<Map<String, String>> adminSelect(String userName) {
+		return sqlSession.selectList("approval.adminSelect", '%'+userName+'%');
+	}
+
+	@Override
+	public int adminInsert(Member m) {
+		return sqlSession.update("approval.adminInsert", m);
+	}
+
+	@Override
+	public Member selectMember(String userId) {
+		return sqlSession.selectOne("approval.memberSelect", userId);
+	}
 
 }
