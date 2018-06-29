@@ -100,8 +100,16 @@ function fn_reservationNoClick(reservationNo, flag){
         	$("#reservation_date").text(data.startdate+' ~ '+data.quitdate);
         	$("#writer").text(data.writer);
         	$("#purpose").text(data.purpose);
-        	$("#approval_status").text('승인 대기중');
         	$("#reservation_no").val(data.reservation_no);
+        	if(flag=='확인') {
+        		$("#approval_status").text('승인 대기중');
+        		$("#return_button").hide();
+        		$("#delete_button").show();
+        	} else {
+        		$("#approval_status").text('예약 승인');
+        		$("#delete_button").hide();
+        		$("#return_button").show();
+        	}
 		}
      });
 	}
@@ -155,7 +163,7 @@ function fn_validate() {
 					<button type="button" class="btn btn-light"
 						data-dismiss="modal">확인</button>
 					<input type="submit" value="삭제" class="btn btn-secondary" id="delete_button"/>
-					<input type="submit" value="" />
+					<button type="button" class="btn btn-warning" id="return_button">반납</button>
 				</div>
 			</form>
 		</div>
