@@ -108,4 +108,14 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.delete("approval.accountDelete", userId);
 	}
 
+	@Override
+	public List<Member> selectaccountListByName(Map<String, String> map) {
+		return sqlSession.selectList("approval.selectaccountListByName", map);
+	}
+
+	@Override
+	public List<Member> selectListMember(String com_no) {
+		return sqlSession.selectList("approval.selectListMember", com_no);
+	}
+
 }

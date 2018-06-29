@@ -89,5 +89,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int accountDelete(String userId) {
 		return approvalDAO.accountDelete(userId);
 	}
+	@Override
+	public List<Member> selectaccountListByName(Map<String, String> map) {
+		return approvalDAO.selectaccountListByName(map);
+	}
+	@Override
+	public List<Member> selectListMember(String com_no) {
+		return approvalDAO.selectListMember(com_no);
+	}
 	
 }

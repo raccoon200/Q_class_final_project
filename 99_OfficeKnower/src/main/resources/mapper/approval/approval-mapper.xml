@@ -44,7 +44,7 @@
 		select * from account where com_no = #{com_no}
 	</select>
 	<select id="selectListByName" resultType="member">
-		select * from tbl_user where com_no=#{com_no} and username like '%'||#{name}||'%'
+		select * from tbl_user where com_no=#{com_no} and username like '%'||#{name}||'%' and status ='Y'
 	</select>
 	<insert id="accountInsert" parameterType="account">
 		insert into account values(#{userId},#{name},#{bankName},#{account_no}, sysdate, #{com_no})
@@ -58,4 +58,10 @@
 	<delete id="accountDelete">
 		delete from account where userId = #{userId}
 	</delete>
+	<select id="selectaccountListByName" resultType="account">
+		select * from account where com_no = #{com_no} and name like '%'||#{name}||'%'
+	</select>
+	<select id="selectListMember" resultType="member">
+		select u.*, c.com_name as com_name from tbl_user u join tbl_com c on u.com_no = c.com_no where u.com_no = #{com_no} and u.status ='Y'
+	</select>
 </mapper>

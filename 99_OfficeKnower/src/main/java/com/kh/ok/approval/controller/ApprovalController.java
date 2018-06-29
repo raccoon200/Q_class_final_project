@@ -325,7 +325,7 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/approval/approvalInsert.do")
-	public ModelAndView approvalInsert(Locale locale) {
+	public ModelAndView approvalInsert(Locale locale, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		
 		Date date = new Date();		
@@ -343,7 +343,24 @@ public class ApprovalController {
 		mav.addObject("month_1", ((Integer.parseInt(monthFormat.format(date))/10)>0?"":"0")+(Integer.parseInt(monthFormat.format(date))-1));
 		mav.addObject("month_2", ((Integer.parseInt(monthFormat.format(date))/10)>0?"":"0")+(Integer.parseInt(monthFormat.format(date))-2));
 		
+		HttpSession session = request.getSession(false);
+		Member memberLoggedIn = (Member)(session.getAttribute("memberLoggedIn"));
+		
+		List<Member> list = approvalService.selectListMember(memberLoggedIn.getCom_no());
+		mav.addObject("list", list);
 		mav.setViewName("approval/approvalInsert");
 		return mav;
+	}
+	@RequestMapping("/approval/selectaccountListByName.do")
+	@ResponseBody
+	public Map<String, Object> selectaccountListByName (@RequestParam("name") String name, @RequestParam("com_no") String com_no) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("name", name);
+		map.put("com_no", com_no);
+		
+		List<Member> list = approvalService.selectaccountListByName(map);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("list", list);
+		return result;
 	}
 }

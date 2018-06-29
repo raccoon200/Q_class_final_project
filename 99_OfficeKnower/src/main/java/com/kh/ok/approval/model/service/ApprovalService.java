@@ -47,4 +47,8 @@ public interface ApprovalService {
 
 	int accountDelete(String userId);
 
+	List<Member> selectaccountListByName(Map<String, String> map);
+
+	List<Member> selectListMember(String com_no);
+
 }
