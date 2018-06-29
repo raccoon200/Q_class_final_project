@@ -17,4 +17,14 @@ public interface BreakDAO {
 
 	List<Map<String, String>> choiceMemberDelete(Map<String, Object> map);
 
+	int insertReward(Map<String, Object> map);
+
+	int updateReward(Map<String, Object> map);
+
+	List<Map<String, String>> afterInsert(Map<String, Object> map);
+
+	List<Map<String, String>> afterUpdate(Map<String, Object> map);
+
+	List<Map<String, String>> personBreak(String userId);
+
 }

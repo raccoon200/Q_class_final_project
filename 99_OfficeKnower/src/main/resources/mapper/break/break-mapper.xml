@@ -89,4 +89,28 @@
   	
   	</select>
   	
+  	<insert id="insertReward">
+  		insert into break(userid, REWARD_BREAK) values (#{userid},#{afterReward})
+  	</insert>
+  	<update id="updateReward">
+  		update break set REWARD_BREAK = #{afterReward} where userid=#{userid}
+  	</update>
+  	
+  	<select id="afterInsert" resultType="map">
+  		select b.*, u.username
+		from break b join tbl_user u on (b.userid=u.userid)
+		where b.userid = #{userid}
+  	</select>
+  	<select id="afterUpdate" resultType="map">
+  		select b.*, u.username
+		from break b join tbl_user u on (b.userid=u.userid)
+		where b.userid = #{userid}
+  	</select>
+  	<select id="personBreak" resultType="map">
+  		select * from break where userid = #{userId}
+  	</select>
+  	
+  	
+  	
+  	
 </mapper>

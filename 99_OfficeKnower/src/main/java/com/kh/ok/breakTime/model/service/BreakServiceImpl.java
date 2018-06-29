@@ -39,4 +39,29 @@ public class BreakServiceImpl implements BreakService {
 	public List<Map<String, String>> choiceMemberDelete(Map<String, Object> map) {
 		return breakDao.choiceMemberDelete(map);
 	}
+
+	@Override
+	public int insertReward(Map<String, Object> map) {
+		return breakDao.insertReward(map);
+	}
+
+	@Override
+	public int updateReward(Map<String, Object> map) {
+		return breakDao.updateReward(map);
+	}
+
+	@Override
+	public List<Map<String, String>> afterInsert(Map<String, Object> map) {
+		return breakDao.afterInsert(map);
+	}
+
+	@Override
+	public List<Map<String, String>> afterUpdate(Map<String, Object> map) {
+		return breakDao.afterUpdate(map);
+	}
+
+	@Override
+	public List<Map<String, String>> personBreak(String userId) {
+		return breakDao.personBreak(userId);
+	}
 }

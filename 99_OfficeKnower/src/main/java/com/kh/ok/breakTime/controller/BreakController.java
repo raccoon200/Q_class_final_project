@@ -158,4 +158,49 @@ public class BreakController {
 		
 		return deleteAfterList;
 	}
+	
+	@RequestMapping("/break/createReward.do")
+	@ResponseBody
+	public Map<String,Object> createReward(HttpServletRequest request){
+		
+		String userid = request.getParameter("userid");
+		int regular = Integer.parseInt(request.getParameter("regular"));
+		int reward = Integer.parseInt(request.getParameter("reward"));
+		String afterReward = request.getParameter("afterReward");
+		System.out.println("포상휴가" + userid);
+		System.out.println("포상휴가" + regular);
+		System.out.println("포상휴가" + reward);
+		System.out.println("포상휴가" + afterReward);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> createReward = new HashMap<String,Object>();
+		
+		map.put("userid", userid);
+		map.put("afterReward", afterReward);
+		
+		//List<Map<String,String>> afterList = new ArrayList<>();
+		
+		if(regular==0 && reward==0 ) {
+			int Insertresult = breakService.insertReward(map);
+			List<Map<String,String>> afterList = breakService.afterInsert(map);
+			System.out.println("포상휴가 생성 insert= " +Insertresult);
+			
+			createReward.put("afterList",afterList);
+			
+		}else if (regular!=0 || reward!=0) {
+			int Updateresult = breakService.updateReward(map);
+			List<Map<String,String>> afterList = breakService.afterUpdate(map);
+			
+			System.out.println("포상휴가 생성 update= " +Updateresult);
+			createReward.put("afterList",afterList);
+		}
+
+		
+		return createReward;
+	}
+	
+	
+	
+	
+	
 }

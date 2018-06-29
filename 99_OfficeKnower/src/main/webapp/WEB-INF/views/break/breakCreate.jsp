@@ -51,9 +51,109 @@ $( document ).ready(function() {
 	$("#divInnerBox").hide();
 }); 
 
-function fn_createReward(userid){
+function fn_createReward(userid,regular,reward, index){
+	afterReward = $("#reward"+index+"").val();
 	var test = $("input[name=reward]");
 	console.log("이스케이프..?/" + userid);
+	console.log("이스케이프..?/ index" + index);
+	
+	if(regular== 'undefined'){
+		regular = 0;
+	}
+	if(reward== 'undefined'){
+		reward =0;
+	}
+	
+	console.log("이스케이프..?/reward" + reward);
+	console.log("이스케이프..?/regular" + regular);
+	console.log("input값" +afterReward);
+	
+	$.ajax({
+	      url : "${pageContext.request.contextPath}/break/createReward.do",
+	            type: "post",
+	            data : {userid:userid,regular:regular, reward:reward,afterReward:afterReward},
+	            dataType : "json",
+	            success: function(data){
+	               console.log(data);
+	               data = data["afterList"];
+	               
+	               if(data==null){
+	               		console.log("여기에 들어와...??/");
+	              	}else { 
+	              		console.log("에이작스 들어오는 거지..??/");
+	            	   var html = "";
+	            	   var cnt = "";
+	            	   	
+	            	    html += "<div> 휴가 생성 완료 </div>";
+	            	    html += "<table class='table table-bordered' >";
+	            	  	html += "<thead>";
+	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
+	    			    html += "<th scope='row' > <input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </th>";
+	    			    html += "<th scope='col' >이름</th>";
+	    			    html += "<th scope='col' >ID</th>";
+	    			    html += "<th scope='col' >소속</th>";
+	    			    html += "<th scope='col' >연차</th>";
+	    			    html += "<th scope='col' >포상</th>";
+	    			    html += "<th scope='col'>휴가 생성</th>";
+	    			    html += "</tr>";			    
+	    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
+	   			     
+	  			        
+	  			    	html += "</tr>";
+	    			    html += "</thead>";
+	    			    
+	    			    for(var index in data){
+	 						var c = data[index];
+							console.log("c"+c[1]);
+	 						
+						
+	 						html += "<tr style='text-align:center;'>";
+	 						html += "<th scope='row'> <input type='checkbox' name='selectedMember' value='"+c.USERID+"'/> </th>";
+	 						html += "<td>" + c.USERNAME + "</td>";
+	 						html += "<td>" + c.USERID + "</td>";
+	 						html += "<td>" + c.COM_NAME + "</td>";
+	 						
+	 						if(c.REGULAR_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REGULAR_BREAK +"일 </td>";
+	 						}
+	 						
+	 						if(c.REWARD_BREAK==null){
+	 							html += "<td> 0 일 </td>";
+	 						}else{
+	 							html += "<td>" + c.REWARD_BREAK + "일</td>"; 
+	 						}
+	 						
+	 						html += "<td> <input type='text' name='reward' id='reward"+index+"' value='0'/> 일</td>";
+	    			    	html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
+	 						html += "</tr>";
+	                 	}
+	    			    	
+	 						html += "</table>";
+	    			    
+	 				
+	 						$("#afterRewardDiv").html(html);
+	 						
+	 						
+	    			    
+	               	} 
+	               
+	               
+	               
+	            	
+	              },
+	              error:function(jqxhr,textStatus,errorThrown){
+	                 console.log("ajax 처리실패!");
+	                 console.log(jqxhr);
+	                 console.log(textStatus);
+	                 console.log(errorThrown);
+	              }
+	                   
+	  }); // ajax end
+	
+	
+	
 	
 }
 
@@ -150,8 +250,8 @@ function fn_select(){
 	 							html += "<td>" + c.REWARD_BREAK + "일</td>";
 	 						}
 	 						
-	 						html += "<td> <input type='text' name='reward' id='reward' value='0'/> 일</td>";
-	 						html += "<td><button class='btn btn-link' style='border:1px solid;'> 생성 </button></td>";
+	 						html += "<td> <input type='text' name='reward' id='reward"+index+"' value='0'/> 일</td>";
+	 						html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
 	 						html += "</tr>";
 	                 	}
 	 						html += "</table>";
@@ -264,7 +364,7 @@ function rewardMemberDelete(){
 	 						}
 	 						
 	 						html += "<td> <input type='text' name='reward' id='reward"+index+"' value='0'/> 일</td>";
-	    			    	html += "<td><button class='btn btn-link' style='border:1px solid;' onclick='fn_createReward()'> 생성 </button></td>";
+	    			    	html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
 	 						html += "</tr>";
 	                 	}
 	    			    	
@@ -384,7 +484,9 @@ function rewardMemberDelete(){
 	
 			<div style="color: lightblue; font-size:20px;" onclick='rewardMemberDelete()'> 삭제</div>
 	
+	   		<div id="afterRewardDiv"></div>
 	      </td>
+	      
 	  
 	    </tr>
 	  </tbody>

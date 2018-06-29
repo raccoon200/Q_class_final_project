@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -23,13 +24,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kh.ok.breakTime.model.service.BreakService;
 import com.kh.ok.insa.model.service.InsaService;
 import com.kh.ok.insa.model.vo.Position;
 import com.kh.ok.job.model.service.JobService;
 import com.kh.ok.job.model.vo.Job;
 import com.kh.ok.member.model.vo.Member;
 
-@SessionAttributes({"memberLoggedIn"})
+//희운
+@SessionAttributes({"personBreak", "memberLoggedIn"})
+/*@SessionAttributes({"memberLoggedIn"})*/
 @Controller
 public class InsaController {
 	@Autowired
@@ -37,6 +41,9 @@ public class InsaController {
 	
 	@Autowired
 	private JobService jobService;
+	
+	@Autowired
+	BreakService breakService;
 	
 	@RequestMapping("/insa/memberListAll.do")
 	public ModelAndView memberListAll(HttpServletRequest request) {
@@ -47,6 +54,16 @@ public class InsaController {
 		List<Member> list =  insaService.memberListAll(m.getCom_no());
 		List<String> yearList = insaService.yearListGroup(m.getCom_no());
 		List<String> positionList = insaService.positionListGroup(m.getCom_no());
+		
+		//희운 시작
+			HttpSession session = request.getSession(false);
+			String userId = ((Member)request.getSession().getAttribute("memberLoggedIn")).getUserId();
+			
+			List<Map<String,String>> personBreak = breakService.personBreak(userId);
+			System.out.println("인사에서 personBreak" + personBreak);
+			mav.addObject("personBreak",personBreak);
+		//희운 끝
+	
 		
 		for(int i =0; i<list.size(); i++) {
 			if(list.get(i).getPosition() == null)
