@@ -84,17 +84,17 @@ function fn_createReward(userid,regular,reward, index){
 	            	   var html = "";
 	            	   var cnt = "";
 	            	   	
-	            	    html += "<div> 휴가 생성 완료 </div>";
+	            	    html += "<br><br><div style='font-size:20px;'> 휴가 생성 완료 </div><br>";
 	            	    html += "<table class='table table-bordered' >";
 	            	  	html += "<thead>";
 	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
-	    			    html += "<th scope='row' > <input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </th>";
+	    			   // html += "<th scope='row' > <input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </th>";
 	    			    html += "<th scope='col' >이름</th>";
 	    			    html += "<th scope='col' >ID</th>";
 	    			    html += "<th scope='col' >소속</th>";
 	    			    html += "<th scope='col' >연차</th>";
 	    			    html += "<th scope='col' >포상</th>";
-	    			    html += "<th scope='col'>휴가 생성</th>";
+	    			   // html += "<th scope='col'>휴가 생성</th>";
 	    			    html += "</tr>";			    
 	    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
 	   			     
@@ -108,7 +108,7 @@ function fn_createReward(userid,regular,reward, index){
 	 						
 						
 	 						html += "<tr style='text-align:center;'>";
-	 						html += "<th scope='row'> <input type='checkbox' name='selectedMember' value='"+c.USERID+"'/> </th>";
+	 					//	html += "<th scope='row'> <input type='checkbox' name='selectedMember' value='"+c.USERID+"'/> </th>";
 	 						html += "<td>" + c.USERNAME + "</td>";
 	 						html += "<td>" + c.USERID + "</td>";
 	 						html += "<td>" + c.COM_NAME + "</td>";
@@ -125,8 +125,8 @@ function fn_createReward(userid,regular,reward, index){
 	 							html += "<td>" + c.REWARD_BREAK + "일</td>"; 
 	 						}
 	 						
-	 						html += "<td> <input type='text' name='reward' id='reward"+index+"' value='0'/> 일</td>";
-	    			    	html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
+	 						//html += "<td> <input type='text' name='reward' id='reward"+index+"' value='0'/> 일</td>";
+	    			    	//html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
 	 						html += "</tr>";
 	                 	}
 	    			    	
@@ -210,7 +210,7 @@ function fn_select(){
 	            	   	html += "<table class='table table-bordered' >";
 	            	  	html += "<thead>";
 	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
-	    			    html += "<th scope='row' rowspan='2'> <input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </th>";
+	    			    html += "<th scope='row' > 삭제</th>";
 	    			    html += "<th scope='col' rowspan='2'>이름</th>";
 	    			    html += "<th scope='col' rowspan='2'>ID</th>";
 	    			    html += "<th scope='col' rowspan='2'>소속</th>";
@@ -220,6 +220,7 @@ function fn_select(){
 	    			    html += "</tr>";			    
 	    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
 	   			     
+	  			        html += "<td><input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </td>";  
 	  			        html += "<td>현재</td>";  
 	  			     	html += "<td>생성 후</td>";  
 	  			    	html += "</tr>";
@@ -323,7 +324,7 @@ function rewardMemberDelete(){
 	            	    html += "<table class='table table-bordered' >";
 	            	  	html += "<thead>";
 	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
-	    			    html += "<th scope='row' rowspan='2'> <input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </th>";
+	    			    html += "<th scope='row' > 삭제</th>";
 	    			    html += "<th scope='col' rowspan='2'>이름</th>";
 	    			    html += "<th scope='col' rowspan='2'>ID</th>";
 	    			    html += "<th scope='col' rowspan='2'>소속</th>";
@@ -333,6 +334,7 @@ function rewardMemberDelete(){
 	    			    html += "</tr>";			    
 	    			    html += "<tr style='background:#F6F6F6;text-align:center;'>"; 
 	   			     
+	  			        html += "<td><input type='checkbox' name='selectedMemberAll' id='selectedMemberAll' onclick='checkAllDelete()'/> </td>";  
 	  			        html += "<td>현재</td>";  
 	  			     	html += "<td>생성 후</td>";  
 	  			    	html += "</tr>";

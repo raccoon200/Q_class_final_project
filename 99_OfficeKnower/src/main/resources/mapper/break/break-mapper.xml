@@ -97,13 +97,15 @@
   	</update>
   	
   	<select id="afterInsert" resultType="map">
-  		select b.*, u.username
+  		select b.*, u.username, c.com_name
 		from break b join tbl_user u on (b.userid=u.userid)
+             		 join tbl_com c on (u.com_no = c.com_no)
 		where b.userid = #{userid}
   	</select>
   	<select id="afterUpdate" resultType="map">
-  		select b.*, u.username
+  		select b.*, u.username, c.com_name
 		from break b join tbl_user u on (b.userid=u.userid)
+             		 join tbl_com c on (u.com_no = c.com_no)
 		where b.userid = #{userid}
   	</select>
   	<select id="personBreak" resultType="map">
