@@ -49,4 +49,14 @@ public interface ApprovalDAO {
 
 	int signUpdate(Member m);
 
+	List<Map<String, String>> selectListAdmin();
+
+	int deleteAdmin(Member m);
+
+	List<Map<String, String>> adminSelect(String userName);
+
+	int adminInsert(Member m);
+
+	Member selectMember(String userId);
+
 }

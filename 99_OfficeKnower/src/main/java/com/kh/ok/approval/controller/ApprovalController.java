@@ -32,6 +32,9 @@ import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
 import com.kh.ok.member.model.vo.Member;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 @Controller
 public class ApprovalController {
 	@Autowired
@@ -419,6 +422,97 @@ public class ApprovalController {
 			e.printStackTrace();
 		
 		}
+		return mav;
+	}
+	@RequestMapping("/approval/admin/approvalAdminInsert.do")
+	public ModelAndView approvalAdminInsert(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		List<Map<String, String>> approvalAdminList = approvalService.selectListAdmin();
+		
+		mav.addObject("approvalAdminList", approvalAdminList);
+		return mav;
+	}
+	@RequestMapping("/approval/admin/approvalAdminDelete.do")
+	public ModelAndView approvalAdminDelete(Member member) {
+		ModelAndView mav = new ModelAndView();
+		String str= "";
+		String arr[] = member.getGrade().split(",");
+		for(int i=0; i<arr.length; i++) {
+			System.out.println(arr[i]);
+			
+			if(!arr[i].equals("전자결재관리자")) {
+				if(i!=0) {
+					str += ",";
+				}
+				str += arr[i];
+			}
+		}
+		System.out.println(str);
+		if(str=="") {
+			member.setGrade("");
+		}else {
+			member.setGrade(str);
+		}
+		System.out.println(member);
+		int result = approvalService.deleteAdmin(member);
+	
+	
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "전자결재 관리자 삭제 성공";
+			loc = "/approval/admin/approvalAdminInsert.do";
+		} else
+			msg = "전자결재 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
+	@RequestMapping("/approval/admin/searchAdmin")
+	@ResponseBody
+	public JSONArray searchAdmin(@RequestParam String userName) {
+		List<Map<String,String>> userList = approvalService.selectAdmin(userName);
+		JSONArray jsonArr = new JSONArray();
+		for(Map<String,String> m : userList) {
+			JSONObject jsonO = new JSONObject();
+			jsonO.put("userId", m.get("USERID"));
+			jsonO.put("userName", m.get("USERNAME"));
+			jsonO.put("emp_no", m.get("EMP_NO"));
+			jsonO.put("dept", m.get("DEPT"));
+			jsonO.put("grade", m.get("GRADE"));
+			jsonO.put("position", m.get("POSITION"));
+			jsonArr.add(jsonO);
+		}
+		
+		return jsonArr;
+	}
+	@RequestMapping("/approval/admin/adminInsertEnd.do")
+	public ModelAndView insertAdmin(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = approvalService.selectMember(userId);
+		if(m.getGrade() == null || m.getGrade() == "") {
+			m.setGrade("전자결재관리자");
+		}else {
+			m.setGrade(",전자결재관리자");
+		}
+		int result = approvalService.adminInsert(m);
+		
+		
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "전자결재 관리자 추가 성공";
+			loc = "/approval/admin/approvalAdminInsert.do";
+		} else
+			msg = "전자결재 관리자 추가 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
 		return mav;
 	}
 }

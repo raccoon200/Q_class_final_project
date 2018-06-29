@@ -61,4 +61,22 @@
 	<update id="signUpdate">
 		update tbl_user set sign=#{sign} where userId=#{userId} 
 	</update>
+	<select id="selectListAdmin" resultType="map">
+		select * from tbl_user where grade='슈퍼관리자' or grade like '%전자결재관리자%'
+	</select>
+	<update id="deleteAdmin">
+		update tbl_user set grade=#{grade} where userId=#{userId}
+	</update>
+	<update id="deleteAdminNull">
+		update tbl_user set grade=null where userId=#{userId}
+	</update>
+	<select id="adminSelect" resultType="map">
+		select * from tbl_user where userName like #{userName}
+	</select>
+	<select id="memberSelect" resultType="member">
+		select * from tbl_user where userId=#{userId}
+	</select>
+	<update id="adminInsert">
+		update tbl_user set grade=#{grade} where userId=#{userId}
+	</update>
 </mapper>

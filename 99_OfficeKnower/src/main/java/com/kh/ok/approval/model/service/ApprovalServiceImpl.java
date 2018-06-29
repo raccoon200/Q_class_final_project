@@ -93,5 +93,25 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int updateSign(Member m) {
 		return approvalDAO.signUpdate(m);
 	}
+	@Override
+	public List<Map<String, String>> selectListAdmin() {
+		return approvalDAO.selectListAdmin();
+	}
+	@Override
+	public int deleteAdmin(Member m) {
+		return approvalDAO.deleteAdmin(m);
+	}
+	@Override
+	public List<Map<String, String>> selectAdmin(String userName) {
+		return approvalDAO.adminSelect(userName);
+	}
+	@Override
+	public int adminInsert(Member m ) {
+		return approvalDAO.adminInsert(m);
+	}
+	@Override
+	public Member selectMember(String userId) {
+		return approvalDAO.selectMember(userId);
+	}
 	
 }
