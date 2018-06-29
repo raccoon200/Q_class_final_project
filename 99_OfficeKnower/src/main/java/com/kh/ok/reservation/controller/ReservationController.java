@@ -1,5 +1,7 @@
 package com.kh.ok.reservation.controller;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +10,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.ok.member.model.vo.Member;
 import com.kh.ok.reservation.model.service.ReservationService;
 import com.kh.ok.reservation.model.vo.Reservation;
@@ -76,6 +83,27 @@ public class ReservationController {
 		System.out.println(reservation);
 		int result = reservationService.reservationEnroll(reservation);
 		String msg = result>0?"예약 신청완료":"예약 실패";
+		String loc = "/reservation/reservationListPage";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping(value="/reservation/selectOneReservationNo.do", produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String selectOneReservationNo(int reservationNo) throws JsonProcessingException{
+		Reservation reservation = reservationService.selectOneReservationNo(reservationNo);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = mapper.writeValueAsString(reservation);
+		return jsonStr;
+	}
+	
+	@RequestMapping("/reservation/reservationDeleteOne")
+	public ModelAndView reservationDeleteOne(int reservation_no) {
+		int result = reservationService.reservationDeleteOne(reservation_no);
+		ModelAndView mav = new ModelAndView();
+		String msg = result>0?"취소완료":"취소실패";
 		String loc = "/reservation/reservationListPage";
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);

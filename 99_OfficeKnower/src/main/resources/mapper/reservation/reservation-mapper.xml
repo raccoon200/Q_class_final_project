@@ -16,4 +16,10 @@
 	<insert id="reservationEnroll" >
 		insert into reservation values(seq_reservation_no.nextval, #{writer}, #{category}, #{res_no}, to_date(#{startdate}, 'YYYY-MM-DD HH24:MI'), to_date(#{quitdate}, 'YYYY-MM-DD HH24:MI'), #{purpose}, #{quit_status}, #{photo}, #{approval_status}, #{com_no})		
 	</insert>
+	<select id="selectOneReservationNo" resultType="reservation">
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where r.reservation_no = #{reservation_no}
+	</select>
+	<delete id="reservationDeleteOne">
+		delete from reservation where reservation_no = #{reservation_no}
+	</delete>
 </mapper>

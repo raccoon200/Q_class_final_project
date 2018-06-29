@@ -40,6 +40,13 @@ public class ReservationDAOImpl implements ReservationDAO {
 		return sqlsession.insert("reservation.reservationEnroll", reservation);
 	}
 
-	
+	@Override
+	public Reservation selectOneReservationNo(int reservationNo) {
+		return sqlsession.selectOne("reservation.selectOneReservationNo", reservationNo);
+	}
 
+	@Override
+	public int reservationDeleteOne(int reservation_no) {
+		return sqlsession.delete("reservation.reservationDeleteOne", reservation_no);
+	}
 }

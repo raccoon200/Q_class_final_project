@@ -268,7 +268,6 @@ public class MemberController {
 	@RequestMapping("/member/checkComNameDuplicate.do")
 	@ResponseBody
 	public String checkComNameDuplicate(@RequestParam("comName") String comName) throws JsonProcessingException{
-		System.out.println("으아아악!!!!!!!!!!!!");
 		Map<String,Object> map = new HashMap<String, Object>();
 		//jackson라이브러리에서 사용하는 바인더
 		ObjectMapper mapper = new ObjectMapper();
@@ -278,8 +277,8 @@ public class MemberController {
 		System.out.println(comName);
 		int count = memberService.checkComNameDuplicate(comName);
 		boolean isUsableCom = count==0?true:false;
-		System.out.println("cnt"+count);
-		System.out.println("isUsableCom"+isUsableCom);
+		//System.out.println("cnt"+count);
+		//System.out.println("isUsableCom"+isUsableCom);
 		//jsonString변환
 		map.put("isUsableCom", isUsableCom);
 		jsonStr = mapper.writeValueAsString(map);
