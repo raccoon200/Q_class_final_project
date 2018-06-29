@@ -12,6 +12,7 @@
 	<jsp:param value="예약" name="pageTitle" />
 	<jsp:param value="나의 예약 목록" name="selectMenu" />
 </jsp:include>
+
 <strong>나의 예약 목록</strong>
 <hr />
 <strong>예약 목록</strong>
@@ -25,6 +26,7 @@
 			<th scope="col">자원 이름</th>
 			<th scope="col">사용 목적</th>
 			<th scope="col">예약 날짜</th>
+			<th scope="col">상태</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -36,6 +38,8 @@
 					<td>${list.res_name }</td>
 					<td>${list.purpose==null?'미기입':list.purpose}</td>
 					<td>${list.startdate}~ ${list.quitdate}</td>
+					<td><button type="button" class="btn btn-light" data-toggle="modal"
+				data-target="#reservationView" value="${list.reservation_no}" onclick="fn_reservationNoClick(this.value, '반납')">상세보기</button></td>
 				</tr>
 			</c:if>
 		</c:forEach>
@@ -63,7 +67,6 @@
 		</tr>
 	</thead>
 	<tbody>
-	reservationNoClick
 		<c:forEach var="listN" items="${listN}">
 			<c:if test='${!empty listN}'>
 				<tr>
@@ -73,7 +76,7 @@
 					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
 					<td>${listN.startdate}~ ${listN.quitdate}</td>
 					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservation" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value)">승인 대기중</button></td>
+				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value, '확인')">승인 대기중</button></td>
 				</tr>
 			</c:if>
 		</c:forEach>
@@ -85,8 +88,25 @@
 	</tbody>
 </table>
 <script>
-function fn_reservationNoClick(val){
-<c:set var="reservationNoClick" value="val"></c:set> 
+function fn_reservationNoClick(reservationNo, flag){
+	$.ajax({
+		url : "selectOneReservationNo.do", 
+        dataType : "json",
+        data : {reservationNo:reservationNo},  
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+        success : function(data) {
+        	console.log(data);
+        	$("#res_name").text(data.res_name);
+        	$("#reservation_date").text(data.startdate+' ~ '+data.quitdate);
+        	$("#writer").text(data.writer);
+        	$("#purpose").text(data.purpose);
+        	$("#approval_status").text('승인 대기중');
+        	$("#reservation_no").val(data.reservation_no);
+		}
+     });
+	}
+function fn_validate() {
+	return confirm("정말로 삭제하시겠습니까?")?true:false;
 }
 </script>
 
@@ -103,38 +123,42 @@ function fn_reservationNoClick(val){
 				</button>
 			</div>
 			<form
-				action="${pageContext.request.contextPath}/reservation/reservationEnroll"
+				action="${pageContext.request.contextPath}/reservation/reservationDeleteOne"
+				onsubmit="return fn_validate();"
 				method="post">
 				<div class="modal-body">
+					<input type="hidden" name="reservation_no" id="reservation_no"/>
 					<table class="table">
 					<tr>
 					<th>자원 이름</th>
-					<th>예약 시간</th>
-					<th>등록자</th>
-					<th>사용 용도</th>
-					<th>예약 상태</th>
+					<td><label id="res_name"/></td>
 					</tr>
-						<c:forEach var="listN" items="${listN}">
-						<c:if test='${!empty listN}'>
-							<tr>
-					<td>${listN.reservation_no}</td>
-					<td>${listN.category }</td>
-					<td>${listN.res_name }</td>
-					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
-					<td>${listN.startdate}~ ${listN.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservation" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value)">승인 대기중</button></td>
-				</tr>
-			</c:if>
-		</c:forEach>	
+					<tr>
+					<th>예약 시간</th>
+					<td><label id="reservation_date"/></td>
+					</tr>
+					<tr>
+					<th>등록자</th>
+					<td><label id="writer"/></td>
+					</tr>
+					<tr>
+					<th>사용 용도</th>
+					<td><label id="purpose"/></td>
+					</tr>
+					<tr>
+					<th>예약 상태</th>
+					<td><label id="approval_status"/></td>
+					</tr>
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-outline-success">예약</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-light"
+						data-dismiss="modal">확인</button>
+					<input type="submit" value="삭제" class="btn btn-secondary" id="delete_button"/>
+					<input type="submit" value="" />
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+<jsp:include page="/WEB-INF/views/reservation/reservationModal.jsp"/>

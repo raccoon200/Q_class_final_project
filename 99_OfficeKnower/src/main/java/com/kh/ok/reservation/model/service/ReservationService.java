@@ -17,5 +17,9 @@ public interface ReservationService {
 	int reservationEnroll(Reservation reservation);
 
 	List<Reservation> reservationListPageN(String userId);
+
+	Reservation selectOneReservationNo(int reservationNo);
+
+	int reservationDeleteOne(int reservation_no);
 	
 }

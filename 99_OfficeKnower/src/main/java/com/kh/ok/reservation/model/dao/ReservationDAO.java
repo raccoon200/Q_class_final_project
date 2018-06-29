@@ -18,4 +18,8 @@ public interface ReservationDAO {
 
 	List<Reservation> reservationListPageN(String userId);
 
+	Reservation selectOneReservationNo(int reservationNo);
+
+	int reservationDeleteOne(int reservation_no);
+
 }

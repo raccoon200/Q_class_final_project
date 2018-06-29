@@ -218,6 +218,7 @@ public class MemberController {
 			
 			//파일이름 멤버에 추가
 			//2.비지니스로직
+			System.out.println(member);
 			int result = memberService.memberEnrollEnd(member);
 						
 			//3.view단 분기
@@ -267,16 +268,17 @@ public class MemberController {
 	@RequestMapping("/member/checkComNameDuplicate.do")
 	@ResponseBody
 	public String checkComNameDuplicate(@RequestParam("comName") String comName) throws JsonProcessingException{
-		
 		Map<String,Object> map = new HashMap<String, Object>();
 		//jackson라이브러리에서 사용하는 바인더
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = null;
 		
 		//업무로직
+		System.out.println(comName);
 		int count = memberService.checkComNameDuplicate(comName);
 		boolean isUsableCom = count==0?true:false;
-		
+		//System.out.println("cnt"+count);
+		//System.out.println("isUsableCom"+isUsableCom);
 		//jsonString변환
 		map.put("isUsableCom", isUsableCom);
 		jsonStr = mapper.writeValueAsString(map);
