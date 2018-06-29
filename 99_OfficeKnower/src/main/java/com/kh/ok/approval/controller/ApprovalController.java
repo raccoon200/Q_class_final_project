@@ -1,7 +1,8 @@
 package com.kh.ok.approval.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,11 +13,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,7 +36,7 @@ import com.kh.ok.member.model.vo.Member;
 public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
-	
+	Logger logger = LoggerFactory.getLogger(getClass());
 	@RequestMapping("/office/approval.do")
 	public ModelAndView approvalDagi () {
 		ModelAndView mav = new ModelAndView();
@@ -344,6 +348,77 @@ public class ApprovalController {
 		mav.addObject("month_2", ((Integer.parseInt(monthFormat.format(date))/10)>0?"":"0")+(Integer.parseInt(monthFormat.format(date))-2));
 		
 		mav.setViewName("approval/approvalInsert");
+		return mav;
+	}
+	@RequestMapping("/approval/approvalSetting.do")
+	public ModelAndView approvalSetting(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("approval/approvalSetting");
+		return mav;
+	}
+	@RequestMapping("/approval/approvalSignUpdate")
+	public ModelAndView approvalSignUpdate(HttpSession session, String basicFile, @RequestParam(value = "upFile", required = false) MultipartFile upFile,
+			HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+	
+	
+		if(upFile.getOriginalFilename()=="") {
+			m.setSign("sign_default.png");
+		}
+
+		try {
+		
+			// 1. 파일업로드처리
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/member");
+			// requet로부터 session을 얻고 여기서 ServletContext()를 받아 절대경로를 받아옴
+
+			/***** MultipartFile을 이용한 파일 업로드 처리로직 시작 *****/
+			MultipartFile f = upFile;
+			if (f != null ) {
+				if (!f.isEmpty()) {
+					// 파일명 재생성
+					String originalFileName = f.getOriginalFilename();
+					String ext = originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 확장자
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+					int rndNum = (int) (Math.random() * 1000);
+					String renamedFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + rndNum + "."
+							+ ext;
+					if(f.getOriginalFilename() != "") {
+						m.setSign(renamedFileName);
+					}
+					System.out.println(m);
+					try {
+						f.transferTo(new File(saveDirectory + "/" + renamedFileName)); // 실제 서버에 파일을 저장하는 코드
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+				}
+			}
+			
+			/***** MultipartFile을 이용한 파일 업로드 처리로직 끝 *****/
+			// 2. 비지니스로직
+			int result = approvalService.updateSign(m); 
+			// 3. view단 분기
+			String loc = "/";
+			String msg = "";
+
+			if (result > 0) {
+				msg = "서명 수정 성공";
+				loc = "/approval/approvalSetting.do";
+			} else
+				msg = "서명 수정 실패";
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("common/msg");
+		} catch (Exception e) {
+			e.printStackTrace();
+		
+		}
 		return mav;
 	}
 }

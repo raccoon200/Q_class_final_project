@@ -58,4 +58,7 @@
 	<delete id="accountDelete">
 		delete from account where userId = #{userId}
 	</delete>
+	<update id="signUpdate">
+		update tbl_user set sign=#{sign} where userId=#{userId} 
+	</update>
 </mapper>

@@ -89,5 +89,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int accountDelete(String userId) {
 		return approvalDAO.accountDelete(userId);
 	}
+	@Override
+	public int updateSign(Member m) {
+		return approvalDAO.signUpdate(m);
+	}
 	
 }

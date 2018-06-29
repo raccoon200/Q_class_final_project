@@ -108,4 +108,9 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.delete("approval.accountDelete", userId);
 	}
 
+	@Override
+	public int signUpdate(Member m) {
+		return sqlSession.update("approval.signUpdate", m);
+	}
+
 }

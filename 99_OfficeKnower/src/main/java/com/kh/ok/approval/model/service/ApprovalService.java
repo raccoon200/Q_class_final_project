@@ -46,5 +46,6 @@ public interface ApprovalService {
 	int accountUpdate(Account account);
 
 	int accountDelete(String userId);
-
+	
+	int updateSign(Member m);
 }

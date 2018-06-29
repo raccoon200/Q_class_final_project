@@ -47,4 +47,6 @@ public interface ApprovalDAO {
 
 	int accountDelete(String userId);
 
+	int signUpdate(Member m);
+
 }

@@ -104,7 +104,7 @@
 						<li><a href="#">반려</a><br /></li>
 						<li><a href="#">임시 보관</a><br /></li>
 					</ul></li>
-				<li><a href="#">설정</a><br /></li>
+				<li><a href="${pageContext.request.contextPath }/approval/approvalSetting.do">설정</a><br /></li>
 				<c:if
 					test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "전자결재관리자"}'>
 					<li><a href="javascript:void(0)" class="depth1"> <img
