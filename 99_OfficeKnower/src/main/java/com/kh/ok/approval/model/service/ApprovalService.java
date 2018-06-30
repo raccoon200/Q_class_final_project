@@ -53,11 +53,11 @@ public interface ApprovalService {
 
 	List<Member> selectListMember(String com_no);
 
-	List<Map<String, String>> selectListAdmin();
+	List<Map<String, String>> selectListAdmin(String com_no);
 
 	int deleteAdmin(Member m);
 
-	List<Map<String, String>> selectAdmin(String userName);
+	List<Map<String, String>> selectAdmin(Member m);
 
 	int adminInsert(Member m);
 

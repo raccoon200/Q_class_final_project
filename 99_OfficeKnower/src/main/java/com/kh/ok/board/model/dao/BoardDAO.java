@@ -70,4 +70,13 @@ public interface BoardDAO {
 
 	int updateBoardMenu(BoardMenu boardMenu);
 
+	List<Map<String, String>> selectListAdmin(String com_no);
+
+	int deleteAdmin(Member member);
+
+	List<Map<String, String>> adminSelect(Member m);
+
+	Member selectMember(String userId);
+
+	int adminInsert(Member m);
 }

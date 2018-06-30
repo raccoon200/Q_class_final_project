@@ -444,7 +444,9 @@ public class ApprovalController {
 	@RequestMapping("/approval/admin/approvalAdminInsert.do")
 	public ModelAndView approvalAdminInsert(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		List<Map<String, String>> approvalAdminList = approvalService.selectListAdmin();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		List<Map<String, String>> approvalAdminList = approvalService.selectListAdmin(com_no);
 		
 		mav.addObject("approvalAdminList", approvalAdminList);
 		return mav;
@@ -490,8 +492,10 @@ public class ApprovalController {
 	}
 	@RequestMapping("/approval/admin/searchAdmin")
 	@ResponseBody
-	public JSONArray searchAdmin(@RequestParam String userName) {
-		List<Map<String,String>> userList = approvalService.selectAdmin(userName);
+	public JSONArray searchAdmin(@RequestParam String userName, HttpSession session) {
+		Member member = (Member)session.getAttribute("memberLoggedIn");
+		member.setUserName('%'+userName+'%');
+		List<Map<String,String>> userList = approvalService.selectAdmin(member);
 		JSONArray jsonArr = new JSONArray();
 		for(Map<String,String> m : userList) {
 			JSONObject jsonO = new JSONObject();

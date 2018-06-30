@@ -137,6 +137,25 @@ public class BoardServiceImpl implements BoardService{
 	public int updateBoardMenu(BoardMenu boardMenu) {
 		return boardDAO.updateBoardMenu(boardMenu);
 	}
-
+	@Override
+	public List<Map<String, String>> selectListAdmin(String com_no) {
+		return boardDAO.selectListAdmin(com_no);
+	}
+	@Override
+	public int deleteAdmin(Member m) {
+		return boardDAO.deleteAdmin(m);
+	}
+	@Override
+	public List<Map<String, String>> selectAdmin(Member m) {
+		return boardDAO.adminSelect(m);
+	}
+	@Override
+	public int adminInsert(Member m ) {
+		return boardDAO.adminInsert(m);
+	}
+	@Override
+	public Member selectMember(String userId) {
+		return boardDAO.selectMember(userId);
+	}
 	
 }

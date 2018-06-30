@@ -102,16 +102,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return approvalDAO.signUpdate(m);
 	}
 	@Override
-	public List<Map<String, String>> selectListAdmin() {
-		return approvalDAO.selectListAdmin();
+	public List<Map<String, String>> selectListAdmin(String com_no) {
+		return approvalDAO.selectListAdmin(com_no);
 	}
 	@Override
 	public int deleteAdmin(Member m) {
 		return approvalDAO.deleteAdmin(m);
 	}
 	@Override
-	public List<Map<String, String>> selectAdmin(String userName) {
-		return approvalDAO.adminSelect(userName);
+	public List<Map<String, String>> selectAdmin(Member m) {
+		return approvalDAO.adminSelect(m);
 	}
 	@Override
 	public int adminInsert(Member m ) {

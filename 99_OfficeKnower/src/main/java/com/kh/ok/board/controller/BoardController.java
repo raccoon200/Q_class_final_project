@@ -38,6 +38,9 @@ import com.kh.ok.board.model.vo.BoardMenu;
 import com.kh.ok.board.model.vo.Comment;
 import com.kh.ok.member.model.vo.Member;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 @Controller
 public class BoardController {
 	Logger logger = LoggerFactory.getLogger(getClass());
@@ -750,7 +753,116 @@ public class BoardController {
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);
 		mav.setViewName("common/msg");
+		
+		
 		return mav;
 
+	}
+	@RequestMapping("/board/admin/boardAdminInsert.do")
+	public ModelAndView boardAdminInsert(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		List<Map<String, String>> boardAdminList = boardService.selectListAdmin(com_no);
+		
+		mav.addObject("boardAdminList", boardAdminList);
+		
+		//////
+		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setKind("그룹게시판");
+		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
+		boardMenuParam.setKind("전사게시판");
+		List<Map<String, String>> basicBoard = boardService.selectBoardBasicList(boardMenuParam);
+
+		mav.addObject("groupBoard", groupBoard);
+		mav.addObject("basicBoard", basicBoard);
+		//////
+		return mav;
+	}
+	@RequestMapping("/board/admin/boardAdminDelete.do")
+	public ModelAndView boardAdminDelete(Member member) {
+		ModelAndView mav = new ModelAndView();
+		String str= "";
+		String arr[] = member.getGrade().split(",");
+		for(int i=0; i<arr.length; i++) {
+			System.out.println(arr[i]);
+			
+			if(!arr[i].equals("게시판관리자")) {
+				if(i!=0) {
+					str += ",";
+				}
+				str += arr[i];
+			}
+		}
+		System.out.println(str);
+		if(str=="") {
+			member.setGrade("");
+		}else {
+			member.setGrade(str);
+		}
+		System.out.println(member);
+		int result = boardService.deleteAdmin(member);
+	
+	
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "게시판 관리자 삭제 성공";
+			loc = "/board/admin/boardAdminInsert.do";
+		} else
+			msg = "게시판 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
+	@RequestMapping("/board/admin/searchAdmin")
+	@ResponseBody
+	public JSONArray searchAdmin(@RequestParam String userName, HttpSession session) {
+		Member member = (Member)session.getAttribute("memberLoggedIn");
+		member.setUserName('%'+userName+'%');
+		List<Map<String,String>> userList = boardService.selectAdmin(member);
+		JSONArray jsonArr = new JSONArray();
+		for(Map<String,String> m : userList) {
+			JSONObject jsonO = new JSONObject();
+			jsonO.put("userId", m.get("USERID"));
+			jsonO.put("userName", m.get("USERNAME"));
+			jsonO.put("emp_no", m.get("EMP_NO"));
+			jsonO.put("dept", m.get("DEPT"));
+			jsonO.put("grade", m.get("GRADE"));
+			jsonO.put("position", m.get("POSITION"));
+			jsonArr.add(jsonO);
+		}
+		
+		return jsonArr;
+	}
+	@RequestMapping("/board/admin/adminInsertEnd.do")
+	public ModelAndView insertAdmin(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = boardService.selectMember(userId);
+		if(m.getGrade() == null || m.getGrade() == "") {
+			m.setGrade("게시판관리자");
+		}else {
+			m.setGrade(",게시판관리자");
+		}
+		int result = boardService.adminInsert(m);
+		
+		
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "게시판 관리자 추가 성공";
+			loc = "/board/admin/boardAdminInsert.do";
+		} else
+			msg = "게시판 관리자 추가 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
 	}
 }

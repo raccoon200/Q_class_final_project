@@ -123,8 +123,8 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	}
 
 	@Override
-	public List<Map<String, String>> selectListAdmin() {
-		return sqlSession.selectList("approval.selectListAdmin");
+	public List<Map<String, String>> selectListAdmin(String com_no) {
+		return sqlSession.selectList("approval.selectListAdmin", com_no);
 	}
 
 	@Override
@@ -137,8 +137,8 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	}
 
 	@Override
-	public List<Map<String, String>> adminSelect(String userName) {
-		return sqlSession.selectList("approval.adminSelect", '%'+userName+'%');
+	public List<Map<String, String>> adminSelect(Member m) {
+		return sqlSession.selectList("approval.adminSelect", m);
 	}
 
 	@Override

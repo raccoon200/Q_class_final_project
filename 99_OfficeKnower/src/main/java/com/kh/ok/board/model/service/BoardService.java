@@ -69,5 +69,17 @@ public interface BoardService {
 	List<Map<String, String>> selectBoardMemberList(int board_menu_no);
 
 	int updateBoardMenu(BoardMenu boardMenu);
+	
+	List<Member> selectListMember(String com_no);
+
+	List<Map<String, String>> selectListAdmin(String com_no);
+
+	int deleteAdmin(Member m);
+
+	List<Map<String, String>> selectAdmin(Member m);
+
+	int adminInsert(Member m);
+
+	Member selectMember(String userId);
 
 }
