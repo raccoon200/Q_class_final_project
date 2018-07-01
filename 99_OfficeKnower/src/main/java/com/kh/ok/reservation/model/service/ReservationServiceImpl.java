@@ -50,4 +50,14 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationDAO.reservationDeleteOne(reservation_no);
 	}
 
+	@Override
+	public int reservationReturn(int reservation_no) {
+		return reservationDAO.reservationReturn(reservation_no);
+	}
+
+	@Override
+	public List<Reservation> reservationApprovalNo(String userId) {
+		return reservationDAO.reservationApprovalNo(userId);
+	}
+
 }

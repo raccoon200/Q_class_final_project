@@ -309,7 +309,7 @@
 							alt="폴더" class="fold" /> 예약 관리
 					</a> <br />
 						<ul class="depth2 hide">
-							<li><a href="#">승인 관리</a><br /></li>
+							<li><a href="${pageContext.request.contextPath}/reservation/reservationApprovalManagement">승인 관리</a><br /></li>
 							<li><a href="#">반납 관리</a><br /></li>
 							<li><a href="#">카테고리 관리</a><br /></li>
 							<li><a href="#">자원관리</a><br /></li>

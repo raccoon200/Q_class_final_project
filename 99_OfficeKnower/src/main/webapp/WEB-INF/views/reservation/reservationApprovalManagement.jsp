@@ -10,7 +10,7 @@
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="예약" name="pageTitle" />
-	<jsp:param value="나의 예약 목록" name="selectMenu" />
+	<jsp:param value="승인 관리" name="selectMenu" />
 </jsp:include>
 
 <strong>나의 예약 목록</strong>

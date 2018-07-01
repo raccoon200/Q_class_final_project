@@ -49,4 +49,14 @@ public class ReservationDAOImpl implements ReservationDAO {
 	public int reservationDeleteOne(int reservation_no) {
 		return sqlsession.delete("reservation.reservationDeleteOne", reservation_no);
 	}
+
+	@Override
+	public int reservationReturn(int reservation_no) {
+		return sqlsession.update("reservation.reservationReturn", reservation_no);
+	}
+
+	@Override
+	public List<Reservation> reservationApprovalNo(String userId) {
+		return sqlsession.selectList("reservation.reservationApprovalNo", userId);
+	}
 }

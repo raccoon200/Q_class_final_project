@@ -22,4 +22,8 @@ public interface ReservationDAO {
 
 	int reservationDeleteOne(int reservation_no);
 
+	int reservationReturn(int reservation_no);
+
+	List<Reservation> reservationApprovalNo(String userId);
+
 }

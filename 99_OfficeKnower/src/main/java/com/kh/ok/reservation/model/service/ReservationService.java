@@ -21,5 +21,9 @@ public interface ReservationService {
 	Reservation selectOneReservationNo(int reservationNo);
 
 	int reservationDeleteOne(int reservation_no);
+
+	int reservationReturn(int reservation_no);
+
+	List<Reservation> reservationApprovalNo(String userId);
 	
 }

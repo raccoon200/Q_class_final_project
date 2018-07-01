@@ -79,7 +79,6 @@ public class ReservationController {
 		reservation.setRes_name(res[2]);
 		reservation.setQuit_status("N");
 		reservation.setPhoto("photo.jpg");
-		reservation.setApproval_status("N");
 		System.out.println(reservation);
 		int result = reservationService.reservationEnroll(reservation);
 		String msg = result>0?"예약 신청완료":"예약 실패";
@@ -108,6 +107,29 @@ public class ReservationController {
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);
 		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("reservation/reservationReturn")
+	public ModelAndView reservationReturn(int reservation_no) {
+		ModelAndView mav = new ModelAndView();
+		int result = reservationService.reservationReturn(reservation_no);
+		String msg = result>0?"반납완료":"반납실패";
+		String loc = "/reservation/reservationListPage";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationApprovalManagement")
+	public ModelAndView reservationApprovalManagement(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		ModelAndView mav = new ModelAndView();
+		Member member = (Member)session.getAttribute("memberLoggedIn");
+		String userId = member.getUserId();
+		List<Reservation> list = reservationService.reservationListPage(userId);
+		List<Reservation> listNull = reservationService.reservationListPageN(userId);
+		List<Reservation> listN = reservationService.reservationApprovalNo(userId);
 		return mav;
 	}
 }
