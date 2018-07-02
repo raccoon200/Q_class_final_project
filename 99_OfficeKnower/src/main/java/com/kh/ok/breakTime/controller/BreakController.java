@@ -24,6 +24,21 @@ public class BreakController {
 	@Autowired
 	BreakService breakService;
 	
+	//test용
+	@RequestMapping("/break/test")
+	public String test() {
+		
+		return "break/breakPic";
+	}
+	//test용
+	@RequestMapping("/break/testCal")
+	public String test2() {
+		
+		return "break/testCal";
+	}
+	
+	
+	
 	@RequestMapping("/break/myBreak")
 	public String myBreak(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -200,6 +215,23 @@ public class BreakController {
 	}
 	
 	
+	@RequestMapping("/break/breakRequest.do")
+	public String breakRequest(Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String userId = null;
+
+		if(session != null && session.getAttribute("memberLoggedIn") != null) {
+			 userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();	
+		}
+		
+		List<Break> myBreak = breakService.selectMyBreak(userId);
+		Map<String,String> userInfo= breakService.selectMyInfo(userId);
+		System.out.println("userInfo" +userInfo);
+		
+		model.addAttribute("myBreak",myBreak);
+		model.addAttribute("userInfo",userInfo);
+		return "break/breakRequest";
+	}
 	
 	
 	

@@ -254,7 +254,7 @@
 				</a> <br />
 					<ul class="depth2 hide">
 						<li>
-							<a href="#">휴가 신청</a><br />
+							<a href="${pageContext.request.contextPath}/break/breakRequest.do">휴가 신청</a><br />
 						</li>
 						<li>
 							<a href="${pageContext.request.contextPath}/break/myBreak">휴가 현황</a><br />

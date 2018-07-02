@@ -27,4 +27,6 @@ public interface BreakDAO {
 
 	List<Map<String, String>> personBreak(String userId);
 
+	Map<String, String> selectMyInfo(String userId);
+
 }

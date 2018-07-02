@@ -67,4 +67,9 @@ public class BreakDAOImpl implements BreakDAO {
 		return sqlSession.selectList("break.personBreak",userId);
 	}
 
+	@Override
+	public Map<String, String> selectMyInfo(String userId) {
+		return sqlSession.selectOne("break.selectMyInfo",userId);
+	}
+
 }

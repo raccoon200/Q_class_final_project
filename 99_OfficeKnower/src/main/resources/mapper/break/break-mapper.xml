@@ -25,7 +25,7 @@
   	</select>
   	
   	<select id="searchMember" resultType="map">
-  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break, t.position
 		from tbl_user t left join break b on(t.userid=b.userid)
                         join tbl_com c on (t.com_no=c.com_no)
         where 1=1
@@ -111,7 +111,11 @@
   	<select id="personBreak" resultType="map">
   		select * from break where userid = #{userId}
   	</select>
-  	
+  	<select id="selectMyInfo" resultType="map">
+  		select * 
+		from tbl_user u join tbl_com c on (u.com_no=c.com_no)
+		where u.userid=#{userId}
+  	</select>
   	
   	
   	

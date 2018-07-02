@@ -64,4 +64,9 @@ public class BreakServiceImpl implements BreakService {
 	public List<Map<String, String>> personBreak(String userId) {
 		return breakDao.personBreak(userId);
 	}
+
+	@Override
+	public Map<String, String> selectMyInfo(String userId) {
+		return breakDao.selectMyInfo(userId);
+	}
 }
