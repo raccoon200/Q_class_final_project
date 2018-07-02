@@ -149,6 +149,34 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.update("board.updateBoardMenu", boardMenu);
 	}
 	
-	
+	@Override
+	public List<Map<String, String>> selectListAdmin(String com_no) {
+		return sqlSession.selectList("board.selectListAdmin", com_no);
+	}
+
+	@Override
+	public int deleteAdmin(Member member) {
+		if(member.getGrade()!="") {
+			return sqlSession.update("board.deleteAdmin", member);
+		}else {
+			return sqlSession.update("board.deleteAdminNull",member);
+		}
+	}
+
+	@Override
+	public List<Map<String, String>> adminSelect(Member m) {
+		return sqlSession.selectList("board.adminSelect", m);
+	}
+
+	@Override
+	public Member selectMember(String userId) {
+		return sqlSession.selectOne("approval.memberSelect", userId);
+		
+	}
+
+	@Override
+	public int adminInsert(Member m) {
+		return sqlSession.update("board.adminInsert", m);
+	}
 	
 }

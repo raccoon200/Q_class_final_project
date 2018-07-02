@@ -181,6 +181,11 @@
 						<a href="${pageContext.request.contextPath }/board/boardMenuManage">게시판 관리</a><br />
 					</li>
 				</c:if>
+				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" }'>
+					<li>
+						<a href="${pageContext.request.contextPath }/board/admin/boardAdminInsert.do">게시판 관리자 관리</a><br />
+					</li>
+				</c:if>
 			</ul>
 		</div>
 	</c:if>
@@ -313,7 +318,7 @@
 							<li><a href="#">반납 관리</a><br /></li>
 							<li><a href="#">카테고리 관리</a><br /></li>
 							<li><a href="#">자원관리</a><br /></li>
-							<li><a href="#">예약 관리자</a><br /></li>
+							<li><a href="${pageContext.request.contextPath }/reservation/admin/reservationAdminInsert.do">예약 관리자</a><br /></li>
 						</ul></li>
 				</c:if>
 			</ul>

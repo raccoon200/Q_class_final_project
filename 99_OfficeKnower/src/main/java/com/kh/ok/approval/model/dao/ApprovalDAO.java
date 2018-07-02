@@ -52,11 +52,11 @@ public interface ApprovalDAO {
 	List<Member> selectListMember(String com_no);
 	int signUpdate(Member m);
 
-	List<Map<String, String>> selectListAdmin();
+	List<Map<String, String>> selectListAdmin(String com_no);
 
 	int deleteAdmin(Member m);
 
-	List<Map<String, String>> adminSelect(String userName);
+	List<Map<String, String>> adminSelect(Member m);
 
 	int adminInsert(Member m);
 
