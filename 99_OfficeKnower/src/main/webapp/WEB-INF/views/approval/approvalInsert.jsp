@@ -46,8 +46,8 @@ span.spanUserId{
 }
 a#editName{
 	position: absolute;
-    top: 19px;
-    left: 368px;
+   	top: 31%;
+    left: 27%;
     display: none;
 }
 span.guide{
@@ -55,7 +55,7 @@ span.guide{
 	position: absolute;
 	font-size: 13px;
 	top: 21px;
-    left: 261px;
+    left: 33%;
 }
 span.ok{color:green;}
 div.insertDiv{
