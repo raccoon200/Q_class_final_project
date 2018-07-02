@@ -21,9 +21,8 @@
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th scope="col">예약번호</th>
 			<th scope="col">카테고리</th>
-			<th scope="col">자원 이름</th>
+			<th scope="col">자원명</th>
 			<th scope="col">사용 목적</th>
 			<th scope="col">예약 날짜</th>
 			<th scope="col">상태</th>
@@ -33,7 +32,6 @@
 		<c:forEach var="list" items="${list}">
 			<c:if test='${!empty list}'>
 				<tr>
-					<td>${list.reservation_no}</td>
 					<td>${list.category }</td>
 					<td>${list.res_name }</td>
 					<td>${list.purpose==null?'미기입':list.purpose}</td>
@@ -58,7 +56,6 @@
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th scope="col">예약번호</th>
 			<th scope="col">카테고리</th>
 			<th scope="col">자원 이름</th>
 			<th scope="col">사용 목적</th>
@@ -70,7 +67,6 @@
 		<c:forEach var="listN" items="${listN}">
 			<c:if test='${!empty listN}'>
 				<tr>
-					<td>${listN.reservation_no}</td>
 					<td>${listN.category }</td>
 					<td>${listN.res_name }</td>
 					<td>${listN.purpose==null?'미기입':listN.purpose}</td>

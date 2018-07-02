@@ -56,7 +56,43 @@ public class ReservationDAOImpl implements ReservationDAO {
 	}
 
 	@Override
-	public List<Reservation> reservationApprovalNo(String userId) {
-		return sqlsession.selectList("reservation.reservationApprovalNo", userId);
+	public List<Reservation> reservationApprovalNull() {
+		return sqlsession.selectList("reservation.reservationApprovalNull");
 	}
+	
+	@Override
+	public List<Reservation> reservationApprovalYes() {
+		return sqlsession.selectList("reservation.reservationApprovalYes");
+	}
+	
+	@Override
+	public List<Reservation> reservationApprovalNo() {
+		return sqlsession.selectList("reservation.reservationApprovalNo");
+	}
+
+	@Override
+	public int reservationApprovalSetYes(int reservationNo) {
+		return sqlsession.update("reservation.reservationApprovalSetYes", reservationNo);
+	}
+
+	@Override
+	public int reservationApprovalSetNot(int reservation_no) {
+		return sqlsession.update("reservation.reservationApprovalSetNot", reservation_no);
+	}
+
+	@Override
+	public List<Reservation> selectReturnListN() {
+		return sqlsession.selectList("reservation.selectReturnListN");
+	}
+
+	@Override
+	public List<Reservation> selectReturnListY() {
+		return sqlsession.selectList("reservation.selectReturnListY");
+	}
+
+	@Override
+	public int reservationQuitStatusSetYes(int reservation_no) {
+		return sqlsession.update("reservation.reservationQuitStatusSetYes", reservation_no);
+	}
+	
 }

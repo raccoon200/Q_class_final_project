@@ -24,6 +24,22 @@ public interface ReservationService {
 
 	int reservationReturn(int reservation_no);
 
-	List<Reservation> reservationApprovalNo(String userId);
+	List<Reservation> reservationApprovalNull();
+	
+	List<Reservation> reservationApprovalYes();
+	
+	List<Reservation> reservationApprovalNo();
+
+	int reservationApprovalSetYes(int reservationNo);
+
+	int reservationApprovalSetNot(int reservation_no);
+
+	List<Reservation> selectReturnListN();
+
+	List<Reservation> selectReturnListY();
+
+	int reservationQuitStatusSetYes(int reservation_no);
+	
+	
 	
 }

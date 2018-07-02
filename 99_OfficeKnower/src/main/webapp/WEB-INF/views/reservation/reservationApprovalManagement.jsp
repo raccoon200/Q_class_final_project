@@ -13,82 +13,13 @@
 	<jsp:param value="승인 관리" name="selectMenu" />
 </jsp:include>
 
-<strong>나의 예약 목록</strong>
+<strong>예약 관리</strong>
 <hr />
-<strong>예약 목록</strong>
+
 <br />
-<br />
-<table class="table">
-	<thead class="thead-light">
-		<tr>
-			<th scope="col">예약번호</th>
-			<th scope="col">카테고리</th>
-			<th scope="col">자원 이름</th>
-			<th scope="col">사용 목적</th>
-			<th scope="col">예약 날짜</th>
-			<th scope="col">상태</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach var="list" items="${list}">
-			<c:if test='${!empty list}'>
-				<tr>
-					<td>${list.reservation_no}</td>
-					<td>${list.category }</td>
-					<td>${list.res_name }</td>
-					<td>${list.purpose==null?'미기입':list.purpose}</td>
-					<td>${list.startdate}~ ${list.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservationView" value="${list.reservation_no}" onclick="fn_reservationNoClick(this.value, '반납')">상세보기</button></td>
-				</tr>
-			</c:if>
-		</c:forEach>
-		<c:if test="${empty list}">
-			<tr>
-				<td colspan="5">데이터가 없습니다!</td>
-			</tr>
-		</c:if>
-	</tbody>
-</table>
-<hr />
-<br />
-<strong>대기 목록</strong>
-<br />
-<br />
-<table class="table">
-	<thead class="thead-light">
-		<tr>
-			<th scope="col">예약번호</th>
-			<th scope="col">카테고리</th>
-			<th scope="col">자원 이름</th>
-			<th scope="col">사용 목적</th>
-			<th scope="col">예약 날짜</th>
-			<th scope="col">상태</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach var="listN" items="${listN}">
-			<c:if test='${!empty listN}'>
-				<tr>
-					<td>${listN.reservation_no}</td>
-					<td>${listN.category }</td>
-					<td>${listN.res_name }</td>
-					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
-					<td>${listN.startdate}~ ${listN.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value, '확인')">승인 대기중</button></td>
-				</tr>
-			</c:if>
-		</c:forEach>
-		<c:if test='${empty listN}'>
-			<tr>
-				<td colspan="5">데이터가 없습니다!</td>
-			</tr>
-		</c:if>
-	</tbody>
-</table>
+
 <script>
-function fn_reservationNoClick(reservationNo, flag){
+function fn_reservationViewClick(reservationNo, flag){
 	$.ajax({
 		url : "selectOneReservationNo.do", 
         dataType : "json",
@@ -101,26 +32,165 @@ function fn_reservationNoClick(reservationNo, flag){
         	$("#writer").text(data.writer);
         	$("#purpose").text(data.purpose);
         	$("#reservation_no").val(data.reservation_no);
-        	if(flag=='확인') {
-        		$("#approval_status").text('승인 대기중');
-        		$("#return_button").hide();
-        		$("#delete_button").show();
-        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationDeleteOne");
-        	} else {
-        		$("#approval_status").text('예약 승인');
+        	
+        	if(flag == '대기') {
+        		$("#approval_status").text('승인 대기');
         		$("#delete_button").hide();
-        		$("#return_button").show();
-        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationReturn");
+        	} else if (flag == '승인') {
+        		$("#approval_status").text('승인');
+        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationDeleteOne?flag="+'승인');
+        		$("#delete_button").show();
+        	} else if (flag == '반려') {
+        		$("#approval_status").text('반려');
+        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationDeleteOne?flag="+'반려');
+        		$("#delete_button").show();
         	}
-		}
+			
+        }
      });
 	}
 function fn_validate() {
 	return confirm("정말로 삭제하시겠습니까?")?true:false;
 }
-</script>
 
+function fn_reservationYesClick(reservation_no) {
+	if(confirm("해당 회원의 요청을 승인하시겠습니까?")) {
+		location.href = '${pageContext.request.contextPath}/reservation/reservationYesClick?reservation_no='+reservation_no;
+	}
+}
+
+function fn_reservationNotClick(reservation_no) {
+	if(confirm("해당 회원의 요청을 반려하시겠습니까?")) {
+		location.href = '${pageContext.request.contextPath}/reservation/reservationNotClick?reservation_no='+reservation_no;
+	}
+}
+</script>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="listNull-tab" data-toggle="tab" href="#listNull" role="tab" aria-controls="listNull" aria-selected="true">승인 대기</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="listY-tab" data-toggle="tab" href="#listY" role="tab" aria-controls="listY" aria-selected="false">승인</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="listN-tab" data-toggle="tab" href="#listN" role="tab" aria-controls="listN" aria-selected="false">반려</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+<div class="tab-pane fade show active" id="listNull" role="tabpanel" aria-labelledby="listNull-tab">
+<strong>승인 대기 목록</strong>
+<br />
+<br />
+<table class="table">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col">요청자</th>
+			<th scope="col">카테고리</th>
+			<th scope="col">자원명</th>
+			<th scope="col">예약 날짜</th>
+			<th scope="col">설정</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="listN" items="${listNull}">
+			<c:if test='${!empty listN}'>
+				<tr>
+					<td>${listN.writer}</td>
+					<td>${listN.category }</td>
+					<td>${listN.res_name }</td>
+					<td>${listN.startdate}~ ${listN.quitdate}</td>
+					<td>
+					<button type="button" class="btn btn-light" value="${listN.reservation_no}" onclick="fn_reservationYesClick(this.value)">승인</button>
+					<button type="button" class="btn btn-light" value="${listN.reservation_no}" onclick="fn_reservationNotClick(this.value)">반려</button>
+					<button type="button" class="btn btn-light" data-toggle="modal"
+				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationViewClick(this.value, '대기')">상세보기</button></td>
+				</tr>
+			</c:if>
+		</c:forEach>
+		<c:if test='${empty listNull}'>
+			<tr>
+				<td colspan="5">데이터가 없습니다!</td>
+			</tr>
+		</c:if>
+	</tbody>
+</table>
 <hr />
+</div>
+
+<div class="tab-pane fade" id="listY" role="tabpanel" aria-labelledby="listY-tab">
+<strong>승인 목록</strong>
+<br />
+<br />
+<table class="table">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col">작성자</th>
+			<th scope="col">카테고리</th>
+			<th scope="col">자원명</th>
+			<th scope="col">예약 날짜</th>
+			<th scope="col">설정</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="list" items="${list}">
+			<c:if test='${!empty list}'>
+				<tr>
+					<td>${list.writer}</td>
+					<td>${list.category }</td>
+					<td>${list.res_name }</td>
+					<td>${list.startdate}~ ${list.quitdate}</td>
+					<td><button type="button" class="btn btn-light" data-toggle="modal"
+				data-target="#reservationView" value="${list.reservation_no}" onclick="fn_reservationViewClick(this.value, '승인')">상세보기</button></td>
+				</tr>
+			</c:if>
+		</c:forEach>
+		<c:if test="${empty list}">
+			<tr>
+				<td colspan="5">데이터가 없습니다!</td>
+			</tr>
+		</c:if>
+	</tbody>
+</table>
+<hr />
+</div>
+
+<div class="tab-pane fade" id="listN" role="tabpanel" aria-labelledby="listN-tab">
+<strong>반려 목록</strong>
+<br />
+<br />
+<table class="table">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col">작성자</th>
+			<th scope="col">카테고리</th>
+			<th scope="col">자원명</th>
+			<th scope="col">예약 날짜</th>
+			<th scope="col">설정</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="listN" items="${listN}">
+			<c:if test='${!empty listN}'>
+				<tr>
+					<td>${listN.writer}</td>
+					<td>${listN.category }</td>
+					<td>${listN.res_name }</td>
+					<td>${listN.startdate}~ ${listN.quitdate}</td>
+					<td><button type="button" class="btn btn-light" data-toggle="modal"
+				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationViewClick(this.value, '반려')">상세보기</button></td>
+				</tr>
+			</c:if>
+		</c:forEach>
+		<c:if test='${empty listN}'>
+			<tr>
+				<td colspan="5">데이터가 없습니다!</td>
+			</tr>
+		</c:if>
+	</tbody>
+</table>
+<hr />
+</div>
+</div>
 <div class="modal fade" id="reservationView" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -141,7 +211,7 @@ function fn_validate() {
 					<input type="hidden" name="reservation_no" id="reservation_no"/>
 					<table class="table">
 					<tr>
-					<th>자원 이름</th>
+					<th>자원명</th>
 					<td><label id="res_name"/></td>
 					</tr>
 					<tr>
@@ -165,8 +235,7 @@ function fn_validate() {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-light"
 						data-dismiss="modal">확인</button>
-					<input type="submit" value="삭제" class="btn btn-secondary" id="delete_button"/>
-					<button type="submit" class="btn btn-warning" id="return_button">반납</button>
+   					<input type="submit" value="삭제" class="btn btn-secondary" id="delete_button"/>    		
 				</div>
 			</form>
 		</div>

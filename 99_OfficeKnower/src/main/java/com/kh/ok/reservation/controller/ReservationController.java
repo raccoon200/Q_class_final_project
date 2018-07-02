@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -77,7 +78,7 @@ public class ReservationController {
 		reservation.setCategory(res[0]);
 		reservation.setRes_no(Integer.parseInt(res[1]));
 		reservation.setRes_name(res[2]);
-		reservation.setQuit_status("N");
+		reservation.setQuit_status("");
 		reservation.setPhoto("photo.jpg");
 		System.out.println(reservation);
 		int result = reservationService.reservationEnroll(reservation);
@@ -99,11 +100,14 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/reservation/reservationDeleteOne")
-	public ModelAndView reservationDeleteOne(int reservation_no) {
+	public ModelAndView reservationDeleteOne(int reservation_no, String flag) {
 		int result = reservationService.reservationDeleteOne(reservation_no);
 		ModelAndView mav = new ModelAndView();
 		String msg = result>0?"취소완료":"취소실패";
 		String loc = "/reservation/reservationListPage";
+		if(("승인").equals(flag) || ("반려").equals(flag)) {
+			loc = "/reservation/reservationApprovalManagement";
+		} 
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);
 		mav.setViewName("common/msg");
@@ -127,9 +131,62 @@ public class ReservationController {
 		ModelAndView mav = new ModelAndView();
 		Member member = (Member)session.getAttribute("memberLoggedIn");
 		String userId = member.getUserId();
-		List<Reservation> list = reservationService.reservationListPage(userId);
-		List<Reservation> listNull = reservationService.reservationListPageN(userId);
-		List<Reservation> listN = reservationService.reservationApprovalNo(userId);
+		List<Reservation> listNull = reservationService.reservationApprovalNull();
+		List<Reservation> list = reservationService.reservationApprovalYes();
+		List<Reservation> listN = reservationService.reservationApprovalNo();
+		mav.addObject("list", list);
+		mav.addObject("listN", listN);
+		mav.addObject("listNull", listNull);
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationYesClick")
+	public ModelAndView reservationYesClick(int reservation_no) {
+		ModelAndView mav = new ModelAndView();
+		int result = reservationService.reservationApprovalSetYes(reservation_no);
+		String msg = result>0?"승인완료":"승인실패";
+		String loc = "/reservation/reservationApprovalManagement";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationNotClick")
+	public ModelAndView reservationNotClick(int reservation_no) {
+		ModelAndView mav = new ModelAndView();
+		int result = reservationService.reservationApprovalSetNot(reservation_no);
+		String msg = result>0?"반려완료":"반려실패";
+		String loc = "/reservation/reservationApprovalManagement";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationReturnManagement")
+	public ModelAndView reservationReturnManagement() {
+		ModelAndView mav = new ModelAndView();
+		List<Reservation> returnListN = reservationService.selectReturnListN();
+		List<Reservation> returnListY = reservationService.selectReturnListY();
+		mav.addObject("returnListN", returnListN);
+		mav.addObject("returnListY", returnListY);
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationReturnClick")
+	public ModelAndView reservationReturnClick(int reservation_no) {
+		ModelAndView mav = new ModelAndView();
+		int result = reservationService.reservationQuitStatusSetYes(reservation_no);
+		String msg = result>0?"반납 확인":"반납 확인 실패";
+		String loc = "/reservation/reservationReturnManagement";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+
 		return mav;
 	}
 }

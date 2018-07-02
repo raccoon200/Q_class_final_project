@@ -54,10 +54,44 @@ public class ReservationServiceImpl implements ReservationService {
 	public int reservationReturn(int reservation_no) {
 		return reservationDAO.reservationReturn(reservation_no);
 	}
-
+	
 	@Override
-	public List<Reservation> reservationApprovalNo(String userId) {
-		return reservationDAO.reservationApprovalNo(userId);
+	public List<Reservation> reservationApprovalNull() {
+		return reservationDAO.reservationApprovalNull();
+	}
+	
+	@Override
+	public List<Reservation> reservationApprovalYes() {
+		return reservationDAO.reservationApprovalYes();
+	}
+	
+	@Override
+	public List<Reservation> reservationApprovalNo() {
+		return reservationDAO.reservationApprovalNo();
 	}
 
+	@Override
+	public int reservationApprovalSetYes(int reservationNo) {
+		return reservationDAO.reservationApprovalSetYes(reservationNo);
+	}
+
+	@Override
+	public int reservationApprovalSetNot(int reservation_no) {
+		return reservationDAO.reservationApprovalSetNot(reservation_no);
+	}
+
+	@Override
+	public List<Reservation> selectReturnListN() {
+		return reservationDAO.selectReturnListN();
+	}
+
+	@Override
+	public List<Reservation> selectReturnListY() {
+		return reservationDAO.selectReturnListY();
+	}
+
+	@Override
+	public int reservationQuitStatusSetYes(int reservation_no) {
+		return reservationDAO.reservationQuitStatusSetYes(reservation_no);
+	}
 }

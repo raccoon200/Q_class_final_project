@@ -57,7 +57,7 @@ $("#datepicker1").val(getToday);
 					<div class="modal-body">
 						<table class="table">
 							<tr>
-								<td>자원 이름</td>
+								<td>자원명</td>
 								<td><select class="selectpicker" name="res_name">
 										<c:if test="${!empty resources }">
 											<c:forEach var="a" begin="0" end="${fn:length(resources)}"
