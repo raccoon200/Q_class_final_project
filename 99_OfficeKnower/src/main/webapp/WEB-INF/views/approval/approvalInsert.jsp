@@ -117,7 +117,7 @@ $(function(){
 				<select name="approval_mode" id="" class="custom-select" style="width: 49%;">
 					<option value="">선택</option>
 					<option value="지결">지출결의서</option>
-					<option value="">ㄱㄱㄱㄱㄱㄱ</option>
+					<option value="기타">기타</option>
 					<option value="">ㄱㄱㄱㄱㄱㄱ</option>
 				</select>
 			</td>
