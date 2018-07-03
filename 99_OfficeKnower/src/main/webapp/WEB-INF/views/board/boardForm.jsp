@@ -71,7 +71,7 @@ $(function() {
 				<option value="" id="no-selected" selected disabled hidden>게시판을 선택</option>
 			  <optgroup label="전사게시판">
 			    <c:forEach var="v" varStatus="vs" items="${basicBoard }">
-			    	<c:if test="${!fn:contains(memberLoggedIn.grade,'게시판관리자') or !fn:contains(memberLoggedIn.grade, '슈퍼관리자') }">
+			    	<c:if test="${!fn:contains(memberLoggedIn.grade,'게시판관리자') and !fn:contains(memberLoggedIn.grade, '슈퍼관리자') }">
 				    <c:if test="${ v.KIND eq '전사게시판' and v.TITLE ne '사내공지'}">
 				    	<option value="${v.BOARD_MENU_NO }" <c:if test="${v.BOARD_MENU_NO eq currentMenuNo }">selected</c:if>>${v.TITLE }</option>
 				    </c:if>
