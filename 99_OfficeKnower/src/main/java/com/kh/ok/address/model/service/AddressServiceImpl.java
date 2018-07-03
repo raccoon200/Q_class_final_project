@@ -3,6 +3,7 @@ package com.kh.ok.address.model.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,11 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public List<Address> addressView() {
 		return addressDAO.addressView();
+	}
+
+	@Override
+	public int InsertAddress(Map<String, Object> map) {
+		return addressDAO.InsertAddress(map);
 	}
 
 /*	@Override

@@ -35,6 +35,9 @@
 				$(this).addClass("strong");
 			}
 		});
+		console.log("selectMenu : "+"${param.selectMenu}"); 
+		console.log("pageTitle : "+"${param.pageTitle}"); 
+		console.log("selectMenu ne null : "+"${param.selectMenu ne null}"); 
 		if("${param.selectMenu ne null}"=="true"){
 			$(".depth2").addClass("show");
 			$(".fold").attr("src", "${pageContext.request.contextPath }/resources/images/common/folder_icon_open.png");
@@ -278,8 +281,10 @@
 	</c:if>
 	<!-- 게시판 nav -->
 	<c:if test="${param.pageTitle eq '주소록'}">
-		<div class="main_btn">
-			<button type="button" class="btn btn-primary">주소 추가</button>
+		<div class="main_btn"><!-- <a href="../address/addressAdd.do"/>  formaction='/views/address/doaddressAdd.do' -->
+		<a href="../address/addressAdd.do"> 	
+			<button type="button" class="btn btn-primary">주소 추가</button> 
+			</a>
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">

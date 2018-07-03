@@ -1,6 +1,11 @@
 package com.kh.ok.address.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ok.address.model.service.AddressService;
 import com.kh.ok.address.model.vo.Address;
+import com.kh.ok.member.model.vo.Member;
 
 
 @Controller
@@ -50,11 +56,6 @@ public class AddressController {
   
 		return "address/addressAdd";
 	}
-
-	
-	
-	
-	
 	
 	
 	@RequestMapping("/address/addressAddEnd.do")
@@ -108,7 +109,54 @@ public class AddressController {
 		return mav;
 	}*/
 	
-
+	
+	@RequestMapping("/address/InsertAddress.do")
+	public String InsertAddress(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+	      String userId = null;
+	      String comId = null;
+	      if(session != null && session.getAttribute("memberLoggedIn") != null) {
+	        /*  userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();   */
+	          comId = ((Member)session.getAttribute("memberLoggedIn")).getCom_no();
+	      }
+	  
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		String tag = request.getParameter("tag");
+		String company = request.getParameter("company");
+		String address = request.getParameter("address");
+		String anniversary = request.getParameter("anniversary");
+		String memo = request.getParameter("memo");
+		System.out.println("userId" + userId);
+		System.out.println("comId" + comId);    //com_No
+		System.out.println("name" + name);
+		System.out.println("email" + email);
+		System.out.println("phone" + phone);
+		System.out.println("tag" + tag);
+		System.out.println("company" + company);
+		System.out.println("address" + address);
+		System.out.println("anniversary" + anniversary);
+		System.out.println("memo" + memo);
+	
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("comId",comId);
+		map.put("userId",userId);
+		map.put("name",name);
+		map.put("phone",phone);
+		map.put("email",email);
+		map.put("tag",tag);
+		map.put("company",company);
+		map.put("address",address);
+		map.put("anniversary",anniversary);
+		map.put("memo",memo);
+	
+		int result = addressService.InsertAddress(map);
+				
+		return "address/addressAdd";
+	}
+ 
 	
 }
 

@@ -7,7 +7,8 @@
 	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
-	<jsp:param value="일정관리" name="pageTitle"></jsp:param>
+	<jsp:param value="일정관리" name="pageTitle"/>
+	<jsp:param value="메롱" name="selectMenu"/>
 </jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/fullcalendar-3.9.0/lib/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>

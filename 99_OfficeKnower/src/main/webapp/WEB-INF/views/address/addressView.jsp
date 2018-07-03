@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.kh.ok.address.model.vo.*, java.util.*"%>
+<%@ page import="com.kh.ok.address.model.vo.*, java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-
 <!doctype html>
+
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="주소록" name="pageTitle"/>
+</jsp:include>
+
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="주소록" name="pageTitle"/>
+</jsp:include>
+
 <html lang="ko">
 <head>
 
@@ -14,9 +22,9 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<meta http-equiv="Content-Style-Type" content="text/css" />
-					<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 				<title>OK</title>
-		<meta name="viewport" content="width=1024"/>
+	<meta name="viewport" content="width=1024"/>
 	<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/static/ui/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/static/css/jquery/jquery.toastmessage-min.css">
@@ -53,31 +61,31 @@
 		}
 	</style>
 
-	<script src="/static/scripts/language.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/Sly.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/common_new.js?v=27283" type="text/javascript"></script>
-		<script src="/static/scripts/jquery-1.7.1.min.js?v=27283" type="text/javascript"></script>
+	<script src="../resources/static/scripts/language.js" type="text/javascript"></script>
+	<script src="../resources/static/scripts/Sly.js" type="text/javascript"></script>
+	<script src="../resources/static/scripts/common_new.js" type="text/javascript"></script>
+		<script src="../resources/static/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
 		<!-- <script src="/static/scripts/jquery-1.11.2.min.js?v=27283" type="text/javascript"></script> -->
-	<script src="/static/scripts/jcommon.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jvalidateMessage.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jorgtree.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jaddressbook.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/jajaxBasic.js?v=27283" type="text/javascript"></script>
-		<script src="/static/scripts/jquery/jquery.toastmessage.js?v=27283" type="text/javascript"></script>
+	<script src="../resources/static/scripts/jcommon.js" type="text/javascript"></script>
+	<script src="../resources/static/scripts/jvalidateMessage.js" type="text/javascript"></script>
+	<script src="../resources/static/scripts/jorgtree.js" type="text/javascript"></script>
+	<script src="../resources/static/scripts/jaddressbook.js" type="text/javascript"></script>
+	<script src="../resources/static/scripts/jajaxBasic.js" type="text/javascript"></script>
+		<script src="../resources/static/scripts/jquery/jquery.toastmessage.js" type="text/javascript"></script>
 	<!-- Frontend devteam -->
 
 	<!-- <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js?v=27283"></script> -->
-	<script src="/static/scripts/jquery-ui-1.11.4/jquery-ui.min.js?v=27283" type="text/javascript"></script>
-	<script src="/static/ui/js/main.js?v=27283"></script>
+	<script src="../resources/static/scripts/jquery-ui-1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="../resources/static/ui/js/main.js"></script>
 		
 
-		<script src="/static/scripts/addr/addrNewCommon.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/file-upload/ng-file-upload-shim.min.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/angular_1.2.28.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/file-upload/ng-file-upload.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/addr/angularjsFactory.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/addr/angularjsAddressCtrl.js?v=27283" type="text/javascript"></script>
-	<script src="/static/scripts/AngularJS/hiworks/ngPage/pagination_factory.js?v=27283" type="text/javascript"></script>
+		<script src="../../static/scripts/addr/addrNewCommon.js" type="text/javascript"></script>
+	<script src="../../static/scripts/AngularJS/file-upload/ng-file-upload-shim.min.js" type="text/javascript"></script>
+	<script src="../../static/scripts/AngularJS/angular_1.2.28.js" type="text/javascript"></script>
+	<script src="../../static/scripts/AngularJS/file-upload/ng-file-upload.js" type="text/javascript"></script>
+	<script src="../../static/scripts/addr/angularjsFactory.js" type="text/javascript"></script>
+	<script src="../../static/scripts/addr/angularjsAddressCtrl.js" type="text/javascript"></script>
+	<script src="../../static/scripts/AngularJS/hiworks/ngPage/pagination_factory.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
 		jQuery(document).ready(function () {
@@ -88,8 +96,8 @@
 			jQuery('#topMenuBtn').css("cursor", "default");
 			jQuery('#logo_anchor').attr("href", "javascript:void(0);");
 			jQuery('#logo_anchor').css("cursor", "default");
-		}
-	});
+			}
+		});
 		</script>
 </head>
 
@@ -108,6 +116,18 @@
 			}, true );
 		}	
 	}
+	$(function(){
+		$('#addressAdd').on('!!!shown.bs.modal', function (e) {
+			console.log("123");
+		    if ($('#calendarView').hasClass('show')){
+		        $(this).hide();
+		        $("#calendarView").focus();
+		        $(this).modal("hide");
+		    }
+		});
+	});
+	
+
 
 	$j(document).ready(function(){
 		var addr_search_menu_index = 0 ;
@@ -190,59 +210,6 @@
 	</div>
 </div>
 
-	<!-- Top End-->
-	<div id="container">
-		
-		<div id="drag_wrap">
-			<div id="drag" class="ui-draggable" style="left:0px;"></div>
-		</div>
-
-		<div id="leftmenu" >
-			<!-- left -->	
-			<script>
-	
-</script>
-	<div>
-		<div class="mainbtn">
-			<a href="/address/addressAdd.do" class="mail_btn">주소 추가</a>
-		</div>
-		<div class="menufield">
-			<ul class="mail_list">
-				<li>
-					<a href="/views/address/main/personal">             
-						<span class="listname  strong " >개인 주소록</span>
-					</a>
-									</li>
-				<li>
-					<a href="/views/address/main/shared"><span class="listname ">공유 주소록</span>
-					</a>
-										<span class="count">2</span>
-									</li>
-				<li>
-					<a href="/views/address/main/trash"><span class="listname ">휴지통</span>
-					</a>
-
-										<span class="count">2</span>
-									</li>
-				<li>
-					<div class="  depth1">
-						<a href="#" class="foldtop">
-							<span class="icon fold "><em class="blind">내 환경설정 접고/펴기 토글</em></span>            
-							<span class="listname fold ">환경설정</span>
-							</a>
-					</div>
-					<ul class="depth2 hide  ">
-						<li><a href="/views/address/main/setting">기본정보 설정</a></li>
-						<li><a href="/views/address/main/import">주소록 가져오기 </a></li>
-						<li><a href="/views/address/main/export">주소록 내보내기</a></li>
-						<li><a href="/views/address/main/print_address" >인쇄하기</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</div>        	
-			<!-- left End -->
-		</div>
 
 						<div id="contents" >
 			<div ng-app="AddrCombineApp" ng-controller="AddrCombineCtrl">
@@ -255,7 +222,7 @@
 					<span id='main_menu' >
 						<span class='popup_class '  ng-click="hideMenuTab('AnSnT')" style="cursor: pointer;">보기: </span>
 						<span  class='popup_class ' ng-bind="viewAnSnT" ng-click="hideMenuTab('AnSnT')" style="cursor: pointer;"></span>
-						<img src="/static/ui/images/btn_drop.gif" alt="모두보기" class="popup_class" ng-click="hideMenuTab('AnSnT')" style="cursor: pointer;">
+						<img src="..\static\ui\images\btn_drop.gif" alt="모두보기" class="popup_class" ng-click="hideMenuTab('AnSnT')" style="cursor: pointer;">
 
 						<div id='AnSnT' class="popup_class dropdown hide">
 							<ul class="dropdown-menu">
@@ -281,8 +248,8 @@
 						<a href="" ng-click='deleteSelected()'>삭제</a>
 					</span>
 					<span class="detail_select">
-						<a href="" class='popup_class' ng-click="hideMenuTab('insertTagPopUp')">태그 붙이기<img src="/static/ui/images/btn_drop.gif" alt="태그 붙이기 드롭다운 메뉴 열기" class="open_drop" ></a>
-
+						<a href="" class='popup_class' ng-click="hideMenuTab('insertTagPopUp')">태그 붙이기<img src="../static/ui/images/btn_drop.gif" alt="태그 붙이기 드롭다운 메뉴 열기" class="open_drop" ></a>
+																											<!--resources\static\ui\images\btn_drop.gif  -->
 						
 						<!--dropdown-->
 						<div id='insertTagPopUp' class="dropscroll-menu dropdown popup_class hide">
@@ -300,12 +267,12 @@
 					</span>
 										<span class="detail_select"><a href="" ng-click="sendSmsSelected()">문자 보내기</a>	</span>
 					<span class="detail_select">
-						<a href="" class='popup_class' ng-click="hideMenuTab('anotherCommendPopUp')">다른 작업<img src="/static/ui/images/btn_drop.gif" alt="다른작업 드롭다운 메뉴 열기" class="open_drop"></a>
+						<a href="" class='popup_class' ng-click="hideMenuTab('anotherCommendPopUp')">다른 작업<img src="../static/ui/images/btn_drop.gif" alt="다른작업 드롭다운 메뉴 열기" class="open_drop"></a>
 							<!--dropdown-->
 							<div id='anotherCommendPopUp' class="popup_class dropdown hide">
 								<ul class="popup_class dropdown-menu " style="left:0;">
 									<li><a href="" class='all_star_y' ng-click="MultiStarCheck()">별 표시</a></li>
-									<li><a href=""  ng-click="MultiStarCheck()">별 제거</a></li>
+									<li><a href=""  ng-click="MultiStarCheck()">별 제거</a></li> 
 																		<li><a href="" class='popup_class' ng-click="copyToSharedAddress()">공유 주소록에 복사</a></li>
 																	</ul>
 							</div>
@@ -355,7 +322,7 @@
 		</div>
 	</div>
 
-	<div class="content_inbox_ct">
+<%-- 	<div class="content_inbox_ct">
 		<!-- Contents -->
 		<div class="cont_box">
 			<form>
@@ -452,7 +419,8 @@
                 </li>
 
 			</ul>
-		</div>
+		</div> --%>
+		
 		<div class="layer_button">
 			<button type="button" class="btn_variables" ng-click="hideTagManageView()">닫기</button>
 		</div>
@@ -465,7 +433,7 @@
 		<div class="to-add" style='height: 350px; overflow: auto;'>
 			<dl class="after" ng-if="DetailData.email != '' " >
 				<dt>이메일</dt>
-				<dd><a href="https://mail.office.hiworks.com/kh1234/mail/webmail/m_write/new/address/{{initData.kind}}/{{DetailData.no}}">{{DetailData.email}}</a></dd>
+				<dd><a href="https://com.kh.ok/mail/webmail/m_write/new/address/{{initData.kind}}/{{DetailData.no}}">{{DetailData.email}}</a></dd>
 			</dl>
 			<dl class="after" ng-repeat="ext_email_one in DetailData.ext_email">
 				<dt></dt>
@@ -476,7 +444,7 @@
 			<dl class="after" ng-repeat="ex_phone_one in DetailData.ext_phone"><dt></dt><dd>{{ex_phone_one.phone}} ({{ex_phone_one.type}})</dd></dl>
 			<dl class="after" ng-if="DetailData.company != '' "><dt>회사</dt><dd>{{DetailData.company}}</dd></dl>
 			<dl class="after" ng-if="DetailData.department != '' "><dt>부서</dt><dd>{{DetailData.department}}</dd></dl>
-			<dl class="after"  ng-if="DetailData.grade != '' "><dt>직급</dt><dd>{{DetailData.grade}}</dd></dl>
+			<dl class="after" ng-if="DetailData.grade != '' "><dt>직급</dt><dd>{{DetailData.grade}}</dd></dl>
 			<dl class="after" ng-if="DetailData.tag != '' "><dt>태그</dt><dd>{{DetailData.tag}}</dd></dl>
 
 			<dl class="after" ng-repeat="ext_address_one in DetailData.ext_address">
@@ -500,18 +468,19 @@
 			<dl class="after" ng-if="DetailData.memo != '' "><dt>메모</dt><dd>{{DetailData.memo}}</dd></dl>
 		</div>
 		<div class="layer_button">
-			<button type="button"  ng-click="modifyOne(DetailData);">수정</button> <button type="button" ng-click="deleteOne(DetailData);">삭제</button>
+			<button type="button"  ng-click="modifyOne(DetailData);">수정</button> 
+			<button type="button" ng-click="deleteOne(DetailData);">삭제</button>
 		</div>
 		<a href="" class="icon btn_closelayer"  ng-click="hideDetailView(DetailData);" ></a>
 
-			<form id='modify_form' action="/kh1234/addr/main/addr_modify" method="post">
+			<form id='modify_form' action="/addr/main/addr_modify" method="post">
 				<input type="hidden" name="no" value=''>
 				<input type="hidden" name="type" value='P'>
 			</form>
 	</div>
 	<div id="dimmed" ></div>
 
-	<form name="form_sms" id="form_sms" method="post" action="https://sms.office.hiworks.com/kh1234/sms/sms_main/sms_write">
+	<form name="form_sms" id="form_sms" method="post" action="https://com.kh.ok/sms/sms_main/sms_write">
 		<input type="hidden" name="phone_num" value="">
 		<input type="hidden" name="phone_name" value="">
 	</form>
