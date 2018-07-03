@@ -114,7 +114,7 @@ $(function() {
 
 $.ajax( {
 	type : "POST",
-	url : "${pageContext.request.contextPath}/member/memberCompanyListAll",
+	url : "${pageContext.request.contextPath}/board/memberCompanyListAll",
 	dataType : "json",
 	success : function(data) {
 		
@@ -213,7 +213,7 @@ function fn_selectDeptMember(dept) {
 function fn_memberListView(){
 	$.ajax( {
 		type : "POST",
-		url : "${pageContext.request.contextPath}/member/memberCompanyListAll",
+		url : "${pageContext.request.contextPath}/board/memberCompanyListAll",
 		dataType : "json",
 		success : function(data) {
 			

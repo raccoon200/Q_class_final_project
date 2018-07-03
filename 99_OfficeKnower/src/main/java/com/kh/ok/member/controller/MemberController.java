@@ -241,29 +241,7 @@ public class MemberController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/member/memberCompanyListAll")
-	public @ResponseBody Map memberCompanyListAll(Locale locale, Model model, HttpSession session) {
-		
-		Member m = (Member) session.getAttribute("memberLoggedIn");
-		System.out.println(m.getUserId());
-		System.out.println(m.getCom_no());
-		
-		List<Map<String,String>> ls = memberService.memberCompanyListAll(m.getCom_no());
-		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
-		for(int i=0; i<ls.size(); i++) {
-			list.add(ls.get(i));
-		}
-		Map<String,String> map = new HashMap();
-		map.put("count", ""+ls.size());
-		
-		list.add(map);
-		Map result = new HashMap();
-		result.put("members",  list);
-	
-		
-		
-		return result;
-	}
+
 
 	@RequestMapping("/member/checkComNameDuplicate.do")
 	@ResponseBody
