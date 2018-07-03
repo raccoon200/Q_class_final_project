@@ -171,8 +171,10 @@ public class ReservationController {
 		ModelAndView mav = new ModelAndView();
 		List<Reservation> returnListN = reservationService.selectReturnListN();
 		List<Reservation> returnListY = reservationService.selectReturnListY();
+		
 		mav.addObject("returnListN", returnListN);
 		mav.addObject("returnListY", returnListY);
+		
 		return mav;
 	}
 	

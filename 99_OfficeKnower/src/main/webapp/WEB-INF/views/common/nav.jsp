@@ -361,8 +361,6 @@
 		}
 		</script>
 		
-		
-
 		<div class="menufield">
 			<ul class="menu_list">
 				<li>
