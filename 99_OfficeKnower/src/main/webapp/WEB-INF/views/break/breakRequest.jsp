@@ -18,8 +18,9 @@
 	margin-top:20px;
 }
 #requestDiv{
-	width: 80%;
+	width: 100%;
 	position:relative;
+	display: inline-block;
 }
 .rowTh{
 	background:#F6F6F6;
@@ -35,7 +36,7 @@
 	background: white;
 	border-radius:5px;
 	border:1px solid black;
-	position:absolute; top:240px; left: 800px; z-index:1;
+	position:absolute; top:50px; left: 30%; z-index:1;
 	
 }
 #inner{
@@ -264,7 +265,7 @@ function fn_deleteChoice(){
 		    <tr>
 		      <th scope="row" class="rowTh">사유</th>
 		      <td>
-		      	<textarea name="reason" id="reason" cols="140" rows="1"></textarea>
+		      	<textarea class="form-control" name="reason" id="reason" rows="1"></textarea>
 		      </td>
 		    </tr>
 		    <tr>

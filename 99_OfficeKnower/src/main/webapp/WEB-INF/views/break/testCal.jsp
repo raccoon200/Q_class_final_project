@@ -22,6 +22,7 @@
 .fc-sun { color:#FF0000; } 
 #calendar3 {
     width: 90%;
+    display: inline-block;
 }
 h2{
 	font-size: 20px;
@@ -147,7 +148,8 @@ function between(start,end){
 <div id="calendar3">
 	<input type="hidden" name="startdate" id="startdate" />
 	<input type="hidden" name="enddate" id="enddate"/>
-</div>	
+</div>
+<br />	
  선택일 수  :<span id="selectedDay"></span>일
  <input type="hidden" name="breakdays" id="breakdays"/>
 

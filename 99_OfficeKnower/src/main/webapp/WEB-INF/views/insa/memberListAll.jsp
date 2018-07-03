@@ -15,7 +15,7 @@
 <style>
 .groupBox {width: 100%;overflow: hidden; padding: 30px 0 0 0; min-height: 60px;}
 .groupBox .team {float: left; width: 200px;  padding-right: 20px;}
-.groupBox .people { margin: 0 0 0 220px;   width: 819px;}
+.groupBox .people { padding: 0 0 0 220px;   width: 100%;}
 .insaimg{
     width: 75px;
     height: 75px;
@@ -33,7 +33,7 @@
 }
 .groupBox .people li {
     position: relative;
-    float: left;
+    display: inline-block;
     padding-bottom: 20px;
     width: 75px;
     margin-right: 20px;
@@ -209,7 +209,7 @@ $(function(){
 	<div class="groupBox team">
 		${list.get(0).getCom_name()}[${list.size()}명] 
 	</div>
-	<div class="people defaultpeople" style="display: block;">
+	<div class="people defaultpeople" style="display: inline-block;">
 	<ul>
 		<c:forEach var="l" items="${list}" >
 			<li>
@@ -221,6 +221,7 @@ $(function(){
 	</div>
 	<!-- 입사년도 -->
 	<div class="people yearpeople" style="display: none;">
+					<ul>
 			<c:forEach var="y" items="${yearList}" varStatus="sts">
 				<c:forEach var="l" items="${list}" varStatus="sts2">
 					<c:if test="${sts2.count == 1}">
@@ -229,24 +230,24 @@ $(function(){
 					</c:if>
 					<c:set var="yea" value="${l.getJoinDate()!=null?l.getJoinDate():'미기재 '}"/>	
 					<c:set var="year" value="${fn:substring(yea,0,4)}"/> 
-					<c:if test='${y eq (year != null?year:"미기재 ")}'>
-						<ul>
+						<c:if test='${y eq (year != null?year:"미기재 ")}'>
 						<li>
 							<img class="insaimg" src="${pageContext.request.contextPath }/resources/upload/member/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/upload/member/default.jpg'" onclick="fn_profile('${l.getUserId()}','${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}','${l.getPhoto()}')"/>
 							<p class="name">${l.getUserName()}</p>
 						</li>
-						</ul>
-					</c:if>
+						</c:if>
 					<c:if test="${sts2.count == list.size()}">
 						<p  class="people_p_add">asd</p><p style="opacity: 0; height: 0px;">asd</p>
 						<br /><br /><br /><br /><br /><br />
 					</c:if>
 				</c:forEach>
 			</c:forEach>
+					</ul>
 		<!-- </ul> -->
 	</div>
 	<!-- 직위 -->
 	<div class="people positionpeople" style="display: none;">	
+						<ul>
 	<c:forEach var="p" items="${positionList}" varStatus="sts">
 				<c:forEach var="l" items="${list}" varStatus="sts2">
 					<c:set var="po" value="${l.getPosition()}"/>
@@ -255,12 +256,10 @@ $(function(){
 						<hr />
 					</c:if>
 					<c:if test='${p eq (year != null?po:"미기재")}'>
-						<ul>
 						<li>
 							<img class="insaimg" src="${pageContext.request.contextPath }/resources/upload/member/${l.getPhoto()}" onerror="this.src='${pageContext.request.contextPath }/resources/upload/member/default.jpg'" onclick="fn_profile('${l.getUserId()}','${l.getUserName()}','${l.getPosition()}','${l.getJob()}','${l.getJoinDate()}','${l.getPhone_com()}','${l.getPhone_cell()}','${l.getPhoto()}')"/>
 							<p class="name">${l.getUserName()}</p>
 						</li>
-						</ul>
 					</c:if>
 					<c:if test="${sts2.count == list.size()}">
 						<p class="people_p_add">asd</p><p style="opacity: 0; height: 0px;">asd</p>
@@ -268,6 +267,7 @@ $(function(){
 					</c:if>
 				</c:forEach>
 			</c:forEach>
+						</ul>
 	</div>
 	
 </div>

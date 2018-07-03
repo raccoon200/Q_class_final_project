@@ -131,7 +131,7 @@
 </script>
 </head>
 <body>
-	<div class="container_main">
+	<div class="container container_main" style="padding-top: 0px; padding: 0px;  max-width: 100%; margin: 0px; margin-top: 60px;">
 		<header class="jumbotron" id="header">
 			<h1 class="logo_container">
 				<a href="${pageContext.request.contextPath }/office/office_main.do">
@@ -191,8 +191,8 @@
 
 			<div id="userBox">
 				<img
-					src="${pageContext.request.contextPath }/resources/upload/member/${memberLoggedIn.photo}"
-					class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
+				src="${pageContext.request.contextPath }/resources/upload/member/${memberLoggedIn.photo}"
+				class="rounded-circle" style="width: 42px; height: 42px;" alt="프로필" />
 				<div style="display: inline-block; margin: 12px 0 0 5px;">
 					${memberLoggedIn.userId} &nbsp;
 					<!-- ${memberLoggedIn.userId} -->

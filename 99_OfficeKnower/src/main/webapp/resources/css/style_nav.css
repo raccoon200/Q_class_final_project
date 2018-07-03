@@ -32,7 +32,7 @@ div.menufield{
 }
 ul.menu_list li>a{
 	float: left;
-    max-width: 72%;
+    max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     font-size: 15px;
@@ -95,7 +95,7 @@ span.num{
     font-weight: bold;
 }
 div#sabu_container{	
-    width: 74.5%;
+    width: 75%;
     height: -webkit-fill-available;
     display: inline-block;
     float: right;
