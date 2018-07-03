@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.ok.breakTime.model.vo.Break;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 
 @Repository
 public class BreakDAOImpl implements BreakDAO {
@@ -70,6 +71,11 @@ public class BreakDAOImpl implements BreakDAO {
 	@Override
 	public Map<String, String> selectMyInfo(String userId) {
 		return sqlSession.selectOne("break.selectMyInfo",userId);
+	}
+
+	@Override
+	public int breakInesert(BreakRequest breakrequest) {
+		return sqlSession.insert("break.breakInesert",breakrequest);
 	}
 
 }

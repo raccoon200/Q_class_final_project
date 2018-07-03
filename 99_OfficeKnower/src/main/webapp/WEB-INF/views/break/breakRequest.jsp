@@ -104,8 +104,8 @@ function fn_showdivChoice(){
 } 
 function fn_BreakRequestSubmit(){
 	var approval = $("#username1").val();
-	var startDate = $("#startDate").val();
-	var endDate = $("#endDate").val();
+	var startDate = $("#startdate").val();
+	var endDate = $("#enddate").val();
 	var selectedUserid1 =$("#selectedUserid1").val();
 	var selectedUserid2 =$("#selectedUserid2").val();
 	var selectedUserid3 =$("#selectedUserid3").val();
@@ -114,6 +114,7 @@ function fn_BreakRequestSubmit(){
 	var regular = $("#regular").html();
 	var reward = $("#reward").html();
 	var reason = $("#reason").val();
+	var breakdays =$("#breakdays").val();
 
 	selectedDay *= 1;
 	regular *= 1;
@@ -130,6 +131,7 @@ function fn_BreakRequestSubmit(){
 	console.log("selectedDay " + selectedDay);
 	console.log("kind " + kind);
 	console.log("reason " + reason);
+	console.log("breakdays " + breakdays);
 
 	
 	/* 입력하세요 */
@@ -228,6 +230,11 @@ function fn_deleteChoice(){
 		      	<c:out value="${userInfo.USERNAME}"/>
 		      	 &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		      	<span id="approvals"></span>
+		      	<input type="hidden" name="appUsername" id="input1"/>
+		      	<input type="hidden" name="appUsername" id="input2"/>
+		      	<input type="hidden" name="appUsername" id="input3"/>
+		      	
+		      	
 		      	<span id="spanChoice" onclick="fn_showdivChoice();">결재선 선택</span>
 		      	
 		      </td>
@@ -387,8 +394,16 @@ function fn_nameSubmit(){
 		var html = "";
 		if(input2=='미정2'){
 			html += input1;
+			$("#input1").val(input1);
 		}else if(input3=='미정3'){
 			html += input1+"&nbsp;>&nbsp;"+input2;
+			$("#input1").val(input1);
+			$("#input2").val(input2);
+		}else{
+			html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3;
+			$("#input1").val(input1);
+			$("#input2").val(input2);
+			$("#input3").val(input3);
 		}
 	//	html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3+"&nbsp;&nbsp;";
 		$("#approvals").html(html);
@@ -469,12 +484,7 @@ $("#searchBox").on("keyup",function(){
 		        $("#break_search_table").css('display','none'); 
 			});
 			
-/* 				$("#insa_search_table_ tr").on("keyup",function(event){
-				console.log('실행하니');
-				var tr = $(this).children();
-		        var td = tr.children();
-		        tr.css('background','black');
-			}); */
+
 		},
 		error : function(jqxhr, textStatus, errorThrown){
 			console.log("ajax실패",jqxhr,textStatus,errorThrown);

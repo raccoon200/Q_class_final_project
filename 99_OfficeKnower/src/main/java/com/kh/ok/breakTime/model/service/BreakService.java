@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.ok.breakTime.model.vo.Break;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 
 public interface BreakService {
 
@@ -28,5 +29,7 @@ public interface BreakService {
 	List<Map<String, String>> personBreak(String userId);
 
 	Map<String, String> selectMyInfo(String userId);
+
+	int breakInesert(BreakRequest breakrequest);
 
 }

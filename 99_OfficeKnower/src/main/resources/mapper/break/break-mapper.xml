@@ -116,7 +116,19 @@
 		from tbl_user u join tbl_com c on (u.com_no=c.com_no)
 		where u.userid=#{userId}
   	</select>
+  	<insert id="breakInesert">
+  <!-- 	<if test="renamed_file_name !=null or renamed_file_name !=''"> -->
+  		insert into break_request 
+  		values(seq_break_request.nextval,#{userid},#{kind},#{startdate},#{breakdays},#{reason},nvl(#{renamed_file_name},''),#{com_no},
+  										#{approvals},#{approval_status},#{enddate})
+  	<!-- </if> -->
   	
+  	<!-- <if test="renamed_file_name ==null or renamed_file_name ==''">
+  		 insert into break_request(break_request_no,userid,kind,startdate,breakdays,reason,com_no,approvals,approval_status,enddate)
+  		 values(seq_break_request.nextval,#{userid},#{kind},#{startdate},#{breakdays},#{reason},#{com_no},
+  										#{approvals},#{approval_status},#{enddate}) 
+  	</if> -->
+  	</insert>
   	
   	
 </mapper>

@@ -37,6 +37,7 @@ function between(start,end){
    diff = Math.ceil(diff / (1000 * 3600 * 24));
 
    $("#selectedDay").html(diff);
+   $("#breakdays").val(diff);
 	
 }
 
@@ -132,8 +133,8 @@ function between(start,end){
         
         	      between(startDate.format(),endDate.format());
         	      
-        	      $("#startDate").val(startDate.format());
-        	      $("#endDate").val(endDate.format());
+        	      $("#startdate").val(startDate.format());
+        	      $("#enddate").val(endDate.format());
         	      
             }
         	
@@ -144,10 +145,11 @@ function between(start,end){
 </script>
 
 <div id="calendar3">
-	<input type="hidden" name="startDate" id="startDate" />
-	<input type="hidden" name="endDate" id="endDate"/>
+	<input type="hidden" name="startdate" id="startdate" />
+	<input type="hidden" name="enddate" id="enddate"/>
 </div>	
  선택일 수  :<span id="selectedDay"></span>일
+ <input type="hidden" name="breakdays" id="breakdays"/>
 
 
 

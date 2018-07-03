@@ -292,7 +292,7 @@ public class BoardController {
 						e.printStackTrace();
 					}
 					// VO객체 담기
-					board.setOriginal_file_name(originalFileName);
+					
 					board.setRenamed_file_name(renamedFileName);
 				}
 			}
