@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="reservation">
 	<select id="reservationListPage" resultType="reservation">
-		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where writer = #{userId} and approval_status = 'Y'	
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where writer = #{userId} and approval_status = 'Y' and quit_status is null
 	</select>
 	<select id="reservationListPageN" resultType="reservation">
-		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where writer = #{userId} and approval_status = 'N'
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where writer = #{userId} and approval_status is null
 	</select>
 	<select id="selectResourcesList" resultType="resources">
 		select * from tbl_resources where com_no = #{com_no}
@@ -14,7 +14,7 @@
 		select * from tbl_category where com_no = #{com_no}			
 	</select>
 	<insert id="reservationEnroll" >
-		insert into reservation values(seq_reservation_no.nextval, #{writer}, #{category}, #{res_no}, to_date(#{startdate}, 'YYYY-MM-DD HH24:MI'), to_date(#{quitdate}, 'YYYY-MM-DD HH24:MI'), #{purpose}, #{quit_status}, #{photo}, #{approval_status}, #{com_no})		
+		insert into reservation(reservation_no, writer, category, res_no, startdate, quitdate, purpose, quit_status, photo, com_no) values(seq_reservation_no.nextval, #{writer}, #{category}, #{res_no}, to_date(#{startdate}, 'YYYY-MM-DD HH24:MI'), to_date(#{quitdate}, 'YYYY-MM-DD HH24:MI'), #{purpose}, #{quit_status}, #{photo}, #{com_no})		
 	</insert>
 	<select id="selectOneReservationNo" resultType="reservation">
 		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where r.reservation_no = #{reservation_no}
@@ -40,4 +40,43 @@
 	<update id="adminInsert">
 		update tbl_user set grade=#{grade} where userId=#{userId}
 	</update>
+	<update id="reservationReturn">
+		update reservation set quit_status = 'N' where reservation_no = #{reservation_no}
+	</update>
+	
+	<select id="reservationApprovalNull" resultType="reservation">
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where approval_status is null
+	</select>
+	
+	<select id="reservationApprovalYes" resultType="reservation">
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where approval_status = 'Y' and quit_status is null
+	</select>
+	
+	<select id="reservationApprovalNo" resultType="reservation">
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where approval_status = 'N' and quit_status is null
+	</select>
+	
+	<update id="reservationApprovalSetYes">
+		update reservation set approval_status = 'Y' where reservation_no = #{reservationNo}
+	</update>
+	
+	<update id="reservationApprovalSetNot">
+		update reservation set approval_status = 'N' where reservation_no = #{reservationNo}
+	</update>
+	
+	<select id="selectReturnListN" resultType="reservation">
+		select * from reservation where quit_status = 'N'
+	</select>
+	
+	<select id="selectReturnListY" resultType="reservation">
+		select * from reservation where quit_status = 'Y'
+	</select>
+	
+	<update id="reservationQuitStatusSetYes"> 
+		update reservation set quit_status = 'Y' where reservation_no = #{reservation_no}
+	</update>
+	
+	<select id="reservationCategoryListCnt" resultType="map">
+		select category, (select count(category) from tbl_resources where category = t.category) res_cnt from tbl_category t where com_no = #{com_no} 
+	</select>
 </mapper>

@@ -32,5 +32,25 @@ public interface ReservationService {
 	Member selectMember(String userId);
 
 	int adminInsert(Member m);
+
+	int reservationReturn(int reservation_no);
+
+	List<Reservation> reservationApprovalNull();
+	
+	List<Reservation> reservationApprovalYes();
+	
+	List<Reservation> reservationApprovalNo();
+
+	int reservationApprovalSetYes(int reservationNo);
+
+	int reservationApprovalSetNot(int reservation_no);
+
+	List<Reservation> selectReturnListN();
+
+	List<Reservation> selectReturnListY();
+
+	int reservationQuitStatusSetYes(int reservation_no);
+
+	List<Map<String, String>> reservationCategoryListCnt(String com_no);
 	
 }

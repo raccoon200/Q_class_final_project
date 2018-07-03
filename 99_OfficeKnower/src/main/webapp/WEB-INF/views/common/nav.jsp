@@ -307,7 +307,7 @@
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
-				<li><a href="#">나의 예약 목록</a><br /></li>
+				<li><a href="${pageContext.request.contextPath}/reservation/reservationListPage">나의 예약 목록</a><br /></li>
 				<!-- 여기 반복문 돌리시길........................... -->
 				<li><a href="#">회의실</a><br /></li>
 				<li><a href="#">여기 반복문</a><br /></li>
@@ -320,9 +320,9 @@
 							alt="폴더" class="fold" /> 예약 관리
 					</a> <br />
 						<ul class="depth2 hide">
-							<li><a href="#">승인 관리</a><br /></li>
-							<li><a href="#">반납 관리</a><br /></li>
-							<li><a href="#">카테고리 관리</a><br /></li>
+							<li><a href="${pageContext.request.contextPath}/reservation/reservationApprovalManagement">승인 관리</a><br /></li>
+							<li><a href="${pageContext.request.contextPath}/reservation/reservationReturnManagement">반납 관리</a><br /></li>
+							<li><a href="${pageContext.request.contextPath}/reservation/reservationCategoryManagement">카테고리 관리</a><br /></li>
 							<li><a href="#">자원관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath }/reservation/admin/reservationAdminInsert.do">예약 관리자</a><br /></li>
 						</ul></li>
@@ -372,8 +372,6 @@
 		}
 		</script>
 		
-		
-
 		<div class="menufield">
 			<ul class="menu_list">
 				<li>

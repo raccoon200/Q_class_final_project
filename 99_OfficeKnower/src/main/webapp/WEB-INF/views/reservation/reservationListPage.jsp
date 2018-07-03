@@ -21,9 +21,8 @@
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th scope="col">예약번호</th>
 			<th scope="col">카테고리</th>
-			<th scope="col">자원 이름</th>
+			<th scope="col">자원명</th>
 			<th scope="col">사용 목적</th>
 			<th scope="col">예약 날짜</th>
 			<th scope="col">상태</th>
@@ -33,7 +32,6 @@
 		<c:forEach var="list" items="${list}">
 			<c:if test='${!empty list}'>
 				<tr>
-					<td>${list.reservation_no}</td>
 					<td>${list.category }</td>
 					<td>${list.res_name }</td>
 					<td>${list.purpose==null?'미기입':list.purpose}</td>
@@ -58,7 +56,6 @@
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th scope="col">예약번호</th>
 			<th scope="col">카테고리</th>
 			<th scope="col">자원 이름</th>
 			<th scope="col">사용 목적</th>
@@ -70,7 +67,6 @@
 		<c:forEach var="listN" items="${listN}">
 			<c:if test='${!empty listN}'>
 				<tr>
-					<td>${listN.reservation_no}</td>
 					<td>${listN.category }</td>
 					<td>${listN.res_name }</td>
 					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
@@ -100,14 +96,25 @@ function fn_reservationNoClick(reservationNo, flag){
         	$("#reservation_date").text(data.startdate+' ~ '+data.quitdate);
         	$("#writer").text(data.writer);
         	$("#purpose").text(data.purpose);
-        	$("#approval_status").text('승인 대기중');
         	$("#reservation_no").val(data.reservation_no);
+        	if(flag=='확인') {
+        		$("#approval_status").text('승인 대기중');
+        		$("#return_button").hide();
+        		$("#delete_button").show();
+        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationDeleteOne");
+        	} else {
+        		$("#approval_status").text('예약 승인');
+        		$("#delete_button").hide();
+        		$("#return_button").show();
+        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationReturn");
+        	}
 		}
      });
 	}
 function fn_validate() {
 	return confirm("정말로 삭제하시겠습니까?")?true:false;
 }
+
 </script>
 
 <hr />
@@ -125,7 +132,8 @@ function fn_validate() {
 			<form
 				action="${pageContext.request.contextPath}/reservation/reservationDeleteOne"
 				onsubmit="return fn_validate();"
-				method="post">
+				method="post"
+				id="reservationViewFrm">
 				<div class="modal-body">
 					<input type="hidden" name="reservation_no" id="reservation_no"/>
 					<table class="table">
@@ -155,7 +163,7 @@ function fn_validate() {
 					<button type="button" class="btn btn-light"
 						data-dismiss="modal">확인</button>
 					<input type="submit" value="삭제" class="btn btn-secondary" id="delete_button"/>
-					<input type="submit" value="" />
+					<button type="submit" class="btn btn-warning" id="return_button" >반납</button>
 				</div>
 			</form>
 		</div>
