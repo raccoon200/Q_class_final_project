@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.ok.approval.model.vo.Account;
+import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
@@ -61,5 +62,11 @@ public interface ApprovalDAO {
 	int adminInsert(Member m);
 
 	Member selectMember(String userId);
+
+	int approvalInsert(Approval approval);
+
+	List<Map<String, String>> selectTitle_Of_Account(String com_no);
+
+	List<Map<String, String>> selectDeptList(String com_no);
 
 }

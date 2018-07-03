@@ -85,4 +85,13 @@
 	<update id="adminInsert">
 		update tbl_user set grade=#{grade} where userId=#{userId}
 	</update>
+	<insert id="approvalInsert">
+		insert into approval values(#{approval_no}||to_char(sysdate,'yyyymmdd')||'-'||LPAD(seq_approval_approval_no.nextval , 4, '0'), #{title}, sysdate,#{writer}, #{status}, #{approvals}, #{approval_status}, #{com_no}, #{content} )
+	</insert>
+	<select id="selectTitle_Of_Account" resultType="map">
+		select * from tbl_title_of_account where com_no=#{com_no}	
+	</select>
+	<select id="selectDeptList" resultType="map">
+		select * from tbl_dept where com_no=#{com_no}
+	</select>
 </mapper>

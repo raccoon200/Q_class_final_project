@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.ok.approval.model.vo.Account;
+import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
@@ -149,6 +150,21 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	@Override
 	public Member selectMember(String userId) {
 		return sqlSession.selectOne("approval.memberSelect", userId);
+	}
+
+	@Override
+	public int approvalInsert(Approval approval) {
+		return sqlSession.insert("approval.approvalInsert", approval);
+	}
+
+	@Override
+	public List<Map<String, String>> selectTitle_Of_Account(String com_no) {
+		return sqlSession.selectList("approval.selectTitle_Of_Account", com_no);
+	}
+
+	@Override
+	public List<Map<String, String>> selectDeptList(String com_no) {
+		return sqlSession.selectList("approval.selectDeptList", com_no);
 	}
 
 }

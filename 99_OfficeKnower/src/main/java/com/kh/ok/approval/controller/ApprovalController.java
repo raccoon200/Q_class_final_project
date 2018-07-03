@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.ok.approval.model.service.ApprovalService;
 import com.kh.ok.approval.model.vo.Account;
+import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
@@ -332,9 +334,10 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/approval/approvalInsert.do")
-	public ModelAndView approvalInsert(Locale locale, HttpServletRequest request) {
+	public ModelAndView approvalInsert(Locale locale, HttpServletRequest request, HttpSession session2) {
 		ModelAndView mav = new ModelAndView();
-		
+		Member m = (Member)session2.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
 		Date date = new Date();		
 		DateFormat yearFormat = new SimpleDateFormat("yyyy");
 		DateFormat monthFormat = new SimpleDateFormat("MM");
@@ -355,6 +358,12 @@ public class ApprovalController {
 		
 		List<Member> list = approvalService.selectListMember(memberLoggedIn.getCom_no());
 		mav.addObject("list", list);
+		List<Map<String, String>> title_of_accountList = approvalService.selectTitle_Of_Account(com_no);
+		List<Map<String, String>> deptList = approvalService.selectDeptList(com_no);
+		System.out.println("title_of_accountList : "+title_of_accountList);
+		System.out.println("deptList : "+deptList);
+		mav.addObject("title_of_accountList", title_of_accountList);
+		mav.addObject("deptList", deptList);
 		mav.setViewName("approval/approvalInsert");
 		return mav;
 	}
@@ -536,4 +545,107 @@ public class ApprovalController {
 		mav.setViewName("common/msg");
 		return mav;
 	}
+	@RequestMapping("/approvals/insertApprovalExtra")
+	public ModelAndView insertApproval(@RequestParam String approvals, @RequestParam String writer, @RequestParam String content,
+			@RequestParam String com_no, @RequestParam String title) throws JsonProcessingException {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = new Approval();
+		approval.setApproval_no("기타-");
+		approval.setWriter(writer);
+		approval.setCom_no(com_no);
+		approval.setStatus("대기");
+		approval.setTitle(title);
+		
+		String[] appro = approvals.split(",");
+		String newAppro = "";
+		for(int i=appro.length-1; i>=0; i--) {
+			
+			newAppro += appro[i];
+			if(i!=0) newAppro+= ",";
+		}
+		
+		approval.setApprovals(newAppro);
+		approval.setApproval_status(appro.length-1);
+		
+		String jsonStr = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> contents = new HashMap<String, Object>();
+		contents.put("kind", "기타");
+		contents.put("content", content);
+		jsonStr = mapper.writeValueAsString(contents);
+		
+		approval.setContent(jsonStr);
+		
+		int result = approvalService.approvalInsert(approval);
+		
+		
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "결재 등록 성공";
+			loc = "approval.do";
+		} else
+			msg = "결재 등록 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+	
+		return mav;
+	}
+	
+	@RequestMapping("/approvals/insertApprovalSpending")
+	public ModelAndView insertApprovalSpending(@RequestParam String approvals, @RequestParam String writer, 
+			@RequestParam String com_no, @RequestParam String title, @RequestParam String year, @RequestParam String month,
+			@RequestParam String bankName, @RequestParam String account_no, @RequestParam String userId) throws JsonProcessingException {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = new Approval();
+		approval.setApproval_no("지결-");
+		approval.setWriter(writer);
+		approval.setCom_no(com_no);
+		approval.setStatus("대기");
+		approval.setTitle(title);
+		
+		String[] appro = approvals.split(",");
+		String newAppro = "";
+		for(int i=appro.length-1; i>=0; i--) {
+			
+			newAppro += appro[i];
+			if(i!=0) newAppro+= ",";
+		}
+		
+		approval.setApprovals(newAppro);
+		approval.setApproval_status(appro.length-1);
+		
+		String jsonStr = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> contents = new HashMap<String, Object>();
+		contents.put("kind", "지결");
+		contents.put("year", year);
+		contents.put("month", month);
+		contents.put("bankName", bankName);
+		contents.put("account_no", account_no);
+		contents.put("userId", userId);
+		jsonStr = mapper.writeValueAsString(contents);
+		
+		approval.setContent(jsonStr);
+		
+		int result = approvalService.approvalInsert(approval);
+		
+		
+		String loc = "/";
+		String msg = "";
+
+		if (result > 0) {
+			msg = "결재 등록 성공";
+			loc = "approval.do";
+		} else
+			msg = "결재 등록 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+	
+		return mav;
+	}
+
 }

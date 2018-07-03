@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.ok.approval.model.dao.ApprovalDAO;
 import com.kh.ok.approval.model.vo.Account;
+import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
@@ -120,6 +121,18 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public Member selectMember(String userId) {
 		return approvalDAO.selectMember(userId);
+	}
+	@Override
+	public int approvalInsert(Approval approval) {
+		return approvalDAO.approvalInsert(approval);
+	}
+	@Override
+	public List<Map<String, String>> selectTitle_Of_Account(String com_no) {
+		return approvalDAO.selectTitle_Of_Account(com_no);
+	}
+	@Override
+	public List<Map<String, String>> selectDeptList(String com_no) {
+		return approvalDAO.selectDeptList(com_no);
 	}
 	
 }
