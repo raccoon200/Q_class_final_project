@@ -191,4 +191,15 @@ public class ReservationController {
 
 		return mav;
 	}
+	
+	@RequestMapping("/reservation/reservationCategoryManagement")
+	public ModelAndView reservationCategoryManagement(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();		
+		HttpSession session = request.getSession(false);
+		Member member = (Member)session.getAttribute("memberLoggedIn");
+		List<Map<String, String>> list = reservationService.reservationCategoryListCnt(member.getCom_no());
+		System.out.println(list);
+		mav.addObject("categoryListCnt" ,list);
+		return mav;
+	}
 }

@@ -39,6 +39,8 @@ public interface ReservationService {
 	List<Reservation> selectReturnListY();
 
 	int reservationQuitStatusSetYes(int reservation_no);
+
+	List<Map<String, String>> reservationCategoryListCnt(String com_no);
 	
 	
 	

@@ -311,7 +311,7 @@
 						<ul class="depth2 hide">
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationApprovalManagement">승인 관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationReturnManagement">반납 관리</a><br /></li>
-							<li><a href="#">카테고리 관리</a><br /></li>
+							<li><a href="${pageContext.request.contextPath}/reservation/reservationCategoryManagement">카테고리 관리</a><br /></li>
 							<li><a href="#">자원관리</a><br /></li>
 							<li><a href="#">예약 관리자</a><br /></li>
 						</ul></li>

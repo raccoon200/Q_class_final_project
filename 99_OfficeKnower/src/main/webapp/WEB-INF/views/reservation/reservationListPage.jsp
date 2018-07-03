@@ -114,6 +114,7 @@ function fn_reservationNoClick(reservationNo, flag){
 function fn_validate() {
 	return confirm("정말로 삭제하시겠습니까?")?true:false;
 }
+
 </script>
 
 <hr />
@@ -162,7 +163,7 @@ function fn_validate() {
 					<button type="button" class="btn btn-light"
 						data-dismiss="modal">확인</button>
 					<input type="submit" value="삭제" class="btn btn-secondary" id="delete_button"/>
-					<button type="submit" class="btn btn-warning" id="return_button">반납</button>
+					<button type="submit" class="btn btn-warning" id="return_button" >반납</button>
 				</div>
 			</form>
 		</div>

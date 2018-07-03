@@ -94,5 +94,10 @@ public class ReservationDAOImpl implements ReservationDAO {
 	public int reservationQuitStatusSetYes(int reservation_no) {
 		return sqlsession.update("reservation.reservationQuitStatusSetYes", reservation_no);
 	}
+
+	@Override
+	public List<Map<String, String>> reservationCategoryListCnt(String com_no) {
+		return sqlsession.selectList("reservation.reservationCategoryListCnt", com_no);
+	}
 	
 }

@@ -23,8 +23,9 @@
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="returnListN" role="tabpanel" aria-labelledby="returnListN-tab">
+<br />
 <strong>반납 대기</strong>
-<br /><br />
+<hr />
   <table class="table">
 	<thead class="thead-light">
 		<tr>
@@ -59,8 +60,9 @@
 </table>
 </div>
 <div class="tab-pane fade" id="returnListY" role="tabpanel" aria-labelledby="returnListY-tab">
+<br />
 <strong>반납 완료</strong>
-<br /><br />
+<hr />
 <table class="table">
 	<thead class="thead-light">
 		<tr>
@@ -79,7 +81,7 @@
 					<td>${returnListY.startdate}~ ${returnListY.quitdate}</td>	
 					<td>
 					<button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservationView" value="${returnListN.reservation_no}" onclick="fn_reservationViewClick(this.value, '반납 승인')">상세보기</button></td>
+				data-target="#reservationView" value="${returnListY.reservation_no}" onclick="fn_reservationViewClick(this.value, '반납 승인')">상세보기</button></td>
 				</tr>
 			</c:if>
 		</c:forEach>

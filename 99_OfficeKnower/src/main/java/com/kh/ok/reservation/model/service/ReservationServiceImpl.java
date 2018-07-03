@@ -94,4 +94,9 @@ public class ReservationServiceImpl implements ReservationService {
 	public int reservationQuitStatusSetYes(int reservation_no) {
 		return reservationDAO.reservationQuitStatusSetYes(reservation_no);
 	}
+
+	@Override
+	public List<Map<String, String>> reservationCategoryListCnt(String com_no) {
+		return reservationDAO.reservationCategoryListCnt(com_no);
+	}
 }

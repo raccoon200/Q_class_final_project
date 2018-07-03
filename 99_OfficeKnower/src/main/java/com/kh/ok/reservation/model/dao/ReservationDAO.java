@@ -40,4 +40,6 @@ public interface ReservationDAO {
 
 	int reservationQuitStatusSetYes(int reservation_no);
 
+	List<Map<String, String>> reservationCategoryListCnt(String com_no);
+
 }

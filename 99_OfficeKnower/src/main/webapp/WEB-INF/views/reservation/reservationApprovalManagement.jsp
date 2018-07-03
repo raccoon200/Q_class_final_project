@@ -78,9 +78,9 @@ function fn_reservationNotClick(reservation_no) {
 </ul>
 <div class="tab-content" id="myTabContent">
 <div class="tab-pane fade show active" id="listNull" role="tabpanel" aria-labelledby="listNull-tab">
+<br />
 <strong>승인 대기 목록</strong>
-<br />
-<br />
+<hr />
 <table class="table">
 	<thead class="thead-light">
 		<tr>
@@ -118,9 +118,9 @@ function fn_reservationNotClick(reservation_no) {
 </div>
 
 <div class="tab-pane fade" id="listY" role="tabpanel" aria-labelledby="listY-tab">
+<br />
 <strong>승인 목록</strong>
-<br />
-<br />
+<hr />
 <table class="table">
 	<thead class="thead-light">
 		<tr>
@@ -155,9 +155,9 @@ function fn_reservationNotClick(reservation_no) {
 </div>
 
 <div class="tab-pane fade" id="listN" role="tabpanel" aria-labelledby="listN-tab">
+<br />
 <strong>반려 목록</strong>
-<br />
-<br />
+<hr />
 <table class="table">
 	<thead class="thead-light">
 		<tr>

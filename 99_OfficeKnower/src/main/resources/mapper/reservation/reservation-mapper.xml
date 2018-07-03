@@ -23,7 +23,7 @@
 		delete from reservation where reservation_no = #{reservation_no}
 	</delete>
 	<update id="reservationReturn">
-		update reservation set quit_status = 'Y' where reservation_no = #{reservation_no}
+		update reservation set quit_status = 'N' where reservation_no = #{reservation_no}
 	</update>
 	
 	<select id="reservationApprovalNull" resultType="reservation">
@@ -57,4 +57,8 @@
 	<update id="reservationQuitStatusSetYes"> 
 		update reservation set quit_status = 'Y' where reservation_no = #{reservation_no}
 	</update>
+	
+	<select id="reservationCategoryListCnt" resultType="map">
+		select category, (select count(category) from tbl_resources where category = t.category) res_cnt from tbl_category t where com_no = #{com_no} 
+	</select>
 </mapper>
