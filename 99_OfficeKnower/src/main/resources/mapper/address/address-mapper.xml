@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="address">
 
-	<insert id="addressAdd" >
+<!-- 	<insert id="addressAdd" >
 		INSERT INTO tbl_address
 		VALUES(seq_tbl_address.nextval, 
 			   #{address_no},
@@ -13,18 +13,22 @@
 			   #{phone},
 			   #{tag},
 			   #{company},
+			   #{address},
 			   #{anniversary},
 			   #{memo},
 			   #{status},
-			   sysdate)
+			   )
 			   
 	</insert>
-	
+	 -->
 	  <select id="addressView" parameterType="string"  resultType="com.kh.ok.address.model.vo.Address">
 		    SELECT * FROM tbl_address
 	   </select> 
 	   
-	   
+	   <insert id="InsertAddress">
+	   		insert into tbl_address
+	   		values(SEQ_TBL_ADDRESS.nextval,#{userId},#{comId},#{name},#{email},#{phone},#{tag},#{company},#{address},#{anniversary},#{memo},'Y')
+	   </insert>
 	
 	
 	 

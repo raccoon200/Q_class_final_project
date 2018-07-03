@@ -2,6 +2,7 @@ package com.kh.ok.address.model.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class AddressDAOImpl implements AddressDAO {
 	@Override
 	public List<Address> addressView() {
 		return sqlSession.selectList("address.addressView");
+	}
+
+	@Override
+	public int InsertAddress(Map<String, Object> map) {
+		return sqlSession.insert("address.InsertAddress",map);
 	}
 
 	

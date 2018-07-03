@@ -1,6 +1,6 @@
 /**!
  * AngularJS file upload/drop directive and service with progress and abort
- * @author  Danial  <danial.farid@gmail.com>
+ * 
  * @version 5.0.0
  */
 var ngFileUpload = angular.module('ngFileUpload', []);
@@ -15,7 +15,7 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
     patchXHR('setRequestHeader', function (orig) {
       return function (header, value) {
         if (header === '__setXHR_') {
-          var val = value(this);
+          var val = value(this);   
           // fix for angular < 1.2.0
           if (val instanceof Function) {
             val(this);
