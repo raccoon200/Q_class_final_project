@@ -20,25 +20,20 @@
 		from break b join tbl_user u on (b.userid=u.userid)
              		 join tbl_com c on (c.com_no=u.com_no)
             		 join (select * from break_request where APPROVAL_STATUS=0)r on (b.userid=r.userid)
-		where u.com_no=#{comId}
+		where u.status='Y' and u.com_no=#{comId}
 		
   	</select>
   	
   	<select id="searchMember" resultType="map">
-  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+  		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break, t.position
 		from tbl_user t left join break b on(t.userid=b.userid)
                         join tbl_com c on (t.com_no=c.com_no)
         where 1=1
         <if test="name_com != null and name_com!=''">
- 		and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
+ 		and t.status='Y' and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
  		
  		</if>
-       <!--  <if test="(enddate1 != null or enddate1!='') and (enddate2 != null or enddate2!='')">
- 		and joindate between #{enddate1} and #{enddate2}
- 		</if>
-        <if test="(enddate1 != null or enddate1!='' and enddate2 == null and enddate2 ==''">
- 		and joindate between #{enddate1} and sysdate
- 		</if> -->
+     
   		<if test="enddate1 != null and enddate1 !=''">
   			and joindate between #{enddate1} and
   			<if test="enddate2 != null and enddate2 !=''">
@@ -54,10 +49,86 @@
   		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
 		from tbl_user t left join break b on(t.userid=b.userid)
                         join tbl_com c on (t.com_no=c.com_no)
-        where t.userid in
+        where t.status='Y' and t.userid in
         <foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
 			#{clist}
 		</foreach> 
   	</select>
+  	
+  	<select id="choiceMemberDelete" resultType="map" parameterType="list">
+  		select a.* 
+		from (
+		
+		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
+		from tbl_user t left join break b on(t.userid=b.userid)
+                        join tbl_com c on (t.com_no=c.com_no)
+        where 1=1
+        <if test="name_com != null and name_com!=''">
+ 		and t.status='Y' and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
+ 		
+ 		</if>
+     
+  		<if test="enddate1 != null and enddate1 !=''">
+  			and joindate between #{enddate1} and
+  			<if test="enddate2 != null and enddate2 !=''">
+  				#{enddate2}
+  			</if>
+  			<if test="!(enddate2 != null and enddate2 !='')">
+  				sysdate
+  			</if>
+  		</if>
+ 		
+ 		 )a
+		
+		
+		where userid not in 
+		<foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
+			#{clist}
+		</foreach> 
+	
+  	
+  	</select>
+  	
+  	<insert id="insertReward">
+  		insert into break(userid, REWARD_BREAK) values (#{userid},#{afterReward})
+  	</insert>
+  	<update id="updateReward">
+  		update break set REWARD_BREAK = #{afterReward} where userid=#{userid}
+  	</update>
+  	
+  	<select id="afterInsert" resultType="map">
+  		select b.*, u.username, c.com_name
+		from break b join tbl_user u on (b.userid=u.userid)
+             		 join tbl_com c on (u.com_no = c.com_no)
+		where b.userid = #{userid}
+  	</select>
+  	<select id="afterUpdate" resultType="map">
+  		select b.*, u.username, c.com_name
+		from break b join tbl_user u on (b.userid=u.userid)
+             		 join tbl_com c on (u.com_no = c.com_no)
+		where b.userid = #{userid}
+  	</select>
+  	<select id="personBreak" resultType="map">
+  		select * from break where userid = #{userId}
+  	</select>
+  	<select id="selectMyInfo" resultType="map">
+  		select * 
+		from tbl_user u join tbl_com c on (u.com_no=c.com_no)
+		where u.userid=#{userId}
+  	</select>
+  	<insert id="breakInesert">
+  <!-- 	<if test="renamed_file_name !=null or renamed_file_name !=''"> -->
+  		insert into break_request 
+  		values(seq_break_request.nextval,#{userid},#{kind},#{startdate},#{breakdays},#{reason},nvl(#{renamed_file_name},''),#{com_no},
+  										#{approvals},#{approval_status},#{enddate})
+  	<!-- </if> -->
+  	
+  	<!-- <if test="renamed_file_name ==null or renamed_file_name ==''">
+  		 insert into break_request(break_request_no,userid,kind,startdate,breakdays,reason,com_no,approvals,approval_status,enddate)
+  		 values(seq_break_request.nextval,#{userid},#{kind},#{startdate},#{breakdays},#{reason},#{com_no},
+  										#{approvals},#{approval_status},#{enddate}) 
+  	</if> -->
+  	</insert>
+  	
   	
 </mapper>

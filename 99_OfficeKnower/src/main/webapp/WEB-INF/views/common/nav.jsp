@@ -41,6 +41,9 @@
 		}
 		var parentsWidth = $("div.container_main").css("width");
 		var navWidth = $("nav#leftMenu").css("width");
+		console.log(parentsWidth);
+		console.log(navWidth);
+		console.log(parseFloat(parentsWidth)-parseFloat(navWidth));
 		$("div#sabu_container").css("width",parseFloat(parentsWidth)-parseFloat(navWidth)+"px");
 		
 	});
@@ -195,7 +198,12 @@
 			<!-- 남은 휴가 가지고 와야함. 안가지고 오면 오류 생김. 차라리 Member에 남은 휴가를 포함 시켜 memberLoggedIn에 남기는게 좋을 것 같음... 아님 뭐 세션에 남은 휴가만 남기든가?? -->
 			<p>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="title">남은 휴가</span> <span
-					class="num" id="left_vation_num">10</span>일
+					class="num" id="left_vation_num"> <!-- 10 -->  
+					
+					<c:forEach var="item" items="${personBreak}">
+						 ${item.REWARD_BREAK + item.REGULAR_BREAK}
+					</c:forEach>
+				</span>일
 			</p>
 		</div>
 		<hr />
@@ -219,7 +227,7 @@
 				</a> <br />
 					<ul class="depth2 hide">
 						<li>
-							<a href="#">휴가 신청</a><br />
+							<a href="${pageContext.request.contextPath}/break/breakRequest.do">휴가 신청</a><br />
 						</li>
 						<li>
 							<a href="${pageContext.request.contextPath}/break/myBreak">휴가 현황</a><br />
