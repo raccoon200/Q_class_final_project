@@ -292,6 +292,53 @@ public class InsaController {
 		map.put("isUsable", isUsable);
 		return map;
 	}
+
+	@RequestMapping("/insa/positioncheckIdDuplicate.do")
+	@ResponseBody
+	public Map<String,Object> positioncheckIdDuplicate(@RequestParam("newPosition") String newPosition
+			,@RequestParam("comNo") String comNo) throws JsonProcessingException {
+		
+		List<Position> plist = insaService.selectPositionList(comNo);
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		int count = 0; 
+		// 업무로직
+		for(int i =0; i < plist.size(); i++) {
+			if((plist.get(i).getPosition()).equals(newPosition)) {
+				count = 1;
+			}
+		}
+		boolean isUsable = count == 0 ? true:false;
+		
+		map.put("isUsable", isUsable);
+		return map;
+	}
+	@RequestMapping("/insa/positioncheckListDuplicate.do")
+	@ResponseBody
+	public Map<String,Object> positioncheckListDuplicate(@RequestParam("position") String position
+			,@RequestParam("comNo") String comNo, HttpServletRequest request) throws JsonProcessingException {
+		
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		List<Member> list =  insaService.memberListAll(m.getCom_no());
+		List<String> selectmlist = new ArrayList<String>();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean listEmpty = false;
+		for(int i =0; i<list.size(); i++) {
+			if((list.get(i).getPosition() != null?list.get(i).getPosition():"").equals(position)) {
+				listEmpty = true;
+				selectmlist.add(list.get(i).getUserId());
+			}
+		}
+		
+		map.put("userId", selectmlist);
+		map.put("listEmpty", listEmpty);
+		int count = 0; 
+
+		boolean isUsable = count == 0 ? true:false;
+		map.put("isUsable", isUsable);
+		return map;
+	}
 	
 	@RequestMapping("/insa/insaMemberOneUpdate.do")
 	public String insaMemberOneUpdate(Member member) {
@@ -303,18 +350,61 @@ public class InsaController {
 		return "redirect:/insa/memberSelectManagement.do?userId="+member.getUserId();
 	}
 	
-	@RequestMapping("/insa/updateModal.do")
-	public String updateModa(@RequestParam(value="position", required=false, defaultValue="") String position,
+	@RequestMapping("/insa/updatePositionModal.do")
+	public String updatePositionModal(@RequestParam(value="position", required=false, defaultValue="") String position,
 			@RequestParam(value="job", required=false, defaultValue="") String job,
-			@RequestParam(value="status", required=false, defaultValue="") String status,
-			@RequestParam(value="userId", required=false, defaultValue="") String userId,
+			@RequestParam(value="comNo", required=false, defaultValue="") String comNo,
+			@RequestParam(value="level", required=false, defaultValue="") int level,
 			@RequestParam(value="updateType", required=false, defaultValue="") String updateType,
 				HttpServletRequest request) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		System.out.println(position);
+		System.out.println(comNo);
+		System.out.println(level);
 		
+		map.put("position", position);
+		map.put("comNo", comNo);
+		map.put("level", level);
 		
-		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		int result = insaService.updatePositionModal(map);
 		
-		return "redirect:/insa/memberManagement.do";
+		return "redirect:/insa/positionManagement.do";
+	}
+	@RequestMapping("/insa/positionDeleteModal.do")
+	public String positionDeleteModal(@RequestParam(value="selectposition", required=false) String position,
+			@RequestParam(value="userId", required=false, defaultValue="") String[] userId,
+			@RequestParam(value="com_no", required=false, defaultValue="") String com_no,
+			@RequestParam(value="s_position", required=false, defaultValue="") String s_position,
+			HttpServletRequest request) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		position = (position == null) ?"변경 직위 ":position;
+
+		for(int i = 0; i<userId.length; i++)
+			System.out.println("userId="+userId[i]);
+		System.out.println("position="+position);  // 선택한값
+		System.out.println("com_no="+com_no);
+		System.out.println("s_position="+s_position); // 기존에 값
+		
+		int result =0;
+		map.put("userId", userId);
+		map.put("com_no", com_no);
+		map.put("position", position);
+		map.put("s_position", s_position);
+		
+		if(position.equals("변경 직위 ")) {
+			result = insaService.insaPositionDelete(map);
+		}else if(position.equals(s_position)) {
+			
+		}else if(!position.equals("변경 직위 ")) {
+			result = insaService.insaPositionUpdate(map);
+			result = insaService.insaPositionDelete(map);
+		}
+		
+		map.put("position", position);
+		
+//		int result = insaService.updatePositionModal(map);
+		
+		return "redirect:/insa/positionManagement.do";
 	}
 
 	@RequestMapping("/insa/insaMemberDelete.do")
@@ -324,11 +414,6 @@ public class InsaController {
 			@RequestParam(value="userId", required=false, defaultValue="") String[] userId,
 			@RequestParam(value="updateType", required=false, defaultValue="delete") String updateType,
 			HttpServletRequest request) {
-	/*	System.out.println("position=" + position);
-		System.out.println("job=" + job);
-		System.out.println("status=" + status);
-		System.out.println("userId=" + userId);
-		System.out.println("updateType=" + updateType);*/
 		
 		int result = 0;
 		
@@ -371,13 +456,87 @@ public class InsaController {
 		// 업무로직
 		List<Position> plist = insaService.selectPositionList(m.getCom_no());
 		List<Job> jlist = jobService.selectJobList(m.getCom_no());
-		
-		System.out.println(plist);
-		System.out.println(jlist);
+		List<Member> list =  insaService.memberListAll(m.getCom_no());
 		
 		mav.addObject("plist", plist);
 		mav.addObject("jlist", jlist);
+		mav.addObject("member",m);
+		mav.addObject("list",list);
+		
 		mav.setViewName("insa/insaPositionJobManagement");
 		return mav;
 	}
+
+	@RequestMapping("/insa/insaPositionAdd.do")
+	public String insaPositionAdd(
+			@RequestParam(value="position", required=false, defaultValue="") String[] position
+								
+								,HttpServletRequest request) {
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+//			System.out.println("포지션 : "+position[position.length-1]);
+		System.out.println("포지션 = " + position.length);
+		Map<String,Object> map = new HashMap<>();
+		map.put("position", position[position.length-1]);
+		map.put("com_no", m.getCom_no());
+		map.put("level", position.length);
+		
+//		System.out.println(position.length);
+		
+		int result = 0;
+		
+		if(!position[position.length-1].isEmpty()) {
+			result = insaService.positionInsert(map);
+		}
+		
+		return "redirect:/insa/positionManagement.do";
+	}
+
+	@RequestMapping("/insa/insaJobAdd.do")
+	public String insaJobAdd(
+			@RequestParam(value="job", required=false, defaultValue="") String[] job
+			,HttpServletRequest request) {
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("job", job[job.length-1]);
+		map.put("com_no", m.getCom_no());
+		
+//		System.out.println( m.getCom_no());
+//		System.out.println(map.get("job"));
+		int result = insaService.insaJobInsert(map);
+		
+		return "redirect:/insa/positionManagement.do";
+	}
+	
+	@RequestMapping("/insa/jobDeleteModal.do")
+	public String jobDeleteModal(
+			@RequestParam(value="job", required=false, defaultValue="") String job
+			,HttpServletRequest request) {
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("job", job);
+		map.put("com_no", m.getCom_no());
+		
+		int result = insaService.insaJobDelete(map);
+		
+		return "redirect:/insa/positionManagement.do";
+	}
+	
+	@RequestMapping("/insa/updateJobModal.do")
+	public String updateJobModal(
+			@RequestParam(value="job", required=false, defaultValue="") String job,
+			@RequestParam(value="selectjob", required=false, defaultValue="") String selectjob
+			,HttpServletRequest request) {
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("selectjob", selectjob);
+		map.put("job", job);
+		map.put("com_no", m.getCom_no());
+
+		int result = insaService.insaJobUpdate(map);
+		
+		return "redirect:/insa/positionManagement.do";
+	}
+	
+	
 }

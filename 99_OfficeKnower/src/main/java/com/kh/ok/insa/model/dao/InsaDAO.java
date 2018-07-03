@@ -38,4 +38,18 @@ public interface InsaDAO {
 
 	int insaMemberUpdate(Map<String, Object> map);
 
+	int positionInsert(Map<String, Object> map);
+
+	int updatePositionModal(Map<String, Object> map);
+
+	int insaPositionDelete(Map<String, Object> map);
+
+	int insaPositionUpdate(Map<String, Object> map);
+
+	int insaJobInsert(Map<String, String> map);
+
+	int insaJobDelete(Map<String, String> map);
+
+	int insaJobUpdate(Map<String, String> map);
+
 }

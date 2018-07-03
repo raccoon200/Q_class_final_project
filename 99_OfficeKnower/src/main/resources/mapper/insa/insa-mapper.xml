@@ -54,7 +54,7 @@
 		select u.* ,(select com_name from tbl_com c where c.com_no=(select com_no from tbl_user where userid=#{userId})) com_name from tbl_user u where userId=#{userId}
 	</select>
 	<select id="selectPositionList" resultType="position">
-		select * from tbl_position where com_no=#{com_no}
+		select * from tbl_position where com_no=#{com_no} order by position_level
 	</select>
 		<select id="checkIdDuplicate" resultType="_int">
 		select count(*) from tbl_user where com_no=#{comNo} and emp_no=#{empNo}
@@ -87,5 +87,29 @@
 		<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
 			#{item}
 		</foreach>
+	</update>
+	<insert id="positionInsert">
+		insert into tbl_position values(#{com_no}, #{position}, seq_tbl_position_no.nextval)
+	</insert>
+	<update id="updatePositionModal">
+		update tbl_position set position=#{position} where com_no=#{comNo} and position_level=#{level}
+	</update>
+	<delete id="insaPositionDelete">
+		delete from tbl_position where com_no=#{com_no} and position=#{s_position}
+	</delete>
+	<update id="insaPositionUpdate">
+		update tbl_user set position=#{position} where com_no=#{com_no} and userId in
+		<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
+			#{item}
+		</foreach>  
+	</update>
+	<insert id="insaJobInsert" >
+		insert into tbl_job values(#{com_no},#{job})
+	</insert>
+	<delete id="insaJobDelete">
+		delete from tbl_job where com_no=#{com_no} and job=#{job}
+	</delete>
+	<update id="insaJobUpdate">
+		update tbl_job set job=#{job} where com_no=#{com_no} and job=#{selectjob}
 	</update>
 </mapper>
