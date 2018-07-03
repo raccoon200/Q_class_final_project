@@ -5,11 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="휴가현황" name="pageTitle"/>
+	<jsp:param value="인사관리" name="pageTitle"/>
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="인사관리" name="pageTitle"/>
-	<jsp:param value="휴가현황" name="selectMenu"/>
+	<jsp:param value="휴가 현황" name="selectMenu"/>
 </jsp:include> 
 <style>
 #pFont{

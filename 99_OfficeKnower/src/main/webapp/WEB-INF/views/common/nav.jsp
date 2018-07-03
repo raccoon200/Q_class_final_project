@@ -35,7 +35,7 @@
 				$(this).addClass("strong");
 			}
 		});
-		if(${param.selectMenu ne null}){
+		if("${param.selectMenu ne null}"=="true"){
 			$(".depth2").addClass("show");
 			$(".fold").attr("src", "${pageContext.request.contextPath }/resources/images/common/folder_icon_open.png");
 		}
@@ -215,11 +215,9 @@
 				</a> <br />
 					<ul class="depth2 hide">
 						<li><a
-							href="${pageContext.request.contextPath}/insa/memberListAll.do">직원
-								목록</a><br /></li>
+							href="${pageContext.request.contextPath}/insa/memberListAll.do">직원 목록</a><br /></li>
 						<li><a
-							href="${pageContext.request.contextPath }/member/memberOneSelect.do?userId=${memberLoggedIn.userId}">내
-								정보 관리</a><br /></li>
+							href="${pageContext.request.contextPath }/member/memberOneSelect.do?userId=${memberLoggedIn.userId}">내 정보 관리</a><br /></li>
 					</ul></li>
 				<li><a href="javascript:void(0)" class="depth1"> <img
 						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
