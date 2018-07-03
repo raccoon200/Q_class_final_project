@@ -132,7 +132,8 @@ function between(start,end){
         
         	      between(startDate.format(),endDate.format());
         	      
-        	      
+        	      $("#startDate").val(startDate.format());
+        	      $("#endDate").val(endDate.format());
         	      
             }
         	
@@ -142,7 +143,10 @@ function between(start,end){
     }); //ready 끝  
 </script>
 
-<div id="calendar3"></div>	
+<div id="calendar3">
+	<input type="hidden" name="startDate" id="startDate" />
+	<input type="hidden" name="endDate" id="endDate"/>
+</div>	
  선택일 수  :<span id="selectedDay"></span>일
 
 

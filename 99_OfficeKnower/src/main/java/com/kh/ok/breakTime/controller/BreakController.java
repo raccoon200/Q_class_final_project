@@ -13,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ok.breakTime.model.service.BreakService;
 import com.kh.ok.breakTime.model.vo.Break;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 import com.kh.ok.member.model.vo.Member;
 
 @Controller
@@ -232,6 +234,27 @@ public class BreakController {
 		model.addAttribute("userInfo",userInfo);
 		return "break/breakRequest";
 	}
+	
+	
+	@RequestMapping("/break/breakInsert.do")
+	public ModelAndView breakInesert(BreakRequest breakrequest, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println("breakRequest" + breakrequest);
+		String stratdate = request.getParameter("startDate");
+		String enddate = request.getParameter("endDate");
+		
+		
+		
+		System.out.println("startDate" + stratdate);
+		System.out.println("여기 들언오림ㄴㅇ러ㅣㅁ노하ㅓㄻ어ㅣ;ㅏㄴㅁㄹ이ㅏ;ㅇㄴ멀;ㅑㅣㅓ");
+		
+		
+		mav.setViewName("redirect:/break/breakRequest.do");
+		return mav;
+	}
+		
+	
 	
 	
 	

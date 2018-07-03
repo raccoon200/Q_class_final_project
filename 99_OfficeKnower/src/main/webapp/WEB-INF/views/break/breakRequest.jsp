@@ -85,6 +85,14 @@
 	z-index: 2;
 	background: #F6F6F6;
 }
+#fileAdd{
+	width : 100%;
+	height : 100px;
+	border: 3px solid lightgray;
+	border-style: dotted;
+}
+
+
 </style>
 <script>
 $(function(){
@@ -94,6 +102,79 @@ function fn_showdivChoice(){
 	$("#divChoice").show();
 	
 } 
+function fn_BreakRequestSubmit(){
+	var approval = $("#username1").val();
+	var startDate = $("#startDate").val();
+	var endDate = $("#endDate").val();
+	var selectedUserid1 =$("#selectedUserid1").val();
+	var selectedUserid2 =$("#selectedUserid2").val();
+	var selectedUserid3 =$("#selectedUserid3").val();
+	var selectedDay = $("#selectedDay").html();
+	var kind = $("#kind option:selected").val();
+	var regular = $("#regular").html();
+	var reward = $("#reward").html();
+	var reason = $("#reason").val();
+
+	selectedDay *= 1;
+	regular *= 1;
+	reward *= 1;
+	
+	
+	console.log("stratdate" + startDate);
+	console.log("endDate" + endDate);
+	console.log("1" +selectedUserid1);
+	console.log("2" +selectedUserid2);
+	console.log("3" +selectedUserid3);
+	console.log("regular " + regular);
+	console.log("reward " + reward);
+	console.log("selectedDay " + selectedDay);
+	console.log("kind " + kind);
+	console.log("reason " + reason);
+
+	
+	/* 입력하세요 */
+	if(approval==undefined || approval==''){
+		alert("결재자를 선택해주세요.");
+		return;
+	}
+	if(selectedDay==undefined || selectedDay==''){
+		alert("휴가일자를 선택해주세요.");
+		return;
+	}if(kind=='휴가 종류 선택'){
+		alert("휴가 종류를 선택해주세요.");
+		return;
+	}if(reason==undefined || reason==''){
+		alert("사유를 입력해주세요.");
+		return;
+	}
+	
+	
+	
+	/*휴가 날짜 */
+	if(kind=='포상'){
+		if(reward<selectedDay){
+			console.log("포상에 들어오니??/");
+			alert("1선택된 일수가 현재 포상 일수보다 많습니다.");
+			return;
+		}
+	}else{
+		if(regular<selectedDay){
+			alert("2선택된 일수가 현재 정기 휴가 일수보다 많습니다."+ regular+"  "+selectedDay);
+			return;
+		} 
+	}
+	
+	
+	breakRequestFrm.submit();
+	
+}
+function fn_deleteChoice(){
+	
+	cnt=0;
+	$("#username1").val("");
+	$("#username2").val("");
+	$("#username3").val("");
+}
 </script>
 
 <div>
@@ -103,81 +184,104 @@ function fn_showdivChoice(){
 <hr />
 <br /><br />
 
-
+<!-- 기안하기 div -->
+<div>
+	<p onclick="fn_BreakRequestSubmit()">기안하기</p>
+</div>
 
 <!-- 제일 바깥 div -->
 <div id="requestDiv">
 
-	<table class="table table-bordered">
+	<form action="breakInsert.do" id="breakRequestFrm" method="post" enctype="multipart/form-data">
+		<table class="table table-bordered">
+		
+		  <tbody>
+		    <tr>
+		      <th scope="col" class="rowTh">현황</th>
+		      <th scope="col">
+		      <c:if test="${not empty myBreak}">
+			  <c:forEach var="bre" items="${myBreak}">
+				    생성 :  ${bre.regular_break + bre.reward_break}일 /
+				    사용 : ${bre.regular_used_break + bre.reward_used_break}일 /
+				    잔여 ${(bre.regular_break + bre.reward_break)- (bre.regular_used_break +bre.reward_used_break)}일
+				  ( 정기<span id="regular">${bre.regular_break - bre.regular_used_break}</span>일, 포상 <span id="reward">${bre.reward_break - bre.reward_used_break}</span>일)
+				</c:forEach>
+			   </c:if>
+		      
+		      </th> 
 	
-	  <tbody>
-	    <tr>
-	      <th scope="col" class="rowTh">현황</th>
-	      <th scope="col">
-	      <c:if test="${not empty myBreak}">
-		  <c:forEach var="bre" items="${myBreak}">
-			   
-			
-			    생성 :  ${bre.regular_break + bre.reward_break}일 /
-			    사용 : ${bre.regular_used_break + bre.reward_used_break}일 /
-			    잔여 ${(bre.regular_break + bre.reward_break)- (bre.regular_used_break +bre.reward_used_break)}일
-			  (정기 ${bre.regular_break - bre.regular_used_break}일, 포상 ${bre.reward_break - bre.reward_used_break}일)
-			</c:forEach>
-		   </c:if>
-	      
-	      </th> 
+		    </tr>
+		  
+		    <tr>
+		      <th scope="row" class="rowTh">작성자</th>
+		      <td>
+		      	
+			 	회사 :  <c:out value="${userInfo.COM_NAME}"/> &nbsp;&nbsp;
+			 	직급 :  <c:out value="${userInfo.POSITION}"/>&nbsp;&nbsp;
+			 	이름 :  <c:out value="${userInfo.USERNAME}"/>
+	
+		      </td>
+		    </tr>
+		    <tr>
+		      <th scope="row" class="rowTh">신청</th>
+		      <td>
+		      	<c:out value="${userInfo.USERNAME}"/>
+		      	 &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      	<span id="approvals"></span>
+		      	<span id="spanChoice" onclick="fn_showdivChoice();">결재선 선택</span>
+		      	
+		      </td>
+		    </tr>
+		    <tr>
+		      <th scope="row" class="rowTh">휴가기간</th>
+		      <td>
+		      	<jsp:include page="/WEB-INF/views/break/testCal.jsp"></jsp:include>
+		      	
+		      </td>
+		    </tr>
+		    <tr>
+		      <th scope="row" class="rowTh">종류</th>
+		      <td>
+		      	<select name="kind" id="kind">
+		      		<option >휴가 종류 선택</option>
+		      		<option value="연차">연차</option>
+		      		<option value="포상">포상</option>
+		      		<option value="훈련">훈련</option>
+		      		<option value="교육">교육</option>
+		      		<option value="경로사">경로사</option>
+		      		<option value="병가">병가</option>
+		      		<option value="출산">출산</option>
+		      	</select>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th scope="row" class="rowTh">사유</th>
+		      <td>
+		      	<textarea name="reason" id="reason" cols="140" rows="1"></textarea>
+		      </td>
+		    </tr>
+		    <tr>
+		    	<th scope="row" colspan="2">
+		    	<!-- 파일첨부 div -->
+		    	<div id="fileAdd">
+					<span>별첨</span>
+					<div class="input-group">
+					  <div class="custom-file">
+					    <input type="file" class="custom-file-input" id="breakFile" name="upFile">
+					    <label class="custom-file-label" for="breakFile">파일을 선택하세요 </label>
+					  </div>
+					  
+					 </div>
+				</div>
+		    	
+		    	</th>
+		    </tr>
+		  </tbody>
+		</table>
+	</form>
 
-	    </tr>
-	  
-	    <tr>
-	      <th scope="row" class="rowTh">작성자</th>
-	      <td>
-	      	
-		 	회사 :  <c:out value="${userInfo.COM_NAME}"/> &nbsp;&nbsp;
-		 	직급 :  <c:out value="${userInfo.POSITION}"/>&nbsp;&nbsp;
-		 	이름 :  <c:out value="${userInfo.USERNAME}"/>
-
-	      </td>
-	    </tr>
-	    <tr>
-	      <th scope="row" class="rowTh">신청</th>
-	      <td>
-	      	<c:out value="${userInfo.USERNAME}"/>
-	      	 &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	      	<span id="approvals"></span>
-	      	<span id="spanChoice" onclick="fn_showdivChoice();">결재선 선택</span>
-	      	
-	      </td>
-	    </tr>
-	    <tr>
-	      <th scope="row" class="rowTh">휴가기간</th>
-	      <td>
-	      	<jsp:include page="/WEB-INF/views/break/testCal.jsp"></jsp:include>
-	      </td>
-	    </tr>
-	    <tr>
-	      <th scope="row" class="rowTh">종류</th>
-	      <td>
-	      	<select name="kind" id="kind">
-	      		<option >휴가 종류 선택</option>
-	      		<option value="연차">연차</option>
-	      		<option value="포상">포상</option>
-	      		<option value="훈련">훈련</option>
-	      		<option value="교육">교육</option>
-	      		<option value="경로사">경로사</option>
-	      		<option value="병가">병가</option>
-	      		<option value="출산">출산</option>
-	      	</select>
-	      </td>
-	    </tr>
-	    <tr>
-	      <th scope="row" class="rowTh">사유</th>
-	      <td>
-	      	<textarea name="reason" id="reason" cols="140" rows="1"></textarea>
-	      </td>
-	    </tr>
-	  </tbody>
-	</table>
+	<br /><br /><br />
+	
 </div>
 <!-- 제일 바깥 div 끝-->
 
@@ -205,6 +309,7 @@ function fn_showdivChoice(){
 		
 		<br /><br />
 		<div style="text-align:center;">
+			<button class="btn btn-link" style="border:1px solid;" onclick="fn_deleteChoice()">다시선택</button> &nbsp;&nbsp;
 			<button class="btn btn-link" style="border:1px solid;" onclick="fn_nameSubmit()">확인</button> &nbsp;&nbsp;
 			<button class="btn btn-secondary close1">취소</button>
 		</div>
@@ -239,18 +344,35 @@ function fn_nameSubmit(){
 	var input2 = $("#username2").val(); 
 	var input3 = $("#username3").val();
 	
-	if(input2==undefined){
-		input2='2';
+	if(input1==undefined || input1==""){
+		input1='미정1';
+	}else{
+		input1=$("#username1").val();
+	}
+	if(input2==undefined || input2==""){
+		input2='미정2';
 	}else{
 		input2=$("#username2").val();
 	}
-	if(input3==undefined){
-		input3='3';
+	if(input3==undefined || input3==""){
+		input3='미정3';
 	}else{
 		input3=$("#username3").val();
 	}
 	
-
+	console.log("input1" + input1);
+	console.log("input2" + input2);
+	console.log("input3" + input3);
+	
+	if(input1=='미정1'){
+		alert("1위에 순번 결재자가 비어있습니다.");
+		return;
+	}
+	if(input3!='미정3' && input2=='미정2'){
+		alert("2위에 순번 결재자가 비어있습니다.");
+		return;
+	}
+	
 	if(input1==input2){
 		alert(" 1결재자는 사용자로 중복으로 지정할 수 없습니다.");
 		return;
@@ -263,7 +385,12 @@ function fn_nameSubmit(){
 	}else{
 
 		var html = "";
-		html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3+"&nbsp;&nbsp;";
+		if(input2=='미정2'){
+			html += input1;
+		}else if(input3=='미정3'){
+			html += input1+"&nbsp;>&nbsp;"+input2;
+		}
+	//	html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3+"&nbsp;&nbsp;";
 		$("#approvals").html(html);
 		$("#divChoice").hide();
 		
@@ -298,9 +425,9 @@ $("#searchBox").on("keyup",function(){
 					
 					html += "<tr >";
 					if(u.POSITION == null){
-						html += "<td >"+u.USERNAME+"</td><td> "+u.COM_NAME+"/ 직급: 미기재</td>";
+						html += "<td >"+u.USERNAME+"</td><td> "+u.COM_NAME+"/ 직급: 미기재</td><td style='display:none;'>"+u.USERID+"</td>";
 					}else{
-						html += "<td >"+u.USERNAME+"</td><td> "+u.COM_NAME+"/ 직급: "+u.POSITION+"</td>"; // u가 객체니까 키값으로 접근해야됨
+						html += "<td >"+u.USERNAME+"</td><td> "+u.COM_NAME+"/ 직급: "+u.POSITION+"</td><td style='display:none;'>"+u.USERID+"</td>"; // u가 객체니까 키값으로 접근해야됨
 					}
 					html += "</tr>";
 				
@@ -324,6 +451,7 @@ $("#searchBox").on("keyup",function(){
 		        
 		        html2+= "<div class='input-group mb-3'>";
 		        html2+= " <input type='text' class='inputStyle form-control' aria-describedby='basic-addon2'  name='username' id='username"+cnt+"' value='"+td.eq(0).text()+"'readonly>";
+		        html2+= " <input type='hidden' id='selectedUserid"+cnt+"' value='"+td.eq(2).text()+"'readonly>";
 		        html2+= " <div class='input-group-append'>";
 		        html2+= "<span class='input-group-text' id='basic-addon2' onclick='fn_reChoice("+cnt+")'>X</span>";
 		        html2+= "</div></div>";
