@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
@@ -22,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -525,7 +528,29 @@ public class BoardController {
 		//////
 		return mav;
 	}
-
+	@RequestMapping(value = "/board/memberCompanyListAll")
+	public @ResponseBody Map memberCompanyListAll(Locale locale, Model model, HttpSession session) {
+		
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		System.out.println(m.getUserId());
+		System.out.println(m.getCom_no());
+		
+		List<Map<String,String>> ls = boardService.memberCompanyListAll(m.getCom_no());
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		for(int i=0; i<ls.size(); i++) {
+			list.add(ls.get(i));
+		}
+		Map<String,String> map = new HashMap();
+		map.put("count", ""+ls.size());
+		
+		list.add(map);
+		Map result = new HashMap();
+		result.put("members",  list);
+	
+		
+		
+		return result;
+	}
 	@RequestMapping("/board/boardMenuFormEnd")
 	public ModelAndView boardMenuFormEnd(BoardMenu boardMenu, @RequestParam String[] memberInfo) {
 		ModelAndView mav = new ModelAndView();

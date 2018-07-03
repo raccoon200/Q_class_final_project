@@ -79,4 +79,8 @@ public interface BoardDAO {
 	Member selectMember(String userId);
 
 	int adminInsert(Member m);
+
+	List<Member> selectListMember(String com_no);
+
+	List<Map<String, String>> memberCompanyListAll(String com_no);
 }

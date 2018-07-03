@@ -82,4 +82,6 @@ public interface BoardService {
 
 	Member selectMember(String userId);
 
+	List<Map<String, String>> memberCompanyListAll(String com_no);
+
 }

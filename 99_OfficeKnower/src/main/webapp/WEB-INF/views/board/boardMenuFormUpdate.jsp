@@ -84,11 +84,7 @@
 	color:rgb(120,120,120);
 	
 }
-ul.menu_list li {
-    list-style: none;
-    margin-top: 2px;
-    padding-left: 13px;
-}
+
 .modal-select-person{
 	cursor:pointer;
 }

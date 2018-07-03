@@ -129,4 +129,7 @@
 	<update id="adminInsert">
 		update tbl_user set grade=#{grade} where userId=#{userId}
 	</update>
+	<select id="memberCompanyListAll" resultType="map">
+		select * from tbl_user where com_no=#{com_no}
+	</select>
 </mapper>

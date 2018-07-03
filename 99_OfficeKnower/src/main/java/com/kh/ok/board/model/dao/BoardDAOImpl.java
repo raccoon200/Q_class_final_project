@@ -178,5 +178,13 @@ public class BoardDAOImpl implements BoardDAO{
 	public int adminInsert(Member m) {
 		return sqlSession.update("board.adminInsert", m);
 	}
+	@Override
+	public List<Member> selectListMember(String com_no) {
+		return null;
+	}
+	@Override
+	public List<Map<String, String>> memberCompanyListAll(String com_no) {
+		return sqlSession.selectList("board.memberCompanyListAll",com_no);
+	}
 	
 }

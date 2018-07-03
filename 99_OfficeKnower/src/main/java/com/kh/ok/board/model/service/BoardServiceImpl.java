@@ -157,5 +157,14 @@ public class BoardServiceImpl implements BoardService{
 	public Member selectMember(String userId) {
 		return boardDAO.selectMember(userId);
 	}
+	@Override
+	public List<Member> selectListMember(String com_no) {
+		return boardDAO.selectListMember(com_no);
+	}
+	@Override
+	public List<Map<String, String>> memberCompanyListAll(String com_no) {
+		return boardDAO.memberCompanyListAll(com_no);
+	}
+
 	
 }
