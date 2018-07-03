@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<<<<<<< HEAD
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -818,9 +817,6 @@ $(function(){
 
 </script>
 <!-- 일정보기 모달 끝 -->
-<<<<<<< HEAD
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-=======
 <!-- 캘린더 수정 모달 시작 --><!-- Modal -->
 <div class="modal fade" id="calendarUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -922,4 +918,3 @@ function fn_calInsertSubmit(){
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
->>>>>>> refs/remotes/origin/heewoon
