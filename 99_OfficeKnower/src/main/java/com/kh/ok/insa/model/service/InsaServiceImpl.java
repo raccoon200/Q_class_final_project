@@ -91,4 +91,39 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.insaMemberUpdate(map);
 	}
 
+	@Override
+	public int positionInsert(Map<String, Object> map) {
+		return insaDAO.positionInsert(map);
+	}
+
+	@Override
+	public int updatePositionModal(Map<String, Object> map) {
+		return insaDAO.updatePositionModal(map);
+	}
+
+	@Override
+	public int insaPositionDelete(Map<String, Object> map) {
+		return insaDAO.insaPositionDelete(map);
+	}
+
+	@Override
+	public int insaPositionUpdate(Map<String, Object> map) {
+		return insaDAO.insaPositionUpdate(map);
+	}
+
+	@Override
+	public int insaJobInsert(Map<String, String> map) {
+		return insaDAO.insaJobInsert(map);
+	}
+
+	@Override
+	public int insaJobDelete(Map<String, String> map) {
+		return insaDAO.insaJobDelete(map);
+	}
+
+	@Override
+	public int insaJobUpdate(Map<String, String> map) {
+		return insaDAO.insaJobUpdate(map);
+	}
+
 }

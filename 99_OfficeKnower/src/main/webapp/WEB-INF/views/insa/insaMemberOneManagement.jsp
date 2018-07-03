@@ -17,7 +17,6 @@
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <%
-	
 	String[] add = null; 
 	Member mem = ((Member)request.getAttribute("member"));
 	if(mem.getAddress() !=null)
