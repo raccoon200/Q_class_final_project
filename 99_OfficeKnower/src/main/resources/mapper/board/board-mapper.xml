@@ -58,13 +58,13 @@
 		select count(*) from board A join board_bookmark B on A.board_no=B.board_no where a.status='Y' and a.board_no=#{board_no} and b.userid=#{userId} order by A.board_no
 	</select>
 	<select id="selectBoardImportantList" resultType="map">
-		select * from board A join board_bookmark B using(board_no) where B.userId=#{userId} and A.status='Y'
+		select C.*, D.title BOARD_MENU_TITLE from (select * from board A join board_bookmark B using(board_no) where B.userId='ast' and A.status='Y') C join board_menu D on C.board_menu_no=D.board_menu_no
 	</select>
 	<select id="selectBoardImportantCount" resultType="_int">
 		select count(*) from board A join board_bookmark B using(board_no) where B.userId=#{userId} and A.status='Y'
 	</select>
 	<select id="selectBoardRecentList" resultType="map">
-		select * from (select * from board A join board_group B using(board_menu_no) where userid=#{userId} order by writedate desc) where rownum <![CDATA[<=]]> 10
+		select C.*, D.TITLE BOARD_MENU_TITLE from (select * from board A join board_group B using(board_menu_no) where userid=#{userId} and (sysdate-A.writedate<![CDATA[<]]>3) order by writedate desc) C join board_menu D on C.board_menu_no = D.board_menu_no
 	</select>
 	<select id="selectBoardMenuList" resultType="map">
 		select * from board_menu join board_group using(board_menu_no) where board_group.userid=#{userId}

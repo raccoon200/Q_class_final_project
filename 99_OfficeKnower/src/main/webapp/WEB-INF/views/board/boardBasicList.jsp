@@ -12,6 +12,14 @@
 	<jsp:param value="${board_menu_title }" name="selectMenu"/>
 </jsp:include>	
 	<!-- nav 끝 -->
+	<style>
+	table.table tr th{
+		background:rgb(230,230,230);
+	}
+	table.table tr td{
+		cursor:pointer;
+	}
+	</style>
 	<p style="font-size:2em; color:rgb(0,125,255);">${board_menu_title }</p>
 	<table class="table table-hover">
 
@@ -26,7 +34,7 @@
 	<c:if test="${not empty list }">
 	<c:forEach var="board" items="${list }" varStatus="vs">
     <tr id='${board["BOARD_NO"] }' onclick="fn_boardView(${board['BOARD_NO']})">
-      <th scope="row">${board["BOARD_NO"]}</th>
+      <td>${board["BOARD_NO"]}</td>
       <td>${board["TITLE"]}</td>
       <td>${board["WRITER"]}</td>
       <td><c:if test='${fn:length(board["RENAMED_FILE_NAME"])>0}' > <img src="${pageContext.request.contextPath}/resources/images/common/board_file_image.PNG" width="20px" alt="" /> </c:if></td>
