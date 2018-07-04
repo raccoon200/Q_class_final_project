@@ -197,7 +197,7 @@ function validate() {
 		    <span class="input-group-text">프로필 사진</span>
 		  </div>
 		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="upFile1" required>
+		    <input type="file" class="custom-file-input" name="upFile" id="upFile1">
 		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
 		  </div>
 		</div>
@@ -206,7 +206,7 @@ function validate() {
 		    <span class="input-group-text">SIGN 사진</span>
 		  </div>
 		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="upFile2" required>
+		    <input type="file" class="custom-file-input" name="upFile" id="upFile2">
 		    <label class="custom-file-label" for="upFile2">파일을 선택하세요</label>
 		  </div>
 		</div> 
