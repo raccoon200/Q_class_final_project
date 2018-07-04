@@ -70,6 +70,6 @@ try{
 	
 }
 %>
-<%=com.kh.ok.board.common.util.Utils.getPageBar(pageNum, cPage, numPerPage, "boardBasicList")%>
+<%=com.kh.ok.board.common.util.Util2s.getPageBar(pageNum, cPage, numPerPage, "boardBasicList")%>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
