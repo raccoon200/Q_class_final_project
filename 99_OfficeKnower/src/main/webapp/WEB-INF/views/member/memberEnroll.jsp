@@ -207,9 +207,9 @@ function validate() {
 	<form action="${pageContext.request.contextPath }/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 		<div id="userId-container">
 		<input type="text" class="form-control" name="userId" id="userId_" placeholder="아이디" required maxlength="13"/>
-		<span class="guide ok userId">이 아이디는 사용가능합니다.</span>
-		<span class="guide error userId">이 아이디는 사용할 수 없습니다.</span>
-		<span class="guide length userId">아이디는 3글자 이상이여야 합니다.</span>
+		<span class="guide ok userId">사용가능합니다.</span>
+		<span class="guide error userId">이미 사용중입니다.</span>
+		<span class="guide length userId">3글자 이상이여야 합니다.</span>
 		<span class="guide char userId">대소문자, 숫자만 입력가능합니다.</span>
 		<input type="hidden" id="idDuplicateCheck" value="0"/>
 		</div>
