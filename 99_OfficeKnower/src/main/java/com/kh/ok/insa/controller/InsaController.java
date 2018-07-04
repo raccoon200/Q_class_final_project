@@ -70,8 +70,8 @@ public class InsaController {
 				list.get(i).setPosition("미기재");
 		}
 			
-//		System.out.println(list);
-//		System.out.println(yearList);
+		System.out.println(list);
+		System.out.println(yearList);
 		System.out.println(positionList);
 		
 		mav.addObject("list",list);
