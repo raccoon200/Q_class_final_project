@@ -267,10 +267,7 @@ $(function() {
 		</c:if>
 	</c:if> 
 	
-	
-	
 
-	
 	<div id="important-area">
 		
 		<img src="${pageContext.request.contextPath }/resources/images/common/important_none.png" id="important-none" alt="" />
@@ -285,7 +282,9 @@ $(function() {
 	<p id="writedate" class="sub"><%-- ${board.writeDate } --%> ${board.writeDate }</p>
 	<br /><br /><br />
 	<hr>
-	<p id="file" onclick="fileDownload('${board.original_file_name}', '${board.renamed_file_name }')">첨부파일  :  ${board.original_file_name }</p>
+	<c:if test="${fn:length(board.original_file_name) != 0  }">
+		<p id="file" onclick="fileDownload('${board.original_file_name}', '${board.renamed_file_name }')">첨부파일  :  ${board.original_file_name }</p>
+	</c:if>
 	<br clear="both"/>
 	<div id="board-content">
 		${board.content }

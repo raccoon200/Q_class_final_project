@@ -525,12 +525,23 @@ function validate() {
 <br />
 <script>
 function validate2() {
-	var str2 = $("#transaction").children(".transactionRow");
+	var str = '';
+	var length = document.getElementById("transaction").rows.length;
+	
+	var title_of_account = document.getElementById("transaction").rows[1].cells.item(0).innerHTML;
+	var transactionDate = document.getElementById("transaction").rows[1].cells.item(1).innerHTML;
+	var dept = document.getElementById("transaction").rows[1].cells.item(2).innerHTML;
+	var price = document.getElementById("transaction").rows[1].cells.item(3).innerHTML;
+	var connection = document.getElementById("transaction").rows[1].cells.item(4).innerHTML;
+	var summary = document.getElementById("transaction").rows[1].cells.item(5).innerHTML;
+	console.log("length : "+x);
+	var str2 = document.getElementById("transaction")[0].src("rows");
 	alert(str2);
 	console.log(str2);
 	return false;
 }
 </script>
+<input type="button" value="클릭" onclick="validate2()" />
 <div id="spendingDiv" class="insertDiv">
 	<form action="${pageContext.request.contextPath }/approvals/insertApprovalSpending" onsubmit="validate2()" id="spendingFrm">
 		<h6>상세 입력</h6>
