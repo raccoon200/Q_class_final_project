@@ -14,7 +14,8 @@
 <hr />
 <br />
 <strong>카테고리 목록</strong>
-<a href=""><span class="sms_plus"></span>추가하기</a>
+<a>
+<span class="sms_plus">추가하기</span></a>
 <br />
 <br />
 <table class="table">
