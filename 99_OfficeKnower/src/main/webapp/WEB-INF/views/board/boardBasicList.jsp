@@ -10,7 +10,7 @@
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="게시판" name="pageTitle"/>
 	<jsp:param value="${board_menu_title }" name="selectMenu"/>
-</jsp:include>	
+</jsp:include>	 
 	<!-- nav 끝 -->
 	<style>
 	table.table tr th{
