@@ -28,8 +28,8 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.selectList("board.selectBoardBasicList" , boardMenuNo, rowBounds);
 	}
 	@Override
-	public int selectBoardCount() {
-		return sqlSession.selectOne("board.selectBoardCount");
+	public int selectBoardCount(int board_menu_no) {
+		return sqlSession.selectOne("board.selectBoardCount", board_menu_no);
 	}
 	@Override
 	public int insertBasicBoard(Board board) {

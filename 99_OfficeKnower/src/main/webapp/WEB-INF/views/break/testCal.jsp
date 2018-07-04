@@ -129,13 +129,17 @@ function between(start,end){
 
         	  } //eventClick끝  
         	,select: function(startDate, endDate) {
-        	     alert('selected ' + startDate.format() + ' to ' + endDate.format());
+        	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
+        	     alert('selected ' + startDate.format() + ' to ' + (endDate-1).format());
         	      
-        
+        		 // enddateSolve(endDate);
+        	     
         	      between(startDate.format(),endDate.format());
         	      
         	      $("#startdate").val(startDate.format());
+        	     // $("#start").html(startDate.format()+ "~");
         	      $("#enddate").val(endDate.format());
+        	   //   $("#end").html(endDate.format());
         	      
             }
         	
@@ -144,12 +148,21 @@ function between(start,end){
         
     }); //ready 끝  
 </script>
+<script>
+/* enddateSolve(endDate){
+	var end = endDate
+	
+} */
+</script>
+
 
 <div id="calendar3">
 	<input type="hidden" name="startdate" id="startdate" />
 	<input type="hidden" name="enddate" id="enddate"/>
 </div>
 <br />	
+ <!-- 휴가 신청 : <span id="start"></span> <span id="end"></span> -->
+ <br />
  선택일 수  :<span id="selectedDay"></span>일
  <input type="hidden" name="breakdays" id="breakdays"/>
 

@@ -10,7 +10,7 @@
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="게시판" name="pageTitle"/>
 	<jsp:param value="${board_menu_title }" name="selectMenu"/>
-</jsp:include>	
+</jsp:include>	 
 	<!-- nav 끝 -->
 	<style>
 	table.table tr th{
@@ -64,7 +64,9 @@ try{
 }catch(NumberFormatException e) {
 	
 }
+int board_menu_no = Integer.parseInt(String.valueOf(request.getAttribute("currentMenuNo")));
+String board_menu_title= String.valueOf(request.getAttribute("board_menu_title"));
 %>
-<%=com.kh.ok.board.common.util.Utils.getPageBar(pageNum, cPage, numPerPage, "boardBasicList")%>
+<%=com.kh.ok.board.common.util.Utils.getPageBar(pageNum, cPage, numPerPage, "boardBasicList", board_menu_no, board_menu_title )%>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

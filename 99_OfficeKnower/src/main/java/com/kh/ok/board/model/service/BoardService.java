@@ -14,7 +14,7 @@ public interface BoardService {
 
 	List<Map<String, String>> selectBoardBasicList(int cPage, int numPerPage, int boardMenuNo);
 
-	int selectBoardCount();
+	int selectBoardCount(int board_menu_no);
 
 	int insertBasicBoard(Board board);
 

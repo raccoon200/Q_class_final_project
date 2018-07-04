@@ -92,7 +92,11 @@
 	border: 3px solid lightgray;
 	border-style: dotted;
 }
-
+#breakPull{
+	font-size: 20px;
+	font-weight: bolder;
+	color :  #6699FF;
+}
 
 </style>
 <script>
@@ -189,7 +193,7 @@ function fn_deleteChoice(){
 
 <!-- 기안하기 div -->
 <div>
-	<p onclick="fn_BreakRequestSubmit()">기안하기</p>
+	<p onclick="fn_BreakRequestSubmit()" id="breakPull">기안하기</p>
 </div>
 
 <!-- 제일 바깥 div -->

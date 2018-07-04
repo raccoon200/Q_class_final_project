@@ -70,7 +70,7 @@ public class BoardController {
 		List<Map<String, String>> list = boardService.selectBoardBasicList(cPage, numPerPage, board_menu_no);
 		BoardMenu boardMenu = boardService.selectBoardMenu(board_menu_no);
 
-		int pageNum = boardService.selectBoardCount();
+		int pageNum = boardService.selectBoardCount(board_menu_no);
 		mav.addObject("list", list);
 		mav.addObject("numPerPage", numPerPage);
 		mav.addObject("cPage", cPage);
