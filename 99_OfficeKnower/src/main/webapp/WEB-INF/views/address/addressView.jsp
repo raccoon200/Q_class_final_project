@@ -15,8 +15,6 @@
 	<jsp:param value="주소록" name="pageTitle"/>
 </jsp:include>
 
-
-
 	<style>
 	table.table tr th{
 		background:rgb(230,230,230);
@@ -29,7 +27,6 @@
 	<p style="font-size:2em; color:rgb(0,125,255);"> </p>
 	
 	<table class="table table-hover">
-
     <tr>
       <th scope="col">번호</th>
       <th scope="col">이름</th>
@@ -50,19 +47,6 @@
       <td>${addr.address}</td>
      </tr>
     </c:forEach>
-      
-<%--       <td>${board["TITLE"]}</td>
-      <td>${board["WRITER"]}</td>
-      <td><c:if test='${fn:length(board["RENAMED_FILE_NAME"])>0}' > <img src="${pageContext.request.contextPath}/resources/images/common/board_file_image.PNG" width="20px" alt="" /> </c:if></td>
-      <td>${board["WRITEDATE"]}</td>
-      <td>${board["COUNT"] }</td>
-      	<input type="text" value="${addr.name}"/> 
-      	
-      
-      	--%>
-  
-    
-
 
 </table>
 	
