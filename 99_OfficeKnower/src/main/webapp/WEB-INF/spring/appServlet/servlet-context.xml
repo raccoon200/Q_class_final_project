@@ -68,6 +68,8 @@
 			<exclude-mapping path="/member/checkIdDuplicate.do"/>
 			<exclude-mapping path="/resources/**"/>
 			<exclude-mapping path="/"/>
+			<exclude-mapping path="/member/checkComNameDuplicate.do"/>
+			<exclude-mapping path="/member/selectComSEQ.do"/>
 			<beans:bean id="loginCheckIntercepter" class="com.kh.ok.common.intercepter.LoginCheckIntercepter"/>
 		</interceptor>
 		<interceptor>
@@ -79,6 +81,7 @@
 			<exclude-mapping path="/resources/**"/>
 			<exclude-mapping path="/"/>
 			<exclude-mapping path="/member/memberLogout.do"/>
+			
 			<beans:bean id="companyCheckIntercepter" class="com.kh.ok.common.intercepter.CompanyCheckIntercepter"/>
 		</interceptor>
 	</interceptors> 

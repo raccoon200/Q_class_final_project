@@ -150,8 +150,9 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 		
 		//System.out.println("upFiles.length="+upFiles.length);
-		logger.debug("upFile1="+upFiles[0].getOriginalFilename());
-		logger.debug("upFile2="+upFiles[1].getOriginalFilename());
+		/*logger.debug("upFile1="+upFiles[0].getOriginalFilename());
+		logger.debug("upFile2="+upFiles[1].getOriginalFilename());*/
+		
 		
 		try {
 		
@@ -165,27 +166,11 @@ public class MemberController {
 			String ext = null;
 			SimpleDateFormat sdf = null;
 			String renamedFileName = null;
-			for(MultipartFile f: upFiles) {
-				if(!f.isEmpty()) {
-					//파일명 재생성
-					originalFileName = f.getOriginalFilename();
-					ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
-					sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
-					int rndNum = (int)(Math.random()*1000);
-					renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+
-											"_"+rndNum+"."+ext;
-					try {
-						f.transferTo(new File(saveDirectory+"/"+renamedFileName));
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					
-				}
-			}
-			
-			MultipartFile pf = upFiles[0];
+			MultipartFile pf = null;
+			if(null==member.getPhoto()) {
+				member.setPhoto("default.jpg");
+			} else{
+			pf = upFiles[0];
 			if(!pf.isEmpty()) {
 				originalFileName = pf.getOriginalFilename();
 				ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
@@ -194,8 +179,13 @@ public class MemberController {
 				renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+
 										"_"+rndNum+"."+ext;
 				member.setPhoto(renamedFileName);
+				
+				pf.transferTo(new File(saveDirectory+"/"+renamedFileName));
 			}
-			
+			}
+			if(null==member.getSign()) {
+				member.setSign("default.jpg");
+			} else{
 			pf = upFiles[1];
 			if(!pf.isEmpty()) {
 				originalFileName = pf.getOriginalFilename();
@@ -205,6 +195,8 @@ public class MemberController {
 				renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+
 										"_"+rndNum+"."+ext;
 				member.setSign(renamedFileName);
+				pf.transferTo(new File(saveDirectory+"/"+renamedFileName));
+			}
 			}
 			//System.out.println(member);
 			//****** MultipartFile을 이용한 파일 업로드 처리로직 끝 ******//*
