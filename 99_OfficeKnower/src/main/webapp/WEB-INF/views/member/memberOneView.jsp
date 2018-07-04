@@ -18,8 +18,9 @@
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <%
 	
-	String[] add = null; 
-	if(((Member)request.getAttribute("member")).getAddress() !=null)
+	String[] add = null;
+	Member mem = ((Member)request.getAttribute("member"));
+	if(mem.getAddress() !=null)
 		add = (((Member)request.getAttribute("member")).getAddress()).split(",");
 %>
 <style>
@@ -165,8 +166,8 @@
 					<td>
 	                     <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
 	                     <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-	                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add!=null?add[1]:"" %>"> 
-	                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add!=null?add[2]:"" %>">
+	                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add[1]!=null?add[1]:"" %>"> 
+	                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add[2]!=null?add[2]:"" %>">
 	                     <input type="hidden" name="address" id="address" value="" />
 	                     <span id="guide" style="color: #999"></span>
 				</td>
