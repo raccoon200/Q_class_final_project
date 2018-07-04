@@ -663,14 +663,21 @@ function buttonInsert(){
 	var yyyy = today.getFullYear();
 	
 	
-	console.log(today);
+	console.log("today=" + today);
 	var TODAY="";
 	if(mm<10){
-		TODAY = yyyy+"-0"+mm+"-"+dd;
+		if(dd<10){
+		TODAY = yyyy+"-0"+mm+"-0"+dd;
+		}else{
+			TODAY = yyyy+"-0"+mm+"-"+dd;
+		}
 	}else{
 		
 	 	TODAY = yyyy+"-"+mm+"-"+dd;
 	}
+	
+	
+	
 	console.log(TODAY);
 	
 	
