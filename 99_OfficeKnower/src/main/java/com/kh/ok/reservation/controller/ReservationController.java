@@ -2,6 +2,7 @@ package com.kh.ok.reservation.controller;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ import com.kh.ok.reservation.model.vo.Resources;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@SessionAttributes({"resources"})
+@SessionAttributes({"resources", "category"})
 @Controller
 public class ReservationController {
 	
@@ -298,6 +299,25 @@ public class ReservationController {
 		List<Map<String, String>> list = reservationService.reservationCategoryListCnt(member.getCom_no());
 		System.out.println(list);
 		mav.addObject("categoryListCnt" ,list);
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationCategoryAdd")
+	public ModelAndView reservationCategoryAdd(HttpServletRequest request, @RequestParam String category, @RequestParam(value="category_purpose", defaultValue = "미기재") String category_purpose) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		Member member = (Member)session.getAttribute("memberLoggedIn");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("category", category);
+		map.put("category_purpose", category_purpose);
+		map.put("com_no", member.getCom_no());
+		int result = reservationService.reservationCategoryAdd(map);
+		String msg = result>0?"추가 성공":"추가 실패";
+		String loc = "/reservation/reservationCategoryManagement";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
 		return mav;
 	}
 }

@@ -126,4 +126,24 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.insaJobUpdate(map);
 	}
 
+	@Override
+	public List<Member> insaMemberList(String com_no) {
+		return insaDAO.insaMemberList(com_no);
+	}
+
+	@Override
+	public int insaMemberJobUpdate(Map<String, String> map) {
+		return insaDAO.insaMemberJobUpdate(map);
+	}
+
+	@Override
+	public List<Map<String, String>> insaselectAdmin(Member member) {
+		return insaDAO.insaselectAdmin(member);
+	}
+
+	@Override
+	public int insaadminInsert(Member m) {
+		return insaDAO.insaadminInsert(m);
+	}
+
 }

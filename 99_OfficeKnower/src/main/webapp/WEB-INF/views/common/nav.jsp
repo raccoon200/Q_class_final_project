@@ -252,7 +252,7 @@
 								<a href="${pageContext.request.contextPath}/insa/positionManagement.do">직위/직무 관리</a><br />
 							</li>							
 							<li>
-								<a href="#">인사관리자</a><br />
+								<a href="${pageContext.request.contextPath }/insa/insaManagement.do">인사관리자</a><br />
 							</li>
 						</ul>
 					</li>
