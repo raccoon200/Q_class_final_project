@@ -5,7 +5,7 @@
 		select * from board where board_menu_no=#{boardMenuNo} and status='Y' order by board_no
 	</select>
 	<select id="selectBoardCount" resultType="_int">
-		select count(*) from board where status='Y'
+		select count(*) from board where status='Y' and board_menu_no=#{board_menu_no}
 	</select>
 	<insert id="insertBasicBoard">
 		insert into board values(seq_board_no.nextval, #{board_menu_no}, #{title}, sysdate, #{content}, #{writer}, 'Y', #{original_file_name}, #{renamed_file_name}, 0)
