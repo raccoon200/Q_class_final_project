@@ -21,9 +21,11 @@
 			   
 	</insert>
 	 -->
-	  <select id="addressView" parameterType="string"  resultType="com.kh.ok.address.model.vo.Address">
+	  <select id="addressView"  resultType="com.kh.ok.address.model.vo.Address">
 		    SELECT * FROM tbl_address
 	   </select> 
+	   
+	   
 	   
 	   <insert id="InsertAddress">
 	   		insert into tbl_address

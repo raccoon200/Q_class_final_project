@@ -36,7 +36,6 @@ public class AddressController {
 	@RequestMapping("/address/addressView.do")
 	public ModelAndView addressView(){
 		
-		
 		ModelAndView mav = new ModelAndView();
 		List<Address> list = addressService.addressView();
 		logger.info(list.toString());
@@ -116,7 +115,7 @@ public class AddressController {
 	      String userId = null;
 	      String comId = null;
 	      if(session != null && session.getAttribute("memberLoggedIn") != null) {
-	        /*  userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();   */
+	          userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();   
 	          comId = ((Member)session.getAttribute("memberLoggedIn")).getCom_no();
 	      }
 	  

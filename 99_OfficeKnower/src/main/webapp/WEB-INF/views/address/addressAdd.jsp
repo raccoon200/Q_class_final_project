@@ -17,13 +17,15 @@
 
 <script type="text/javascript">
 
-
-var addr_personal = $('input:radio[name=P]').is(':checked');
+  $('input:radio[name=addr_type]:input[value=addr_personal]').attr("checked", true);
+  $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
+  
+/* var addr_personal = $('input:radio[name=P]').is(':checked');
 var addr_share = $('input:radio[name=S]').is(':checked');
 console.log("addr_personal="+addr_personal);
 console.log("addr_share="+addr_share);
 
- radio : function(){
+ function(){
 	if(window.location.pathname.indexOf("personal") !== -1){
 		window.location = Common.getRoot() + "address/personal";
 	}else if(window.location.pathname.indexOf("shared") !== -1){
@@ -31,16 +33,16 @@ console.log("addr_share="+addr_share);
 	}else{
 		window.location = Common.getRoot() + "address/trash";
 	}
-}
-
+} */
 </script>
 
 <body>
 	<form action="InsertAddress.do" method="post">
-		<div class="addrtype">
-				<label><input type="radio" name="type" value='P'> 개인 주소록</label>
-				<label><input type="radio" name="type" value='S'> 공유 주소록</label>
-		</div>
+<!-- 		<div class="addrtype">
+			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
+			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
+	<!-- 		<input type="button" value="Radio Value" onClick="();"> -->
+
 		
 		<table>
 			<tr>
@@ -66,7 +68,6 @@ console.log("addr_share="+addr_share);
 			<tr>
 				<td>
 					회사 : <input type="text" name="company" id="company" />
-					
 				</td>
 			</tr>
 			<tr>
@@ -87,8 +88,7 @@ console.log("addr_share="+addr_share);
 			</tr>
 			<tr>
 				<td>
-					<input type="button" onclick value="저장"  />
-					<input type ="submit" value = "저장 후 계속 추가 "/><br>
+					<input type="submit" value="저장"  />
 				</td>
 			</tr>
 	

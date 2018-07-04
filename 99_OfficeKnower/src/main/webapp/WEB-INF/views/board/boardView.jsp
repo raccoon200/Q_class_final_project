@@ -10,8 +10,6 @@
 	<jsp:param value="게시판" name="pageTitle"/>
 </jsp:include>
 
-
-
 <script>
 $(function() {
 	<c:if test="${board.bookmark eq 'N'}">
