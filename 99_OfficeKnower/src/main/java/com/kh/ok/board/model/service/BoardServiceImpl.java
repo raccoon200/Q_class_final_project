@@ -26,8 +26,8 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.selectBoardBasicList(cPage, numPerPage, boardMenuNo);
 	}
 	@Override
-	public int selectBoardCount() {
-		return boardDAO.selectBoardCount();
+	public int selectBoardCount(int board_menu_no) {
+		return boardDAO.selectBoardCount(board_menu_no);
 	}
 	@Override
 	public int insertBasicBoard(Board board) {

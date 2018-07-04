@@ -2,7 +2,7 @@ package com.kh.ok.board.common.util;
 
 public class Utils {
 	
-	public static String getPageBar(int totalContents, int cPage, int numPerPage, String url ){
+	public static String getPageBar(int totalContents, int cPage, int numPerPage, String url, int board_menu_no, String board_menu_title){
 		String pageBar = "";
 		int pageBarSize = 5;
 		cPage = cPage==0?1:cPage;
@@ -63,7 +63,7 @@ public class Utils {
 		//fn_paging함수
 		pageBar += "<script>";
 		pageBar += "function fn_paging(cPage,numPerPage){";
-		pageBar += "location.href='"+url+"?cPage='+cPage;";
+		pageBar += "location.href='"+url+"?boardMenuNo="+board_menu_no+"&title="+board_menu_title+"&cPage='+cPage;";
 		pageBar += "}";
 		pageBar += "</script>";
 		
