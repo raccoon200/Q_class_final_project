@@ -167,11 +167,12 @@ public class MemberController {
 			SimpleDateFormat sdf = null;
 			String renamedFileName = null;
 			MultipartFile pf = null;
-			if(null==member.getPhoto()) {
-				member.setPhoto("default.jpg");
-			} else{
+			System.out.println("왜?"+member.getPhoto());
+				
+			
 			pf = upFiles[0];
-			if(!pf.isEmpty()) {
+			if(pf.isEmpty()) member.setPhoto("default.jpg");
+			else {
 				originalFileName = pf.getOriginalFilename();
 				ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
 				sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
@@ -182,12 +183,10 @@ public class MemberController {
 				
 				pf.transferTo(new File(saveDirectory+"/"+renamedFileName));
 			}
-			}
-			if(null==member.getSign()) {
-				member.setSign("default.jpg");
-			} else{
+			
 			pf = upFiles[1];
-			if(!pf.isEmpty()) {
+			if(pf.isEmpty()) member.setSign("default.jpg");
+			else{
 				originalFileName = pf.getOriginalFilename();
 				ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
 				sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
@@ -197,7 +196,7 @@ public class MemberController {
 				member.setSign(renamedFileName);
 				pf.transferTo(new File(saveDirectory+"/"+renamedFileName));
 			}
-			}
+			
 			//System.out.println(member);
 			//****** MultipartFile을 이용한 파일 업로드 처리로직 끝 ******//*
 			
