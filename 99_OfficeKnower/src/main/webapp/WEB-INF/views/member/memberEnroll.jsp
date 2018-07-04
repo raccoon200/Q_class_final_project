@@ -115,17 +115,14 @@ $(function() {
 	
 	$("#comName").on("focusout", function(key) {
       var comName = $(this).val().trim();
-      	if(comName==$("#comNamePre").val()) {	
+      	if(comName==$("#comNamePre").val()&&$("#comNameDuplicateCheck").val()==1) {	
       		$(".guide.ok.comName").show();
    		    $(".guide.error.comName").hide();
    		    return;
       	} else {
       		$("#comNamePre").val(comName);
       	}
-      	if($("#comNameDuplicateCheck").val()==0) {
-   		    $(".guide.error.comName").show();
-      		$(".guide.ok.comName").hide();
-      	}
+      	
       console.log(comName);
       //if(key.keyCode==13) {
       if(comName=='') {
