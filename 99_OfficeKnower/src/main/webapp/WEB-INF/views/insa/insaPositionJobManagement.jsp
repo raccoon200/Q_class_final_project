@@ -40,10 +40,24 @@ span.error{color: red;}
 </style>
 <script>
 $(function(){
-	$(".insaPositionDelete").on("click",function(){
-		
+	$("#selectjob").on("change",function(){
+		<c:forEach items="${list}" var="m">
+			if("${m.job}" == $(this).val()){
+				console.log("$('#selectjob').val() =" + $('#selectjob').val());
+				$(".deleteUpdateJob").hide();
+				$(".insaJobDeleteUpdate").show();
+				var html = "<select name='updatejob' id='deleteupdatejob' class='custom-select deleteUpdateJob' style='width: 150px;'>";
+				html += "<option value='변경 직무' disabled selected>변경 직무</option>";
+				html += "<c:forEach var='j' items='${jlist}'>";
+				html += "if($('#selectjob').val() == '${j.job}'){";
+				html += "<option class='positionOption'value='${j.job}'>${j.job}</option>}</c:forEach></select>";
+				$("#insaJobDeleteUpdateSelect").append(html);
+				return false;			
+			}else{
+				$(".insaJobDeleteUpdate").hide();
+			}
+		</c:forEach>
 	});
-	
 	
 	$("#insa_position_update").on("keyup",function(){
 		var oldPosition = $("#insa_position_select").val();
@@ -130,6 +144,9 @@ function fn_jobUpdate(){
 }
 /* job +직무삭제 */
 function fn_jobDelete(){
+	$("#selectjob").val("삭제 직무");
+	$("#deleteupdatejob").val("변경 직무");
+	$(".insaJobDeleteUpdate").hide();
 	$("#jobDelete").modal();
 }
 /* job 저장 버튼 */
@@ -445,16 +462,39 @@ function fn_btninsaDelte() {
 						<tr>
 							<td style=" text-align: center;">
 								<select name="selectjob" id="selectjob" class="custom-select" style="width: 150px;">
-									<option value="삭제 직무" disabled>삭제 직무</option>
+									<option value="삭제 직무" disabled selected>삭제 직무</option>
 									<c:forEach var="j" items="${jlist}">
 										<c:if test="true">
-											<option class="positionOption"value="${j.job}">${j.job}</option>
+											<option class="positionOption" value="${j.job}">${j.job}</option>
 										</c:if>
 									</c:forEach>
 								</select>
 								<input type="hidden" name="com_no" id="insacom_no" value="${member.com_no}"/>
 								<input type="hidden" name="job" id="insa_job_delete" value=""/>
 							</td>
+						</tr>
+						<tr class="insaJobDeleteUpdate" style="display: none;">
+							<td>기존 멤버에 해당하는 직무를 변경해주세요.</td>
+						</tr>	
+						<tr class="insaJobDeleteUpdate" style="display: none;">
+							<th colspan="2"><span id="titleJobTitile"></span>&nbsp;변경 직무</th>
+						</tr>
+						<tr>
+							<td class="insaJobDeleteUpdate" style="display: none; text-align: center;">
+								<div id="insaJobDeleteUpdateSelect">
+								
+								</div>
+							</td>
+<%-- 							<td class="insaJobDeleteUpdate" style="display: none; text-align: center;" id="insaJobDeleteUpdateSelect">
+								<select name="updatejob" id="deleteupdatejob" class="custom-select" style="width: 150px;">
+									<option value="변경 직무" disabled selected>변경 직무</option>
+									<c:forEach var="j" items="${jlist}">
+										<c:if test="true">
+											<option class="positionOption"value="${j.job}">${j.job}</option>
+										</c:if>
+									</c:forEach>
+								</select>
+							</td> --%>
 						</tr>
 					</table>
 				</div>
