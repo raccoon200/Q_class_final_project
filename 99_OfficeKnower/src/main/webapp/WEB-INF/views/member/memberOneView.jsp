@@ -191,8 +191,8 @@
 function fn_addressSum(){
 	if($("#sample4_postcode").val().trim().length != 0)
 	var add1 = $("#sample4_postcode").val() 
-			+","+ $("#sample4_roadAddress").val()
-			+","+ $("#sample4_jibunAddress").val();
+			+", "+ $("#sample4_roadAddress").val()
+			+", "+ $("#sample4_jibunAddress").val();
 	$("#address").val(add1);
 }
 </script>
