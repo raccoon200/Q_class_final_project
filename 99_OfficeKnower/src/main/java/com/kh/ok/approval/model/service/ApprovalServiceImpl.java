@@ -134,5 +134,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public List<Map<String, String>> selectDeptList(String com_no) {
 		return approvalDAO.selectDeptList(com_no);
 	}
+	@Override
+	public List<Map<String, String>> selectApprovalDataList(String com_no) {
+		return approvalDAO.selectApprovalDataList(com_no);
+	}
 	
 }

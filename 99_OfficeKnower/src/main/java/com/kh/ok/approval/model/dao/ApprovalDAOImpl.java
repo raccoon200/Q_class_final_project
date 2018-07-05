@@ -167,4 +167,9 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.selectList("approval.selectDeptList", com_no);
 	}
 
+	@Override
+	public List<Map<String, String>> selectApprovalDataList(String com_no) {
+		return sqlSession.selectList("approval.selectApprovalDataList",com_no);
+	}
+
 }

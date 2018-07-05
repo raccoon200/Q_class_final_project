@@ -10,7 +10,10 @@
 	<jsp:param value="전자결재" name="pageTitle" />
 </jsp:include>
 <style>
-
+#sumIn{
+	color:rgb(150,150,150);
+	padding-left:45%;
+}
 span.icon-plus {
 	position: absolute;
 	top: 10px;
@@ -22,24 +25,24 @@ span.icon-plus {
 	cursor:pointer;
 	color:rgb(100,150,200);
 }
-#transaction{
+.transaction{
 	border:1px solid rgb(200,200,200);
 	width:80%;
 	padding :5px;
 }
-#transaction tr th{
+.transaction tr th{
 	background:rgb(190,229,235);
 	border:1px solid rgb(220,220,220);
 }
-#transaction tr td{
+.transaction tr td{
 	border:1px solid rgb(220,220,220);
 }
-#transactionAdd {
+.transactionAdd {
 	margin:0 auto;
 	border-top:1px solid rgb(200,200,200);
 	border-bottom:1px solid rgb(200,200,200);
 }
-#transactionAdd tr th{
+.transactionAdd tr th{
 	background:rgb(240,240,240);
 	width:100px;
 	padding:10px;
@@ -47,7 +50,7 @@ span.icon-plus {
 	border-top:1px solid rgb(220,220,220);
 	border-bottom:1px solid rgb(220,220,220);
 }
-#transactionAdd tr td{
+.transactionAdd tr td{
 	width:200px;
 	padding:10px;
 	border-top:1px solid rgb(220,220,220);
@@ -525,30 +528,50 @@ function validate() {
 <br />
 <script>
 function validate2() {
-	var str = '';
-	var length = document.getElementById("transaction").rows.length;
-	for(var i=1; i<length; i++) {
-		var title_of_account = document.getElementById("transaction").rows[i].cells.item(0).innerHTML;
-		var transactionDate = document.getElementById("transaction").rows[i].cells.item(1).innerHTML;
-		var dept = document.getElementById("transaction").rows[i].cells.item(2).innerHTML;
-		var price = document.getElementById("transaction").rows[i].cells.item(3).innerHTML;
-		var connection = document.getElementById("transaction").rows[i].cells.item(4).innerHTML;
-		var summary = document.getElementById("transaction").rows[i].cells.item(5).innerHTML;
-		if(i==1) {
-			str += "[";
-		}else {
-			str += ",[";
-		}
-		str += "[title_of_account:"+title_of_account+"]";
-		str += ",[transactionDate:"+transactionDate+"]";
-		str += ",[dept:"+dept+"]";
-		str += ",[price:"+price+"]";
-		str += ",[connection:"+connection+"]";
-		str += ",[summary:"+summary+"]";
-		str += "]";
+	if(document.getElementById("account_no").value==""){
+		alert("지출자를 확인해주세요");
 	}
-	$("[name=transaction]").attr("value",str);
-	return false;
+	else if(document.getElementById("transaction").rows.length==1) {
+		alert("거래내역을 입력해주세요");
+	}else {
+		var str = '';
+		var length = document.getElementById("transaction").rows.length;
+		if(length>1){
+			str += "[";
+		}
+		for(var i=1; i<length; i++) {
+			var title_of_account = document.getElementById("transaction").rows[i].cells.item(0).innerHTML;
+			var transactionDate = document.getElementById("transaction").rows[i].cells.item(1).innerHTML;
+			var dept = document.getElementById("transaction").rows[i].cells.item(2).innerHTML;
+			var price = document.getElementById("transaction").rows[i].cells.item(3).innerHTML;
+			var connection = document.getElementById("transaction").rows[i].cells.item(4).innerHTML;
+			var summary = document.getElementById("transaction").rows[i].cells.item(5).innerHTML;
+			var month = document.getElementsByName("month");
+			var year = document.getElementsByName("year");
+	
+	
+			if(i==1) {
+				str += "{";
+			}else {
+				str += ",{";
+			}
+			str += '"title_of_account":"'+title_of_account+'"';
+			str += ',"transactionDate":"'+transactionDate+'"';
+			str += ',"dept":"'+dept+'"';
+			str += ',"price":"'+price+'"';
+			str += ',"connection":"'+connection+'"';
+			str += ',"summary":"'+summary+'"';
+			str += ',"month":"'+month[0].value+'"';
+			str += ',"year":"'+year[0].value+'"';
+			str += "}";
+			
+		}
+		if(length>1) {
+		str += "]";
+		}
+		$("[name=transaction]").attr("value",str);
+		return false;
+	}
 }
 </script>
 <input type="button" value="클릭" onclick="validate2()" />
@@ -560,15 +583,14 @@ function validate2() {
 			style="width: 85%; display: inline-block; float: right;" /> <br
 			clear="right" /> <br />
 		<input type="hidden" name="transaction" value="" />
-		<input type="hidden" name="approvals" value=""/>
-		<input type="hidden" name="writer" value="${memberLoggedIn.userId }" />
+		<input type="hidden" name="approvals" value="${memberLoggedIn.userId }"/>
 	<%-- 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" /> --%>
 		<table class="table table-bordered">
 			<tbody>
 				<tr>
 					<th class="table-info" style="width: 110px; text-align: center;">회계기준월</th>
 					<td><select name="year" id="" class="custom-select"
-						style="width: 20%;">
+						style="width: 20%;" >
 							<option selected value='${year}'>${year}</option>
 							<option value="${year_1}">${year_1}</option>
 							<option value="${year_2}">${year_2}</option>
@@ -610,7 +632,7 @@ function validate2() {
 		</table>
 		
 		<h6>거래 내역 &nbsp; <span style="color:rgb(119, 158, 196); cursor:pointer;" id="transactionAdd" onclick="fn_addTransactionHistory()">추가</span></h6>
-		<table id="transaction">
+		<table id="transaction" class="transaction">
 			<tr>
 				<th>계정 과목</th>
 				<th>지출일자</th>
@@ -622,17 +644,17 @@ function validate2() {
 			</tr>
 			
 		</table>
+		<table id="sum" class="transaction">
+			<tr>
+				<td id="sumIn" >총 <span id="sumValue" value="0">0</span>원</td>
+			</tr>
+		</table>
 		<script>
-	
 		function fn_addTransactionHistory(){
 			if(document.getElementById("account_no").value==""){
 				alert("지출자를 확인해주세요");
 			}else {
-				$(document).ready(function() {
-					$("#transactionAdd").click(function() {
-						$("#transactionHistory").modal();
-					})
-				})
+				$("#transactionHistory").modal();
 			} 
 		}
 		</script>
@@ -644,7 +666,7 @@ function validate2() {
 	<form action="${pageContext.request.contextPath }/approvals/insertApprovalExtra" onsubmit="validate()">
 		<h6>상세 입력</h6>
 		<hr />
- 		<input type="hidden" name="approvals" value=""/> 
+ 		<input type="hidden" name="approvals" value="${memberLoggedIn.userId }"/> 
 		<input type="hidden" name="approval_status" value="" />
 		<input type="hidden" name="writer" value="${memberLoggedIn.userId }" />
 		<input type="hidden" name="content" />
@@ -768,7 +790,7 @@ function validate2() {
 		      </div>
 
 		      <div class="modal-body">
-		        <table id="transactionAdd">
+		        <table id="transactionAdd" class="transaction">
 		        	<tr>
 		        		<th>계정과목</th>
 		        		<td>
@@ -881,15 +903,25 @@ function validate2() {
 					str += '<td><span class="transactionDelete" value="'+ids+'">삭제</span></td>';
 					$("#transaction").append(str);
 					
-					$("#modalForm").click(function() {
+					
 						$("#transactionHistory").modal('hide'); 
-					})
+					var priceNum2 = document.getElementsByName("price")[0].value;
+					var arr = priceNum2.split(',');
+					var priceNum ='';
+					for(var i=0; i<arr.length; i++){
+						priceNum += arr[i];
+					}
+					var priceNumber = Number(priceNum);
 					document.getElementsByName("transactionDate")[0].value="";
 					document.getElementsByName("title_of_account")[0].value="";
 					document.getElementsByName("dept")[0].value="";
 					document.getElementsByName("connection")[0].value="";
 					document.getElementsByName("summary")[0].value="";
 					document.getElementsByName("price")[0].value="";
+					var sumB = $("#sumValue").attr("value");
+					var sumPrice = Number(sumB)+priceNum;
+					$("#sumValue").text(sumPrice);
+					$("#sumValue").attr("value",sumPrice);
 			}
 			$(function() {
 				$(document).on('click','.transactionDelete',function(){

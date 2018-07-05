@@ -69,4 +69,6 @@ public interface ApprovalDAO {
 
 	List<Map<String, String>> selectDeptList(String com_no);
 
+	List<Map<String, String>> selectApprovalDataList(String com_no);
+
 }
