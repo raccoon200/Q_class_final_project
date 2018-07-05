@@ -595,14 +595,14 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/approvals/insertApprovalSpending")
-	public ModelAndView insertApprovalSpending(@RequestParam(value="approvals") String approvals, @RequestParam(value="writer") String writer, 
+	public ModelAndView insertApprovalSpending(@RequestParam(value="approvals") String approvals, 
 			@RequestParam(value="title") String title, @RequestParam(value="year") int year, @RequestParam(value="month") int month,
 			@RequestParam(value="bankName") String bankName, @RequestParam(value="account_no") String account_no, @RequestParam(value="userId") String userId, @RequestParam(value="transaction") String transaction, HttpSession session) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no("지결-");
-		approval.setWriter(writer);
-		approval.setStatus("대기");
+		approval.setWriter(userId);
+		approval.setStatus("결재 중");
 		approval.setTitle(title);
 		
 		Member m = (Member)session.getAttribute("memberLoggedIn");
@@ -632,8 +632,6 @@ public class ApprovalController {
 		jsonStr = mapper.writeValueAsString(contents);
 		
 		approval.setContent(jsonStr);
-		System.out.println("** jsonStr : "+jsonStr);
-		System.out.println("** approval : "+approval);
 		int result = approvalService.approvalInsert(approval);
 		
 		String loc = "/";
@@ -641,7 +639,7 @@ public class ApprovalController {
 
 		if (result > 0) {
 			msg = "결재 등록 성공";
-			loc = "/";
+			loc = "/approval/admin/approvalDataList";
 		} else
 			msg = "결재 등록 실패";
 		mav.addObject("msg", msg);
@@ -650,5 +648,25 @@ public class ApprovalController {
 	
 		return mav;
 	}
+	@RequestMapping("/approval/admin/approvalDataList")
+	public ModelAndView approvalDataList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage,HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		// numPerPage 선언
+		int numPerPage = 5;
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		List<Map<String, String>> approvalDataList = approvalService.selectApprovalDataList(cPage, numPerPage,m.getCom_no());
+		for(int i=0; i<approvalDataList.size(); i++) {
+			String str = approvalDataList.get(i).get("CONTENT");
+			approvalDataList.get(i).replace("CONTENT", str);
+		}
+		
+		int pageNum = approvalService.approvalDataListCount(m.getCom_no());
 
+		mav.addObject("numPerPage", numPerPage);
+		mav.addObject("cPage", cPage);
+		mav.addObject("pageNum", pageNum);
+		
+		mav.addObject("approvalDataList", approvalDataList);
+		return mav;
+	}
 }

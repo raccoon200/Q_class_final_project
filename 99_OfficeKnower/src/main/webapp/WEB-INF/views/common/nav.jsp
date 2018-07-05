@@ -106,7 +106,7 @@
 								<a href="${pageContext.request.contextPath }/office/approval/code.do">코드 관리</a><br />
 							</li>
 							<li>
-								<a href="#">데이터 조회</a><br />
+								<a href="${pageContext.request.contextPath }/approval/admin/approvalDataList">데이터 조회</a><br />
 							</li>
 						</ul>
 					</li>
