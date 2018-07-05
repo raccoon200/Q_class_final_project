@@ -55,5 +55,9 @@ public interface ReservationService {
 	List<Map<String, String>> reservationCategoryListCnt(String com_no);
 
 	int reservationCategoryAdd(HashMap<String, String> map);
+
+	int reservationCategoryUpdate(HashMap<String, String> map);
+
+	int reservationCategoryDelete(HashMap<String, String> map);
 	
 }

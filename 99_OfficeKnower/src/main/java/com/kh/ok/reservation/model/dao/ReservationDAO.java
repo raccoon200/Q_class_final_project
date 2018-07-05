@@ -56,4 +56,8 @@ public interface ReservationDAO {
 
 	int reservationCategoryAdd(HashMap<String, String> map);
 
+	int reservationCategoryUpdate(HashMap<String, String> map);
+
+	int reservationCategoryDelete(HashMap<String, String> map);
+
 }

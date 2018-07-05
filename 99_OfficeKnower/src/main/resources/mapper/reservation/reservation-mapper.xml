@@ -83,4 +83,12 @@
 	<insert id="reservationCategoryAdd">
 		insert into tbl_category values (#{com_no}, #{category}, #{category_purpose})
 	</insert>
+	
+	<update id="reservationCategoryUpdate">
+		update tbl_category set category = #{category}, category_purpose = #{category_purpose} where category = #{category_origin} 
+	</update>
+	
+	<delete id="reservationCategoryDelete">
+		delete from tbl_category where com_no = #{com_no} and category = #{category} 
+	</delete> 
 </mapper>

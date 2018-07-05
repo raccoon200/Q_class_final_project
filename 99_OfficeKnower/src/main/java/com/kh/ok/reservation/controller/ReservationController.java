@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.ok.member.model.service.MemberService;
 import com.kh.ok.member.model.vo.Member;
 import com.kh.ok.reservation.model.service.ReservationService;
 import com.kh.ok.reservation.model.vo.Reservation;
@@ -303,7 +304,7 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/reservation/reservationCategoryAdd")
-	public ModelAndView reservationCategoryAdd(HttpServletRequest request, @RequestParam String category, @RequestParam(value="category_purpose", defaultValue = "미기재") String category_purpose) {
+	public ModelAndView reservationCategoryAdd(HttpServletRequest request, @RequestParam(value="category") String category, @RequestParam(value="category_purpose", defaultValue = "미기재") String category_purpose) {
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession(false);
 		Member member = (Member)session.getAttribute("memberLoggedIn");
@@ -319,5 +320,40 @@ public class ReservationController {
 		mav.addObject("loc", loc);
 		mav.setViewName("common/msg");
 		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationCategoryUpdate") 
+	public ModelAndView reservationCategoryUpdate(@RequestParam String category, @RequestParam(value="category_purpose", defaultValue = "미기재") String category_purpose, @RequestParam String category_origin){
+		ModelAndView mav = new ModelAndView();
+		HashMap<String, String> map = new HashMap<>();
+		map.put("category", category);
+		map.put("category_purpose", category_purpose);
+		map.put("category_origin", category_origin);
+		int result = reservationService.reservationCategoryUpdate(map);
+		
+		String msg = result>0?"수정 성공":"수정 실패";
+		String loc = "/reservation/reservationCategoryManagement";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationCategoryDelete")
+	@ResponseBody
+	public JSONObject reservationCategoryDelete(@RequestParam String category, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		HashMap<String, String> map = new HashMap<>();
+		map.put("com_no", m.getCom_no());
+		map.put("category", category);
+		int result = reservationService.reservationCategoryDelete(map);
+		String msg = result>0?"삭제 성공":"삭제 실패";
+		String loc = "/reservation/reservationCategoryManagement";
+		JSONObject json = new JSONObject();
+		json.put("msg", msg);
+		json.put("loc", loc);
+		return json;
 	}
 }

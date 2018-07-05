@@ -135,5 +135,14 @@ public class ReservationDAOImpl implements ReservationDAO {
 	public int reservationCategoryAdd(HashMap<String, String> map) {
 		return sqlsession.insert("reservation.reservationCategoryAdd", map);
 	}
-	
+
+	@Override
+	public int reservationCategoryUpdate(HashMap<String, String> map) {
+		return sqlsession.update("reservation.reservationCategoryUpdate", map);
+	}
+
+	@Override
+	public int reservationCategoryDelete(HashMap<String, String> map) {
+		return sqlsession.delete("reservation.reservationCategoryDelete", map);
+	}
 }

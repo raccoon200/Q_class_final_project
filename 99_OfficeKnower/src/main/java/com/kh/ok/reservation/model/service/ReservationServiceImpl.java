@@ -1,6 +1,7 @@
 package com.kh.ok.reservation.model.service;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -129,6 +130,16 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public int reservationCategoryAdd(HashMap<String, String> map) {
 		return reservationDAO.reservationCategoryAdd(map);
+	}
+
+	@Override
+	public int reservationCategoryUpdate(HashMap<String, String> map) {
+		return reservationDAO.reservationCategoryUpdate(map);
+	}
+
+	@Override
+	public int reservationCategoryDelete(HashMap<String, String> map) {
+		return reservationDAO.reservationCategoryDelete(map);
 	}
 
 }
