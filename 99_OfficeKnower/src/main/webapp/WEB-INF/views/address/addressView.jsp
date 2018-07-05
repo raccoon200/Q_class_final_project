@@ -15,8 +15,6 @@
 	<jsp:param value="주소록" name="pageTitle"/>
 </jsp:include>
 
-
-
 	<style>
 	table.table tr th{
 		background:rgb(230,230,230);
@@ -29,7 +27,6 @@
 	<p style="font-size:2em; color:rgb(0,125,255);"> </p>
 	
 	<table class="table table-hover">
-
     <tr>
       <th scope="col">번호</th>
       <th scope="col">이름</th>
@@ -37,9 +34,10 @@
       <th scope="col">전화번호</th>
       <th scope="col">회사명</th>
       <th scope="col">주소</th>
+      <th scope="col">삭제</th>
      
     </tr>
-<%-- 	<c:if test="${not empty list }"> --%>
+
 	<c:forEach var="addr" items="${address}" varStatus="cou" >
 	<tr>
       <td>${cou.count}</td>
@@ -48,23 +46,18 @@
       <td>${addr.phone}</td>
       <td>${addr.company}</td>
       <td>${addr.address}</td>
+      <td> <button onclick="fn_deleteAdd('${addr.address_no}');">삭제</button></td>
      </tr>
     </c:forEach>
-      
-<%--       <td>${board["TITLE"]}</td>
-      <td>${board["WRITER"]}</td>
-      <td><c:if test='${fn:length(board["RENAMED_FILE_NAME"])>0}' > <img src="${pageContext.request.contextPath}/resources/images/common/board_file_image.PNG" width="20px" alt="" /> </c:if></td>
-      <td>${board["WRITEDATE"]}</td>
-      <td>${board["COUNT"] }</td>
-      	<input type="text" value="${addr.name}"/> 
-      	
-      
-      	--%>
-  
-    
-
 
 </table>
+<script>
+function fn_deleteAdd(addId){
+	alert(name+"삭제완료 되었습니다.");
+	location.href="addressTrash?addId="+addId;
+	
+}
+</script>
 	
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

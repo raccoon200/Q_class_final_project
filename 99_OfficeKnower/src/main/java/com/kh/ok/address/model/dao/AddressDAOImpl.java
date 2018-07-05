@@ -32,6 +32,25 @@ public class AddressDAOImpl implements AddressDAO {
 		return sqlSession.insert("address.InsertAddress",map);
 	}
 
+	@Override
+	public int addressTrash(String addId) {
+		return sqlSession.insert("address.addressTrash", addId);
+	}
+
+	@Override
+	public List<Address> addressTrashList() {
+		return sqlSession.selectList("address.addressTrashList");
+	}
+
+	
+
+	
+/*	@Override
+	public int addressTrash(String addId) {
+		return sqlSession.update("address.addressTrash",addId);
+	}
+*/
+
 	
 
 

@@ -7,11 +7,22 @@ import com.kh.ok.address.model.vo.Address;
 
 public interface AddressService {
 
+	
+	int InsertAddress(Map<String, Object> map);
+
 	int addressAdd(Address address);
 
 	List<Address> addressView();
 
-	int InsertAddress(Map<String, Object> map);
+	List<Address> addressTrashList();
+
+	int addressTrash(String addId);
+
+
+
+
+
+
 
 
 	

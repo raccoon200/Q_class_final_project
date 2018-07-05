@@ -302,7 +302,7 @@
 						class="badge badge-secondary">2</span></a><br /></li> --%>
 				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="${pageContext.request.contextPath}/address/addr_trash">휴지통&nbsp;<span
+				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li>
 				<li><a href="javascript:void(0)" class="depth1"> <img
 						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"

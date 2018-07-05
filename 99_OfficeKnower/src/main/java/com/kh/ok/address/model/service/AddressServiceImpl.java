@@ -33,6 +33,25 @@ public class AddressServiceImpl implements AddressService {
 		return addressDAO.InsertAddress(map);
 	}
 
+	@Override
+	public List<Address> addressTrashList() {
+		return addressDAO.addressTrashList();
+	}
+
+	@Override
+	public int addressTrash(String addId) {
+		return addressDAO.addressTrash(addId);
+	}
+
+
+
+
+
+/*	@Override
+	public List<Address> addressTrashList() {
+		return addressDAO.addressTrashList();
+	}*/
+
 /*	@Override
 	public int updateAddress(Address address) {
 		return addressDAO.updateAddress(address);
