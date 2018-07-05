@@ -254,6 +254,9 @@
 							<li>
 								<a href="${pageContext.request.contextPath }/insa/insaManagement.do">인사관리자</a><br />
 							</li>
+							<li>
+								<a href="${pageContext.request.contextPath }/insa/insaSuperManagement.do">슈퍼관리자</a><br />
+							</li>
 						</ul>
 					</li>
 										

@@ -12,7 +12,7 @@
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="인사관리" name="pageTitle"/>
-	<jsp:param value="인사관리자" name="selectMenu"/>
+	<jsp:param value="슈퍼관리자" name="selectMenu"/>
 </jsp:include>
 <style>
 span#delete-impossible {
@@ -82,7 +82,7 @@ function fn_admin_add() {
 	$(document).on('click', '.memberList', function(){
 		var userId= $(this).attr("id");
 		var userName = $(this).attr("value");
-		var bool = confirm("["+userName+"] 회원을 인사 관리자로 추가시키겠습니까?");
+		var bool = confirm("["+userName+"] 회원을 슈퍼 관리자로 추가시키겠습니까?");
 		var bool2 = true;
 		if(bool == true){
 			<c:forEach var="v" items="${boardAdminList }">
@@ -92,7 +92,7 @@ function fn_admin_add() {
 				}			
 			</c:forEach>
 			if(bool2 == true){
-				location.href="${pageContext.request.contextPath}/insa/adminInsertEnd.do?userId="+userId;
+				location.href="${pageContext.request.contextPath}/insa/adminSuperInsertEnd.do?userId="+userId;
 			}
 		}
 	})
@@ -101,7 +101,7 @@ function fn_admin_add() {
 
 
 </script>
-<p id="sub-title">관리자 추가</p>
+<p id="sub-title">슈퍼관리자 추가</p>
 
 <hr />
 <br />
@@ -120,19 +120,14 @@ function fn_admin_add() {
 	<tbody>
 		<c:forEach var="v" items="${list }">
 			<tr>
-				<c:if test='${v.getGrade() != null  and (v.getGrade() == "인사관리자") or (v.getGrade() == "슈퍼관리자")}'>
+				<c:if test='${v.getGrade() != null  and  (v.getGrade() == "슈퍼관리자")}'>
 					<th scope="row">${v.getUserName() }</th>
 					<td>${v.getEmp_no() }</td>
 					<td>${v.getUserId() }</td>
 					<td>${v.getDept() }</td>
 					<td id="delete">
 						${v.getGrade() }
-						<c:if test="${v.getGrade() eq '슈퍼관리자' }">
-							<span id="delete-impossible">삭제불가</span>
-						</c:if> 
-						<c:if test="${v.getGrade() ne '슈퍼관리자' }">
-						 	<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/insa/adminDeleteEnd.do?userId=${v.getUserId() }'">삭제</span>
-						</c:if></td>
+					 	<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/insa/adminSuperDeleteEnd.do?userId=${v.getUserId() }'">삭제</span>
 				</c:if>
 			</tr>
 		</c:forEach>

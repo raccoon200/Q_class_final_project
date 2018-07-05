@@ -344,7 +344,7 @@ public class InsaController {
 	@RequestMapping("/insa/insaMemberOneUpdate.do")
 	public String insaMemberOneUpdate(Member member) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("실행하니?");
+
 		int result = insaService.insaMemberOneUpdate(member);
 		
 		return "redirect:/insa/memberSelectManagement.do?userId="+member.getUserId();
@@ -596,19 +596,16 @@ public class InsaController {
 	}
 	
 	@RequestMapping("/insa/adminInsertEnd.do")
-	public ModelAndView insertAdmin(@RequestParam String userId) {
+	public ModelAndView insertAdmin(@RequestParam String userId,
+			@RequestParam(value="grade", required=false, defaultValue="")String grade) {
 		ModelAndView mav = new ModelAndView();
 		
 		Member m = insaService.memberSelectManagement(userId);
 		
-		if(m.getGrade() == null || m.getGrade() == "") {
 			m.setGrade("인사관리자");
-		}else {
-			m.setGrade(",인사관리자");
-		}
-		
+//		System.out.println("grade="+grade);
+//		System.out.println("userId="+userId);
 		int result = insaService.insaadminInsert(m);
-		
 		
 		String loc = "/";
 		String msg = "";
@@ -617,7 +614,90 @@ public class InsaController {
 			msg = "인사 관리자 추가 성공";
 			loc = "/insa/insaManagement.do";
 		} else
-			msg = "게시판 관리자 추가 실패";
+			msg = "인사 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("/insa/adminDeleteEnd.do")
+	public ModelAndView adminDeleteEnd(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = insaService.memberSelectManagement(userId);
+		System.out.println("실행하니?");
+		m.setGrade("");
+		int result = insaService.insaadminInsert(m);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if (result > 0) {
+			msg = "인사 관리자 삭제 성공";
+			loc = "/insa/insaManagement.do";
+		} else
+			msg = "인사 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+//	슈퍼관리자
+	@RequestMapping("/insa/insaSuperManagement.do")
+	public ModelAndView insaSuperManagement(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		// 업무로직
+		List<Member> list =  insaService.memberListAll(m.getCom_no());
+		
+		mav.addObject("list",list);
+		
+		mav.setViewName("insa/insaSuperManagement");
+		return mav;
+	}
+	@RequestMapping("/insa/adminSuperInsertEnd.do")
+	public ModelAndView adminSuperInsertEnd(@RequestParam String userId,
+			@RequestParam(value="grade", required=false, defaultValue="")String grade) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = insaService.memberSelectManagement(userId);
+		
+			m.setGrade("슈퍼관리자");
+//		System.out.println("grade="+grade);
+//		System.out.println("userId="+userId);
+		int result = insaService.insaadminInsert(m);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if (result > 0) {
+			msg = "슈퍼 관리자 추가 성공";
+			loc = "/insa/insaSuperManagement.do";
+		} else
+			msg = "슈퍼 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("/insa/adminSuperDeleteEnd.do")
+	public ModelAndView adminSuperDeleteEnd(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = insaService.memberSelectManagement(userId);
+		
+		m.setGrade("1");
+		int result = insaService.insaadminInsert(m);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if (result > 0) {
+			msg = "슈퍼 관리자 삭제 성공";
+			loc = "/insa/insaSuperManagement.do";
+		} else
+			msg = "슈퍼 관리자 삭제 실패";
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);
 		mav.setViewName("common/msg");

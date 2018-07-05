@@ -202,7 +202,7 @@ $(function(){
 			<tr>
 				<th>소속</th>
 				<td>
-					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" >
+					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" readonly>
 					<input type="hidden" class="form-control" id="com_no" name="com_no" value="${member.com_no}" >
 				</td>
 			</tr>

@@ -60,7 +60,14 @@
 		select count(*) from tbl_user where com_no=#{comNo} and emp_no=#{empNo}
 	</select>
 	<update id="insaMemberOneUpdate" parameterType="member">
-	update tbl_user set emp_no=#{emp_no},position=#{position}, job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, birthday=#{birthday}, address=#{address}, etc_inf=#{etc_inf}, joindate=#{joinDate}, status=#{status}
+	update tbl_user set emp_no=#{emp_no},position=#{position}, job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, address=#{address}, etc_inf=#{etc_inf}
+	<if test='birthday!= null'>
+		, birthday=#{birthday}
+	</if>
+	<if test='joindate != null'>
+		, joindate=#{joinDate}
+	</if>
+	, status=#{status}
 	<if test='status == "N"'>
 		, quitDate=sysdate	
 	</if>
