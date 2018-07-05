@@ -299,12 +299,12 @@ public class BreakController {
 			
 			
 			if(i==0) {
-				approvals += username[i] ;
+				approvals += username[0];
 			}else {
 				if(username[i].equals("")) {
 //					approvals += username[0];
 				}else {
-					approvals += username[i]+",";
+					approvals += username[i] + ",";
 				}
 			}
 			System.out.println("i는 뭐지??" + i);

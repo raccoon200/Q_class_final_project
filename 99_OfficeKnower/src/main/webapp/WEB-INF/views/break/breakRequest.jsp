@@ -248,6 +248,7 @@ function len_chk(content){
 		      	<c:out value="${userInfo.USERNAME}"/>
 		      	 &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		      	<span id="approvals"></span>
+		      	<input type="hidden" name="appUsername" id="input0" value='${memberLoggedIn.userId}'/>
 		      	<input type="hidden" name="appUsername" id="input1"/>
 		      	<input type="hidden" name="appUsername" id="input2"/>
 		      	<input type="hidden" name="appUsername" id="input3"/>
@@ -298,7 +299,6 @@ function len_chk(content){
 					  
 					 </div>
 				</div>
-		    	
 		    	</th>
 		    </tr>
 		  </tbody>
@@ -365,6 +365,20 @@ function fn_reChoice(count){
 
 function fn_nameSubmit(){
 	
+	
+	var userid1 = $("#selectedUserid1").val();
+	var userid2 = $("#selectedUserid2").val();
+	var userid3 = $("#selectedUserid3").val();
+	
+	
+	console.log("userid1" + userid1);
+	console.log("userid2" + userid2);
+	console.log("userid3" + userid3);
+	var useridList = $("input[name=selectedUserid]").val();
+	
+	//console.log("useridList" +useridList );
+	//console.log("selectedUserid1" +userid );
+	
 	var input1 = $("#username1").val();
 	var input2 = $("#username2").val(); 
 	var input3 = $("#username3").val();
@@ -373,16 +387,19 @@ function fn_nameSubmit(){
 		input1='미정1';
 	}else{
 		input1=$("#username1").val();
+		
 	}
 	if(input2==undefined || input2==""){
 		input2='미정2';
 	}else{
 		input2=$("#username2").val();
+		
 	}
 	if(input3==undefined || input3==""){
 		input3='미정3';
 	}else{
 		input3=$("#username3").val();
+		
 	}
 	
 	console.log("input1" + input1);
@@ -412,16 +429,16 @@ function fn_nameSubmit(){
 		var html = "";
 		if(input2=='미정2'){
 			html += input1;
-			$("#input1").val(input1);
+			$("#input1").val(userid1);
 		}else if(input3=='미정3'){
 			html += input1+"&nbsp;>&nbsp;"+input2;
-			$("#input1").val(input1);
-			$("#input2").val(input2);
+			$("#input1").val(userid1);
+			$("#input2").val(userid2);
 		}else{
 			html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3;
-			$("#input1").val(input1);
-			$("#input2").val(input2);
-			$("#input3").val(input3);
+			$("#input1").val(userid1);
+			$("#input2").val(userid2);
+			$("#input3").val(userid3);
 		}
 	//	html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3+"&nbsp;&nbsp;";
 		$("#approvals").html(html);
@@ -482,12 +499,12 @@ $("#searchBox").on("keyup",function(){
 		        var td = tr.children();
 		        var html2="";
 		        
-		        html2+= "<div class='input-group mb-3'>";
+		        html2+= " <div class='input-group mb-3'>";
 		        html2+= " <input type='text' class='inputStyle form-control' aria-describedby='basic-addon2'  name='username' id='username"+cnt+"' value='"+td.eq(0).text()+"'readonly>";
-		        html2+= " <input type='hidden' id='selectedUserid"+cnt+"' value='"+td.eq(2).text()+"'readonly>";
+		        html2+= " <input type='hidden' id='selectedUserid"+cnt+"' value='"+td.eq(2).text()+"' name='selectedUserid'  readonly>";
 		        html2+= " <div class='input-group-append'>";
-		        html2+= "<span class='input-group-text' id='basic-addon2' onclick='fn_reChoice("+cnt+")'>X</span>";
-		        html2+= "</div></div>";
+		        html2+= " <span class='input-group-text' id='basic-addon2' onclick='fn_reChoice("+cnt+")'>X</span>";
+		        html2+= " </div></div>";
 		        
 		        
 		        //html2 += "&nbsp; <input type='text' class='form-control' name='username' id='username"+cnt+"' class='inputStyle' value='"+td.eq(0).text()+"' readonly/>";
