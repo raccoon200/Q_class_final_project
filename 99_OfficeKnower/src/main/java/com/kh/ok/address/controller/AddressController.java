@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,13 +48,52 @@ public class AddressController {
 	}
 	
 	
+	@RequestMapping("/address/addressTrash")
+	public ModelAndView addressTrash(HttpServletRequest request){
+		
+		String addId= request.getParameter("addId");
+		System.out.println("addId=" + addId);
+		System.out.println("여기 들어오나??");
+		
+		ModelAndView mav = new ModelAndView();
+		int result = addressService.addressTrash(addId);
+		List<Address> list = addressService.addressView();
+		logger.info(list.toString());
+		mav.addObject("address", list);
+
+		mav.setViewName("address/addressView");
+			
+		return mav;
+	}
+	
+	@RequestMapping("/address/addressTrashList")
+	public ModelAndView addressTrashList(HttpServletRequest request){
+		
+		ModelAndView mav = new ModelAndView();
+		List<Address> list = addressService.addressTrashList();
+		logger.info(list.toString());
+		mav.addObject("address", list);
+		mav.setViewName("address/addressTrash");
+			
+		return mav;
+	}
+/*	@RequestMapping(value ="/address/addressTrash", method = RequestMethod.POST)
+	public String addressTrash(@RequestParam("addressTrashList") Address addressTrashList, ModelMap modelMap) throws Exception {
+	    // 삭제할 사용자 ID마다 반복해서 사용자 삭제
+	    for (String userId : addressTrashList) {
+	        System.out.println("주소 삭제 = " + addressAdd());
+	        int delete_count = addressService.addressAdd(addressTrashList);
+	    }
+	    // 목록 페이지로 이동
+	    return "address/addressTrash";
+	}*/
+	
 	
 	@RequestMapping("/address/addressAdd.do")
 	public String addressAdd() {
 		if(logger.isDebugEnabled())
-			logger.debug("주소 추가");
-		
-  
+			logger.debug("주소 추가완료");
+	
 		return "address/addressAdd";
 	}
 	

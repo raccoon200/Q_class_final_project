@@ -34,9 +34,10 @@
       <th scope="col">전화번호</th>
       <th scope="col">회사명</th>
       <th scope="col">주소</th>
+      <th scope="col">삭제</th>
      
     </tr>
-<%-- 	<c:if test="${not empty list }"> --%>
+
 	<c:forEach var="addr" items="${address}" varStatus="cou" >
 	<tr>
       <td>${cou.count}</td>
@@ -45,10 +46,18 @@
       <td>${addr.phone}</td>
       <td>${addr.company}</td>
       <td>${addr.address}</td>
+      <td> <button onclick="fn_deleteAdd('${addr.address_no}');">삭제</button></td>
      </tr>
     </c:forEach>
 
 </table>
+<script>
+function fn_deleteAdd(addId){
+	alert(name+"삭제완료 되었습니다.");
+	location.href="addressTrash?addId="+addId;
+	
+}
+</script>
 	
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
