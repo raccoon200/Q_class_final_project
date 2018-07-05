@@ -553,7 +553,7 @@ public class ApprovalController {
 		approval.setApproval_no("기타-");
 		approval.setWriter(writer);
 		approval.setCom_no(com_no);
-		approval.setStatus("대기");
+		approval.setStatus("결재 중");
 		approval.setTitle(title);
 		
 		String[] appro = approvals.split(",");
@@ -595,16 +595,18 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/approvals/insertApprovalSpending")
-	public ModelAndView insertApprovalSpending(@RequestParam String approvals, @RequestParam String writer, 
-			@RequestParam String com_no, @RequestParam String title, @RequestParam String year, @RequestParam String month,
-			@RequestParam String bankName, @RequestParam String account_no, @RequestParam String userId) throws JsonProcessingException {
+	public ModelAndView insertApprovalSpending(@RequestParam(value="approvals") String approvals, @RequestParam(value="writer") String writer, 
+			@RequestParam(value="title") String title, @RequestParam(value="year") int year, @RequestParam(value="month") int month,
+			@RequestParam(value="bankName") String bankName, @RequestParam(value="account_no") String account_no, @RequestParam(value="userId") String userId, @RequestParam(value="transaction") String transaction, HttpSession session) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no("지결-");
 		approval.setWriter(writer);
-		approval.setCom_no(com_no);
 		approval.setStatus("대기");
 		approval.setTitle(title);
+		
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		approval.setCom_no(m.getCom_no());
 		
 		String[] appro = approvals.split(",");
 		String newAppro = "";
@@ -626,19 +628,20 @@ public class ApprovalController {
 		contents.put("bankName", bankName);
 		contents.put("account_no", account_no);
 		contents.put("userId", userId);
+		contents.put("transaction", transaction);
 		jsonStr = mapper.writeValueAsString(contents);
 		
 		approval.setContent(jsonStr);
-		
+		System.out.println("** jsonStr : "+jsonStr);
+		System.out.println("** approval : "+approval);
 		int result = approvalService.approvalInsert(approval);
-		
 		
 		String loc = "/";
 		String msg = "";
 
 		if (result > 0) {
 			msg = "결재 등록 성공";
-			loc = "approval.do";
+			loc = "/";
 		} else
 			msg = "결재 등록 실패";
 		mav.addObject("msg", msg);

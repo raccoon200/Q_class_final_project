@@ -201,7 +201,7 @@ public class BoardController {
 			response.addCookie(boardCookie);
 
 		}
-
+		
 		Board board = boardService.selectBoardView(boardNo);
 		System.out.println("/board/boardView : " + board);
 		Member m = (Member) session.getAttribute("memberLoggedIn");
@@ -212,7 +212,7 @@ public class BoardController {
 		} else {
 			board.setBookmark("N");
 		}
-
+		System.out.println("board : "+board);
 		mav.addObject("board", board);
 
 		List<Map<String, String>> commentList = boardService.selectCommentList(boardNo);
@@ -265,8 +265,6 @@ public class BoardController {
 	public ModelAndView insertBoard(Board board, @RequestParam(value = "upFile", required = false) MultipartFile upFile,
 			HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-
-		logger.debug("게시판 페이지 저장");
 		/*
 		 * logger.debug("board = "+board);
 		 * logger.debug("upFileName = "+upFile.getName());
@@ -298,12 +296,12 @@ public class BoardController {
 						e.printStackTrace();
 					}
 					// VO객체 담기
-					
+					board.setOriginal_file_name(originalFileName);
 					board.setRenamed_file_name(renamedFileName);
 				}
 			}
 			/***** MultipartFile을 이용한 파일 업로드 처리로직 끝 *****/
-			System.out.println("board : " + board);
+			System.out.println("board22 : " + board);
 			// 2. 비지니스로직
 			int result = boardService.insertBasicBoard(board); // 여기까지는 boardNo가 0이지만 이 함수가 끝난후
 			int boardNo = board.getBoard_no(); // boardNo는 해당 no로 바뀐다.
@@ -390,7 +388,7 @@ public class BoardController {
 	}
 
 	@RequestMapping("/board/boardUpdate")
-	public ModelAndView boardUpdate(@RequestParam int boardNo, HttpSession session) {
+	public ModelAndView boardUpdate(@RequestParam(value="boardNo") int boardNo, HttpSession session) {
 		Board board = boardService.selectBoardView(boardNo);
 		ModelAndView mav = new ModelAndView();
 		String userId = null;
