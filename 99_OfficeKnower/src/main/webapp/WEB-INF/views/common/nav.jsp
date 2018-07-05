@@ -242,7 +242,7 @@
 						</li>
 					</ul>
 				</li>
-				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "인사관리관리자"}'>
+				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "인사관리자"}'>
 					<br />
 					<li><a href="javascript:void(0)" class="depth1"> <img
 							src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
@@ -272,7 +272,7 @@
 						<br />
 						<ul class="depth2 hide">
 							<li>
-								<a href="#">기본설정</a><br />
+								<a href="${pageContext.request.contextPath }/break/breakSetting.do">기본설정</a><br />
 							</li>
 							<li>
 								<a href="${pageContext.request.contextPath}/break/breakCreate.do">휴가 생성</a><br />

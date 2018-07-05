@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
+import com.kh.ok.breakTime.model.vo.BreakSetting;
 
 public interface BreakDAO {
 
@@ -35,5 +36,9 @@ public interface BreakDAO {
 	int selectBreakRequestCnt(String comId);
 
 	List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId);
+
+	BreakSetting selectBreakSetting(String com_no);
+
+	int updateBreakSetting(BreakSetting bs);
 
 }

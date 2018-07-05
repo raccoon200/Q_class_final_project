@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.ok.breakTime.model.dao.BreakDAO;
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
+import com.kh.ok.breakTime.model.vo.BreakSetting;
 
 @Service
 public class BreakServiceImpl implements BreakService {
@@ -85,5 +86,15 @@ public class BreakServiceImpl implements BreakService {
 	@Override
 	public List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId) {
 		return breakDao.selectBreakRequest(cPage,numPerPage,comId);
+	}
+
+	@Override
+	public BreakSetting selectBreakSetting(String com_no) {
+		return breakDao.selectBreakSetting(com_no);
+	}
+
+	@Override
+	public int updateBreakSetting(BreakSetting bs) {
+		return breakDao.updateBreakSetting(bs);
 	}
 }

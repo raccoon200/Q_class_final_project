@@ -149,6 +149,10 @@
                     		 left join tbl_com c on (u.com_no=c.com_no)
 		where c.com_no= #{comId}
   	</select>
-  	
-  	
+  	<select id="selectBreakSetting" resultType="breakSetting">
+  		select * from break_setting where com_no =#{com_no}
+  	</select>
+  	<update id="updateBreakSetting">
+  		update break_setting set createdate = #{createdate}, breakdays = #{breakdays} where com_no = #{com_no}
+  	</update>
 </mapper>

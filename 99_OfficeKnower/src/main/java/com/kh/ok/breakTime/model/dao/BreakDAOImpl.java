@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
+import com.kh.ok.breakTime.model.vo.BreakSetting;
 
 @Repository
 public class BreakDAOImpl implements BreakDAO {
@@ -89,6 +90,16 @@ public class BreakDAOImpl implements BreakDAO {
 	public List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId) {
 		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return sqlSession.selectList("break.selectBreakRequest" , comId, rowBounds);
+	}
+
+	@Override
+	public BreakSetting selectBreakSetting(String com_no) {
+		return sqlSession.selectOne("break.selectBreakSetting", com_no);
+	}
+
+	@Override
+	public int updateBreakSetting(BreakSetting bs) {
+		return sqlSession.update("break.updateBreakSetting", bs);
 	}
 
 }
