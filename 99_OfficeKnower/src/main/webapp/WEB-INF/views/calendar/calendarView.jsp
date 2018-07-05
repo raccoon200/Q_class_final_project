@@ -117,6 +117,26 @@ body {
 
 <script>
 
+function len_chk(content){
+	
+	if (content.value.length > 1000 ) {
+		alert("영문 3000자, 한글 1000자 미만으로 입력하세요.")
+		content.value = content.value.substring(0, 1000);
+        return false;
+    }
+	
+	
+}
+function len_chk2(content){
+
+	if (content.value.length > 30 ) {
+		alert("일정 제목을 30자 미만으로 입력하세요.")
+		content.value = content.value.substring(0, 30);
+        return false;
+    }
+
+}
+
 function day(day){
 	/* 캘린더 이름 가지고 오는 ajax / 캘린더 이름 가지고 온 다음 insert용 form만듦 */
  $.ajax({
@@ -156,7 +176,7 @@ function day(day){
         				 html2 +="<div class='form-group row'>";
         				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
         				 html2 +="<div class='col-sm-10'>";
-        				 html2 +="<input type='text' name='title' id='title' class='form-control' required/></div></div>";
+        				 html2 +="<input type='text' name='title' id='title' class='form-control'  maxlength='30' onKeyup='len_chk2(this)'  required/></div></div>";
         				
         				 html2 +="<div class='form-group row'>";
         				 html2 +="<label for='title' class='col-sm-2 col-form-label'>작성자</label>";
@@ -173,7 +193,7 @@ function day(day){
         				 html2 += "<div class='col'>";
         				 html2 += "<select class='form-control' name='starttime' id='starttime'>";
         				 html2 += "<option>시작 시간 선택</option>";
-        				 html2 += "<option value='00:00'>오전 12:00</option>";
+        				 /* html2 += "<option value='00:00'>오전 12:00</option>";
         				 html2 += "<option value='01:00'>오전 01:00</option>";
         				 html2 += "<option value='02:00'>오전 02:00</option>";
         				 html2 += "<option value='03:00'>오전 03:00</option>";
@@ -181,7 +201,7 @@ function day(day){
         				 html2 += "<option value='05:00'>오전 05:00</option>";
         				 html2 += "<option value='06:00'>오전 06:00</option>";
         				 html2 += "<option value='07:00'>오전 07:00</option>";
-        				 html2 += "<option value='08:00'>오전 08:00</option>";
+        				 html2 += "<option value='08:00'>오전 08:00</option>"; */
         				 html2 += "<option value='09:00'>오전 09:00</option>";
         				 html2 += "<option value='10:00'>오전 10:00</option>";
         				 html2 += "<option value='11:00'>오전 11:00</option>";
@@ -209,7 +229,7 @@ function day(day){
         				 html2 += "<div class='col'>";
         				 html2 += "<select class='form-control' name='quittime' id='quittime'>";
         				 html2 += "<option>종료 시간 선택</option>";
-        				 html2 += "<option value='00:00'>오전 12:00</option>";
+        				/*  html2 += "<option value='00:00'>오전 12:00</option>";
         				 html2 += "<option value='01:00'>오전 01:00</option>";
         				 html2 += "<option value='02:00'>오전 02:00</option>";
         				 html2 += "<option value='03:00'>오전 03:00</option>";
@@ -217,7 +237,7 @@ function day(day){
         				 html2 += "<option value='05:00'>오전 05:00</option>";
         				 html2 += "<option value='06:00'>오전 06:00</option>";
         				 html2 += "<option value='07:00'>오전 07:00</option>";
-        				 html2 += "<option value='08:00'>오전 08:00</option>";
+        				 html2 += "<option value='08:00'>오전 08:00</option>"; */
         				 html2 += "<option value='09:00'>오전 09:00</option>";
         				 html2 += "<option value='10:00'>오전 10:00</option>";
         				 html2 += "<option value='11:00'>오전 11:00</option>";
@@ -241,7 +261,7 @@ function day(day){
         				 html2 +="<div class='form-group row'>";
         				 html2 +="<label for='content' class='col-sm-2 col-form-label'>내용</label>";
        				     html2 +="<div class='col-sm-10'>";
-        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' required></textarea> </div></div>";
+        			 	 html2 +="<textarea name='content' id='content' cols='30' rows='5' class='form-control' onKeyup='len_chk(this)'  required></textarea> </div></div>";
 
         				 
         				 $("#nows").html(html2).show();
@@ -465,6 +485,17 @@ function calendardelete(id){
             , eventLimit : true
             
             , events: [
+            	{
+   				 id : '3'
+   			    , color : 'red'
+   			    , textColor : "white"
+   				, title : 'test'
+   				, start : '2018-07-04'
+   				, end : '2018-07-06T09:00:00'
+   				 
+   			 },
+            	
+            	
                 <c:if test="${not empty list}">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
     			 	<c:if test="${seche.type eq '공유 캘린더'}">
@@ -499,12 +530,12 @@ function calendardelete(id){
         		
         		$(".fc-day").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         		//$(".fc-day-top").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
-        		//$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
+        		$(".fc-event-container").attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         		$(".fc-content-skeleton").children("table").children("tbody").children("tr").children("td").each(function(item){
         			if($(this).attr("class") == null){
         				$(this).attr("data-toggle", "modal").attr("data-target", "#calendarInsert");
         			}
-        		});
+        		}); 
         		
      		   var yy=date.format("YYYY");
      		   var mm=date.format("MM");
@@ -560,7 +591,7 @@ function calendardelete(id){
         				 html += "<div class='col'>";
 	        		     html += "<select class='form-control' name='starttime' id='starttimeView'>";
 	        			 
-        				 html += "<option value='00:00' ${seche.starttime eq '00:00'?'selected':''}>오전 12:00</option>";
+        				/*  html += "<option value='00:00' ${seche.starttime eq '00:00'?'selected':''}>오전 12:00</option>";
         				 html += "<option value='01:00' ${seche.starttime eq '01:00'?'selected':''}>오전 01:00</option>";
         				 html += "<option value='02:00' ${seche.starttime eq '02:00'?'selected':''}>오전 02:00</option>";
         				 html += "<option value='03:00' ${seche.starttime eq '03:00'?'selected':''}>오전 03:00</option>";
@@ -568,7 +599,7 @@ function calendardelete(id){
         				 html += "<option value='05:00' ${seche.starttime eq '05:00'?'selected':''}>오전 05:00</option>";
         				 html += "<option value='06:00' ${seche.starttime eq '06:00'?'selected':''}>오전 06:00</option>";
         				 html += "<option value='07:00' ${seche.starttime eq '07:00'?'selected':''}>오전 07:00</option>";
-        				 html += "<option value='08:00' ${seche.starttime eq '08:00'?'selected':''}>오전 08:00</option>";
+        				 html += "<option value='08:00' ${seche.starttime eq '08:00'?'selected':''}>오전 08:00</option>"; */
         				 html += "<option value='09:00' ${seche.starttime eq '09:00'?'selected':''}>오전 09:00</option>";
         				 html += "<option value='10:00' ${seche.starttime eq '10:00'?'selected':''}>오전 10:00</option>";
         				 html += "<option value='11:00' ${seche.starttime eq '11:00'?'selected':''}>오전 11:00</option>";
@@ -597,7 +628,7 @@ function calendardelete(id){
         				 html += "<div class='col'>";
 	        		     html += "<select class='form-control' name='quittime' id='quittimeView'>";
 	        			 
-        				 html += "<option value='00:00' ${seche.quittime eq '00:00'?'selected':''}>오전 12:00</option>";
+        				/*  html += "<option value='00:00' ${seche.quittime eq '00:00'?'selected':''}>오전 12:00</option>";
         				 html += "<option value='01:00' ${seche.quittime eq '01:00'?'selected':''}>오전 01:00</option>";
         				 html += "<option value='02:00' ${seche.quittime eq '02:00'?'selected':''}>오전 02:00</option>";
         				 html += "<option value='03:00' ${seche.quittime eq '03:00'?'selected':''}>오전 03:00</option>";
@@ -605,7 +636,7 @@ function calendardelete(id){
         				 html += "<option value='05:00' ${seche.quittime eq '05:00'?'selected':''}>오전 05:00</option>";
         				 html += "<option value='06:00' ${seche.quittime eq '06:00'?'selected':''}>오전 06:00</option>";
         				 html += "<option value='07:00' ${seche.quittime eq '07:00'?'selected':''}>오전 07:00</option>";
-        				 html += "<option value='08:00' ${seche.quittime eq '08:00'?'selected':''}>오전 08:00</option>";
+        				 html += "<option value='08:00' ${seche.quittime eq '08:00'?'selected':''}>오전 08:00</option>"; */
         				 html += "<option value='09:00' ${seche.quittime eq '09:00'?'selected':''}>오전 09:00</option>";
         				 html += "<option value='10:00' ${seche.quittime eq '10:00'?'selected':''}>오전 10:00</option>";
         				 html += "<option value='11:00' ${seche.quittime eq '11:00'?'selected':''}>오전 11:00</option>";
@@ -627,7 +658,7 @@ function calendardelete(id){
         				 html +="<div class='form-group row'>";
 	        		     html +="<label for='contentView' class='col-sm-2 col-form-label'>내용</label>";
        				     html +="<div class='col-sm-10'>";
-        			 	 html +="<textarea name='content' id='contentView' cols='30' rows='5' class='form-control'>"+"${seche.content}"+"</textarea> </div></div>";
+        			 	 html +="<textarea name='content' id='contentView' cols='30' rows='5' class='form-control' onKeyup='len_chk(this)' >"+"${seche.content}"+"</textarea> </div></div>";
 	    				 
 				
         		  	   }
@@ -719,11 +750,14 @@ function fn_submit(){
 	var stratdate = $("#startdate").val().split('-');
 	var quitdate = $("#quitdate").val().split('-');
 	
+	var strat = $("#startdate").val();
+	var end = $("#quitdate").val();
+	
+	console.log("strat" + strat);
+	console.log("end" + end);
+	
 	var sdate = new Date(stratdate[0], stratdate[1] - 1, stratdate[2]); 
 	var qdate = new Date(quitdate[0], quitdate[1] - 1, quitdate[2]); 
-
-	console.log(sdate.toDateString());
-	console.log(qdate.toDateString());
 
 
 	 if(title==0){
@@ -732,11 +766,12 @@ function fn_submit(){
 	}else if(starttime=="시작" || quittime=="종료"){
 		alert("시작 시간과 종료 시간을 선택해주세요.");
 		return;
+		
+	}else if(strat==end && (starttime>quittime)){
+		alert("시간을 잘못 입력하셨습니다.");
+		return;
 	}else if(content==0){
 		alert("내용을 입력해주세요.");
-		return;
-	}else if(parseInt(starttime)>parseInt(quittime)){
-		alert("시간을 잘못 입력하셨습니다.");
 		return;
 	}else if (sdate>qdate) {
 		alert("날짜를 잘못 입력하셨습니다.");
@@ -790,6 +825,9 @@ function fn_submitUpdate(){
 	var sdate = new Date(stratdate[0], stratdate[1] - 1, stratdate[2]); 
 	var qdate = new Date(quitdate[0], quitdate[1] - 1, quitdate[2]); 
 
+	var strat = $("#startdateView").val();
+	var end = $("#quitdateView").val();
+	
 	console.log(sdate.toDateString());
 	console.log(qdate.toDateString());
 
@@ -803,11 +841,14 @@ function fn_submitUpdate(){
 	}else if(content==0){
 		alert("내용을 입력해주세요.");
 		return;
-	}else if(parseInt(starttime)>parseInt(quittime)){
+	}/* else if(parseInt(starttime)>parseInt(quittime)){
 		alert("시간을 잘못 입력하셨습니다.");
 		return;
-	}else if (sdate>qdate) {
+	} */else if (sdate>qdate) {
 		alert("날짜를 잘못 입력하셨습니다.");
+		return;
+	}else if(strat==end && (starttime>quittime)){
+		alert("시간을 잘못 입력하셨습니다.");
 		return;
 	}
 	else updateFrm.submit();
@@ -815,7 +856,14 @@ function fn_submitUpdate(){
 $(function(){
 	$('#calendarInsert').on('shown.bs.modal', function (e) {
 		console.log("123");
+		/* if($(this).hasClass('show')){
+			$(this).hide();
+	        $("#calendarView").focus();
+	        $(this).modal("hide");
+	        return;
+		} */
 	    if ($('#calendarView').hasClass('show')){
+	    	$(".modal-backdrop:nth-last-child(3)").remove();
 	        $(this).hide();
 	        $("#calendarView").focus();
 	        $(this).modal("hide");

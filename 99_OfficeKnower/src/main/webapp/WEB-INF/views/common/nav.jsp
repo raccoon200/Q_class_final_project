@@ -203,9 +203,16 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="title">남은 휴가</span> <span
 					class="num" id="left_vation_num"> <!-- 10 -->  
 					
+					
 					<c:forEach var="item" items="${personBreak}">
+						<c:if test="${not empty personBreak}">
 						 ${item.REWARD_BREAK + item.REGULAR_BREAK}
+						</c:if>
 					</c:forEach>
+					<c:if test="${empty personBreak}">
+					0
+					</c:if>
+					
 				</span>일
 			</p>
 		</div>

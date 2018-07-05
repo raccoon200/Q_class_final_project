@@ -127,6 +127,30 @@ th{
  <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="request-tab">
  
  	휴가 신청 관리 div
+ 	<table class="table table-bordered">
+		  <thead>
+		    <tr style="background:#F6F6F6;">
+		      <th scope="col">신청자</th>
+		      <th scope="col" >소속</th>
+		      <th scope="col" >종류</th>
+		      <th scope="col">일수</th>
+		      <th scope="col">기간</th>
+		      <th scope="col">상태</th>
+		      <th scope="col">상세</th>
+		      <th scope="col">휴가신청취소</th>
+		    </tr>
+
+		    </thead>
+		  <tbody>
+		  
+		  <c:if test="${not empty myBreak}">
+		  <c:forEach var="bre" items="${myBreak}">
+			  
+			</c:forEach>
+		   </c:if>
+		  </tbody>
+		</table>
+
  </div>
 
 </div> <!-- div 모음 끝 -->

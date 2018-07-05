@@ -130,9 +130,13 @@ function between(start,end){
         	  } //eventClick끝  
         	,select: function(startDate, endDate) {
         	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
-        	     alert('selected ' + startDate.format() + ' to ' + (endDate-1).format());
-        	      
-        		 // enddateSolve(endDate);
+        	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
+        	     console.log("endDate" + endDate);
+        	     console.log("endDate.format()" + endDate.format()+"T02:00");
+        	     
+        	      $("#start").html(startDate.format()+"~");
+        	     $(".fc-highlight").css("background", "red");
+        		 enddateSolve(endDate.format());
         	     
         	      between(startDate.format(),endDate.format());
         	      
@@ -144,25 +148,63 @@ function between(start,end){
             }
         	
         }); //fullCalnedar끝
-        
+         
         
     }); //ready 끝  
 </script>
 <script>
-/* enddateSolve(endDate){
-	var end = endDate
+$(".fc-highlight").css("background", "red");
+
+function enddateSolve(endDate){
+	var year = endDate.substring(0,4);
+	var month = endDate.substring(5,7)*1;
+	var day = endDate.substring(8,11)*1;
+	console.log("year" +year);
+	console.log("month" +month);
+	console.log("day" +day);
 	
-} */
+	var end = new Date(year,month-1,day-1);
+	
+	
+	var y = end.getFullYear();
+	
+	var m="";
+	var d="";
+	if(end.getMonth()<10){
+		m = "0" +(end.getMonth()+1);
+	}else{
+		m= end.getMonth()+1;
+	}
+	if(end.getDate()<10){
+		d = "0" +end.getDate();
+	}else{
+		d= end.getDate();
+	}
+	
+	var realEndDate = y+"-"+m+"-"+d;
+	$("#enddate2").val(realEndDate);
+	
+	$("#end").html(realEndDate);
+	console.log("realEndDate"+realEndDate);
+	
+	console.log(y+"-"+m+"-"+d);
+	console.log("풀캘린더 날짜" + endDate);
+	console.log("날짜빼기" + end.toString().substring(0,4));
+	
+
+}  
 </script>
 
 
 <div id="calendar3">
 	<input type="hidden" name="startdate" id="startdate" />
-	<input type="hidden" name="enddate" id="enddate"/>
+	
+	<input type="hidden" name="enddate" id="enddate2"/>
 </div>
 <br />	
- <!-- 휴가 신청 : <span id="start"></span> <span id="end"></span> -->
+  휴가 신청 : <span id="start"></span> <span id="end"></span> 
  <br />
+
  선택일 수  :<span id="selectedDay"></span>일
  <input type="hidden" name="breakdays" id="breakdays"/>
 

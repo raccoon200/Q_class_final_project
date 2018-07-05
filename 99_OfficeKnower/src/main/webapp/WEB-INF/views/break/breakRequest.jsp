@@ -111,6 +111,7 @@ function fn_BreakRequestSubmit(){
 	var approval = $("#username1").val();
 	var startDate = $("#startdate").val();
 	var endDate = $("#enddate").val();
+	var endDate2 = $("#enddate2").val();
 	var selectedUserid1 =$("#selectedUserid1").val();
 	var selectedUserid2 =$("#selectedUserid2").val();
 	var selectedUserid3 =$("#selectedUserid3").val();
@@ -124,10 +125,12 @@ function fn_BreakRequestSubmit(){
 	selectedDay *= 1;
 	regular *= 1;
 	reward *= 1;
+	console.log("endDate2222" + endDate2);
 	
 	
+	/* 
 	console.log("stratdate" + startDate);
-	console.log("endDate" + endDate);
+	console.log("endDate111111" + endDate);
 	console.log("1" +selectedUserid1);
 	console.log("2" +selectedUserid2);
 	console.log("3" +selectedUserid3);
@@ -136,7 +139,7 @@ function fn_BreakRequestSubmit(){
 	console.log("selectedDay " + selectedDay);
 	console.log("kind " + kind);
 	console.log("reason " + reason);
-	console.log("breakdays " + breakdays);
+	console.log("breakdays " + breakdays); */
 
 	
 	/* 입력하세요 */
@@ -181,6 +184,16 @@ function fn_deleteChoice(){
 	$("#username1").val("");
 	$("#username2").val("");
 	$("#username3").val("");
+}
+
+function len_chk(content){
+	
+	if (content.value.length > 300 ) {
+		alert("휴가 사유를 300자 미만으로 입력하세요.")
+		content.value = content.value.substring(0, 1000);
+        return false;
+    }
+	
 }
 </script>
 
@@ -269,7 +282,7 @@ function fn_deleteChoice(){
 		    <tr>
 		      <th scope="row" class="rowTh">사유</th>
 		      <td>
-		      	<textarea class="form-control" name="reason" id="reason" rows="1"></textarea>
+		      	<textarea class="form-control" name="reason" id="reason" onKeyup='len_chk(this)' rows="1"></textarea>
 		      </td>
 		    </tr>
 		    <tr>

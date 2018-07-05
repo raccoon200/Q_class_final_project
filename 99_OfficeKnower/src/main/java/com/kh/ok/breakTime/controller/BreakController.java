@@ -79,8 +79,8 @@ public class BreakController {
 	@RequestMapping("/break/searchMember.do")
 	@ResponseBody
 	public Map<String,Object> searchMember(HttpServletRequest request) {
-		String enrolldate1 = request.getParameter("enrolldate1");
-		String enrolldate2 = request.getParameter("enrolldate2");
+		String enrolldate1 = request.getParameter("enrolldate1")!= null ? request.getParameter("enrolldate1"):"";
+		String enrolldate2 = request.getParameter("enrolldate2") != null ? request.getParameter("enrolldate2"):"";
 		String name_com = request.getParameter("name_com");
 		
 		HttpSession session = request.getSession(false);
@@ -151,6 +151,7 @@ public class BreakController {
 		String enrolldate1 = request.getParameter("enrolldate1");
 		String enrolldate2 = request.getParameter("enrolldate2");
 		String name_com = request.getParameter("name_com");
+		String[] selectedUser = request.getParameter("selectedUser").split(",");
 		
 		HttpSession session = request.getSession(false);
 		String comId = null;
@@ -169,11 +170,23 @@ public class BreakController {
 				System.out.println("userList" + userList);
 			}
 		}
+		
+		List<String> selectedUserList = new ArrayList<String>();
+		if(selectedUser.length>0) {
+			
+			for(int i=0; i<selectedUser.length; i++) {
+				selectedUserList.add(selectedUserList.size(), selectedUser[i]);
+				System.out.println("selectedUserList" + selectedUserList);
+			}
+		}
+		
+		
 		map.put("userList", userList);
 		map.put("comId", comId);
 		map.put("enrolldate1",enrolldate1);
 		map.put("enrolldate2",enrolldate2);
 		map.put("name_com",name_com);
+		map.put("selectedUserList",selectedUserList);
 		
 		List<Map<String,String>> deleteAfterMember = breakService.choiceMemberDelete(map);
 		System.out.println("지우고 남은 회원=" + deleteAfterMember);
@@ -266,11 +279,17 @@ public class BreakController {
 		for(int i=username.length-1; i>=0; i--) {
 			cnt++;
 			System.out.println("결재자 이름 이다!!!!!!!!!!!!"+i +username[i]);
+		
+			
 			
 			if(i==0) {
 				approvals += username[i] ;
 			}else {
-				approvals += username[i]+",";
+				if(username[i].equals("")) {
+//					approvals += username[0];
+				}else {
+					approvals += username[i]+",";
+				}
 			}
 			System.out.println("i는 뭐지??" + i);
 		}
