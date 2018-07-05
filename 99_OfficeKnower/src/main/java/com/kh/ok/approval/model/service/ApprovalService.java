@@ -70,5 +70,8 @@ public interface ApprovalService {
 
 	List<Map<String, String>> selectDeptList(String com_no);
 
-	List<Map<String, String>> selectApprovalDataList(String com_no);
+
+	int approvalDataListCount(String com_no);
+
+	List<Map<String, String>> selectApprovalDataList(int cPage, int numPerPage, String com_no);
 }

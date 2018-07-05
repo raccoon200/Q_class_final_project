@@ -103,4 +103,7 @@
 		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String"/>
 		<result property="USERNAME" column="USERNAME"/>
 	</resultMap>
+	<select id="approvalDataListCount" resultType="int">
+		select count(*) from approval A join tbl_user B on A.writer=B.userid where A.approval_no like '지결%' and A.com_no=#{com_no}
+	</select>
 </mapper>

@@ -649,14 +649,22 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/approval/admin/approvalDataList")
-	public ModelAndView approvalDataList(HttpSession session) {
+	public ModelAndView approvalDataList(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		// numPerPage 선언
+		int numPerPage = 5;
 		Member m = (Member)session.getAttribute("memberLoggedIn");
-		List<Map<String, String>> approvalDataList = approvalService.selectApprovalDataList(m.getCom_no());
+		List<Map<String, String>> approvalDataList = approvalService.selectApprovalDataList(cPage, numPerPage,m.getCom_no());
 		for(int i=0; i<approvalDataList.size(); i++) {
 			String str = approvalDataList.get(i).get("CONTENT");
 			approvalDataList.get(i).replace("CONTENT", str);
 		}
+		
+		int pageNum = approvalService.approvalDataListCount(m.getCom_no());
+
+		mav.addObject("numPerPage", numPerPage);
+		mav.addObject("cPage", cPage);
+		mav.addObject("pageNum", pageNum);
 		
 		mav.addObject("approvalDataList", approvalDataList);
 		return mav;

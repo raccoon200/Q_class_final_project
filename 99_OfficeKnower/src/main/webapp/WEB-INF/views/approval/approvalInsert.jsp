@@ -10,6 +10,14 @@
 	<jsp:param value="전자결재" name="pageTitle" />
 </jsp:include>
 <style>
+.submitBtn{
+	margin-top:30px;
+	background:rgb(190,229,235);
+	font-weight:bold;
+	font-size:15px;
+	border:none;
+
+}
 #sumIn{
 	color:rgb(150,150,150);
 	padding-left:45%;
@@ -37,12 +45,12 @@ span.icon-plus {
 .transaction tr td{
 	border:1px solid rgb(220,220,220);
 }
-.transactionAdd {
+#transactionAdd {
 	margin:0 auto;
 	border-top:1px solid rgb(200,200,200);
 	border-bottom:1px solid rgb(200,200,200);
 }
-.transactionAdd tr th{
+#transactionAdd tr th{
 	background:rgb(240,240,240);
 	width:100px;
 	padding:10px;
@@ -574,7 +582,6 @@ function validate2() {
 	}
 }
 </script>
-<input type="button" value="클릭" onclick="validate2()" />
 <div id="spendingDiv" class="insertDiv">
 	<form action="${pageContext.request.contextPath }/approvals/insertApprovalSpending" onsubmit="validate2()" id="spendingFrm" method="POST">
 		<h6>상세 입력</h6>
@@ -658,8 +665,12 @@ function validate2() {
 			} 
 		}
 		</script>
-		
-		<input type="submit" value="등록" />
+		<hr />
+		<input type="submit" value="등록" class="submitBtn"/>
+		<br />
+		<br />
+		<br />
+		<br />
 	</form>
 </div>
 <div id="extraDiv" class="insertDiv">
@@ -733,8 +744,13 @@ function validate2() {
 			});
 		</script>
 		<br />
-		<input type="submit" value="등록" />
+		<hr />
+		<input type="submit" value="등록" class="submitBtn"/>
 	</form>
+	<br />
+	<br />
+	<br />
+	<br />
 </div>
 <!-- Modal -->
 <div class="modal fade" id="addApprovals" tabindex="-1" role="dialog"
@@ -790,7 +806,7 @@ function validate2() {
 		      </div>
 
 		      <div class="modal-body">
-		        <table id="transactionAdd" class="transaction">
+		        <table id="transactionAdd">
 		        	<tr>
 		        		<th>계정과목</th>
 		        		<td>
@@ -900,7 +916,7 @@ function validate2() {
 					str += '<td>'+price+'</td>';
 					str += '<td>'+connection+'</td>';
 					str += '<td>'+summary+'</td>';
-					str += '<td><span class="transactionDelete" value="'+ids+'">삭제</span></td>';
+					str += '<td><span class="transactionDelete" name="'+price+'" value="'+ids+'">삭제</span></td>';
 					$("#transaction").append(str);
 					
 					
@@ -911,7 +927,7 @@ function validate2() {
 					for(var i=0; i<arr.length; i++){
 						priceNum += arr[i];
 					}
-					var priceNumber = Number(priceNum);
+					
 					document.getElementsByName("transactionDate")[0].value="";
 					document.getElementsByName("title_of_account")[0].value="";
 					document.getElementsByName("dept")[0].value="";
@@ -919,8 +935,12 @@ function validate2() {
 					document.getElementsByName("summary")[0].value="";
 					document.getElementsByName("price")[0].value="";
 					var sumB = $("#sumValue").attr("value");
-					var sumPrice = Number(sumB)+priceNum;
-					$("#sumValue").text(sumPrice);
+					var sumPrice = parseInt(sumB)+parseInt(priceNum);
+					 var val = String(sumPrice.toString().replace(/[^0-9]/g, ""));
+				        if(val.length < 1)
+				            return false;
+				        val = number_format(val);
+					$("#sumValue").text(val);
 					$("#sumValue").attr("value",sumPrice);
 			}
 			$(function() {
@@ -928,6 +948,20 @@ function validate2() {
 				    var ids = "#"+$(this).attr("value");
 				    alert("거래내역이 삭제되었습니다");
 				    $(ids).remove();
+				    var priceNum2 = $(this).attr("name")
+				    var arr = priceNum2.split(',');
+					var priceNum ='';
+					for(var i=0; i<arr.length; i++){
+						priceNum += arr[i];
+					}
+					var sumB = $("#sumValue").attr("value");
+					var sumPrice = parseInt(sumB)-parseInt(priceNum);
+					 var val = String(sumPrice.toString().replace(/[^0-9]/g, ""));
+				        if(val.length < 1)
+				            return false;
+				        val = number_format(val);
+					$("#sumValue").text(val);
+					$("#sumValue").attr("value",sumPrice);
 				});
 			})
 			
