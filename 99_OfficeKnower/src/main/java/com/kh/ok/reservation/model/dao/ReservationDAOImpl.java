@@ -1,5 +1,6 @@
 package com.kh.ok.reservation.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -129,5 +130,19 @@ public class ReservationDAOImpl implements ReservationDAO {
 	public List<Map<String, String>> reservationCategoryListCnt(String com_no) {
 		return sqlsession.selectList("reservation.reservationCategoryListCnt", com_no);
 	}
-	
+
+	@Override
+	public int reservationCategoryAdd(HashMap<String, String> map) {
+		return sqlsession.insert("reservation.reservationCategoryAdd", map);
+	}
+
+	@Override
+	public int reservationCategoryUpdate(HashMap<String, String> map) {
+		return sqlsession.update("reservation.reservationCategoryUpdate", map);
+	}
+
+	@Override
+	public int reservationCategoryDelete(HashMap<String, String> map) {
+		return sqlsession.delete("reservation.reservationCategoryDelete", map);
+	}
 }

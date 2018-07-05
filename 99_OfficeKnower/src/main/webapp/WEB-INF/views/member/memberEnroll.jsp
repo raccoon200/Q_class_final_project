@@ -122,13 +122,22 @@ $(function() {
    $("#userId_").on("keyup", function() {
       var userId = $(this).val().trim();
       if(userId.length<3) {
-         $(".guide.length").show();
-         $(".guide.error").hide();
-         $(".guide.ok").hide();
+         $(".guide.length.userId").show();
+         $(".guide.error.userId").hide();
+         $(".guide.ok.userId").hide();
+         $(".guide.char.userId").hide();
          $("#idDuplicateCheck").val(0);
          return false;
-      }
+      } 
       
+      if (!(userId >= '0' && userId <= '9') && !(userId >= 'a' && userId <= 'z')&&!(userId >= 'A' && userId <= 'Z')) {
+        $(".guide.char.userId").show();
+  	 	$(".guide.length.userId").hide();
+        $(".guide.error.userId").hide();
+        $(".guide.ok.userId").hide();
+        $("#idDuplicateCheck").val(0);
+      	return false;
+      }
       $.ajax({
          /* url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do"; */ 
          url : "checkIdDuplicate.do", /*현재 디렉토리에서 상대주소*/
@@ -140,13 +149,15 @@ $(function() {
             if(data.isUsable==true) {
                $(".guide.ok.userId").show();
                $(".guide.error.userId").hide();
-               $(".guide.length.userId").hide();
+               $(".guide.length.userId").hide();         
+               $(".guide.char.userId").hide();
                $("#idDuplicateCheck").val(1);
             }
             else{
                $(".guide.error.userId").show();
                $(".guide.ok.userId").hide();
                $(".guide.length.userId").hide();
+               $(".guide.char.userId").hide();
                $("#idDuplicateCheck").val(0);
                
             }
@@ -166,10 +177,17 @@ $(function() {
 	
 	$("#comName").on("focusout", function(key) {
       var comName = $(this).val().trim();
+      	if(comName==$("#comNamePre").val()&&$("#comNameDuplicateCheck").val()==1) {	
+      		$(".guide.ok.comName").show();
+   		    $(".guide.error.comName").hide();
+   		    return;
+      	} else {
+      		$("#comNamePre").val(comName);
+      	}
+      	
       console.log(comName);
       //if(key.keyCode==13) {
       if(comName=='') {
- 		 $(".guide.empty.comName").show();
     	 $(".guide.ok.comName").hide();
  		 $(".guide.error.comName").hide();
  		 $("#comNo").val('');
@@ -184,7 +202,6 @@ $(function() {
         	  console.log(data); //true/ false
               //if(data=="true") {
               if(data.isUsableCom==true) {
-                 
                  $.ajax({
                 	 url : "selectComSEQ.do",
                 	 dataType : "json",
@@ -192,7 +209,9 @@ $(function() {
                          $(".guide.ok.comName").show();
                 		 $(".guide.error.comName").hide();
                 		 $(".guide.empty.comName").hide();
-                		 $("#comNo").val(data.comSEQ); 
+                		 $("#comNo").val(data.comSEQ);
+                		 
+                		 $("#comNameDuplicateCheck").val(1);
                 	 }
                 	 });
                 	 }
@@ -200,6 +219,7 @@ $(function() {
                  $(".guide.error.comName").show();
                  $(".guide.ok.comName").hide(); 
                  $(".guide.empty.comName").hide();
+                 $("#comNameDuplicateCheck").val(0);
               }
           },
           error:function(jqxhr, textStatus, errorThrown) {
@@ -221,9 +241,23 @@ function validate() {
       return false;
    }
    if($("#idDuplicateCheck").val()==0) {
-	   alert("아이디 중복검사를 해주세요!");
+	   alert("아이디 검사를 해주세요. 사용가능하다고 나와야 합니다.");
 	   return false; 
    }
+	//아이디 유효성 검사 (영문소문자, 숫자만 허용)
+   for (i = 0; i < userId.val().length; i++) {
+       ch = userId.val().charAt(i);
+       if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')) {
+           alert("아이디는 대소문자, 숫자만 입력가능합니다.");
+           userId.focus();
+           userId.select();
+           return false;
+       }
+   }
+	if($("#comNameDuplicateCheck").val()==0&&$("#comName").val()!='') {
+		alert("동일한 회사이름은 안 됩니다.");
+		return false;
+	}
    return true;
 }
 
@@ -244,23 +278,27 @@ function fn_addressSum(){
 	<div id="enroll-container">
 	<form action="${pageContext.request.contextPath }/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
 		<div id="userId-container">
-		<input type="text" class="form-control" name="userId" id="userId_" placeholder="아이디" required/>
-		<span class="guide ok userId">이 아이디는 사용가능합니다.</span>
-		<span class="guide error userId">이 아이디는 사용할 수 없습니다.</span>
-		<span class="guide length userId">아이디는 3글자 이상이여야 합니다.</span>
+		<input type="text" class="form-control" name="userId" id="userId_" placeholder="아이디" required maxlength="13"/>
+		<span class="guide ok userId">사용가능합니다.</span>
+		<span class="guide error userId">이미 사용중입니다.</span>
+		<span class="guide length userId">3글자 이상이여야 합니다.</span>
+		<span class="guide char userId">대소문자, 숫자만 입력가능합니다.</span>
 		<input type="hidden" id="idDuplicateCheck" value="0"/>
 		</div>
 		<br />
-		<input type="password" class="form-control" name="password" id="password_" placeholder="비밀번호" required/>
+		<input type="password" class="form-control" name="password" id="password_" placeholder="비밀번호" required maxlength="13"/>
 		<br />
-		<input type="password" class="form-control" id="password2" placeholder="비밀번호확인" required/>
+		<input type="password" class="form-control" id="password2" placeholder="비밀번호확인" required maxlength="13"/>
 		<br />
-		<input type="text" class="form-control" name="userName" placeholder="이름" required/>
+		<input type="text" class="form-control" name="userName" placeholder="이름" required maxlength="13"/>
 		<br />
-		<input type="email" class="form-control" name="email" id="email" placeholder="이메일" required/>
+		<input type="email" class="form-control" name="email" id="email" placeholder="이메일" required maxlength="30"/>
 		<br />
-		<input type="text" class="form-control" name="phone" id="phone" maxlength="11" placeholder="전화번호" required/>
+		<input type="tel" class="form-control" name="phone" id="phone" placeholder="전화번호" required maxlength="11" />
 		<br />
+<!-- <<<<<<< HEAD
+		<input type="text" class="form-control" name="address" id="address" placeholder="주소" required maxlength="50"/>
+======= -->
 		<!-- <input type="text" class="form-control" name="address" id="address" placeholder="주소" required/> -->
 		<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 120px;" value=""> &nbsp;&nbsp; 
         <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
@@ -293,9 +331,11 @@ function fn_addressSum(){
 		<div id="comName-container">
 		<input type="text" class="form-control" name="com_name" id="comName" placeholder="회사이름" autocomplete="off"/>
 		<span class="guide ok comName">사용가능합니다.</span>
-		<span class="guide error comName">이미 있습니다.</span>		
-		<span class="guide empty comName">공백은 안 됩니다.</span>		
+		<span class="guide error comName">이미 있습니다.</span>
+		<input type="hidden" id="comNameDuplicateCheck" value="0"/>		
+		<!-- <span class="guide empty comName">공백은 안 됩니다.</span> -->		
 		<input type="text" class="form-control" name="com_no" id="comNo" readonly placeholder="회사번호"/>
+		<input type="hidden" id="comNamePre"/>
 		</div>
 		</div>		
 		<input type="submit" value="가입" class="btn btn-outline-success" onclick="fn_addressSum()"/>
