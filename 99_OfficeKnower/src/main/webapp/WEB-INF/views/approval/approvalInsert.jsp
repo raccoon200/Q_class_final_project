@@ -527,33 +527,42 @@ function validate() {
 function validate2() {
 	var str = '';
 	var length = document.getElementById("transaction").rows.length;
-	
-	var title_of_account = document.getElementById("transaction").rows[1].cells.item(0).innerHTML;
-	var transactionDate = document.getElementById("transaction").rows[1].cells.item(1).innerHTML;
-	var dept = document.getElementById("transaction").rows[1].cells.item(2).innerHTML;
-	var price = document.getElementById("transaction").rows[1].cells.item(3).innerHTML;
-	var connection = document.getElementById("transaction").rows[1].cells.item(4).innerHTML;
-	var summary = document.getElementById("transaction").rows[1].cells.item(5).innerHTML;
-	console.log("length : "+x);
-	var str2 = document.getElementById("transaction")[0].src("rows");
-	alert(str2);
-	console.log(str2);
+	for(var i=1; i<length; i++) {
+		var title_of_account = document.getElementById("transaction").rows[i].cells.item(0).innerHTML;
+		var transactionDate = document.getElementById("transaction").rows[i].cells.item(1).innerHTML;
+		var dept = document.getElementById("transaction").rows[i].cells.item(2).innerHTML;
+		var price = document.getElementById("transaction").rows[i].cells.item(3).innerHTML;
+		var connection = document.getElementById("transaction").rows[i].cells.item(4).innerHTML;
+		var summary = document.getElementById("transaction").rows[i].cells.item(5).innerHTML;
+		if(i==1) {
+			str += "[";
+		}else {
+			str += ",[";
+		}
+		str += "[title_of_account:"+title_of_account+"]";
+		str += ",[transactionDate:"+transactionDate+"]";
+		str += ",[dept:"+dept+"]";
+		str += ",[price:"+price+"]";
+		str += ",[connection:"+connection+"]";
+		str += ",[summary:"+summary+"]";
+		str += "]";
+	}
+	$("[name=transaction]").attr("value",str);
 	return false;
 }
 </script>
 <input type="button" value="클릭" onclick="validate2()" />
 <div id="spendingDiv" class="insertDiv">
-	<form action="${pageContext.request.contextPath }/approvals/insertApprovalSpending" onsubmit="validate2()" id="spendingFrm">
+	<form action="${pageContext.request.contextPath }/approvals/insertApprovalSpending" onsubmit="validate2()" id="spendingFrm" method="POST">
 		<h6>상세 입력</h6>
 		<hr />
 		제목 <input type="text" name="title" id="" class="form-control"
 			style="width: 85%; display: inline-block; float: right;" /> <br
 			clear="right" /> <br />
-			
+		<input type="hidden" name="transaction" value="" />
 		<input type="hidden" name="approvals" value=""/>
-		<input type="hidden" name="approval_status" value="" />
 		<input type="hidden" name="writer" value="${memberLoggedIn.userId }" />
-		<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" />
+	<%-- 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" /> --%>
 		<table class="table table-bordered">
 			<tbody>
 				<tr>
