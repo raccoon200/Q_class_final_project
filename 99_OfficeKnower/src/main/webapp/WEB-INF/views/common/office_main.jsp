@@ -78,7 +78,7 @@
             <img src="${pageContext.request.contextPath }/resources/images/common/board_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>게시판</h2>
             <p>끝에 구하지 이것을 장식하는 같으며, 어디 그리하였는가? 두기 싶이 봄날의 얼음 것이다. 청춘의 어디 바로 이는 것이다. 피고 있는 구하지 때문이다. 석가는 살 고동을 이상은 곧 뼈 그들에게 가장 칼이다.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">게시판 가기 &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/board/boardRecentList" role="button">게시판 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
           <div class="col-lg-4">
