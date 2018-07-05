@@ -48,7 +48,7 @@ public class BreakController {
 	
 	
 	@RequestMapping("/break/myBreak")
-	public String myBreak(Model model, HttpServletRequest request) {
+	public String myBreak(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String userId = null;
 		String comId = null;
@@ -59,15 +59,31 @@ public class BreakController {
 		
 		List<Break> myBreak = breakService.selectMyBreak(userId);
 		List<Map<String,String>> breaklist = breakService.selectBreakList(comId);
-		
 		System.out.println("breakList=" + breaklist);
 		System.out.println("myBreak@myBreak =" + myBreak);
+		
+		
+		//페이징처리
+		int numPerPage = 5;
+		List<Map<String,Object>> BreakRequest = breakService.selectBreakRequest(cPage, numPerPage,comId);
+		System.out.println("BreakRequest = " + BreakRequest);
+		int pageNum = breakService.selectBreakRequestCnt(comId);
+		
+		
 	   
 		model.addAttribute("myBreak",myBreak);
 		model.addAttribute("breaklist",breaklist);
+		model.addAttribute("BreakRequest",BreakRequest);
+		model.addAttribute("numPerPage",numPerPage);
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("cPage",cPage);
 		
 		return "break/myBreak";
 	}
+	
+	
+	
+	
 	
 	@RequestMapping("/break/breakCreate.do")
 	public String breakCreate() {

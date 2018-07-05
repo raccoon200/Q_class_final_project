@@ -37,8 +37,10 @@ function between(start,end){
    var diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
    diff = Math.ceil(diff / (1000 * 3600 * 24));
 
-   $("#selectedDay").html(diff);
+   
    $("#breakdays").val(diff);
+   $("#selectedDay").html(diff);
+ 
 	
 }
 
@@ -129,14 +131,16 @@ function between(start,end){
 
         	  } //eventClick끝  
         	,select: function(startDate, endDate) {
+        		
+        		
         	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
         	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
         	     console.log("endDate" + endDate);
         	     console.log("endDate.format()" + endDate.format()+"T02:00");
         	     
         	      $("#start").html(startDate.format()+"~");
-        	     $(".fc-highlight").css("background", "red");
-        		 enddateSolve(endDate.format());
+        	     //$(".fc-highlight").css("background", "red");
+        		  enddateSolve(endDate.format());
         	     
         	      between(startDate.format(),endDate.format());
         	      
@@ -144,6 +148,7 @@ function between(start,end){
         	     // $("#start").html(startDate.format()+ "~");
         	      $("#enddate").val(endDate.format());
         	   //   $("#end").html(endDate.format());
+        		  checkToday(startDate.format());
         	      
             }
         	
@@ -153,6 +158,43 @@ function between(start,end){
     }); //ready 끝  
 </script>
 <script>
+
+
+function checkToday(s){
+	var selectedYear = s.substring(0,4);
+	var selectedmm = s.substring(5,7);
+	var selecteddd = s.substring(8,10);
+	var selectedDate = new Date(selectedYear,selectedmm-1,selecteddd)
+	var todayYear = new Date().toString().substring(11,15);
+	var today = new Date();
+	
+	console.log("selectedYear" + selectedYear);
+	console.log("selectedmm" + selectedmm);
+	console.log("selecteddd" + selecteddd);
+	console.log("selectedDate = "+ selectedDate);
+	console.log("today = "+ today);
+	
+	if(today>=selectedDate){
+		alert("현재 날짜 혹은 현재 날짜보다 이전 날짜를 선택하실 수 없습니다.");
+		$(".fc-highlight").removeClass();
+		$("#selectedDay").html(" ");
+		$("#start").html(" ");
+		$("#end").html(" ");
+		return;
+	}
+	
+	
+	if(selectedYear !=todayYear){
+		alert("현재년도 날짜만 선택 가능합니다.");
+		$(".fc-highlight").removeClass();
+		$("#selectedDay").html(" ");
+		$("#start").html(" ");
+		$("#end").html(" ");
+		return;
+	}
+	//alert("날짜 체크" + todayYear);
+	
+}
 $(".fc-highlight").css("background", "red");
 
 function enddateSolve(endDate){
@@ -170,12 +212,12 @@ function enddateSolve(endDate){
 	
 	var m="";
 	var d="";
-	if(end.getMonth()<10){
+	if((end.getMonth()*1)<10){
 		m = "0" +(end.getMonth()+1);
 	}else{
 		m= end.getMonth()+1;
 	}
-	if(end.getDate()<10){
+	if((end.getDate()*1)<10){
 		d = "0" +end.getDate();
 	}else{
 		d= end.getDate();

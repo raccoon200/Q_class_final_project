@@ -3,6 +3,7 @@ package com.kh.ok.breakTime.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -76,6 +77,18 @@ public class BreakDAOImpl implements BreakDAO {
 	@Override
 	public int breakInesert(BreakRequest breakrequest) {
 		return sqlSession.insert("break.breakInesert",breakrequest);
+	}
+
+
+	@Override
+	public int selectBreakRequestCnt(String comId) {
+		return sqlSession.selectOne("break.selectBreakRequestCnt",comId);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("break.selectBreakRequest" , comId, rowBounds);
 	}
 
 }
