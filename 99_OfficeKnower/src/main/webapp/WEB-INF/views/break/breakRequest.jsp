@@ -111,6 +111,7 @@ function fn_BreakRequestSubmit(){
 	var approval = $("#username1").val();
 	var startDate = $("#startdate").val();
 	var endDate = $("#enddate").val();
+	var endDate2 = $("#enddate2").val();
 	var selectedUserid1 =$("#selectedUserid1").val();
 	var selectedUserid2 =$("#selectedUserid2").val();
 	var selectedUserid3 =$("#selectedUserid3").val();
@@ -124,10 +125,12 @@ function fn_BreakRequestSubmit(){
 	selectedDay *= 1;
 	regular *= 1;
 	reward *= 1;
+	console.log("endDate2222" + endDate2);
 	
 	
+	/* 
 	console.log("stratdate" + startDate);
-	console.log("endDate" + endDate);
+	console.log("endDate111111" + endDate);
 	console.log("1" +selectedUserid1);
 	console.log("2" +selectedUserid2);
 	console.log("3" +selectedUserid3);
@@ -136,7 +139,7 @@ function fn_BreakRequestSubmit(){
 	console.log("selectedDay " + selectedDay);
 	console.log("kind " + kind);
 	console.log("reason " + reason);
-	console.log("breakdays " + breakdays);
+	console.log("breakdays " + breakdays); */
 
 	
 	/* 입력하세요 */
@@ -181,6 +184,16 @@ function fn_deleteChoice(){
 	$("#username1").val("");
 	$("#username2").val("");
 	$("#username3").val("");
+}
+
+function len_chk(content){
+	
+	if (content.value.length > 300 ) {
+		alert("휴가 사유를 300자 미만으로 입력하세요.")
+		content.value = content.value.substring(0, 1000);
+        return false;
+    }
+	
 }
 </script>
 
@@ -235,6 +248,7 @@ function fn_deleteChoice(){
 		      	<c:out value="${userInfo.USERNAME}"/>
 		      	 &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		      	<span id="approvals"></span>
+		      	<input type="hidden" name="appUsername" id="input0" value='${memberLoggedIn.userId}'/>
 		      	<input type="hidden" name="appUsername" id="input1"/>
 		      	<input type="hidden" name="appUsername" id="input2"/>
 		      	<input type="hidden" name="appUsername" id="input3"/>
@@ -269,7 +283,7 @@ function fn_deleteChoice(){
 		    <tr>
 		      <th scope="row" class="rowTh">사유</th>
 		      <td>
-		      	<textarea class="form-control" name="reason" id="reason" rows="1"></textarea>
+		      	<textarea class="form-control" name="reason" id="reason" onKeyup='len_chk(this)' rows="1"></textarea>
 		      </td>
 		    </tr>
 		    <tr>
@@ -285,7 +299,6 @@ function fn_deleteChoice(){
 					  
 					 </div>
 				</div>
-		    	
 		    	</th>
 		    </tr>
 		  </tbody>
@@ -352,6 +365,20 @@ function fn_reChoice(count){
 
 function fn_nameSubmit(){
 	
+	
+	var userid1 = $("#selectedUserid1").val();
+	var userid2 = $("#selectedUserid2").val();
+	var userid3 = $("#selectedUserid3").val();
+	
+	
+	console.log("userid1" + userid1);
+	console.log("userid2" + userid2);
+	console.log("userid3" + userid3);
+	var useridList = $("input[name=selectedUserid]").val();
+	
+	//console.log("useridList" +useridList );
+	//console.log("selectedUserid1" +userid );
+	
 	var input1 = $("#username1").val();
 	var input2 = $("#username2").val(); 
 	var input3 = $("#username3").val();
@@ -360,16 +387,19 @@ function fn_nameSubmit(){
 		input1='미정1';
 	}else{
 		input1=$("#username1").val();
+		
 	}
 	if(input2==undefined || input2==""){
 		input2='미정2';
 	}else{
 		input2=$("#username2").val();
+		
 	}
 	if(input3==undefined || input3==""){
 		input3='미정3';
 	}else{
 		input3=$("#username3").val();
+		
 	}
 	
 	console.log("input1" + input1);
@@ -399,16 +429,16 @@ function fn_nameSubmit(){
 		var html = "";
 		if(input2=='미정2'){
 			html += input1;
-			$("#input1").val(input1);
+			$("#input1").val(userid1);
 		}else if(input3=='미정3'){
 			html += input1+"&nbsp;>&nbsp;"+input2;
-			$("#input1").val(input1);
-			$("#input2").val(input2);
+			$("#input1").val(userid1);
+			$("#input2").val(userid2);
 		}else{
 			html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3;
-			$("#input1").val(input1);
-			$("#input2").val(input2);
-			$("#input3").val(input3);
+			$("#input1").val(userid1);
+			$("#input2").val(userid2);
+			$("#input3").val(userid3);
 		}
 	//	html += input1+"&nbsp;>&nbsp;"+input2+"&nbsp;>&nbsp;"+input3+"&nbsp;&nbsp;";
 		$("#approvals").html(html);
@@ -469,12 +499,12 @@ $("#searchBox").on("keyup",function(){
 		        var td = tr.children();
 		        var html2="";
 		        
-		        html2+= "<div class='input-group mb-3'>";
+		        html2+= " <div class='input-group mb-3'>";
 		        html2+= " <input type='text' class='inputStyle form-control' aria-describedby='basic-addon2'  name='username' id='username"+cnt+"' value='"+td.eq(0).text()+"'readonly>";
-		        html2+= " <input type='hidden' id='selectedUserid"+cnt+"' value='"+td.eq(2).text()+"'readonly>";
+		        html2+= " <input type='hidden' id='selectedUserid"+cnt+"' value='"+td.eq(2).text()+"' name='selectedUserid'  readonly>";
 		        html2+= " <div class='input-group-append'>";
-		        html2+= "<span class='input-group-text' id='basic-addon2' onclick='fn_reChoice("+cnt+")'>X</span>";
-		        html2+= "</div></div>";
+		        html2+= " <span class='input-group-text' id='basic-addon2' onclick='fn_reChoice("+cnt+")'>X</span>";
+		        html2+= " </div></div>";
 		        
 		        
 		        //html2 += "&nbsp; <input type='text' class='form-control' name='username' id='username"+cnt+"' class='inputStyle' value='"+td.eq(0).text()+"' readonly/>";

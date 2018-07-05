@@ -57,6 +57,16 @@ function fn_createReward(userid,regular,reward, index){
 	console.log("이스케이프..?/" + userid);
 	console.log("이스케이프..?/ index" + index);
 	
+	if(afterReward<0){
+		alert("포상휴가를 잘못입력하셨습니다.");
+		return;
+	}
+	
+	if(afterReward==null || afterReward==0 ){
+		alert("포상휴가 일수를 입력하세요.");
+		return;
+	}
+	
 	if(regular== 'undefined'){
 		regular = 0;
 	}
@@ -251,7 +261,7 @@ function fn_select(){
 	 							html += "<td>" + c.REWARD_BREAK + "일</td>";
 	 						}
 	 						
-	 						html += "<td> <input type='text' name='reward' id='reward"+index+"' value='0'/> 일</td>";
+	 						html += "<td> <input type='number' name='reward' id='reward"+index+"' placeholder='포상휴가 일수 입력'/> 일</td>";
 	 						html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
 	 						html += "</tr>";
 	                 	}
@@ -290,24 +300,28 @@ function rewardMemberDelete(){
 	console.log("delete에서도 찍히니??" +name_com);
 	
 	var userid = "";
+	var selectedUser ="";
 	
 	if($("input:checkbox[name=selectedMember]").is(":checked")==false){
 		alert("삭제할 사원을 선택하세요.");
 	}else{
 		
-	
-	
-	$("input[name=selectedMember]:checked").each(function() {
 
+	$("input[name=selectedMember]").each(function() {
+		selectedUser += $(this).val() + ",";
+		console.log("selectedUser=" +selectedUser);
+
+	});
+	$("input[name=selectedMember]:checked").each(function() {
 		userid += $(this).val() + ",";
-		console.log(userid)
+		console.log(userid);
 
 	});
 	
 	$.ajax({
 	      url : "${pageContext.request.contextPath}/break/choiceMemberDelete.do",
 	            type: "post",
-	            data : {userid:userid, enrolldate1:enrolldate1, enrolldate2:enrolldate2, name_com:name_com},
+	            data : {selectedUser:selectedUser,userid:userid, enrolldate1:enrolldate1, enrolldate2:enrolldate2, name_com:name_com},
 	            dataType : "json",
 	            success: function(data){
 	               console.log(data);
@@ -365,7 +379,7 @@ function rewardMemberDelete(){
 	 							html += "<td>" + c.REWARD_BREAK + "일</td>"; 
 	 						}
 	 						
-	 						html += "<td> <input type='text' name='reward' id='reward"+index+"' value='0'/> 일</td>";
+	 						html += "<td> <input type='number' name='reward' id='reward"+index+"' placeholder='포상휴가 일수 입력'/> 일</td>";
 	    			    	html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
 	 						html += "</tr>";
 	                 	}
@@ -433,7 +447,7 @@ function rewardMemberDelete(){
 		근무 기간에 따른 연차 휴가 외 별도 포상 휴가를 부여할 때 사용하는 기능입니다. <br />
 		※ '생성 후' 입력란에 최종 포상 휴가 일수를 입력합니다. <br />
 		예) 현재 포상 휴가를 3일 받은 직원에게 2일을 추가하고 싶다면, '생성 후' 입력란에 5일을 입력합니다. <br />
-		※ 포상 휴가 일수는 '정수' 또는 '0.5' 단위로 입력할 수 있습니다. <br />
+		※ 포상 휴가 일수는 '정수' 단위로 입력할 수 있습니다. <br />
 		※ 포상 휴가 일수를 입력한 후 '지금 생성하기'를 클릭하세요. <br />
 		</p>
 	
@@ -599,8 +613,6 @@ $(function(){
 
 	});
 
-
-
 	// 레이어 닫기 이벤트
 
 	$(".close").click(function() {
@@ -634,6 +646,17 @@ function fn_ajaxMember(){
 	var enrolldate2 = $("#enrolldate2").val();
 	var name_com = $("#name_com").val();
 	
+	var year = enrolldate1.substring(0,4);
+	var month = enrolldate1.substring(5,7)*1;
+	var day = enrolldate1.substring(8,11)*1;
+	
+	var date = new Date(year,month-1,day);
+	var today = new Date();
+	
+	if(today<date){
+		alert("입사일자가 현재일을 넘을 수 없습니다.");
+	}
+	
 	$.ajax({
 	      url : "<%=request.getContextPath()%>/break/searchMember.do",
 	            type: "post",
@@ -643,8 +666,32 @@ function fn_ajaxMember(){
 	               console.log(data);
 	               data = data["list"];
 	               
-                 	if(data==null){
+                 	if(data.length==0){
 	           	  
+                 	
+						var html = ""; 
+	            	  	
+	            	  	html += "<form action=''>";
+	            	   	html += "<table class='table table-bordered' >";
+	            	  	html += "<thead>";
+	    			    html += "<tr style='background:#F6F6F6; text-align:center;'>";
+	    			    html += "<th scope='col'>";
+	    			    html += "<input type='checkbox' name='selectAll' id='selectAll' onclick='checkAll()'/>";
+	    			    html += "</th>";
+	    			    html += "<th scope='col' >이름</th>";
+	    			    html += "<th scope='col' >ID</th>";
+	    			    html += "<th scope='col' >소속</th>";
+	    			    html += "<th scope='col' >연차</th>";
+	    			    html += "<th scope='col' >포상</th>";
+	    			    html += "</tr>";
+	    			    html += "</thead>"; 
+                 		
+	    			    html += "<tr>";
+ 						html += "<td colspan='6' style='text-align:center;'>조건에 맞는 검색결과가 없습니다.</td>";
+ 						html += "</tr>";
+ 						
+ 						$("#memberTable").html(html);
+                 		
 	              	}else {
 	              	
 	            	  	var html = ""; 

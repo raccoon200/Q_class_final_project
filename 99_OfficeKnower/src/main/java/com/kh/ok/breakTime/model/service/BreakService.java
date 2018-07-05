@@ -32,4 +32,9 @@ public interface BreakService {
 
 	int breakInesert(BreakRequest breakrequest);
 
+
+	int selectBreakRequestCnt(String comId);
+
+	List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId);
+
 }

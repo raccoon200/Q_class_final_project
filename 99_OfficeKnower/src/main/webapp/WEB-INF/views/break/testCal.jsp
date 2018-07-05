@@ -37,8 +37,10 @@ function between(start,end){
    var diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
    diff = Math.ceil(diff / (1000 * 3600 * 24));
 
-   $("#selectedDay").html(diff);
+   
    $("#breakdays").val(diff);
+   $("#selectedDay").html(diff);
+ 
 	
 }
 
@@ -129,10 +131,16 @@ function between(start,end){
 
         	  } //eventClick끝  
         	,select: function(startDate, endDate) {
+        		
+        		
         	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
-        	     alert('selected ' + startDate.format() + ' to ' + (endDate-1).format());
-        	      
-        		 // enddateSolve(endDate);
+        	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
+        	     console.log("endDate" + endDate);
+        	     console.log("endDate.format()" + endDate.format()+"T02:00");
+        	     
+        	      $("#start").html(startDate.format()+"~");
+        	     //$(".fc-highlight").css("background", "red");
+        		  enddateSolve(endDate.format());
         	     
         	      between(startDate.format(),endDate.format());
         	      
@@ -140,29 +148,105 @@ function between(start,end){
         	     // $("#start").html(startDate.format()+ "~");
         	      $("#enddate").val(endDate.format());
         	   //   $("#end").html(endDate.format());
+        		  checkToday(startDate.format());
         	      
             }
         	
         }); //fullCalnedar끝
-        
+         
         
     }); //ready 끝  
 </script>
 <script>
-/* enddateSolve(endDate){
-	var end = endDate
+
+
+function checkToday(s){
+	var selectedYear = s.substring(0,4);
+	var selectedmm = s.substring(5,7);
+	var selecteddd = s.substring(8,10);
+	var selectedDate = new Date(selectedYear,selectedmm-1,selecteddd)
+	var todayYear = new Date().toString().substring(11,15);
+	var today = new Date();
 	
-} */
+	console.log("selectedYear" + selectedYear);
+	console.log("selectedmm" + selectedmm);
+	console.log("selecteddd" + selecteddd);
+	console.log("selectedDate = "+ selectedDate);
+	console.log("today = "+ today);
+	
+	if(today>=selectedDate){
+		alert("현재 날짜 혹은 현재 날짜보다 이전 날짜를 선택하실 수 없습니다.");
+		$(".fc-highlight").removeClass();
+		$("#selectedDay").html(" ");
+		$("#start").html(" ");
+		$("#end").html(" ");
+		return;
+	}
+	
+	
+	if(selectedYear !=todayYear){
+		alert("현재년도 날짜만 선택 가능합니다.");
+		$(".fc-highlight").removeClass();
+		$("#selectedDay").html(" ");
+		$("#start").html(" ");
+		$("#end").html(" ");
+		return;
+	}
+	//alert("날짜 체크" + todayYear);
+	
+}
+$(".fc-highlight").css("background", "red");
+
+function enddateSolve(endDate){
+	var year = endDate.substring(0,4);
+	var month = endDate.substring(5,7)*1;
+	var day = endDate.substring(8,11)*1;
+	console.log("year" +year);
+	console.log("month" +month);
+	console.log("day" +day);
+	
+	var end = new Date(year,month-1,day-1);
+	
+	
+	var y = end.getFullYear();
+	
+	var m="";
+	var d="";
+	if((end.getMonth()*1)<10){
+		m = "0" +(end.getMonth()+1);
+	}else{
+		m= end.getMonth()+1;
+	}
+	if((end.getDate()*1)<10){
+		d = "0" +end.getDate();
+	}else{
+		d= end.getDate();
+	}
+	
+	var realEndDate = y+"-"+m+"-"+d;
+	$("#enddate2").val(realEndDate);
+	
+	$("#end").html(realEndDate);
+	console.log("realEndDate"+realEndDate);
+	
+	console.log(y+"-"+m+"-"+d);
+	console.log("풀캘린더 날짜" + endDate);
+	console.log("날짜빼기" + end.toString().substring(0,4));
+	
+
+}  
 </script>
 
 
 <div id="calendar3">
 	<input type="hidden" name="startdate" id="startdate" />
-	<input type="hidden" name="enddate" id="enddate"/>
+	
+	<input type="hidden" name="enddate" id="enddate2"/>
 </div>
 <br />	
- <!-- 휴가 신청 : <span id="start"></span> <span id="end"></span> -->
+  휴가 신청 : <span id="start"></span> <span id="end"></span> 
  <br />
+
  선택일 수  :<span id="selectedDay"></span>일
  <input type="hidden" name="breakdays" id="breakdays"/>
 

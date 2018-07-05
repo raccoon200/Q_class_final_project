@@ -75,4 +75,15 @@ public class BreakServiceImpl implements BreakService {
 	public int breakInesert(BreakRequest breakrequest) {
 		return breakDao.breakInesert(breakrequest);
 	}
+
+
+	@Override
+	public int selectBreakRequestCnt(String comId) {
+		return breakDao.selectBreakRequestCnt(comId);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId) {
+		return breakDao.selectBreakRequest(cPage,numPerPage,comId);
+	}
 }
