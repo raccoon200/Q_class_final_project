@@ -52,4 +52,12 @@ public interface InsaDAO {
 
 	int insaJobUpdate(Map<String, String> map);
 
+	List<Member> insaMemberList(String com_no);
+
+	int insaMemberJobUpdate(Map<String, String> map);
+
+	List<Map<String, String>> insaselectAdmin(Member member);
+
+	int insaadminInsert(Member m);
+
 }

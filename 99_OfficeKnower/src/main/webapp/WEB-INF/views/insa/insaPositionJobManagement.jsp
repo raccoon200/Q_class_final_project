@@ -41,6 +41,11 @@ span.error{color: red;}
 <script>
 $(function(){
 	$("#selectjob").on("change",function(){
+		console.log($(this).val());
+		<c:forEach var='j' items='${jlist}'>
+			console.log('${j.job}');
+			console.log($("#selectjob").val() != '${j.job}');
+		</c:forEach>
 		<c:forEach items="${list}" var="m">
 			if("${m.job}" == $(this).val()){
 				console.log("$('#selectjob').val() =" + $('#selectjob').val());
@@ -49,7 +54,7 @@ $(function(){
 				var html = "<select name='updatejob' id='deleteupdatejob' class='custom-select deleteUpdateJob' style='width: 150px;'>";
 				html += "<option value='변경 직무' disabled selected>변경 직무</option>";
 				html += "<c:forEach var='j' items='${jlist}'>";
-				html += "if($('#selectjob').val() == '${j.job}'){";
+				html += "if($('#selectjob').val() != '${j.job}'){";
 				html += "<option class='positionOption'value='${j.job}'>${j.job}</option>}</c:forEach></select>";
 				$("#insaJobDeleteUpdateSelect").append(html);
 				return false;			
@@ -124,15 +129,15 @@ function fn_jobAdd(){
 function fn_btnJobinsaDelte() {	
 	var job = $("#selectjob").val();
 	
-	$("#insa_job_delete").val(job);
+	$("#insa_job_delete").val($("#deleteupdatejob").val());
 	
-	<c:forEach items="${list}" var="m">
+	/* <c:forEach items="${list}" var="m">
 		if("${m.job}" == job){
 			alert('기존에 값이 있습니다.');
 			return false;			
-	}
+		}
 	</c:forEach>
-	
+	 */
 	$("#jobDeleteModal").submit();
 }
 function fn_btnJobinsaUpdate(){
@@ -167,7 +172,7 @@ function fn_btnJobSubmit(){
 	$("#jobInsertAdd").submit();	
 }
 function fn_positionAdd(){
-	if($("#insa_position_tr").length< ${plist.size()}+2){
+	if($("#insa_position_table tr").length< ${plist.size()}+2){
 	var html = "<tr><th class='plist_th_count insa_th'>";
 		html += ($("#insa_position_table tr").length); 
 		html += "직위</th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

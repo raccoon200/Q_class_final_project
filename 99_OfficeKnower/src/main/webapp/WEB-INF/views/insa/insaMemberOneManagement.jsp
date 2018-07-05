@@ -202,7 +202,7 @@ $(function(){
 			<tr>
 				<th>소속</th>
 				<td>
-					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" >
+					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" readonly>
 					<input type="hidden" class="form-control" id="com_no" name="com_no" value="${member.com_no}" >
 				</td>
 			</tr>
@@ -296,8 +296,8 @@ $("#statusN").click(function() {
 function fn_addressSum(){
 	if($("#sample4_postcode").val().trim().length != 0)
 	var add1 = $("#sample4_postcode").val() 
-			+","+ $("#sample4_roadAddress").val()
-			+","+ $("#sample4_jibunAddress").val();
+			+", "+ $("#sample4_roadAddress").val()
+			+", "+ $("#sample4_jibunAddress").val();
 	$("#address").val(add1);
 }
 </script>

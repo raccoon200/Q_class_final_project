@@ -20,7 +20,7 @@
 		select nvl(to_char(joindate, 'YYYY'),'미기재 ') year from tbl_user where com_no=#{com_no} group by to_char(joindate, 'YYYY') order by year
 	</select>
 	<select id="positionListGroup" resultType="string">
-		select nvl(u.position, '미기재') from tbl_user u left join tbl_position p on u.position=p.position where u.com_no = #{com_no} group by u.position, p.position_level order by p.position_level
+		select nvl(u.position, '미기재'), p.position_level from tbl_user u left join tbl_position p on u.com_no=p.com_no and p.position = u.position where u.com_no like #{com_no}  group by u.position, p.position_level  order by p.position_level
 	</select>
 	<select id="selectmemberListAll" resultType="member">
 		select u.*, (select com_name from tbl_com c where c.com_no=u.com_no) com_name from tbl_user u where u.com_no=#{com_no} order by username
@@ -60,7 +60,14 @@
 		select count(*) from tbl_user where com_no=#{comNo} and emp_no=#{empNo}
 	</select>
 	<update id="insaMemberOneUpdate" parameterType="member">
-	update tbl_user set emp_no=#{emp_no},position=#{position}, job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, birthday=#{birthday}, address=#{address}, etc_inf=#{etc_inf}, joindate=#{joinDate}, status=#{status}
+	update tbl_user set emp_no=#{emp_no},position=#{position}, job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, address=#{address}, etc_inf=#{etc_inf}
+	<if test='birthday!= null'>
+		, birthday=#{birthday}
+	</if>
+	<if test='joindate != null'>
+		, joindate=#{joinDate}
+	</if>
+	, status=#{status}
 	<if test='status == "N"'>
 		, quitDate=sysdate	
 	</if>
@@ -79,9 +86,6 @@
 		</if>
 		<if test='updateType == "job"'>
 			job=#{job}
-		</if>
-		<if test='updateType == "status"'>
-			status=#{status}
 		</if>
 		where userId in
 		<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
@@ -107,9 +111,21 @@
 		insert into tbl_job values(#{com_no},#{job})
 	</insert>
 	<delete id="insaJobDelete">
-		delete from tbl_job where com_no=#{com_no} and job=#{job}
+		delete from tbl_job where com_no=#{com_no} and job=#{selectjob}
 	</delete>
 	<update id="insaJobUpdate">
 		update tbl_job set job=#{job} where com_no=#{com_no} and job=#{selectjob}
+	</update>
+	<select id="insaMemberList" resultType="member">
+		select u.* ,(select com_name from tbl_com c where c.com_no=u.com_no) com_name from tbl_user u where com_no=#{com_no}
+	</select>
+	<update id="insaMemberJobUpdate">
+		update tbl_user set job=#{job} where com_no=#{com_no} and job=#{selectjob}
+	</update>
+	<select id="insaselectAdmin" resultType="map">
+		select * from tbl_user where userName like #{userName} and com_no=#{com_no}
+	</select>
+	<update id="insaadminInsert">
+		update tbl_user set grade=#{grade} where userId=#{userId}
 	</update>
 </mapper>

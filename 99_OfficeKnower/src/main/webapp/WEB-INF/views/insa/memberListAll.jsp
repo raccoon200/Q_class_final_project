@@ -207,7 +207,12 @@ $(function(){
 	<hr /><br /><br />
 	
 	<div class="groupBox team">
-		${list.get(0).getCom_name()}[${list.size()}명] 
+		<c:if test="${list.size() >0}">
+			${list.get(0).getCom_name()}[${list.size()}명] 
+		</c:if>
+		<c:if test="${list.size() == 0}">
+			[0명] 
+		</c:if>
 	</div>
 	<div class="people defaultpeople" style="display: inline-block;">
 	<ul>
@@ -287,7 +292,9 @@ $(function(){
 			<dl style="margin-left: 150px;">
 				<dd class="insa-layer-name"></dd>
 				<dd>
+				<c:if test="${list.size() >0}">
 					${list.get(0).getCom_name()}<br>
+				</c:if>
 				</dd>
 				<dd class="insa-layer-position">
 				</dd>

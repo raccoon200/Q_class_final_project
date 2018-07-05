@@ -125,4 +125,24 @@ public class InsaDAOImpl implements InsaDAO {
 	public int insaJobUpdate(Map<String, String> map) {
 		return sqlSession.update("insa.insaJobUpdate",map);
 	}
+
+	@Override
+	public List<Member> insaMemberList(String com_no) {
+		return sqlSession.selectList("insa.insaMemberList",com_no);
+	}
+
+	@Override
+	public int insaMemberJobUpdate(Map<String, String> map) {
+		return sqlSession.update("insa.insaMemberJobUpdate",map);
+	}
+
+	@Override
+	public List<Map<String, String>> insaselectAdmin(Member member) {
+		return sqlSession.selectList("insa.insaselectAdmin",member);
+	}
+
+	@Override
+	public int insaadminInsert(Member m) {
+		return sqlSession.update("insa.insaadminInsert",m);
+	}
 }
