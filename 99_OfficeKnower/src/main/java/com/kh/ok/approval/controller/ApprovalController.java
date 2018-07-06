@@ -2,8 +2,10 @@ package com.kh.ok.approval.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,13 +44,7 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@RequestMapping("/office/approval.do")
-	public ModelAndView approvalDagi () {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("approval/approval_dagi");
-		return mav;
-	}
+
 	@RequestMapping("/office/approval/code.do")
 	public ModelAndView aprovalCode(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
@@ -553,7 +549,6 @@ public class ApprovalController {
 		approval.setApproval_no("기타-");
 		approval.setWriter(writer);
 		approval.setCom_no(com_no);
-		approval.setStatus("결재 중");
 		approval.setTitle(title);
 		
 		String[] appro = approvals.split(",");
@@ -566,6 +561,12 @@ public class ApprovalController {
 		
 		approval.setApprovals(newAppro);
 		approval.setApproval_status(appro.length-1);
+		
+		if(approval.getApproval_status()==0) {
+			approval.setStatus("결재 완료");
+		}else {
+			approval.setStatus("결재 중");
+		}
 		
 		String jsonStr = "";
 		ObjectMapper mapper = new ObjectMapper();
@@ -596,15 +597,14 @@ public class ApprovalController {
 	
 	@RequestMapping("/approvals/insertApprovalSpending")
 	public ModelAndView insertApprovalSpending(@RequestParam(value="approvals") String approvals, 
-			@RequestParam(value="title") String title, @RequestParam(value="year") int year, @RequestParam(value="month") int month,
+			@RequestParam(value="title") String title, @RequestParam(value="writer") String writer, @RequestParam(value="year") int year, @RequestParam(value="month") int month,
 			@RequestParam(value="bankName") String bankName, @RequestParam(value="account_no") String account_no, @RequestParam(value="userId") String userId, @RequestParam(value="transaction") String transaction, HttpSession session) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no("지결-");
-		approval.setWriter(userId);
-		approval.setStatus("결재 중");
+		approval.setWriter(writer);
 		approval.setTitle(title);
-		
+		approval.setSpender(userId);
 		Member m = (Member)session.getAttribute("memberLoggedIn");
 		approval.setCom_no(m.getCom_no());
 		
@@ -618,7 +618,11 @@ public class ApprovalController {
 		
 		approval.setApprovals(newAppro);
 		approval.setApproval_status(appro.length-1);
-		
+		if(approval.getApproval_status()==0) {
+			approval.setStatus("결재 완료");
+		}else {
+			approval.setStatus("결재 중");
+		}
 		String jsonStr = "";
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> contents = new HashMap<String, Object>();
@@ -667,6 +671,297 @@ public class ApprovalController {
 		mav.addObject("pageNum", pageNum);
 		
 		mav.addObject("approvalDataList", approvalDataList);
+		return mav;
+	}
+	@RequestMapping("/office/approval.do")	//대기
+	public ModelAndView ApprovalList(HttpSession session) {	
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		
+		//결재
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+				
+		List<Map<String, Object>> approvalWaitList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						approvalWaitList.add(approvalDataList.get(i));
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+   
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestWaitList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						breakRequestWaitList.add(breakRequestList.get(i));
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+   
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		mav.addObject("approvalWaitList", approvalWaitList);
+		mav.addObject("breakRequestWaitList", breakRequestWaitList);
+		mav.setViewName("approval/approval_dagi");
+		return mav;
+	}
+	@RequestMapping("/office/expectedApproval.do") //예정
+	public ModelAndView expectedApprovalList(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+		List<Map<String, Object>> approvalExpectedList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						approvalExpectedList.add(approvalDataList.get(i));
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestExpectedList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						breakRequestExpectedList.add(breakRequestList.get(i));
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+   
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		mav.addObject("approvalExpectedList", approvalExpectedList);
+		mav.addObject("breakRequestExpectedList", breakRequestExpectedList);
+		mav.setViewName("approval/approval_dPwjd");
+		return mav;
+	}
+	@RequestMapping("/office/progressApproval.do") //진행
+	public ModelAndView progressApprovalList(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+
+		List<Map<String, Object>> approvalProgressList = new ArrayList<Map<String,Object>>();
+
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+						approvalProgressList.add(approvalDataList.get(i));
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestProgressList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+						breakRequestProgressList.add(breakRequestList.get(i));
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		mav.addObject("approvalProgressList", approvalProgressList);
+		mav.addObject("breakRequestProgressList", breakRequestProgressList);
+		mav.setViewName("approval/approval_wlsgod");
+		return mav;
+	}
+	@RequestMapping("/office/completeApproval.do") //완료
+	public ModelAndView completeApprovalList(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+
+		List<Map<String, Object>> approvalCompleteList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+					approvalCompleteList.add(approvalDataList.get(i));
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestCompleteList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(approval_status == 0) {	// 완료일 경우
+					breakRequestCompleteList.add(breakRequestList.get(i));
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+						
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		mav.addObject("approvalCompleteList", approvalCompleteList);
+		mav.addObject("breakRequestCompleteList", breakRequestCompleteList);
+		mav.setViewName("approval/approval_dhksfy");
 		return mav;
 	}
 }

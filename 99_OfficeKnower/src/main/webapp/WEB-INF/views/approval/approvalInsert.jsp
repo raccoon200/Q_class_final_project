@@ -591,6 +591,7 @@ function validate2() {
 			clear="right" /> <br />
 		<input type="hidden" name="transaction" value="" />
 		<input type="hidden" name="approvals" value="${memberLoggedIn.userId }"/>
+		<input type="hidden" name="writer" value="${memberLoggedIn.userId }"/>
 	<%-- 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" /> --%>
 		<table class="table table-bordered">
 			<tbody>

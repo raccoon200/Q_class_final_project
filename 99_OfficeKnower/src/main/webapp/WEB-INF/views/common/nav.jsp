@@ -58,13 +58,10 @@
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
-				<li><a href="${pageContext.request }/office/approval.do">대기</a><br />
-				</li>
-				<li><a href="#">예정</a><br /></li>
-				<li><a href="#">진행</a><br /></li>
-				<li><a href="#">완료</a><br /></li>
-				<li><a href="#">수신 대기</a><br /></li>
-				<li><a href="#">회람 대기</a><br /></li>
+				<li><a href="${pageContext.request.contextPath }/office/approval.do">대기</a><br /></li>
+				<li><a href="${pageContext.request.contextPath }/office/expectedApproval.do">예정</a><br /></li>
+				<li><a href="${pageContext.request.contextPath }/office/progressApproval.do">진행</a><br /></li>
+				<li><a href="${pageContext.request.contextPath }/office/completeApproval.do">완료</a><br /></li>
 				<li><a href="javascript:void(0)" class="depth1"> <img
 						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
 						alt="폴더" class="fold" /> 문서함
@@ -73,10 +70,7 @@
 						<li><a href="#">전체</a><br /></li>
 						<li><a href="#">기안</a><br /></li>
 						<li><a href="#">결제</a><br /></li>
-						<li><a href="#">수신</a><br /></li>
-						<li><a href="#">회람/참조</a><br /></li>
 						<li><a href="#">반려</a><br /></li>
-						<li><a href="#">임시 보관</a><br /></li>
 					</ul></li>
 				<li><a href="${pageContext.request.contextPath }/approval/approvalSetting.do">설정</a><br /></li>
 				<c:if
