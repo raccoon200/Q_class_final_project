@@ -15,7 +15,9 @@
 	<jsp:param value="주소록" name="pageTitle"/>
 	<jsp:param value="공유 주소록" name="selectMenu"/>
 </jsp:include>
+<script>
 
+</script>
 	<style>
 	table.table tr th{
 		background:rgb(230,230,230);
