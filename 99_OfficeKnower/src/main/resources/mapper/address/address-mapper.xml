@@ -43,7 +43,34 @@
 	   		insert into tbl_address
 	   		values(SEQ_TBL_ADDRESS.nextval,#{userId},#{comId},#{name},#{email},#{phone},#{tag},#{company},#{address},#{anniversary},#{memo},'Y')
 	   </insert>
-	
-	
+		<select id="AddressSelectName" resultType="address">
+			select * from tbl_address where com_no=#{com_no} and address_no=#{address_no}
+		</select>
+		<update id="addressUpdateInfo" parameterType="com.kh.ok.address.model.vo.Address">
+			update tbl_address set 
+				anniversary = #{anniversary}
+			<if test="company != null">
+				,company = #{company}
+			</if>
+			<if test="name != null">
+				,name = #{name}
+			</if>
+			<if test="email!= null">
+				,email = #{email}
+			</if>
+			<if test="phone != null">
+				,phone = #{phone}
+			</if>
+			<if test="tag != null">
+				,tag = #{tag}
+			</if>
+			<if test="address!= null">
+				,address = #{address}
+			</if>
+			<if test="memo!= null">
+				,memo = #{memo}
+			</if>
+			where address_no = #{address_no} and com_no = #{com_No}
+		</update>
 	 
 </mapper>

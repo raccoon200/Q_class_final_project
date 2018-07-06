@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.ok.address.model.vo.Address;
+import com.kh.ok.member.model.vo.Member;
 
 
 @Repository
@@ -40,6 +41,16 @@ public class AddressDAOImpl implements AddressDAO {
 	@Override
 	public List<Address> addressTrashList() {
 		return sqlSession.selectList("address.addressTrashList");
+	}
+
+	@Override
+	public Address AddressSelectName(Map<String, String> map) {
+		return sqlSession.selectOne("address.AddressSelectName", map);
+	}
+
+	@Override
+	public int addressUpdateInfo(Address address) {
+		return sqlSession.update("address.addressUpdateInfo",address);
 	}
 
 	

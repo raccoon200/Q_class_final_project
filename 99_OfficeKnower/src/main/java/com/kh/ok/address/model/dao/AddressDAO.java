@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.ok.address.model.vo.Address;
+import com.kh.ok.member.model.vo.Member;
 
 public interface AddressDAO {
 
@@ -17,6 +18,10 @@ public interface AddressDAO {
 	int addressTrash(String addId);
 
 	List<Address> addressTrashList();
+
+	Address AddressSelectName(Map<String, String> map);
+
+	int addressUpdateInfo(Address address);
 
 	
 

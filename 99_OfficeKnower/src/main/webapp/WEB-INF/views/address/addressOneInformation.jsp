@@ -1,3 +1,4 @@
+<%@page import="com.kh.ok.address.model.vo.Address"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -16,21 +17,12 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
-
-<script type="text/javascript">
-
-  $('input:radio[name=addr_type]:input[value=addr_personal]').attr("checked", true);
-  $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
-</script>
-<script>
-function fn_addressSum(){
-	if($("#sample4_postcode").val().trim().length != 0)
-	var add1 = $("#sample4_postcode").val() 
-			+",, "+ $("#sample4_roadAddress").val()
-			+",, "+ $("#sample4_jibunAddress").val();
-	$("#address").val(add1);
-}
-</script>
+<%
+	String[] add = null; 
+	Address mem = ((Address)request.getAttribute("address"));
+	if(mem.getAddress() !=null)
+		add = (((Address)request.getAttribute("address")).getAddress()).split(",,");
+%>
 <script>
 
    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -89,7 +81,12 @@ function fn_addressSum(){
             }).open();
    }
 </script>
-	<form action="InsertAddress.do" method="post">
+<script type="text/javascript">
+  $('input:radio[name=addr_type]:input[value=addr_personal]').attr("checked", true);
+  $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
+</script>
+
+	<form action="updateAddress.do" method="post" id="updateAddressForm">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
@@ -97,62 +94,70 @@ function fn_addressSum(){
 		<table>
 			<tr>
 				<td>
-					이름   <input type="text" name="name" id="name" />
+					이름   
+					<input type="text" name="name" id="name" value="${address.name}" />
+					<input type="hidden" name="address_no" id="address_no" value="${address.address_no}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					이메일   <input type="text" name="email" id="email" />
+					이메일   <input type="text" name="email" id="email" value="${address.email}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					전화번호  <input type="text" name="phone" id="phone" />
+					전화번호  <input type="text" name="phone" id="phone" value="${address.phone}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					태그   <input type="text" name="tag" id="tag" />
+					태그   <input type="text" name="tag" id="tag" value="${address.tag}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					회사  <input type="text" name="company" id="company" />
+					회사  <input type="text" name="company" id="company" value="${address.company}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-				 	 
-
-			<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
-			<img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-			</div>
-			주소  
-				<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" > &nbsp;&nbsp; 
-                 <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-                 <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;"> 
-                 <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;">
-                 <input type="hidden" name="address" id="address" value="" />
-                 <span id="guide" style="color: #999"></span>
-			</td>
+			주소 
+					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
+                     <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
+                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add!=null?add[1]:"" %>"> 
+                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add!=null?add[2]:"" %>">
+                     <input type="hidden" name="address" id="address" value="" />
+                     <span id="guide" style="color: #999"></span>				 	 
+				</td>
 			</tr>
 			
 			<tr>
 				<td>
-				 	 기념일  <input type="date" name="anniversary" id="anniversary" required/>
+				 	 기념일  <input type="date" name="anniversary" id="anniversary" value="${address.anniversary}" required/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-				 	 메모  <input type="text" name="memo" id="memo" />
+				 	 메모 
+				 	  <input type="text" name="memo" id="memo" value="${address.memo}" />
+				 	  <input type="hidden" name="com_No" id="com_No" value="${address.com_No}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<input type="submit" value="저장" onclick="fn_addressSum();" />
+					<input type="button" value="수정"  onclick="fn_addressSum();"/>
 				</td>
 			</tr>
 		</table>
 	</form>
-
+<script>
+function fn_addressSum(){
+	if($("#sample4_postcode").val().trim().length != 0)
+	var add1 = $("#sample4_postcode").val() 
+			+",, "+ $("#sample4_roadAddress").val()
+			+",, "+ $("#sample4_jibunAddress").val();
+	$("#address").val(add1);
+	$("#updateAddressForm").submit();
+}
+</script>
 	

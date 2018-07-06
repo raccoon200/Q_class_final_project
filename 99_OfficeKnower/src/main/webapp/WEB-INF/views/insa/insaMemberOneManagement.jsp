@@ -20,7 +20,7 @@
 	String[] add = null; 
 	Member mem = ((Member)request.getAttribute("member"));
 	if(mem.getAddress() !=null)
-		add = (((Member)request.getAttribute("member")).getAddress()).split(",");
+		add = (((Member)request.getAttribute("member")).getAddress()).split(",,");
 %>
 <style>
 /* input[type=button].btn2, input[type=submit].btn2{
