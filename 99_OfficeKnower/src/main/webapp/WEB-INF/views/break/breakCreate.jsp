@@ -438,7 +438,7 @@ function rewardMemberDelete(){
 <!-- div 모음 시작 -->
 <div class="tab-content" id="myTabContent"> 
 	<div class="tab-pane fade show active" id="year" role="tabpanel" aria-labelledby="year-tab">
-		<form action="${pageContext.request.contextPath }/break/breakSettingEnd.do" method="post">
+		<form action="${pageContext.request.contextPath }/break/breakCreateEnd.do" method="post">
 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
 	<table class="table table-bordered">
 		<tr>

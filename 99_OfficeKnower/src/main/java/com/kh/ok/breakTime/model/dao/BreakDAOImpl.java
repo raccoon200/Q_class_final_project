@@ -102,4 +102,9 @@ public class BreakDAOImpl implements BreakDAO {
 		return sqlSession.update("break.updateBreakSetting", bs);
 	}
 
+	@Override
+	public int callProc_break_manual(BreakSetting bs) {
+		return sqlSession.update("break.callProc_break_manual", bs);
+	}
+
 }

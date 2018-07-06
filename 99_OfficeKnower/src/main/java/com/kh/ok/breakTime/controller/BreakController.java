@@ -427,4 +427,15 @@ public class BreakController {
 		}
 		return mav;
 	}
+	@RequestMapping("/break/breakCreateEnd.do")
+	public ModelAndView breakCreateEnd(BreakSetting bs) {
+		ModelAndView mav = new ModelAndView();
+		
+		breakService.callProc_break_manual(bs);
+		
+		mav.addObject("loc", "/break/breakCreate.do");
+		mav.addObject("msg", "정기휴가가 생성되었습니다.");
+		mav.setViewName("common/msg");
+		return mav;
+	}
 }
