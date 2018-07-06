@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 	<!-- 아이콘 -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/Font-Face/style.css" />
+	<link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/common/favicon.ico">
 </head>
 <style>
 	img.logo{
@@ -205,6 +206,13 @@ $(function(){
 					신속한 의사 결정을 위한 
 					<span>사내 결재 시스템</span>
 				</h1>
+				<c:if test="${memberLoggedIn ne null }">
+					<p>
+						<a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath }/office/office_main.do" role="button">
+							오피스로 가기 &raquo;
+						</a>
+					</p>
+				</c:if>
 			</div>	
 		</header>
 	</div>

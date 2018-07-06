@@ -74,4 +74,8 @@ public interface ApprovalService {
 	int approvalDataListCount(String com_no);
 
 	List<Map<String, String>> selectApprovalDataList(int cPage, int numPerPage, String com_no);
+
+	List<Map<String, Object>> selectApprovalList(String com_no);
+
+	List<Map<String, Object>> selectBreakRequestList(String com_no);
 }

@@ -52,6 +52,10 @@ public class AddressDAOImpl implements AddressDAO {
 	public int addressUpdateInfo(Address address) {
 		return sqlSession.update("address.addressUpdateInfo",address);
 	}
+	public int addressReset(String addId) {
+		return sqlSession.insert("address.addressReset", addId);
+
+	}
 
 	
 

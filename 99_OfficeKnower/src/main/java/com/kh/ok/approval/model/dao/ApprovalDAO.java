@@ -73,4 +73,8 @@ public interface ApprovalDAO {
 
 	int approvalDataListCount(String com_no);
 
+	List<Map<String, Object>> selectApprovalList(String com_no);
+
+	List<Map<String, Object>> selectBreakRequestList(String com_no);
+
 }

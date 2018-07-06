@@ -8,13 +8,13 @@
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="전자결재" name="pageTitle" />
-	<jsp:param value="대기" name="selectMenu" />
+	<jsp:param value="진행" name="selectMenu" />
 </jsp:include>
 
-<h6 style="font-weight:bold">대기</h6>
+<h6 style="font-weight:bold">진행</h6>
 
 <hr />
-<p style="color:rgb(200,200,200)">※ 대기 목록</p>
+<p style="color:rgb(200,200,200)">※ 진행 목록</p>
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -35,7 +35,7 @@
 	      <th scope="col" style="min-width:110px;">기안일</th>
 	      <th scope="col" style="min-width:100px;">결재 상태</th>
 	    </tr>
-	    <c:forEach var="v" items="${approvalWaitList }">
+	    <c:forEach var="v" items="${approvalProgressList }">
 	    <tr>
 	    	<td>${v.APPROVAL_NO }</td>
 	    	<td>${v.TITLE }</td>
@@ -58,7 +58,7 @@
 	      <th scope="col" style="min-width:110px;">종료일</th>
 	      <th scope="col" style="min-width:110px;">결재 상태</th>
 	    </tr>
-	    <c:forEach var="v" items="${breakRequestWaitList }">
+	    <c:forEach var="v" items="${breakRequestProgressList }">
 	    <tr>
 	    	<td>${v.BREAK_REQUEST_NO}</td>
 	    	<td>${v.USERID }</td>

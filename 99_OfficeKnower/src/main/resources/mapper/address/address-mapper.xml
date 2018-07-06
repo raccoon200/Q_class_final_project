@@ -25,9 +25,10 @@
 		    SELECT * FROM tbl_address where status = 'Y'
 	   </select> 
 	   
-<!-- 	    <select id="addressTrash"  resultType="com.kh.ok.address.model.vo.Address">
-		    FROM tbl_address
-	   </select>  -->
+ 		<insert id="InsertAddress">
+	   		insert into tbl_address
+	   		values(SEQ_TBL_ADDRESS.nextval,#{userId},#{comId},#{name},#{email},#{phone},#{tag},#{company},#{address},#{anniversary},#{memo},'Y')
+	   </insert>
 	   
   		 <update id="addressTrash">
   		 update tbl_address set status = 'N' where address_no = #{addId}
@@ -36,9 +37,11 @@
 		 <select id="addressTrashList"  resultType="com.kh.ok.address.model.vo.Address">
 		    SELECT * FROM tbl_address where status = 'N'
 	    </select> 
+	    
+	     <update id="addressReset">
+  		 update tbl_address set status = 'Y' where address_no = #{addId}
+		</update>
  	
-
-
 	   <insert id="InsertAddress">
 	   		insert into tbl_address
 	   		values(SEQ_TBL_ADDRESS.nextval,#{userId},#{comId},#{name},#{email},#{phone},#{tag},#{company},#{address},#{anniversary},#{memo},'Y')

@@ -57,7 +57,7 @@
 					<table class="table">
 					<tr>
 					<td>
-					<label for="category_">카테고리 이름</label>
+					<label for="category">카테고리 이름</label>
 					</td>
 					<td>
 					<input type="text" name="category" id="category" required/>
@@ -168,18 +168,3 @@ function fn_deleteClick(category) {
 	}
 }
 </script>
-<!--  function fn_categoryUpdate() {
-	$.ajax({
-		type: 'post',
-		dataType: 'json',
-		url: 'reservation/reservationCategoryUpdate',
-		data: {category:'$("#category_update").find("#category_").val()', category_purpose:'$("#category_update").find("#category_purpose_").val()'},
-		success : function(data) {
-			
-		},
-	 	error: function (request, status, error) {
-	        console.log('code: '+request.status+"\n"+'message: '+request.responseText+"\n"+'error: '+error);
-	    }
-	});
-} 
- -->

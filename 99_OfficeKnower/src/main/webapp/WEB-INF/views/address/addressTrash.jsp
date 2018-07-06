@@ -45,11 +45,18 @@
 			      <td>${addr.phone}</td>
 			      <td>${addr.company}</td>
 			      <td>${addr.address}</td>
+			      <td> <button onclick="fn_reset('${addr.address_no}');">복구</button></td>
             </tr>
         
         </c:forEach>
 	</table>
-	
+	<script>
+	function fn_reset(addId){
+		alert(name+"복구완료 되었습니다.");
+		location.href="addressTrash?addId="+addId;
+	}
+	</script>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

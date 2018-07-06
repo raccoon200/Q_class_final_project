@@ -60,4 +60,6 @@ public interface ReservationDAO {
 
 	int reservationCategoryDelete(HashMap<String, String> map);
 
+	int reservationResourcesAdd(Resources resources);
+
 }

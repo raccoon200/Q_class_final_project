@@ -42,15 +42,15 @@
 
 	<c:forEach var="addr" items="${address}" varStatus="cou" >
 	<tr>
-      <td>${cou.count}</td>
-      <td>
-      <a style="color:gray; font-weight:bold; text-decoration: underline;" href="${pageContext.request.contextPath}/address/addressOneInformation.do?address_no=${addr.address_no}">${addr.name}</a>
-      </td>
-      <td>${addr.email}</td>
-      <td>${addr.phone}</td>
-      <td>${addr.company}</td>
-      <td>${addr.address}</td>
-      <td> <button onclick="fn_deleteAdd('${addr.address_no}');">삭제</button></td>
+    	<td>${cou.count}</td>
+     	<td>
+	    	<a style="color:gray; font-weight:bold; text-decoration: underline;" href="${pageContext.request.contextPath}/address/addressOneInformation.do?address_no=${addr.address_no}">${addr.name}</a>
+	    </td>
+	    <td>${addr.email}</td>
+	    <td>${addr.phone}</td>
+	    <td>${addr.company}</td>
+	    <td>${addr.address}</td>
+	    <td> <button onclick="fn_deleteAdd('${addr.address_no}');">삭제</button></td>
      </tr>
     </c:forEach>
 

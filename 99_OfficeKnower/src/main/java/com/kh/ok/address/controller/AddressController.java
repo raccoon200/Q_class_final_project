@@ -78,17 +78,24 @@ public class AddressController {
 			
 		return mav;
 	}
-/*	@RequestMapping(value ="/address/addressTrash", method = RequestMethod.POST)
-	public String addressTrash(@RequestParam("addressTrashList") Address addressTrashList, ModelMap modelMap) throws Exception {
-	    // 삭제할 사용자 ID마다 반복해서 사용자 삭제
-	    for (String userId : addressTrashList) {
-	        System.out.println("주소 삭제 = " + addressAdd());
-	        int delete_count = addressService.addressAdd(addressTrashList);
-	    }
-	    // 목록 페이지로 이동
-	    return "address/addressTrash";
-	}*/
 	
+	@RequestMapping("/address/addressReset")
+	public ModelAndView addressReset(HttpServletRequest request){
+		
+		String addId= request.getParameter("addId");
+		System.out.println("addId=" + addId);
+		System.out.println("??");
+		
+		ModelAndView mav = new ModelAndView();
+		int result = addressService.addressReset(addId);
+		List<Address> list = addressService.addressTrashList();
+		logger.info(list.toString());
+		mav.addObject("list", list);
+
+		mav.setViewName("address/addressAdd");
+			
+		return mav;
+	}
 	
 	@RequestMapping("/address/addressAdd.do")
 	public String addressAdd() {
