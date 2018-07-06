@@ -131,8 +131,8 @@ $(function() {
          $("#idDuplicateCheck").val(0);
          return false;
       } 
-      
-      if (!(userId >= '0' && userId <= '9') && !(userId >= 'a' && userId <= 'z')&&!(userId >= 'A' && userId <= 'Z')) {
+      var regx = /^[A-Za-z0-9]{3,13}$/;
+      if (!regx.test(userId)) {
         $(".guide.char.userId").show();
   	 	$(".guide.length.userId").hide();
         $(".guide.error.userId").hide();
