@@ -85,44 +85,62 @@
   $('input:radio[name=addr_type]:input[value=addr_personal]').attr("checked", true);
   $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
 </script>
-
+		<div style="width: 400px;">
 	<form action="updateAddress.do" method="post" id="updateAddressForm">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
 	<!-- 		<input type="button" value="Radio Value" onClick="();"> -->
-		<table>
+		
+		<table class="table" id="addressTable">
 			<tr>
+				<th >
+					<label style="width: 100px;" for="name">이름</label>
+				</th>   
 				<td>
-					이름   
-					<input type="text" name="name" id="name" value="${address.name}" />
+					<input type="text" class="form-control" name="name" id="name" value="${address.name}" />
 					<input type="hidden" name="address_no" id="address_no" value="${address.address_no}" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="email">이메일</label>
+				</th>
 				<td>
-					이메일   <input type="text" name="email" id="email" value="${address.email}" />
+					   <input type="text" class="form-control" name="email" id="email" value="${address.email}" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="phone">전화번호</label>
+				</th>
 				<td>
-					전화번호  <input type="text" name="phone" id="phone" value="${address.phone}" />
+					  <input type="text"class="form-control" name="phone" id="phone" value="${address.phone}" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="tag">태그</label>
+				</th>
 				<td>
-					태그   <input type="text" name="tag" id="tag" value="${address.tag}" />
+					   <input type="text"class="form-control" name="tag" id="tag" value="${address.tag}" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="company">회사</label>
+				</th>
 				<td>
-					회사  <input type="text" name="company" id="company" value="${address.company}" />
+					  <input type="text" class="form-control"name="company" id="company" value="${address.company}" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="name">주소</label>
+				</th>
 				<td>
-			주소 
-					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
+			 
+					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 100px;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
                      <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
                      <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add!=null?add[1]:"" %>"> 
                      <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add!=null?add[2]:"" %>">
@@ -132,24 +150,31 @@
 			</tr>
 			
 			<tr>
+				<th>
+					<label for="anniversary">기념일</label>
+				</th>
 				<td>
-				 	 기념일  <input type="date" name="anniversary" id="anniversary" value="${address.anniversary}" required/>
+				 	   <input type="date" class="form-control" name="anniversary" id="anniversary" value="${address.anniversary}" required/>
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="memo">메모</label>
+				</th>
 				<td>
-				 	 메모 
-				 	  <input type="text" name="memo" id="memo" value="${address.memo}" />
-				 	  <input type="hidden" name="com_No" id="com_No" value="${address.com_No}" />
+				 	  
+			 	  <input type="text" class="form-control" name="memo" id="memo" value="${address.memo}" />
+			 	  <input type="hidden" name="com_No" id="com_No" value="${address.com_No}" />
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<input type="button" value="수정"  onclick="fn_addressSum();"/>
-				</td>
+				<th colspan="2" style="text-align: center;">
+					<input type="button" value="수정" class="btn btn-outline-primary" onclick="fn_addressSum();"/>
+				</th>
 			</tr>
 		</table>
 	</form>
+	</div>
 <script>
 function fn_addressSum(){
 	if($("#sample4_postcode").val().trim().length != 0)

@@ -294,10 +294,11 @@
 			<ul class="menu_list">
 				<%-- <li><a href="${pageContext.request.contextPath}/address/addr_personal">개인 주소록&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li> --%>
-				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;<span
-						class="badge badge-secondary" id="addressViewCount">2</span></a><br /></li>
-				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;<span
-						class="badge badge-secondary" id="addressViewDeleteCount">2</span></a><br /></li>
+				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;</a>
+				<span class="badge badge-secondary" id="addressViewCount">${addCount}</span>
+				<br /></li>
+				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;</a>
+				<span class="badge badge-secondary" id="addressViewDeleteCount">${addDelCount }</span><br /></li>
 				<li><a href="javascript:void(0)" class="depth1"> <img
 						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
 						alt="폴더" class="fold" /> 환경설정

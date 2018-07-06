@@ -21,7 +21,7 @@
 	String[] add = null;
 	Member mem = ((Member)request.getAttribute("member"));
 	if(mem.getAddress() !=null)
-		add = (((Member)request.getAttribute("member")).getAddress()).split(",");
+		add = (((Member)request.getAttribute("member")).getAddress()).split(",,");
 %>
 <style>
 /* input[type=button].btn2, input[type=submit].btn2{
@@ -203,8 +203,8 @@ $(function(){
 function fn_addressSum(){
 	if($("#sample4_postcode").val().trim().length != 0)
 	var add1 = $("#sample4_postcode").val() 
-			+", "+ $("#sample4_roadAddress").val()
-			+", "+ $("#sample4_jibunAddress").val();
+			+",, "+ $("#sample4_roadAddress").val()
+			+",, "+ $("#sample4_jibunAddress").val();
 	$("#address").val(add1);
 	if($("#birthdaychk").val() != "" && $("#birthday").val() == ""){
 		alert("생일을 입력해 주세요");
