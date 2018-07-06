@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +24,7 @@ import com.kh.ok.address.model.service.AddressService;
 import com.kh.ok.address.model.vo.Address;
 import com.kh.ok.member.model.vo.Member;
 
-
+@SessionAttributes({"addCount","addDelCount"})
 @Controller
 public class AddressController {
 	
@@ -42,6 +43,27 @@ public class AddressController {
 		ModelAndView mav = new ModelAndView();
 		List<Address> list = addressService.addressView();
 		logger.info(list.toString());
+		
+		int addCount = 0;
+		int addDelCount = 0;
+		
+		for(int i =0; i<list.size(); i++) {
+			if((list.get(i).getStatus()).equals("Y ")) {
+				addCount++;
+			}
+		}
+		
+		List<Address> delList = addressService.addressTrashList();
+		System.out.println(delList);
+		for(int i =0; i<delList.size(); i++) {
+			if((delList.get(i).getStatus()).equals("N ")) {
+				addDelCount++;
+			}
+		}
+		
+		mav.addObject("addCount",addCount);
+		mav.addObject("addDelCount",addDelCount);
+		
 		mav.addObject("address", list);
 		mav.setViewName("address/addressView");
 		
@@ -62,7 +84,7 @@ public class AddressController {
 		logger.info(list.toString());
 		mav.addObject("address", list);
 
-		mav.setViewName("address/addressView");
+		mav.setViewName("redirect:/address/addressView.do");
 			
 		return mav;
 	}

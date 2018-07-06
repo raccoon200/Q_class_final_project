@@ -89,70 +89,92 @@ function fn_addressSum(){
             }).open();
    }
 </script>
+<div style="width: 400px;">
 	<form action="InsertAddress.do" method="post">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
 	<!-- 		<input type="button" value="Radio Value" onClick="();"> -->
-		<table>
+				<table class="table" id="addressTable">
 			<tr>
+				<th >
+					<label style="width: 100px;" for="name">이름</label>
+				</th>   
 				<td>
-					이름   <input type="text" name="name" id="name" />
+					<input type="text" class="form-control" name="name" id="name"  />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="email">이메일</label>
+				</th>
 				<td>
-					이메일   <input type="text" name="email" id="email" />
+					   <input type="text" class="form-control" name="email" id="email"  />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="phone">전화번호</label>
+				</th>
 				<td>
-					전화번호  <input type="text" name="phone" id="phone" />
+					  <input type="text"class="form-control" name="phone" id="phone" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="tag">태그</label>
+				</th>
 				<td>
-					태그   <input type="text" name="tag" id="tag" />
+					   <input type="text"class="form-control" name="tag" id="tag" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="company">회사</label>
+				</th>
 				<td>
-					회사  <input type="text" name="company" id="company" />
+					  <input type="text" class="form-control"name="company" id="company" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="name">주소</label>
+				</th>
 				<td>
-				 	 
-
-			<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
-			<img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-			</div>
-			주소  
-				<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" > &nbsp;&nbsp; 
-                 <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-                 <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;"> 
-                 <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;">
-                 <input type="hidden" name="address" id="address" value="" />
-                 <span id="guide" style="color: #999"></span>
-			</td>
+			 
+					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 100px;" > &nbsp;&nbsp; 
+                     <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
+                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" > 
+                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" >
+                     <input type="hidden" name="address" id="address" value="" />
+                     <span id="guide" style="color: #999"></span>				 	 
+				</td>
 			</tr>
 			
 			<tr>
+				<th>
+					<label for="anniversary">기념일</label>
+				</th>
 				<td>
-				 	 기념일  <input type="date" name="anniversary" id="anniversary" required/>
+				 	   <input type="date" class="form-control" name="anniversary" id="anniversary"  required/>
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="memo">메모</label>
+				</th>
 				<td>
-				 	 메모  <input type="text" name="memo" id="memo" />
+				 	  
+			 	  <input type="text" class="form-control" name="memo" id="memo"  />
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<input type="submit" value="저장" onclick="fn_addressSum();" />
-				</td>
+				<th colspan="2" style="text-align: center;">
+					<input type="submit" value="저장" class="btn btn-outline-primary" onclick="fn_addressSum();"/>
+				</th>
 			</tr>
 		</table>
 	</form>
+	</div>
 
 	
