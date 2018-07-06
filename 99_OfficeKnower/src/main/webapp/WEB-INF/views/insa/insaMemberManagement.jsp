@@ -264,7 +264,7 @@ function fn_newMemberUpdateAdd(){
 			<th>사내전화</th>
 			<th>휴대전화</th>
 			<th>부서</th>
-			<th>직위</th>
+			<th style="min-width: 56px;">직위</th>
 			<th>입사일</th>
 			<th>직무</th>
 			<th>상태

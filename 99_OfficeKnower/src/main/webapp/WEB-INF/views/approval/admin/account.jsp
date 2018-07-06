@@ -161,7 +161,7 @@ a#editName{
 	            console.log("ajax실패!", jqxhr, textStatus, errorThrown);
 	        }
 		});
-		if(!isUsable){
+		if(isUsable){
 			alert("이미 등록되었습니다.")
 			return false;
 		}
