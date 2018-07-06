@@ -364,7 +364,6 @@ function fn_addressSum(){
 	</form>
 </div>
 <script src="${pageContext.request.contextPath }/resources/popper.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 <script src="${pageContext.request.contextPath }/resources/holder.min.js"></script>
 
