@@ -131,8 +131,8 @@ $(function() {
          $("#idDuplicateCheck").val(0);
          return false;
       } 
-      
-      if (!(userId >= '0' && userId <= '9') && !(userId >= 'a' && userId <= 'z')&&!(userId >= 'A' && userId <= 'Z')) {
+      var regx = /^[A-Za-z0-9]{3,13}$/;
+      if (!regx.test(userId)) {
         $(".guide.char.userId").show();
   	 	$(".guide.length.userId").hide();
         $(".guide.error.userId").hide();
@@ -364,7 +364,6 @@ function fn_addressSum(){
 	</form>
 </div>
 <script src="${pageContext.request.contextPath }/resources/popper.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 <script src="${pageContext.request.contextPath }/resources/holder.min.js"></script>
 
