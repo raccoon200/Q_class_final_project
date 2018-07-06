@@ -12,9 +12,16 @@ public class Approval {
 	private String approvals;
 	private int approval_status;
 	private String com_no;
-	
+	private String spender;
 	public Approval() {}
 
+	public String getSpender() {
+		return spender;
+	}
+	public void setSpender(String spender) {
+		this.spender = spender;
+	}
+	
 	public String getApproval_no() {
 		return approval_no;
 	}

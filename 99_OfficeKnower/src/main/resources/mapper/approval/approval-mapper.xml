@@ -86,7 +86,7 @@
 		update tbl_user set grade=#{grade} where userId=#{userId}
 	</update>
 	<insert id="approvalInsert">
-		insert into approval values(#{approval_no}||to_char(sysdate,'yyyymmdd')||'-'||LPAD(seq_approval_approval_no.nextval , 4, '0'), #{title}, sysdate,#{writer}, #{status}, #{approvals}, #{approval_status}, #{com_no}, #{content} )
+		insert into approval(APPROVAL_NO, TITLE, WRITERDATE, WRITER, STATUS, APPROVALS, APPROVAL_STATUS, COM_NO, CONTENT) values(#{approval_no}||to_char(sysdate,'yyyymmdd')||'-'||LPAD(seq_approval_approval_no.nextval , 4, '0'), #{title}, sysdate,#{writer}, #{status}, #{approvals}, #{approval_status}, #{com_no}, #{content} )
 	</insert>
 	<select id="selectTitle_Of_Account" resultType="map">
 		select * from tbl_title_of_account where com_no=#{com_no}	
@@ -95,15 +95,23 @@
 		select * from tbl_dept where com_no=#{com_no}
 	</select>
 	<select id="selectApprovalDataList" resultMap="approvalDataList">
-		select A.*, B.username USERNAME from approval A join tbl_user B on A.writer=B.userid where A.approval_no like '지결%' and A.com_no=#{com_no}
+		select A.*, B.username USERNAME from approval A join tbl_user B on A.spender=B.userid where A.approval_no like '지결%' and A.com_no=#{com_no}
 	</select>
 	<resultMap id="approvalDataList" type="HashMap">
 		<result property="APPROVAL_NO" column="APPROVAL_NO"/>
+		<result property="APPROVAL_STATUS" column="APPROVAL_STATUS"/>
+		<result property="TITLE" column="TITLE"/>
 		<result property="STATUS" column="STATUS"/>
 		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String"/>
 		<result property="USERNAME" column="USERNAME"/>
 	</resultMap>
 	<select id="approvalDataListCount" resultType="int">
-		select count(*) from approval A join tbl_user B on A.writer=B.userid where A.approval_no like '지결%' and A.com_no=#{com_no}
+		select count(*) from approval where approval_no like '지결%' and com_no=#{com_no}
+	</select>
+	<select id="selectApprovalList" resultMap="approvalDataList">
+		select approval_no, title, to_char(writedate,'yyyy-mm-dd') WRITEDATE, status, approvals, writer, approval_status, com_no, content from approval where com_no=#{com_no} and status != '반려'
+	</select>
+	<select id="selectBreakRequestList" resultType="map">
+		select * from break_request where com_no=#{com_no} and status != '반려'
 	</select>
 </mapper>

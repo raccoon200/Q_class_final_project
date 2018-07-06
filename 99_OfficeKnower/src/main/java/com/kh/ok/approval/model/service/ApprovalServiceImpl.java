@@ -142,5 +142,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int approvalDataListCount(String com_no) {
 		return approvalDAO.approvalDataListCount(com_no);
 	}
+	@Override
+	public List<Map<String, Object>> selectApprovalList(String com_no) {
+		return approvalDAO.selectApprovalList(com_no);
+	}
+	@Override
+	public List<Map<String, Object>> selectBreakRequestList(String com_no) {
+		return approvalDAO.selectBreakRequestList(com_no);
+	}
 	
 }
