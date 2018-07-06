@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.ok.breakTime.model.service.BreakService;
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
+import com.kh.ok.breakTime.model.vo.BreakSetting;
 import com.kh.ok.member.model.vo.Member;
 
 @Controller
@@ -381,8 +382,47 @@ public class BreakController {
 		
 		return mav;
 	}
-	
-	
-	
-	
+
+		
+	@RequestMapping("/break/breakSetting.do")
+	public ModelAndView breakSetting(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		Member m = (Member)session.getAttribute("memberLoggedIn");;
+		BreakSetting bs = breakService.selectBreakSetting(m.getCom_no());
+		String[] breakdays = bs.getBreakdays().substring(1, bs.getBreakdays().lastIndexOf(",")).split(",");
+		bs.setN(breakdays[0]);
+		bs.setN1(breakdays[1]);
+		bs.setN2(breakdays[2]);
+		bs.setN3(breakdays[3]);
+		bs.setN4(breakdays[4]);
+		bs.setN5(breakdays[5]);
+		bs.setN6(breakdays[6]);
+		bs.setN7(breakdays[7]);
+		bs.setN8(breakdays[8]);
+		bs.setN9(breakdays[9]);
+		bs.setN10(breakdays[10]);
+		bs.setN11(breakdays[11]);
+		bs.setN12(breakdays[12]);
+		mav.addObject("bs", bs);
+		mav.setViewName("break/breakSetting");
+		return mav;
+	}
+	@RequestMapping("/break/breakSettingEnd.do")
+	public ModelAndView breakSettingEnd(BreakSetting bs) {
+		ModelAndView mav = new ModelAndView();
+		bs.setBreakdays("," + bs.getN()+","+ bs.getN1()+","+ bs.getN2()+","+ bs.getN3()+","+ bs.getN4()
+					   +","+ bs.getN5()+","+ bs.getN6()+","+ bs.getN7()+","+ bs.getN8()+","+ bs.getN9()
+					   +","+ bs.getN10()+","+ bs.getN11()+","+ bs.getN12()+",");
+		int result = breakService.updateBreakSetting(bs);
+		if(result > 0) {
+			mav.setViewName("redirect:/break/breakSetting.do");
+		}else {
+			mav.addObject("loc", "/break/breakSetting.do");
+			mav.addObject("msg", "휴가 기본 설정에 실패했습니다.\n관리자에게 문의하세요.");
+			mav.setViewName("common/msg");
+		}
+		return mav;
+	}
+
 }

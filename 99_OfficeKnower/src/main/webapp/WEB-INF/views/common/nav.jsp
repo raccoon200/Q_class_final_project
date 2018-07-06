@@ -106,7 +106,7 @@
 								<a href="${pageContext.request.contextPath }/office/approval/code.do">코드 관리</a><br />
 							</li>
 							<li>
-								<a href="#">데이터 조회</a><br />
+								<a href="${pageContext.request.contextPath }/approval/admin/approvalDataList">데이터 조회</a><br />
 							</li>
 						</ul>
 					</li>
@@ -242,16 +242,16 @@
 						</li>
 					</ul>
 				</li>
-				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "인사관리관리자"}'>
+				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "인사관리자"}'>
 					<br />
 					<li><a href="javascript:void(0)" class="depth1"> <img
 							src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
 							alt="폴더" class="fold" /> 인사관리
 					</a> <br />
 						<ul class="depth2 hide">
-							<li>
-								<a href="#">조직 관리</a><br />
-							</li>
+							<%-- <li>
+								<a href="${pageContext.request.contextPath}/insa/deptManagement.do">조직 관리</a><br />
+							</li> --%>
 							<li>
 								<a href="${pageContext.request.contextPath}/insa/memberManagement.do">사용자 관리</a><br />
 							</li>
@@ -259,7 +259,10 @@
 								<a href="${pageContext.request.contextPath}/insa/positionManagement.do">직위/직무 관리</a><br />
 							</li>							
 							<li>
-								<a href="#">인사관리자</a><br />
+								<a href="${pageContext.request.contextPath }/insa/insaManagement.do">인사관리자</a><br />
+							</li>
+							<li>
+								<a href="${pageContext.request.contextPath }/insa/insaSuperManagement.do">슈퍼관리자</a><br />
 							</li>
 						</ul>
 					</li>
@@ -272,7 +275,7 @@
 						<br />
 						<ul class="depth2 hide">
 							<li>
-								<a href="#">기본설정</a><br />
+								<a href="${pageContext.request.contextPath }/break/breakSetting.do">기본설정</a><br />
 							</li>
 							<li>
 								<a href="${pageContext.request.contextPath}/break/breakCreate.do">휴가 생성</a><br />
@@ -295,11 +298,11 @@
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
-				<li><a href="#">개인 주소록&nbsp;<span
+				<%-- <li><a href="${pageContext.request.contextPath}/address/addr_personal">개인 주소록&nbsp;<span
+						class="badge badge-secondary">2</span></a><br /></li> --%>
+				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="#">공유 주소록&nbsp;<span
-						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="#">휴지통&nbsp;<span
+				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li>
 				<li><a href="javascript:void(0)" class="depth1"> <img
 						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"

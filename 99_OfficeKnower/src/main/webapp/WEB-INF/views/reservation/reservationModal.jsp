@@ -34,6 +34,14 @@ var getToday = year + "-" + month + "-" + day; // 오늘 날짜 (2017-02-07)
 
 $("#datepicker1").val(getToday);
 });
+
+function fn_enrollValidate() {
+	if($("#selectpicker").val()==null) {
+		alert('자원을 선택하지 않았습니다\r\n카테고리, 자원을 만든 뒤 다시 시도하세요.');
+		return false;
+	}
+	return true;
+}
 </script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -53,12 +61,13 @@ $("#datepicker1").val(getToday);
 				</div>
 				<form
 					action="${pageContext.request.contextPath}/reservation/reservationEnroll"
-					method="post">
+					method="post"
+					onsubmit="return fn_enrollValidate();")>
 					<div class="modal-body">
 						<table class="table">
 							<tr>
 								<td>자원명</td>
-								<td><select class="selectpicker" name="res_name">
+								<td><select class="selectpicker" name="res_name" id="selectpicker">
 										<c:if test="${!empty resources }">
 											<c:forEach var="a" begin="0" end="${fn:length(resources)}"
 												step="1">

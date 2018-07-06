@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
+import com.kh.ok.breakTime.model.vo.BreakSetting;
 
 @Repository
 public class BreakDAOImpl implements BreakDAO {
@@ -92,8 +93,18 @@ public class BreakDAOImpl implements BreakDAO {
 	}
 
 	@Override
+
 	public int deleteBreak(String breakid) {
 		return sqlSession.update("break.deleteBreak",breakid);
+	}
+	public BreakSetting selectBreakSetting(String com_no) {
+		return sqlSession.selectOne("break.selectBreakSetting", com_no);
+	}
+
+	@Override
+	public int updateBreakSetting(BreakSetting bs) {
+		return sqlSession.update("break.updateBreakSetting", bs);
+
 	}
 
 }

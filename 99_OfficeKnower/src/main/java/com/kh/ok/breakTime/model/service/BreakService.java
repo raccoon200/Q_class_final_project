@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
+import com.kh.ok.breakTime.model.vo.BreakSetting;
 
 public interface BreakService {
 
@@ -37,6 +38,12 @@ public interface BreakService {
 
 	List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId);
 
+
 	int deleteBreak(String breakid);
+
+	BreakSetting selectBreakSetting(String com_no);
+
+	int updateBreakSetting(BreakSetting bs);
+
 
 }

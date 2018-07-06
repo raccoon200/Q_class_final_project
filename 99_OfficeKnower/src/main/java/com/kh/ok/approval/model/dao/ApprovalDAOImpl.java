@@ -3,6 +3,7 @@ package com.kh.ok.approval.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -165,6 +166,19 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	@Override
 	public List<Map<String, String>> selectDeptList(String com_no) {
 		return sqlSession.selectList("approval.selectDeptList", com_no);
+	}
+
+
+
+	@Override
+	public List<Map<String, String>> selectApprovalDataList(int cPage, int numPerPage, String com_no) {
+		RowBounds bound = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("approval.selectApprovalDataList",com_no, bound);
+	}
+
+	@Override
+	public int approvalDataListCount(String com_no) {
+		return sqlSession.selectOne("approval.approvalDataListCount", com_no);
 	}
 
 }

@@ -11,6 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
 	rel="stylesheet">
+<link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/common/favicon.ico">
 <title>${param.pageTitle}</title>
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 <script
@@ -130,7 +131,7 @@
 	});
 </script>
 </head>
-<body>
+<body style="padding-top: 0px;">
 	<div class="container container_main" style="padding-top: 0px; padding: 0px;  max-width: 100%; margin: 0px; margin-top: 60px;">
 		<header class="jumbotron" id="header">
 			<h1 class="logo_container">

@@ -19,10 +19,12 @@
 		select seq_com.nextval comSEQ from dual
 	</select>
 	<insert id="memberEnrollEnd">
-		insert into tbl_user(userId, password, userName, email, address, photo, sign, status, joindate) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, 'N', sysdate)
+		insert into tbl_user
+		(userId, password, userName, email, address, photo, sign, status, joindate) 
+		values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, 'N', null)
 	</insert>
 	<insert id="memberEnrollEndCom">
-		insert into tbl_user(userId, password, userName, email, address, photo, sign, com_no, status, joindate) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, #{com_no}, 'N', sysdate)
+		insert into tbl_user(userId, password, userName, email, address, photo, sign, com_no, status, joindate, grade, position) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, #{com_no}, 'Y', sysdate, '슈퍼관리자', '대표이사')
 	</insert>
 	<insert id="memberComCreate">
 		insert into tbl_com values (#{com_no}, #{com_name})

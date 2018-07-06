@@ -14,6 +14,17 @@ public interface AddressDAO {
 
 	int InsertAddress(Map<String, Object> map);
 
+	int addressTrash(String addId);
+
+	List<Address> addressTrashList();
+
+	
+
+
+
+
+
+
 	
 
 }

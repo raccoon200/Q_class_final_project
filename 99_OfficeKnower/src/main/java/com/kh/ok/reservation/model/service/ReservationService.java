@@ -1,5 +1,6 @@
 package com.kh.ok.reservation.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,5 +53,11 @@ public interface ReservationService {
 	int reservationQuitStatusSetYes(int reservation_no);
 
 	List<Map<String, String>> reservationCategoryListCnt(String com_no);
+
+	int reservationCategoryAdd(HashMap<String, String> map);
+
+	int reservationCategoryUpdate(HashMap<String, String> map);
+
+	int reservationCategoryDelete(HashMap<String, String> map);
 	
 }

@@ -18,8 +18,9 @@
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <%
 	
-	String[] add = null; 
-	if(((Member)request.getAttribute("member")).getAddress() !=null)
+	String[] add = null;
+	Member mem = ((Member)request.getAttribute("member"));
+	if(mem.getAddress() !=null)
 		add = (((Member)request.getAttribute("member")).getAddress()).split(",");
 %>
 <style>
@@ -89,11 +90,22 @@
             }).open();
    }
 </script>
-
+<script>
+$(function(){
+	$("#birthday").on("change",function(){
+		console.log($(this).val(), typeof $(this).val());
+		if($(this).val() == null)
+			console.log("널이다");
+		if($(this).val() == " ")
+			console.log("공백");
+		
+	});
+});
+</script>
 <h3>내 정보 관리</h3>
 <hr />
 <div class="table-responsive">
-	<form action="memberOneUpdate.do" method="post">
+	<form action="memberOneUpdate.do" method="post" id="memberOneUpdateForm">
 		<table class="table table-hover" style="width: 600px;">
 			<tr>
 				<th>이름</th>
@@ -103,9 +115,9 @@
 				</td>
 			</tr>
 			<tr>
-				<th>소속</th>
+				<th>부서</th>
 				<td>
-					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" readonly>
+					<input type="text" class="form-control" id="com_name" name="dept" value="${member.dept}" readonly>
 				</td>
 			</tr>
 			<tr>
@@ -157,7 +169,8 @@
 			<tr>
 				<th>생년월일</th>
 				<td>
-					<input type="date" class="form-control" id="birthday" name="birthday" value="${member.birthday }" >
+					<input type="date" class="form-control" id="birthday" name="birthday" value="${member.birthday }" required>
+					<input type="hidden" class="form-control" id="birthdaychk" value="${member.birthday }" >
 				</td>
 			</tr>
 			<tr>
@@ -165,8 +178,8 @@
 					<td>
 	                     <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
 	                     <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-	                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add!=null?add[1]:"" %>"> 
-	                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add!=null?add[2]:"" %>">
+	                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add[1]!=null?add[1]:"" %>"> 
+	                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add[2]!=null?add[2]:"" %>">
 	                     <input type="hidden" name="address" id="address" value="" />
 	                     <span id="guide" style="color: #999"></span>
 				</td>
@@ -180,7 +193,7 @@
 			</tr>
 			<tr>
 				<th colspan="2">
-					<input type="submit" value="저장" onclick="fn_addressSum()" class="btn btn-outline-primary"/>
+					<input type="button" value="저장" onclick="fn_addressSum()" class="btn btn-outline-primary"/>
 				</th>
 			</tr>
 		</table>
@@ -190,9 +203,18 @@
 function fn_addressSum(){
 	if($("#sample4_postcode").val().trim().length != 0)
 	var add1 = $("#sample4_postcode").val() 
-			+","+ $("#sample4_roadAddress").val()
-			+","+ $("#sample4_jibunAddress").val();
+			+", "+ $("#sample4_roadAddress").val()
+			+", "+ $("#sample4_jibunAddress").val();
 	$("#address").val(add1);
+	if($("#birthdaychk").val() != "" && $("#birthday").val() == ""){
+		alert("생일을 입력해 주세요");
+		return;
+	}
+ 	if($("#birthdaychk").val() == "" && $("#birthday").val() == ""){
+ 		alert("생일을 입력해 주세요");
+		return;
+ 	} 
+	$("#memberOneUpdateForm").submit();
 }
 </script>
 
