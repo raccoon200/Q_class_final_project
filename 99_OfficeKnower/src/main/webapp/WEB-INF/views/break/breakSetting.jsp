@@ -46,6 +46,7 @@ $(function(){
 			<td><input type="number" name="n4" id="" max="99" style="width: 50px;" value="${bs.n4 }"/></td>
 			<td><input type="number" name="n5" id="" max="99" style="width: 50px;" value="${bs.n5 }"/></td>
 			<td><input type="number" name="n6" id="" max="99" style="width: 50px;" value="${bs.n6 }"/></td>
+			
 		</tr>
 		<tr>
 			<td>N+7</td>

@@ -87,10 +87,28 @@ public class BreakController {
 	
 	
 	@RequestMapping("/break/breakCreate.do")
-	public String breakCreate() {
-		
-		
-		return "break/breakCreate";
+	public ModelAndView breakCreate(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		Member m = (Member)session.getAttribute("memberLoggedIn");;
+		BreakSetting bs = breakService.selectBreakSetting(m.getCom_no());
+		String[] breakdays = bs.getBreakdays().substring(1, bs.getBreakdays().lastIndexOf(",")).split(",");
+		bs.setN(breakdays[0]);
+		bs.setN1(breakdays[1]);
+		bs.setN2(breakdays[2]);
+		bs.setN3(breakdays[3]);
+		bs.setN4(breakdays[4]);
+		bs.setN5(breakdays[5]);
+		bs.setN6(breakdays[6]);
+		bs.setN7(breakdays[7]);
+		bs.setN8(breakdays[8]);
+		bs.setN9(breakdays[9]);
+		bs.setN10(breakdays[10]);
+		bs.setN11(breakdays[11]);
+		bs.setN12(breakdays[12]);
+		mav.addObject("bs", bs);
+		mav.setViewName("break/breakCreate");
+		return mav;
 	}
 	
 	@RequestMapping("/break/searchMember.do")
