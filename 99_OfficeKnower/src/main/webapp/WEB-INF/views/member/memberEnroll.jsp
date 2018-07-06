@@ -16,16 +16,18 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<!-- 사용자작성 css -->
 	<%-- <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" /> --%>
+	<link rel="shortcut icon" href="${pageContext.request.contextPath }/resources/images/common/favicon.ico">
+	
 </head>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <style>
-div#enroll-container{
+/* div#enroll-container{
 	width:400px;
 	margin:0 auto;
 	text-align:center;
-}
+} */
 /*중복아이디체크 관련*/
 div#userId-container{position:relative; padding:0px;}
 div#userId-container span.guide{
@@ -274,75 +276,98 @@ function fn_addressSum(){
 }
 </script>
 
-<body>
-	<div id="enroll-container">
+<body class="bg-light">
+	<div class="container" style="max-width: 960px;">
+	<div class="py-5 text-center">
+		<img class="d-block mx-auto mb-4" src="${pageContext.request.contextPath }/resources/images/common/logo.png" alt="logo" height="72"/>
+		<h2>회원가입</h2>
+		<p class="lead">
+			OK(Office Knower)에 오신것을 환영합니다. <br /> OK는 업무 효율을 높여주는 그룹웨어 서비스입니다.
+		</p>
+	</div>
 	<form action="${pageContext.request.contextPath }/member/memberEnrollEnd.do" method="post" onsubmit="return validate();" enctype="multipart/form-data">
-		<div id="userId-container">
-		<input type="text" class="form-control" name="userId" id="userId_" placeholder="아이디" required maxlength="13"/>
-		<span class="guide ok userId">사용가능합니다.</span>
-		<span class="guide error userId">이미 사용중입니다.</span>
-		<span class="guide length userId">3글자 이상이여야 합니다.</span>
-		<span class="guide char userId">대소문자, 숫자만 입력가능합니다.</span>
-		<input type="hidden" id="idDuplicateCheck" value="0"/>
+		<div class="row">
+			<div class="col-md-4 order-md-2 mb-4">
+				<h4 class="d-flex justify-content-between align-items-center mb-3">
+					<span class="text-muted">회사 등록</span>
+				</h4>
+				<div id="comName-container">
+					<input type="text" class="form-control" name="com_name" id="comName" placeholder="회사이름" autocomplete="off"/>
+					<span class="guide ok comName">사용가능합니다.</span>
+					<span class="guide error comName">이미 있습니다.</span>
+					<input type="hidden" id="comNameDuplicateCheck" value="0"/>		
+					<!-- <span class="guide empty comName">공백은 안 됩니다.</span> -->		
+					<input type="text" class="form-control" name="com_no" id="comNo" readonly placeholder="회사번호"/>
+					<input type="hidden" id="comNamePre"/>
+				</div>
+			</div>
+			<div class="col-md-8 order-md-1">
+			<h4 class="mb-3">개인 정보</h4>
+			<div id="userId-container">
+				<input type="text" class="form-control" name="userId" id="userId_" placeholder="아이디" required maxlength="13"/>
+				<span class="guide ok userId">사용가능합니다.</span>
+				<span class="guide error userId">이미 사용중입니다.</span>
+				<span class="guide length userId">3글자 이상이여야 합니다.</span>
+				<span class="guide char userId">대소문자, 숫자만 입력가능합니다.</span>
+				<input type="hidden" id="idDuplicateCheck" value="0"/>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<input type="password" class="form-control" name="password" id="password_" placeholder="비밀번호" required maxlength="13"/>			
+					</div>
+					<div class="col-md-6 mb-3">			
+						<input type="password" class="form-control" id="password2" placeholder="비밀번호확인" required maxlength="13"/>
+					</div>
+				</div>
+				<input type="text" class="form-control" name="userName" placeholder="이름" required maxlength="13"/>
+				<br />
+				<input type="email" class="form-control" name="email" id="email" placeholder="이메일" required maxlength="30"/>
+				<br />
+				<input type="tel" class="form-control" name="phone" id="phone" placeholder="전화번호" required maxlength="11" />
+				<br />
+		<!-- <<<<<<< HEAD
+				<input type="text" class="form-control" name="address" id="address" placeholder="주소" required maxlength="50"/>
+		======= -->
+				<!-- <input type="text" class="form-control" name="address" id="address" placeholder="주소" required/> -->
+				<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 120px;" value=""> &nbsp;&nbsp; 
+		        <input type="button" class="btn btn-outline-info" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
+		        <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px"  value=""> 
+		        <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px"  value="">
+		        <input type="hidden" name="address" id="address" value="" />
+		        <span id="guide" style="color: #999"></span>
+				<br />
+				<!-- 파일 -->
+				<div class="input-group mb-3" style="padding:0px">
+				  <div class="input-group-prepend" style="padding:0px">
+				    <span class="input-group-text">프로필 사진</span>
+				  </div>
+				  <div class="custom-file">
+				    <input type="file" class="custom-file-input" name="upFile" id="upFile1">
+				    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
+				  </div>
+				</div>
+				<div class="input-group mb-3" style="padding:0px">
+				  <div class="input-group-prepend" style="padding:0px">
+				    <span class="input-group-text">SIGN 사진</span>
+				  </div>
+				  <div class="custom-file">
+				    <input type="file" class="custom-file-input" name="upFile" id="upFile2">
+				    <label class="custom-file-label" for="upFile2">파일을 선택하세요</label>
+				  </div>
+				</div> 
+				<hr />		
+				<input type="submit" value="가입" class="btn btn-lg btn-block btn-info" onclick="fn_addressSum()"/>
+				<br />
 		</div>
-		<br />
-		<input type="password" class="form-control" name="password" id="password_" placeholder="비밀번호" required maxlength="13"/>
-		<br />
-		<input type="password" class="form-control" id="password2" placeholder="비밀번호확인" required maxlength="13"/>
-		<br />
-		<input type="text" class="form-control" name="userName" placeholder="이름" required maxlength="13"/>
-		<br />
-		<input type="email" class="form-control" name="email" id="email" placeholder="이메일" required maxlength="30"/>
-		<br />
-		<input type="tel" class="form-control" name="phone" id="phone" placeholder="전화번호" required maxlength="11" />
-		<br />
-<!-- <<<<<<< HEAD
-		<input type="text" class="form-control" name="address" id="address" placeholder="주소" required maxlength="50"/>
-======= -->
-		<!-- <input type="text" class="form-control" name="address" id="address" placeholder="주소" required/> -->
-		<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 120px;" value=""> &nbsp;&nbsp; 
-        <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-        <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px"  value=""> 
-        <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px"  value="">
-        <input type="hidden" name="address" id="address" value="" />
-        <span id="guide" style="color: #999"></span>
-		<br />
-		<!-- 파일 -->
-		<div class="input-group mb-3" style="padding:0px">
-		  <div class="input-group-prepend" style="padding:0px">
-		    <span class="input-group-text">프로필 사진</span>
-		  </div>
-		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="upFile1">
-		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
-		  </div>
 		</div>
-		<div class="input-group mb-3" style="padding:0px">
-		  <div class="input-group-prepend" style="padding:0px">
-		    <span class="input-group-text">SIGN 사진</span>
-		  </div>
-		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="upFile2">
-		    <label class="custom-file-label" for="upFile2">파일을 선택하세요</label>
-		  </div>
-		</div> 
-		<div class="input-group mb-3" style="padding:0px">
-		<span class="input-group-text">회사등록</span>
-		<div id="comName-container">
-		<input type="text" class="form-control" name="com_name" id="comName" placeholder="회사이름" autocomplete="off"/>
-		<span class="guide ok comName">사용가능합니다.</span>
-		<span class="guide error comName">이미 있습니다.</span>
-		<input type="hidden" id="comNameDuplicateCheck" value="0"/>		
-		<!-- <span class="guide empty comName">공백은 안 됩니다.</span> -->		
-		<input type="text" class="form-control" name="com_no" id="comNo" readonly placeholder="회사번호"/>
-		<input type="hidden" id="comNamePre"/>
-		</div>
-		</div>		
-		<input type="submit" value="가입" class="btn btn-outline-success" onclick="fn_addressSum()"/>
 	</form>
 </div>
+<script src="${pageContext.request.contextPath }/resources/popper.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="${pageContext.request.contextPath }/resources/holder.min.js"></script>
 
-	
 </body>
 </html>
 
