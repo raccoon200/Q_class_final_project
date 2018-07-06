@@ -422,7 +422,7 @@ public class BreakController {
 			mav.setViewName("redirect:/break/breakSetting.do");
 		}else {
 			mav.addObject("loc", "/break/breakSetting.do");
-			mav.addObject("msg", "휴가 기본 설정에 실패했습니다.\n관리자에게 문의하세요.");
+			mav.addObject("msg", "휴가 기본 설정에 실패했습니다.\\n관리자에게 문의하세요.");
 			mav.setViewName("common/msg");
 		}
 		return mav;
