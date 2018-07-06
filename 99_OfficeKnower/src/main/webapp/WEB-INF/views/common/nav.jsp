@@ -28,9 +28,6 @@
 			$("img.icon_edit icon_edit_board").hide();
 		}
 		$(".menu_list li a").each(function(index, item) {
-			console.log(item.text.trim());
-			console.log("${param.selectMenu}");
-			console.log(item.text.trim() == "${param.selectMenu}");
 			if (item.text.trim() == "${param.selectMenu}") {
 				$(this).addClass("strong");
 			}
@@ -41,13 +38,17 @@
 		}
 		var parentsWidth = $("div.container_main").css("width");
 		var navWidth = $("nav#leftMenu").css("width");
-		console.log(parentsWidth);
-		console.log(navWidth);
 		$("div#sabu_container").css("width",parseFloat(parentsWidth)-parseFloat(navWidth)+"px");
 		$(window).resize(function(){
 			location.reload();
 		})
-	
+		$(".menu_list li a").hover(function(){
+			$(this).addClass("strong");
+		},function(){
+			if ($(this).text().trim() != "${param.selectMenu}") {
+				$(this).removeClass("strong");
+			}
+		});
 		
 	});
 </script>
@@ -294,17 +295,8 @@
 			<ul class="menu_list">
 				<%-- <li><a href="${pageContext.request.contextPath}/address/addr_personal">개인 주소록&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li> --%>
-				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;<span
-						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;<span
-						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="javascript:void(0)" class="depth1"> <img
-						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
-						alt="폴더" class="fold" /> 환경설정
-				</a> <br />
-					<ul class="depth2 hide">
-						<li><a href="#">기본정보 설정</a><br /></li>
-					</ul></li>
+				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록</a><br /></li>
+				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통</a><br /></li>
 			</ul>
 		</div>
 	</c:if>

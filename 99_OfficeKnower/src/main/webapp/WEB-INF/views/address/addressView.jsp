@@ -13,6 +13,7 @@
 
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="주소록" name="pageTitle"/>
+	<jsp:param value="공유 주소록" name="selectMenu"/>
 </jsp:include>
 
 	<style>
@@ -33,7 +34,7 @@
       <th scope="col">이메일</th>
       <th scope="col">전화번호</th>
       <th scope="col">회사명</th>
-      <th scope="col">주소</th>
+      <!-- <th scope="col">주소</th> -->
       <th scope="col">삭제</th>
      
     </tr>
@@ -47,7 +48,7 @@
 	    <td>${addr.email}</td>
 	    <td>${addr.phone}</td>
 	    <td>${addr.company}</td>
-	    <td>${addr.address}</td>
+	  <%--   <td>${addr.address}</td> --%>
 	    <td> <button onclick="fn_deleteAdd('${addr.address_no}');">삭제</button></td>
      </tr>
     </c:forEach>
