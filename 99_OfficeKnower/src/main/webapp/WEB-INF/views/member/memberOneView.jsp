@@ -115,9 +115,9 @@ $(function(){
 				</td>
 			</tr>
 			<tr>
-				<th>소속</th>
+				<th>부서</th>
 				<td>
-					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" readonly>
+					<input type="text" class="form-control" id="com_name" name="dept" value="${member.dept}" readonly>
 				</td>
 			</tr>
 			<tr>

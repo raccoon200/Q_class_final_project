@@ -197,6 +197,7 @@ $(function(){
 				<p class="insa_span_menu insa_default">조직</p>
 				<p class="insa_span_menu insa_year">입사년도</p> 
 				<p class="insa_span_menu insa_position">직위</p>
+				<p class="insa_span_menu insa_dept">부서</p>
 				<hr />
 				<p style="font-weight: bold; font-size: 20px;">옵션</p> 
 				<p class="insa_span_menu insa-photo">사진표시</p> 

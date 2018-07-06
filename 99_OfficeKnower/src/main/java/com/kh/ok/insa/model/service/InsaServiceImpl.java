@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.insa.model.dao.InsaDAO;
 import com.kh.ok.insa.model.vo.Position;
 import com.kh.ok.member.model.vo.Member;
@@ -144,6 +145,21 @@ public class InsaServiceImpl implements InsaService {
 	@Override
 	public int insaadminInsert(Member m) {
 		return insaDAO.insaadminInsert(m);
+	}
+
+	@Override
+	public List<Member> insaNewMemberSearch(Map<String, String> map) {
+		return insaDAO.insaNewMemberSearch(map);
+	}
+
+	@Override
+	public int insaMemberAddUpdate(Map<String, String> map) {
+		return insaDAO.insaMemberAddUpdate(map);
+	}
+
+	@Override
+	public List<Dept> selectDeptList(String com_no) {
+		return insaDAO.selectDeptList(com_no);
 	}
 
 }

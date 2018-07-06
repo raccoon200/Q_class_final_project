@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.insa.model.vo.Position;
 import com.kh.ok.member.model.vo.Member;
 
@@ -144,5 +145,20 @@ public class InsaDAOImpl implements InsaDAO {
 	@Override
 	public int insaadminInsert(Member m) {
 		return sqlSession.update("insa.insaadminInsert",m);
+	}
+
+	@Override
+	public List<Member> insaNewMemberSearch(Map<String, String> map) {
+		return sqlSession.selectList("insa.insaNewMemberSearch",map);
+	}
+
+	@Override
+	public int insaMemberAddUpdate(Map<String, String> map) {
+		return sqlSession.update("insa.insaMemberAddUpdate",map);
+	}
+
+	@Override
+	public List<Dept> selectDeptList(String com_no) {
+		return sqlSession.selectList("insa.selectDeptList",com_no);
 	}
 }

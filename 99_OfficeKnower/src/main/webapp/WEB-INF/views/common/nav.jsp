@@ -249,9 +249,9 @@
 							alt="폴더" class="fold" /> 인사관리
 					</a> <br />
 						<ul class="depth2 hide">
-							<li>
-								<a href="#">조직 관리</a><br />
-							</li>
+							<%-- <li>
+								<a href="${pageContext.request.contextPath}/insa/deptManagement.do">조직 관리</a><br />
+							</li> --%>
 							<li>
 								<a href="${pageContext.request.contextPath}/insa/memberManagement.do">사용자 관리</a><br />
 							</li>

@@ -60,11 +60,11 @@
 		select count(*) from tbl_user where com_no=#{comNo} and emp_no=#{empNo}
 	</select>
 	<update id="insaMemberOneUpdate" parameterType="member">
-	update tbl_user set emp_no=#{emp_no},position=#{position}, job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, address=#{address}, etc_inf=#{etc_inf}
+	update tbl_user set emp_no=#{emp_no},position=#{position},dept=#{dept}, job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, address=#{address}, etc_inf=#{etc_inf}
 	<if test='birthday!= null'>
 		, birthday=#{birthday}
 	</if>
-	<if test='joindate != null'>
+	<if test='joinDate != null'>
 		, joindate=#{joinDate}
 	</if>
 	, status=#{status}
@@ -128,4 +128,18 @@
 	<update id="insaadminInsert">
 		update tbl_user set grade=#{grade} where userId=#{userId}
 	</update>
+	<select id="insaNewMemberSearch" resultType="member">
+		select * 
+		from tbl_user 
+		where com_no is null
+		<if test="searchKey != null">
+		and userid  like '%'||#{searchKey}||'%' 
+		</if>
+	</select>
+	<update id="insaMemberAddUpdate">
+		update tbl_user set joindate = sysdate, status = 'Y', com_no = #{com_no} where userId=#{userId}
+	</update>
+	<select id="selectDeptList" resultType="dept">
+		select * from tbl_dept where com_no=#{com_no}
+	</select>
 </mapper>
