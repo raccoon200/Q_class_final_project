@@ -41,7 +41,9 @@
 	<c:forEach var="addr" items="${address}" varStatus="cou" >
 	<tr>
       <td>${cou.count}</td>
-      <td>${addr.name}</td>
+      <td>
+      <a style="color:gray; font-weight:bold; text-decoration: underline;" href="${pageContext.request.contextPath}/address/addressOneInformation.do?address_no=${addr.address_no}">${addr.name}</a>
+      </td>
       <td>${addr.email}</td>
       <td>${addr.phone}</td>
       <td>${addr.company}</td>

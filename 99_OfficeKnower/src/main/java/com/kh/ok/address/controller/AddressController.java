@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ok.address.model.service.AddressService;
@@ -93,7 +94,7 @@ public class AddressController {
 	public String addressAdd() {
 		if(logger.isDebugEnabled())
 			logger.debug("주소 추가완료");
-	
+
 		return "address/addressAdd";
 	}
 	
@@ -194,9 +195,48 @@ public class AddressController {
 	
 		int result = addressService.InsertAddress(map);
 				
-		return "address/addressAdd";
+		return "redirect:/address/addressView.do";
 	}
  
+	@RequestMapping("/address/addressOneInformation.do")
+	public ModelAndView addressOneInformation(@RequestParam(value="address_no", required = false) String address_no,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("address_no", address_no);
+		map.put("com_no", m.getCom_no());
+		
+		Address address = addressService.AddressSelectName(map);
+		
+		
+		mav.addObject("address",address);
+		
+		mav.setViewName("/address/addressOneInformation");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/address/updateAddress.do")
+	public ModelAndView updateAddress(Address address,
+			HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+
+		System.out.println("address="+address);
+
+		int result = addressService.addressUpdateInfo(address);
+		
+		mav.addObject("address",address);
+		
+		mav.setViewName("/address/addressOneInformation");
+		
+		return mav;
+	}
+	
 	
 }
 
