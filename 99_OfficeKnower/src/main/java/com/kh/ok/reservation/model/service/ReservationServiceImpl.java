@@ -142,4 +142,9 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationDAO.reservationCategoryDelete(map);
 	}
 
+	@Override
+	public int reservationResourcesAdd(Resources resources) {
+		return reservationDAO.reservationResourcesAdd(resources);
+	}
+
 }
