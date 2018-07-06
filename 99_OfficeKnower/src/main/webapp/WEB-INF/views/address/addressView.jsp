@@ -14,7 +14,9 @@
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="주소록" name="pageTitle"/>
 </jsp:include>
+<script>
 
+</script>
 	<style>
 	table.table tr th{
 		background:rgb(230,230,230);
