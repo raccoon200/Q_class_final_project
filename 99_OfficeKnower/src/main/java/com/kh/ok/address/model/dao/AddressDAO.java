@@ -23,6 +23,9 @@ public interface AddressDAO {
 
 	int addressUpdateInfo(Address address);
 
+	int addressReset(String addId);
+
+
 	
 
 

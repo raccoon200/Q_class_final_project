@@ -23,6 +23,10 @@ public interface AddressService {
 
 	int addressUpdateInfo(Address address);
 
+	int addressReset(String addId);
+
+
+
 
 
 
