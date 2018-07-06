@@ -47,6 +47,11 @@ th{
 	float: right;
 	cursor: pointer;
 }
+
+.viewFont{
+	color : #6699FF;
+	cursor: pointer;
+}
 </style>
 <script>
 $(function(){
@@ -190,16 +195,16 @@ try{
 			     <td>${bre.KIND}</td>
 			     <td>${bre.BREAKDAYS}</td>
 			     <td>${bre.STARTDATE} ~ ${bre.ENDDATE} </td>
-			     
-			     
-			     <c:if test="${bre.APPROVAL_STATUS eq 0}">
+   
+			     <%-- <c:if test="${bre.APPROVAL_STATUS eq 0}">
 			    	 <th>결재 완료</th>
 			     </c:if>
 			     <c:if test="${bre.APPROVAL_STATUS ne 0}">
 			    	 <th>결재 중</th>
-			     </c:if>
-			     <th><span onclick="fn_BreakView('${bre.BREAK_REQUEST_NO}');">상세</span></th>
-			     <th><span>휴가신청취소</span></th>
+			     </c:if> --%>
+			     <th>${bre.STATUS}</th>
+			     <th><span class='viewFont' onclick="fn_BreakView('${bre.BREAK_REQUEST_NO}');">상세</span></th>
+			     <th><span class='viewFont' onclick="fn_deleteBreak('${bre.BREAK_REQUEST_NO}');">휴가신청취소</span></th>
 			  </tr>
 			</c:forEach>
 		   </c:if>
@@ -259,6 +264,13 @@ try{
 </div> <!-- div 모음 끝 -->
 
 <script>
+
+function fn_deleteBreak(breakid){
+	
+	location.href="deleteBreak?breakid="+breakid+"&cPage="+"<%=cPage%>";
+	
+}
+
 function fn_BreakView(breakid){
 	alert("상세보기 " +breakid);
 	
@@ -271,12 +283,13 @@ function fn_BreakView(breakid){
 		     $("#nameInfo").html("${bre.USERNAME}");
 			  
 		  
-			 <c:if test="${bre.APPROVAL_STATUS eq 0}">
+			/*  <c:if test="${bre.APPROVAL_STATUS eq 0}">
 		 	 	$("#status").html("결재완료");
 		 	 </c:if>
 		  	 <c:if test="${bre.APPROVAL_STATUS ne 0}">
 		  		$("#status").html("결재중");
-		  	 </c:if>
+		  	 </c:if> */
+		  	 $("#status").html("${bre.STATUS}");
 		  	 $("#com_nameInfo").html("${bre.COM_NAME}");
 		  	 $("#kindInfo").html("${bre.KIND}");
 		  	 $("#dayInfo").html("${bre.BREAKDAYS}");

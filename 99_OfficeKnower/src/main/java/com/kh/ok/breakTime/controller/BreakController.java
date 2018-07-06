@@ -361,13 +361,26 @@ public class BreakController {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return mav;
+	}
 		
+	@RequestMapping("/break/deleteBreak")
+	public ModelAndView deleteBreak(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		String breakid = request.getParameter("breakid");
+		String cPage = request.getParameter("cPage");
+		System.out.println("breakid=" + breakid);
+		System.out.println("cPage=" + cPage);
 		
+		int result = breakService.deleteBreak(breakid);
+		
+		mav.addObject("cPage",cPage);
+		mav.setViewName("redirect:/break/myBreak");
 		
 		
 		return mav;
 	}
-		
 	
 	
 	

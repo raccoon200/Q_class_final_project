@@ -141,14 +141,17 @@
   		select *
 		from break_request r left join tbl_user u on (r.userid=u.userid)
                   			 left join tbl_com c on (u.com_no=c.com_no)
-		where c.com_no= #{comId}
+		where c.com_no= #{comId} and r.status != '반려'
   	</select>
   	<select id="selectBreakRequestCnt" resultType="_int">
   		select count(*)
 		from break_request r left join tbl_user u on (r.userid=u.userid)
-                    		 left join tbl_com c on (u.com_no=c.com_no)
-		where c.com_no= #{comId}
+                  			 left join tbl_com c on (u.com_no=c.com_no)
+		where c.com_no= #{comId} and r.status != '반려'
   	</select>
+  	<update id="deleteBreak">
+  		update break_request set status = '반려' where break_request_no = #{breakid}
+  	</update>
   	
   	
 </mapper>

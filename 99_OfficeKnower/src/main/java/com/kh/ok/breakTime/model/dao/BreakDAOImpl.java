@@ -91,4 +91,9 @@ public class BreakDAOImpl implements BreakDAO {
 		return sqlSession.selectList("break.selectBreakRequest" , comId, rowBounds);
 	}
 
+	@Override
+	public int deleteBreak(String breakid) {
+		return sqlSession.update("break.deleteBreak",breakid);
+	}
+
 }

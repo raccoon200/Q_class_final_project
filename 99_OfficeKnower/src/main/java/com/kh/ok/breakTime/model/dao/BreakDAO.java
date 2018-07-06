@@ -36,4 +36,6 @@ public interface BreakDAO {
 
 	List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId);
 
+	int deleteBreak(String breakid);
+
 }

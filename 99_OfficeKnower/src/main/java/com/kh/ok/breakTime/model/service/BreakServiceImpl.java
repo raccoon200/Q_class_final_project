@@ -86,4 +86,9 @@ public class BreakServiceImpl implements BreakService {
 	public List<Map<String, Object>> selectBreakRequest(int cPage, int numPerPage, String comId) {
 		return breakDao.selectBreakRequest(cPage,numPerPage,comId);
 	}
+
+	@Override
+	public int deleteBreak(String breakid) {
+		return breakDao.deleteBreak(breakid);
+	}
 }
