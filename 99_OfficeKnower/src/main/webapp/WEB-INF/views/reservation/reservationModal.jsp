@@ -62,7 +62,7 @@ function fn_enrollValidate() {
 				<form
 					action="${pageContext.request.contextPath}/reservation/reservationEnroll"
 					method="post"
-					onsubmit="return fn_enrollValidate();")>
+					onsubmit="return fn_enrollValidate();">
 					<div class="modal-body">
 						<table class="table">
 							<tr>
