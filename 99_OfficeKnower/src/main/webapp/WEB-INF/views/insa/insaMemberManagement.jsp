@@ -15,10 +15,15 @@
 <style>
 .insa_search_table{background: white;}
 #insa_ajaxValue{position: absolute;}
+#insa_newajaxValue{position: absolute;}
+p#admin-add {
+	width: 100px;
+	color: rgb(119, 158, 192);
+	cursor: pointer
+}
 </style>
 <script>
 $(function(){
-	
 	$("#memberListSearch").on("keyup",function(){
 		var searchKey = $(this).val().trim();
 		
@@ -57,39 +62,79 @@ $(function(){
 			        $("#memberListSearch").val(td.eq(0).text());
 			        $("#insa_search_table_").css('display','none');
 				});
-				
-/* 				$("#insa_search_table_ tr").on("keyup",function(event){
-					console.log('실행하니');
-					var tr = $(this).children();
-			        var td = tr.children();
-			        tr.css('background','black');
-				}); */
 			},
 			error : function(jqxhr, textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus,errorThrown);
 			}
 		});
 	}); 
+	$("#insa_ajaxValueDiv").focusout(function(){
+		$("#insa_search_table_").css("opacity",0);
+	});
+	$("#insa_ajaxValueDiv").focusin(function(){
+		$("#insa_search_table_").css("opacity",100);
+	});
 	
-	$("#insa_search_button").click(function(){
-		/* var searchKey = $("#memberListSearch").val().trim();
-	*/
-		$(this).submit();		
-	/* 	if(searchKey.length==0){
+	/* 신규 사용자 검색 */
+	$("#newmemberListSearch").on("keyup",function(){
+		var searchKey = $(this).val().trim();
+			$("#insa_newsearch_table_").css("opacity",100);		
+		if(searchKey.length==0){
+			$("#insa_newsearch_table_").css("opacity",0);
 			return;
-		} */
-		
-		/* $.ajax({
-			url:"insaSelectMemberSearch.do",
+		}
+		$.ajax({
+			url:"insaNewMemberSearch.do",
 			data : {searchKey:searchKey},
 			dataType : "json",
 			success : function(data){
-				console.log(data.result);
+				/* console.log(data); */
+				console.log(data.searchchk);
+				var html = "<table class='insa_search_table table table-borderless  table-hover' id='insa_newsearch_table_'>";
+			    
+				if(data.searchchk == true){
+			    	$("#newmemberListSearchchk").val(1);
+			    }
+				for(var index in data.list){
+					var u =data.list[index];
+					html += "<tr >";
+					html += "<td >"+u.userId+"</td><td> (Name:"+u.userName+")</td>"; // u가 객체니까 키값으로 접근해야됨
+					html += "</tr>";
+				}
+				 $("#insa_newajaxValue").html(html);
+				$("#insa_newsearch_table_ tr").click(function(){
+					$("#newmemberListSearchchk").val(1);
+			        var str = ""; 
+			        var tdArr = new Array();    // 배열 선언
+			        // 현재 클릭된 Row(<tr>)
+			        var tr = $(this);
+			        var td = tr.children();
+			        // tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
+			        console.log(td.eq(0).text());
+			        $("#newmemberListSearch").val(td.eq(0).text());
+			        $("#insa_newsearch_table_").css('display','none');
+			        
+				});
 			},
 			error : function(jqxhr, textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus,errorThrown);
 			}
-		}); */
+		});
+	}); 
+
+	$("#newmemberListSearch").focusout(function(){
+		$("#insa_newsearch_table_").css("opacity",0);
+	});
+	$("#newmemberListSearch").focusin(function(){
+		$("#insa_newsearch_table_").css("opacity",100);
+	});
+	/* $("#newmemberListSearchchk").on("change",function(){
+		console.log($(this).val());
+	}); */
+	
+	
+	$("#insa_search_button").click(function(){
+		$(this).submit();		
 	}); 
 	$("#insaTotalCheck").on("click",function(){
 		$(".insaCheck").prop("checked",$(this).prop("checked"));
@@ -130,9 +175,7 @@ $(function(){
 		}else{
 			$("#connectsDelete").hide();
 		}
-			  /* console.log( $(".deleteCheck:checked").val() ); */
-			   /* console.log( $(".deleteCheck").is(":checked") ); */ 
-			   console.log( $("#getUserId").val() ); 
+	   console.log( $("#getUserId").val() ); 
 	});
 });
 
@@ -146,8 +189,6 @@ function fn_btninsaUpdate(e){
 	$("#status").val($("#selectstatus").val());
 	$("#statusUpdateModal").modal('hide');
 	
-		
-	
 	$("#updateType").val(e);
 	document.insaMemberDelete.submit();
 }
@@ -155,6 +196,24 @@ function fn_btninsaUpdate(e){
 function fn_userDelete(){
 	if(confirm("정말로 삭제하시겠습니까?")){		
 		document.insaMemberDelete.submit();
+	}
+
+}
+function fn_newMemberAdd(){
+	/* location.href='${pageContext.request.contextPath}/insa/newMemberAdminAdd.do'; */
+	$("#newmemberListSearchchk").val(0);
+	$("#newmemberListSearch").val("");
+	$("#newMemberAdminAddModal").modal();
+}
+function fn_newMemberUpdateAdd(){
+	
+	var search = $("#newmemberListSearch").val();
+	var searchchk = $("#newmemberListSearchchk").val();
+
+	if(searchchk == 1){
+		$("#newMemberAdminAddModalForm").submit();
+	}else{
+		return
 	}
 }
 </script>
@@ -164,7 +223,8 @@ function fn_userDelete(){
 		<span style="right: 0px; margin-right: 20px">사용자   ${boardCnt}</span>
 	</div>
 	<hr />
-	<br /><br />
+	<p id="admin-add" onclick="fn_newMemberAdd()">+ 사용자 초대</p>
+	<br />
 	
 	<input type="checkbox" name="" id="insaTotalCheck"/>&nbsp;<label for="insaTotalCheck">전체선택</label>&nbsp;&nbsp;
 	<!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#connectionInsertModal"> + 거래처 추가</a>&nbsp; -->
@@ -176,6 +236,7 @@ function fn_userDelete(){
 		<a href="javascript:void(0)" data-toggle="modal" data-target="#statusUpdateModal"  >상태 수정<span id="connectCnt"></span></a>&nbsp;&nbsp;
 	</div>
 <form action="insaSelectMemberSearch.do" style="float: right;">
+ <div id="insa_ajaxValueDiv">
   <div class="input-group"  style="width: 200px; margin-right: 30px;">
     <input type="text" id="memberListSearch" name="searchKey" class="form-control" placeholder="Search..." value='${searchKey == null?"":searchKey }' >
     <div class="input-group-btn">
@@ -184,7 +245,8 @@ function fn_userDelete(){
       </button>
     </div>
   </div>
-      <div id="insa_ajaxValue"></div>
+  <div id="insa_ajaxValue"></div>
+ </div>
 </form> 
 <div style="float: right; margin-right: 30px;">
 	<c:if test="${searchKey != null }">
@@ -201,7 +263,7 @@ function fn_userDelete(){
 			<th>ID</th>
 			<th>사내전화</th>
 			<th>휴대전화</th>
-			<th>소속조직</th>
+			<th>부서</th>
 			<th>직위</th>
 			<th>입사일</th>
 			<th>직무</th>
@@ -228,7 +290,7 @@ function fn_userDelete(){
 					<td><a style="color:gray; font-weight:bold; text-decoration: underline;" href="${pageContext.request.contextPath}/insa/memberSelectManagement.do?userId=${l.getUserId()}">${l.getUserId()}</a></td>
 					<td>${l.getPhone_com()}</td>
 					<td>${l.getPhone_cell()}</td>
-					<td>${l.getCom_name()}</td>
+					<td>${l.getDept()}</td>
 					<td>${l.getPosition()}</td>
 					<td>${l.getJoinDate()}</td>
 					<td>${l.getJob()}</td>
@@ -349,6 +411,46 @@ function fn_userDelete(){
 			<div class="modal-footer">
 				<button type="reset" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				<button type="button" class="btn btn-primary" onclick="fn_btninsaUpdate('status')">수정</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- 사용자 초대 modal -->
+<div class="modal fade" id="newMemberAdminAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalCenterTitle">사용자 초대</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<!-- connectionInsert -->
+			<form action="${pageContext.request.contextPath}/insa/newMemberAdminAddModal.do" method="post" id="newMemberAdminAddModalForm">
+				<div class="modal-body">
+					<table class="table" style="margin-bottom: 0px;">
+						<tr>
+							<th>신규 사용자 검색</th>
+							<td>
+								  <div class="input-group"  style="width: 200px; margin-right: 30px;">
+								    <input type="text" id="newmemberListSearch" name="searchKey" class="form-control" placeholder="Search..." value='${searchKey == null?"":searchKey }' >
+								    <input type="hidden" id="newmemberListSearchchk" class="form-control" value="0" >
+								    <div class="input-group-btn">
+								      <!-- <button id="insa_newsearch_button"class="btn btn-default" >
+								        <i class="icon-search"></i>
+								      </button> -->
+								    </div>
+								  </div>
+							      <div id="insa_newajaxValue"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			<div class="modal-footer">
+				<button type="reset" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				<button type="button" class="btn btn-primary" onclick="fn_newMemberUpdateAdd()">추가</button>
 			</div>
 			</form>
 		</div>
