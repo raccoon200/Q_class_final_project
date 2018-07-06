@@ -41,11 +41,6 @@
 	     <update id="addressReset">
   		 update tbl_address set status = 'Y' where address_no = #{addId}
 		</update>
- 	
-	   <insert id="InsertAddress">
-	   		insert into tbl_address
-	   		values(SEQ_TBL_ADDRESS.nextval,#{userId},#{comId},#{name},#{email},#{phone},#{tag},#{company},#{address},#{anniversary},#{memo},'Y')
-	   </insert>
 		<select id="AddressSelectName" resultType="address">
 			select * from tbl_address where com_no=#{com_no} and address_no=#{address_no}
 		</select>
