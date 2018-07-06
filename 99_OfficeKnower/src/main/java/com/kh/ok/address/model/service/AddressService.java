@@ -18,6 +18,10 @@ public interface AddressService {
 
 	int addressTrash(String addId);
 
+	int addressReset(String addId);
+
+
+
 
 
 

@@ -43,19 +43,16 @@ public class AddressServiceImpl implements AddressService {
 		return addressDAO.addressTrash(addId);
 	}
 
+	@Override
+	public int addressReset(String addId) {
+		return addressDAO.addressReset(addId);
+	}
 
 
 
 
-/*	@Override
-	public List<Address> addressTrashList() {
-		return addressDAO.addressTrashList();
-	}*/
 
-/*	@Override
-	public int updateAddress(Address address) {
-		return addressDAO.updateAddress(address);
-	}*/
+
 
 
 

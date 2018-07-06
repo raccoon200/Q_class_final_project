@@ -18,6 +18,8 @@ public interface AddressDAO {
 
 	List<Address> addressTrashList();
 
+	int addressReset(String addId);
+
 	
 
 

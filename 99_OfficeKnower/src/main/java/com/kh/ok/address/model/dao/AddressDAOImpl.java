@@ -42,6 +42,11 @@ public class AddressDAOImpl implements AddressDAO {
 		return sqlSession.selectList("address.addressTrashList");
 	}
 
+	@Override
+	public int addressReset(String addId) {
+		return sqlSession.insert("address.addressReset", addId);
+	}
+
 	
 
 	

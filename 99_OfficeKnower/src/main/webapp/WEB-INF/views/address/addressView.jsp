@@ -40,13 +40,13 @@
 
 	<c:forEach var="addr" items="${address}" varStatus="cou" >
 	<tr>
-      <td>${cou.count}</td>
-      <td>${addr.name}</td>
-      <td>${addr.email}</td>
-      <td>${addr.phone}</td>
-      <td>${addr.company}</td>
-      <td>${addr.address}</td>
-      <td> <button onclick="fn_deleteAdd('${addr.address_no}');">삭제</button></td>
+	      <td>${cou.count}</td>
+	      <td>${addr.name}</td>
+	      <td>${addr.email}</td>
+	      <td>${addr.phone}</td>
+	      <td>${addr.company}</td>
+	      <td>${addr.address}</td>
+	      <td> <button onclick="fn_deleteAdd('${addr.address_no}');">삭제</button></td>
      </tr>
     </c:forEach>
 
