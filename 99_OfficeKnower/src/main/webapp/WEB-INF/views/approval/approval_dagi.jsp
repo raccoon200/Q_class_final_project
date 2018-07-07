@@ -11,6 +11,15 @@
 	<jsp:param value="대기" name="selectMenu" />
 </jsp:include>
 
+
+<style>
+.trtr:hover{
+	background:rgb(240,240,240);
+}
+.trtr{
+	cursor:pointer;
+}
+</style>
 <h6 style="font-weight:bold">대기</h6>
 
 <hr />
@@ -36,7 +45,8 @@
 	      <th scope="col" style="min-width:100px;">결재 상태</th>
 	    </tr>
 	    <c:forEach var="v" items="${approvalWaitList }">
-	    <tr onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.APPROVAL_NO }"'>
+	    <c:set var="navkind" value="대기"/>
+	    <tr class="trtr" onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.APPROVAL_NO }&navkind=${navkind }"'>
 	    	<td>${v.APPROVAL_NO }</td>
 	    	<td>${v.TITLE }</td>
 	    	<td>${v.WRITER }</td>

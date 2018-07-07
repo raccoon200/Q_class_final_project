@@ -8,6 +8,7 @@
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="전자결재" name="pageTitle" />
+	<jsp:param value="${navkind }" name="selectMenu" />
 </jsp:include>
 <style>
 .submitBtn{
@@ -192,7 +193,7 @@ select {
 </style>
 
 
-<h4>대기</h4>
+<h4>${navkind }</h4>
 <hr />
 <h6>기본설정</h6>
 <table class="table table-bordered">
@@ -216,6 +217,12 @@ select {
 <table class="table-bordered" id="approval_people"
 	style="width: 100%; text-align: center;">
 	<tbody>
+	
+		<tr>
+			<td>${approvals_list }</td>
+			<td>${approvals_count }</td>
+			<td>${approval.approval_status }</td>
+		</tr>
 		<tr style="width: 100%; height: 40px;">
 			<th rowspan="3" class="table-info"
 				style="width: 110px; text-align: center; position: relative;">
@@ -224,51 +231,31 @@ select {
 			<c:forEach var="v" items="${approvals_list }">
 				<td>${v.userId }</td>
 			</c:forEach>
-			<c:forEach var="v" begin="0" end="${4-approvals_count}" step="1">
-				<td></td>
+			<c:if test="${approvals_count != 4 }">
+			<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
+				<td>&nbsp;</td>
 			</c:forEach>
+			</c:if>
 		</tr>
-		<tr style="height: 80px;">
+		
+		<%-- <tr style="height: 80px;">
+			<c:forEach var="v" begin="0" end="${approvals_count-1}" step="1">
 			<td>
+				
 				<div style="width: 130px; height: 70px; display: inline-block;">
-					<c:if test="${approval.approval_status < 4}">
+					
+					<c:if test="${approval.approval_status < approvals_count-v}">
 						<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(0).sign }" alt="싸인이미지" />
 					</c:if>
-					<c:if test="${approval.approval_status == 4 and approvals_list.get(0).userId eq memberLoggedIn.userId}">
+					<c:if test="${approval.approval_status == approvals_count-v and approvals_list.get(v).userId eq memberLoggedIn.userId}">
 						<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
 					</c:if>
 				</div>	
-			</td>
-			<td>
-				<div style="width: 130px; height: 70px; display: inline-block;">
-					<c:if test="${approval.approval_status < 3}">
-						<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(1).sign }" alt="싸인이미지" />
-					</c:if>
-					<c:if test="${approval.approval_status == 3 and approvals_list.get(1).userId eq memberLoggedIn.userId}">
-						<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
-					</c:if>
-				</div>	
-			</td>
-			<td>
-				<div style="width: 130px; height: 70px; display: inline-block;">
-					<c:if test="${approval.approval_status < 2}">
-						<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(2).sign }" alt="싸인이미지" />
-					</c:if>
-					<c:if test="${approval.approval_status == 2 and approvals_list.get(2).userId eq memberLoggedIn.userId}">
-						<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
-					</c:if>
-				</div>	
-			</td>
-			<td>
-				<div style="width: 130px; height: 70px; display: inline-block;">
-					<c:if test="${approval.approval_status < 1}">
-						<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(3).sign }" alt="싸인이미지" />
-					</c:if>
-					<c:if test="${approval.approval_status == 1 and approvals_list.get(3).userId eq memberLoggedIn.userId}">
-						<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
-					</c:if>
-				</div>	
-			</td>
+			</td> 
+			</c:forEach>
+			<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
+				<td><div style="width: 130px; height: 70px; display: inline-block;"></div></td>
+			</c:forEach>
 		</tr>
 		
 		<tr style="height: 40px;">
@@ -276,7 +263,10 @@ select {
 		<c:forEach var="v" items="${approvals_list }">
 			<td>${v.userName }</td>
 		</c:forEach>
-		</tr>
+		<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
+			<td></td>
+		</c:forEach>
+		</tr>  --%>
 	</tbody>
 </table>
 
@@ -307,9 +297,9 @@ select {
       function fn_approvalUpdate() {
     	  var value = $("input[name=approvalType]:checked").val();
 	 	  if(value=='승인') {
-	 		  location.href='${pageContext.request.contextPath}/approval/approvalAccept?approval_no=${approval.approval_no}&approval_status=${approval.approval_status}&status=${approval.status}';
+	 		  location.href='${pageContext.request.contextPath}/approval/approvalAccept?approval_no=${approval.approval_no}&approval_status=${approval.approval_status}&status=${approval.status}&navkind=${navkind}';
 	 	  }else if(value=='반려'){
-	 		 location.href='${pageContext.request.contextPath}/approval/approvalReject?approval_no=${approval.approval_no}&approval_status=${approval.approval_status}';
+	 		 location.href='${pageContext.request.contextPath}/approval/approvalReject?approval_no=${approval.approval_no}&approval_status=${approval.approval_status}&navkind=${navkind}';
 	 	  }
       }
       </script>

@@ -382,7 +382,7 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/approval/approvalSignUpdate")
-	public ModelAndView approvalSignUpdate(HttpSession session, String basicFile, @RequestParam(value = "upFile", required = false) MultipartFile upFile,
+	public ModelAndView approvalSignUpdate(HttpSession session, @RequestParam(value = "upFile", required = false) MultipartFile upFile,
 			HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		Member m = (Member)session.getAttribute("memberLoggedIn");
@@ -541,8 +541,8 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/approvals/insertApprovalExtra")
-	public ModelAndView insertApproval(@RequestParam String approvals, @RequestParam String writer, @RequestParam String content,
-			@RequestParam String com_no, @RequestParam String title) throws JsonProcessingException {
+	public ModelAndView insertApproval(@RequestParam("approvals") String approvals, @RequestParam("writer") String writer, @RequestParam("content") String content,
+			@RequestParam("com_no") String com_no, @RequestParam("title") String title) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no("기타-");
@@ -584,7 +584,7 @@ public class ApprovalController {
 
 		if (result > 0) {
 			msg = "결재 등록 성공";
-			loc = "approval.do";
+			loc = "/office/approval.do";
 		} else
 			msg = "결재 등록 실패";
 		mav.addObject("msg", msg);
@@ -964,7 +964,7 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/office/approvalView")
-	public ModelAndView selectApprovalView(@RequestParam String approval_no, HttpSession session) {
+	public ModelAndView selectApprovalView(@RequestParam String approval_no, @RequestParam("navkind") String navkind, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = approvalService.selectApprovalOne(approval_no);
 		Member writer = null;
@@ -984,19 +984,22 @@ public class ApprovalController {
 			}
 		}
 		int approvals_count = approvals_list.size();	
-	
+		for(int i=0; i<approvals_list.size(); i++) {
+			System.out.println(approvals_list.get(i));
+		}
 		mav.addObject("status", status);
 		mav.addObject("writer", writer);
 		mav.addObject("com_name", com_name);
 		mav.addObject("approvals_list", approvals_list);
 		mav.addObject("approvals_count", approvals_count);
 		mav.addObject("approval", approval);
+		mav.addObject("navkind",navkind);
 		mav.setViewName("approval/approval_view");
 		return mav;
 	}
 
 	@RequestMapping("/approval/approvalAccept")
-	public ModelAndView approvalAccept(@RequestParam String approval_no, @RequestParam int approval_status, @RequestParam String status) {
+	public ModelAndView approvalAccept(@RequestParam String approval_no, @RequestParam("navkind") String navkind, @RequestParam int approval_status, @RequestParam String status) {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no(approval_no);
@@ -1013,13 +1016,13 @@ public class ApprovalController {
 		}else {
 			mav.addObject("msg", "결재를 처리하지 못했습니다");
 		}
-		mav.addObject("loc", "/office/approvalWaitView?approval_no="+approval.getApproval_no());
+		mav.addObject("loc", "/office/approvalView?approval_no="+approval.getApproval_no()+"&navkind="+navkind);
 		mav.setViewName("common/msg");
 		return mav;
 	}
 	
 	@RequestMapping("/approval/approvalReject")
-	public ModelAndView approvalReject(@RequestParam String approval_no, @RequestParam int approval_status) {
+	public ModelAndView approvalReject(@RequestParam String approval_no, @RequestParam("navkind") String navkind, @RequestParam int approval_status) {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no(approval_no);
@@ -1034,7 +1037,7 @@ public class ApprovalController {
 		}else {
 			mav.addObject("msg", "결재를 처리하지 못했습니다");
 		}
-		mav.addObject("loc", "/office/approvalWaitView?approval_no="+approval.getApproval_no());
+		mav.addObject("loc", "/office/approvalView?approval_no="+approval.getApproval_no()+"&navkind="+navkind);
 		mav.setViewName("common/msg");
 		return mav;
 	}

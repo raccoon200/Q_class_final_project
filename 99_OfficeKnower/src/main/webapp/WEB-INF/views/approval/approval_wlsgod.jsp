@@ -11,6 +11,15 @@
 	<jsp:param value="진행" name="selectMenu" />
 </jsp:include>
 
+
+<style>
+.trtr:hover{
+	background:rgb(240,240,240);
+}
+.trtr{
+	cursor:pointer;
+}
+</style>
 <h6 style="font-weight:bold">진행</h6>
 
 <hr />
@@ -36,7 +45,8 @@
 	      <th scope="col" style="min-width:100px;">결재 상태</th>
 	    </tr>
 	    <c:forEach var="v" items="${approvalProgressList }">
-	    <tr>
+	   <c:set var="navkind" value="진행"/>
+	    <tr class="trtr" onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.APPROVAL_NO }&navkind=${navkind }"'>
 	    	<td>${v.APPROVAL_NO }</td>
 	    	<td>${v.TITLE }</td>
 	    	<td>${v.WRITER }</td>
@@ -47,6 +57,7 @@
 		</table>
   	
   </div>
+ 
   <div class="tab-pane fade" id="breakRequest" role="tabpanel" aria-labelledby="breakRequest-tab">
   		<table class="table table-bordered" id="approvalList" style="width : 100%">
 	    <tr style="background:#F6F6F6;">
