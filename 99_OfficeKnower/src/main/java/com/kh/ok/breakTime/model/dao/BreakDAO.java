@@ -43,4 +43,6 @@ public interface BreakDAO {
 
 	int callProc_break_manual(BreakSetting bs);
 
+	List<BreakRequest> selectBreakRequestUserIdList(Map<String, String> map);
+
 }
