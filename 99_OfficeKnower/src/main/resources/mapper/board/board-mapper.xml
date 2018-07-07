@@ -85,7 +85,7 @@
 		delete from tbl_comment where comment_no=#{comment_no}
 	</delete>
 	<select id="selectBoardMenuManageList" resultType="map">
-		select distinct A.board_menu_no, A.title, A.createdate, A.kind, A.userId,A.com_no, case when A.status='Y' then '사용' else '미사용' end status from board_menu A join tbl_user B on A.COM_NO = B.COM_NO where a.status='Y' or a.status='M'
+		select distinct A.board_menu_no, A.title, A.createdate, A.kind, A.userId,A.com_no, case when A.status='Y' then '사용' else '미사용' end status from board_menu A join tbl_user B on A.COM_NO = B.COM_NO where (a.status='Y' or a.status='M') and a.com_no = #{com_no} 
 	</select>
 	<select id="selectBoardMenu" resultType="com.kh.ok.board.model.vo.BoardMenu">
 		select * from board_menu where board_menu_no=#{board_menu_no}

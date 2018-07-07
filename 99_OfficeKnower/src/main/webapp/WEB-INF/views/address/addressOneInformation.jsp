@@ -86,7 +86,7 @@
   $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
 </script>
 		<div style="width: 400px;">
-	<form action="updateAddress.do" method="post" id="updateAddressForm">
+	<form action="updateAddress.do" method="post" id="updateAddressForm" onsubmit="return fn_validate();">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
@@ -98,7 +98,7 @@
 					<label style="width: 100px;" for="name">이름</label>
 				</th>   
 				<td>
-					<input type="text" class="form-control" name="name" id="name" value="${address.name}" />
+					<input type="text" class="form-control" name="name" id="name" value="${address.name}" requird maxlength="30" placeholder="최대 30자"/>
 					<input type="hidden" name="address_no" id="address_no" value="${address.address_no}" />
 				</td>
 			</tr>
@@ -115,7 +115,7 @@
 					<label for="phone">전화번호</label>
 				</th>
 				<td>
-					  <input type="text"class="form-control" name="phone" id="phone" value="${address.phone}" />
+					  <input type="text"class="form-control" name="phone" id="phone" value="${address.phone}" maxlength="11" placeholder="'-'없이 숫자만"/>
 				</td>
 			</tr>
 			<tr>
@@ -123,7 +123,7 @@
 					<label for="tag">태그</label>
 				</th>
 				<td>
-					   <input type="text"class="form-control" name="tag" id="tag" value="${address.tag}" />
+					   <input type="text"class="form-control" name="tag" id="tag" value="${address.tag}" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
@@ -131,7 +131,7 @@
 					<label for="company">회사</label>
 				</th>
 				<td>
-					  <input type="text" class="form-control"name="company" id="company" value="${address.company}" />
+					  <input type="text" class="form-control"name="company" id="company" value="${address.company}" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
@@ -154,7 +154,7 @@
 					<label for="anniversary">기념일</label>
 				</th>
 				<td>
-				 	   <input type="date" class="form-control" name="anniversary" id="anniversary" value="${address.anniversary}" required/>
+				 	   <input type="date" class="form-control" name="anniversary" id="anniversary" value="${address.anniversary}"/>
 				</td>
 			</tr>
 			<tr>
@@ -163,7 +163,7 @@
 				</th>
 				<td>
 				 	  
-			 	  <input type="text" class="form-control" name="memo" id="memo" value="${address.memo}" />
+			 	  <input type="text" class="form-control" name="memo" id="memo" value="${address.memo}" maxlength="100" placeholder="최대 100자"/>
 			 	  <input type="hidden" name="com_No" id="com_No" value="${address.com_No}" />
 				</td>
 			</tr>
@@ -177,12 +177,33 @@
 	</div>
 <script>
 function fn_addressSum(){
-	if($("#sample4_postcode").val().trim().length != 0)
-	var add1 = $("#sample4_postcode").val() 
-			+",, "+ $("#sample4_roadAddress").val()
-			+",, "+ $("#sample4_jibunAddress").val();
+	if($("#sample4_postcode").val().trim().length != 0){
+		var add1 = $("#sample4_postcode").val();
+		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
+			add1 += ",, "+ $("#sample4_roadAddress").val();
+		}else{
+			add1 += ",,"+ $("#sample4_roadAddress").val();
+		}
+		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
+			add1 += ",, "+ $("#sample4_jibunAddress").val();
+		}else{			
+			add1 += ",,"+ $("#sample4_jibunAddress").val();
+		}
+	}
+	
 	$("#address").val(add1);
 	$("#updateAddressForm").submit();
+}
+function fn_validate(){
+	var regExp = /^[0-9]+$/;
+	var phone = $("#phone").val();
+	
+	if(!regExp.test(phone)){
+		alert("전화번호는 '-'없이 숫자만 가능합니다.");
+		$("#phone").focus();
+		return false;
+	}
+	return true;
 }
 </script>
 	

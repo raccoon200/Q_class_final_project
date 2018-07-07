@@ -287,7 +287,7 @@ function fn_btninsaDelte() {
 	$("#positionDeleteModal").submit();
 }
 </script>
-<div class="insa_management" style="width: 95%;">
+<div class="insa_management" style="width: 100%;">
 	<h5 style="display: inline;">직위/직무 관리</h5> 
 	<hr />
 	<br /><br />

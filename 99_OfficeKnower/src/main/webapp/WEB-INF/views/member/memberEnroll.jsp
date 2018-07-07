@@ -268,10 +268,20 @@ function validate() {
 </script>
 <script>
 function fn_addressSum(){
-	if($("#sample4_postcode").val().trim().length != 0)
-	var add1 = $("#sample4_postcode").val()
-			+",, "+ $("#sample4_roadAddress").val()
-			+",, "+ $("#sample4_jibunAddress").val();
+	if($("#sample4_postcode").val().trim().length != 0){
+		var add1 = $("#sample4_postcode").val();
+		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
+			add1 += ",, "+ $("#sample4_roadAddress").val();
+		}else{
+			add1 += ",,"+ $("#sample4_roadAddress").val();
+		}
+		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
+			add1 += ",, "+ $("#sample4_jibunAddress").val();
+		}else{			
+			add1 += ",,"+ $("#sample4_jibunAddress").val();
+		}
+	}
+	
 	$("#address").val(add1);
 }
 </script>

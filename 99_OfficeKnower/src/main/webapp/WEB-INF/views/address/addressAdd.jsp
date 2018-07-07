@@ -24,11 +24,32 @@
 </script>
 <script>
 function fn_addressSum(){
-	if($("#sample4_postcode").val().trim().length != 0)
-	var add1 = $("#sample4_postcode").val() 
-			+",, "+ $("#sample4_roadAddress").val()
-			+",, "+ $("#sample4_jibunAddress").val();
+	if($("#sample4_postcode").val().trim().length != 0){
+		var add1 = $("#sample4_postcode").val();
+		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
+			add1 += ",, "+ $("#sample4_roadAddress").val();
+		}else{
+			add1 += ",,"+ $("#sample4_roadAddress").val();
+		}
+		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
+			add1 += ",, "+ $("#sample4_jibunAddress").val();
+		}else{			
+			add1 += ",,"+ $("#sample4_jibunAddress").val();
+		}
+	}
+	
 	$("#address").val(add1);
+}
+function fn_validate(){
+	var regExp = /^[0-9]+$/;
+	var phone = $("#phone").val();
+	
+	if(!regExp.test(phone)){
+		alert("전화번호는 '-'없이 숫자만 가능합니다.");
+		$("#phone").focus();
+		return false;
+	}
+	return true;
 }
 </script>
 <script>
@@ -90,7 +111,7 @@ function fn_addressSum(){
    }
 </script>
 <div style="width: 400px;">
-	<form action="InsertAddress.do" method="post">
+	<form action="InsertAddress.do" method="post" onsubmit="fn_validate();">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
@@ -101,7 +122,7 @@ function fn_addressSum(){
 					<label style="width: 100px;" for="name">이름</label>
 				</th>   
 				<td>
-					<input type="text" class="form-control" name="name" id="name"  />
+					<input type="text" class="form-control" name="name" id="name" required maxlength="30" placeholder="최대 30자"/>
 				</td>
 			</tr>
 			<tr>
@@ -117,7 +138,7 @@ function fn_addressSum(){
 					<label for="phone">전화번호</label>
 				</th>
 				<td>
-					  <input type="text"class="form-control" name="phone" id="phone" />
+					  <input type="text"class="form-control" name="phone" id="phone" maxlength="11" placeholder="'-'없이 숫자만" />
 				</td>
 			</tr>
 			<tr>
@@ -125,7 +146,7 @@ function fn_addressSum(){
 					<label for="tag">태그</label>
 				</th>
 				<td>
-					   <input type="text"class="form-control" name="tag" id="tag" />
+					   <input type="text" class="form-control" name="tag" id="tag" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
@@ -133,7 +154,7 @@ function fn_addressSum(){
 					<label for="company">회사</label>
 				</th>
 				<td>
-					  <input type="text" class="form-control"name="company" id="company" />
+					  <input type="text" class="form-control"name="company" id="company" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
@@ -156,7 +177,7 @@ function fn_addressSum(){
 					<label for="anniversary">기념일</label>
 				</th>
 				<td>
-				 	   <input type="date" class="form-control" name="anniversary" id="anniversary"  required/>
+				 	   <input type="date" class="form-control" name="anniversary" id="anniversary"/>
 				</td>
 			</tr>
 			<tr>
@@ -165,7 +186,7 @@ function fn_addressSum(){
 				</th>
 				<td>
 				 	  
-			 	  <input type="text" class="form-control" name="memo" id="memo"  />
+			 	  <input type="text" class="form-control" name="memo" id="memo" maxlength="100" placeholder="최대 100자"/>
 				</td>
 			</tr>
 			<tr>
