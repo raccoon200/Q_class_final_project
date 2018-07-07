@@ -150,5 +150,17 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public List<Map<String, Object>> selectBreakRequestList(String com_no) {
 		return approvalDAO.selectBreakRequestList(com_no);
 	}
+	@Override
+	public Approval selectApprovalOne(String approval_no) {
+		return approvalDAO.selectApprovalOne(approval_no);
+	}
+	@Override
+	public String selectComName(String com_no) {
+		return approvalDAO.selectComName(com_no);
+	}
+	@Override
+	public int approvalAccept(Approval approval) {
+		return approvalDAO.approvalAccept(approval);
+	}
 	
 }

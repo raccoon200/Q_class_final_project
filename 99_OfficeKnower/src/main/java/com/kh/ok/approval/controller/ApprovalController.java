@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -688,10 +687,10 @@ public class ApprovalController {
 		for(int i=0; i<approvalDataList.size(); i++) {
 			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) approvalDataList.get(i).get("STATUS");
 			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 					
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -719,10 +718,10 @@ public class ApprovalController {
 		for(int i=0; i<breakRequestList.size(); i++) {
 			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) breakRequestList.get(i).get("STATUS");
 			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 					
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -760,10 +759,10 @@ public class ApprovalController {
 		for(int i=0; i<approvalDataList.size(); i++) {
 			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) approvalDataList.get(i).get("STATUS");
 			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -791,10 +790,10 @@ public class ApprovalController {
 		for(int i=0; i<breakRequestList.size(); i++) {
 			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) breakRequestList.get(i).get("STATUS");
 			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 					
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -833,10 +832,10 @@ public class ApprovalController {
 		for(int i=0; i<approvalDataList.size(); i++) {
 			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) approvalDataList.get(i).get("STATUS");
 			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -864,10 +863,10 @@ public class ApprovalController {
 		for(int i=0; i<breakRequestList.size(); i++) {
 			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) breakRequestList.get(i).get("STATUS");
 			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 					
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -905,10 +904,10 @@ public class ApprovalController {
 		for(int i=0; i<approvalDataList.size(); i++) {
 			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) approvalDataList.get(i).get("STATUS");
 			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 					approvalCompleteList.add(approvalDataList.get(i));
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -936,10 +935,10 @@ public class ApprovalController {
 		for(int i=0; i<breakRequestList.size(); i++) {
 			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
 			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
-			
+			String status = (String) breakRequestList.get(i).get("STATUS");
 			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
 			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
-				if(approval_status == 0) {	// 완료일 경우
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
 					breakRequestCompleteList.add(breakRequestList.get(i));
 				}else {
 					String[] approvals = approvalsT.split(",");
@@ -962,6 +961,60 @@ public class ApprovalController {
 		mav.addObject("approvalCompleteList", approvalCompleteList);
 		mav.addObject("breakRequestCompleteList", breakRequestCompleteList);
 		mav.setViewName("approval/approval_dhksfy");
+		return mav;
+	}
+	@RequestMapping("/office/approvalWaitView")
+	public ModelAndView selectApprovalWaitView(@RequestParam String approval_no, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = approvalService.selectApprovalOne(approval_no);
+		Member writer = null;
+
+		String status = approval.getStatus();
+		String approvalsT = approval.getApprovals();
+		String[] approvals;
+	
+		String com_name = approvalService.selectComName(approval.getCom_no());
+		approvals = approvalsT.split(",");
+		ArrayList<Member> approvals_list = new ArrayList<Member>();
+		for(int j=approvals.length-1; j>=0; j--) {
+			Member m = approvalService.selectMember(approvals[j]);
+			approvals_list.add(m);
+			if(approval.getWriter().equals(approvals[j])) {	//작성자 객체 생성
+				writer = m;
+			}
+		}
+		int approvals_count = approvals_list.size();	
+	
+		mav.addObject("status", status);
+		mav.addObject("writer", writer);
+		mav.addObject("com_name", com_name);
+		mav.addObject("approvals_list", approvals_list);
+		mav.addObject("approvals_count", approvals_count);
+		mav.addObject("approval", approval);
+		mav.setViewName("approval/approval_dagi_view");
+		return mav;
+	}
+
+	@RequestMapping("/approval/approvalAccept")
+	public ModelAndView approvalAccept(@RequestParam String approval_no, @RequestParam int approval_status, @RequestParam String status) {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = new Approval();
+		approval.setApproval_no(approval_no);
+		approval.setApproval_status(approval_status);
+		approval.setStatus(status);
+		approval.setApproval_status(approval.getApproval_status()-1);
+		if(!approval.getStatus().equals("반려") &&  approval.getApproval_status()==0) {
+			approval.setStatus("결재 완료");
+		}
+		int result = approvalService.approvalAccept(approval);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalWaitView?approval_no="+approval.getApproval_no());
+		mav.setViewName("common/msg");
 		return mav;
 	}
 }
