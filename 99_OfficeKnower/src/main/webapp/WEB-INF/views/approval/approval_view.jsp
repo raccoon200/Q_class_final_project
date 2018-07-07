@@ -217,12 +217,6 @@ select {
 <table class="table-bordered" id="approval_people"
 	style="width: 100%; text-align: center;">
 	<tbody>
-	
-		<tr>
-			<td>${approvals_list }</td>
-			<td>${approvals_count }</td>
-			<td>${approval.approval_status }</td>
-		</tr>
 		<tr style="width: 100%; height: 40px;">
 			<th rowspan="3" class="table-info"
 				style="width: 110px; text-align: center; position: relative;">
@@ -232,13 +226,13 @@ select {
 				<td>${v.userId }</td>
 			</c:forEach>
 			<c:if test="${approvals_count != 4 }">
-			<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
-				<td>&nbsp;</td>
-			</c:forEach>
+				<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
+					<td>&nbsp;</td>
+				</c:forEach>
 			</c:if>
 		</tr>
 		
-		<%-- <tr style="height: 80px;">
+		<tr style="height: 80px;">
 			<c:forEach var="v" begin="0" end="${approvals_count-1}" step="1">
 			<td>
 				
@@ -253,9 +247,11 @@ select {
 				</div>	
 			</td> 
 			</c:forEach>
-			<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
-				<td><div style="width: 130px; height: 70px; display: inline-block;"></div></td>
-			</c:forEach>
+			<c:if test="${approvals_count != 4 }">
+				<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
+					<td><div style="width: 130px; height: 70px; display: inline-block;"></div></td>
+				</c:forEach>
+			</c:if>
 		</tr>
 		
 		<tr style="height: 40px;">
@@ -263,10 +259,12 @@ select {
 		<c:forEach var="v" items="${approvals_list }">
 			<td>${v.userName }</td>
 		</c:forEach>
-		<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
-			<td></td>
-		</c:forEach>
-		</tr>  --%>
+		<c:if test="${approvals_count != 4 }">
+				<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
+					<td>&nbsp;</td>
+				</c:forEach>
+			</c:if>
+		</tr>
 	</tbody>
 </table>
 
