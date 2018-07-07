@@ -83,4 +83,6 @@ public interface ApprovalDAO {
 
 	int approvalAccept(Approval approval);
 
+	int approvalReject(Approval approval);
+
 }

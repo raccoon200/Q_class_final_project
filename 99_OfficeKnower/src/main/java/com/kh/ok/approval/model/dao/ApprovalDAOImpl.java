@@ -206,4 +206,9 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.update("approval.approvalAccept", approval);
 	}
 
+	@Override
+	public int approvalReject(Approval approval) {
+		return sqlSession.update("approval.approvalReject", approval);
+	}
+
 }

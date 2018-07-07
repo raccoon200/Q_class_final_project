@@ -36,7 +36,7 @@
 	      <th scope="col" style="min-width:100px;">결재 상태</th>
 	    </tr>
 	    <c:forEach var="v" items="${approvalWaitList }">
-	    <tr onclick='location.href="${pageContext.request.contextPath}/office/approvalWaitView?approval_no=${v.APPROVAL_NO }"'>
+	    <tr onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.APPROVAL_NO }"'>
 	    	<td>${v.APPROVAL_NO }</td>
 	    	<td>${v.TITLE }</td>
 	    	<td>${v.WRITER }</td>
