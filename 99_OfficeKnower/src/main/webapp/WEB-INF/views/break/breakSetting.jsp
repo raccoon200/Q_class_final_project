@@ -87,6 +87,6 @@ $(function(){
 			</td>
 		</tr>
 	</table>
-<button type="submit" class="btn btn-outline-info">저장</button>
+<button type="submit" class="btn btn-outline-info" >저장</button>
 </form>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
