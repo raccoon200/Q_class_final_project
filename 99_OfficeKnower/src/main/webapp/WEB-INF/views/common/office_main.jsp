@@ -25,7 +25,7 @@
             <div class="container">
               <div class="carousel-caption text-left">
                 <h1 style="color: black;">${memberLoggedIn.com_name}에 오신걸 환영합니다.</h1>
-                <p style="color: black;">모래뿐일 내려온 동력은 밝은 속에서 곳으로 있을 풀이 황금시대다. <br /> 무엇을 아니더면, 공자는 작고 운다.</p>
+                <p style="color: black;"></p>
               </div>
             </div>
           </div>
@@ -33,7 +33,7 @@
             <div class="container">
               <div class="carousel-caption text-left">
                 <h1 style="color: black;">${memberLoggedIn.com_name}에 오신걸 환영합니다.</h1>
-                <p style="color: black;">모래뿐일 내려온 동력은 밝은 속에서 곳으로 있을 풀이 황금시대다. <br /> 무엇을 아니더면, 공자는 작고 운다.</p>
+                <p style="color: black;"></p>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
             <div class="container">
               <div class="carousel-caption text-left">
                 <h1 style="color: black;">${memberLoggedIn.com_name}에 오신걸 환영합니다.</h1>
-                <p style="color: black;">모래뿐일 내려온 동력은 밝은 속에서 곳으로 있을 풀이 황금시대다. <br /> 무엇을 아니더면, 공자는 작고 운다.</p>
+                <p style="color: black;"></p>
               </div>
             </div>
           </div>
@@ -77,14 +77,14 @@
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/board_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>게시판</h2>
-            <p>끝에 구하지 이것을 장식하는 같으며, 어디 그리하였는가? 두기 싶이 봄날의 얼음 것이다. 청춘의 어디 바로 이는 것이다. 피고 있는 구하지 때문이다. 석가는 살 고동을 이상은 곧 뼈 그들에게 가장 칼이다.</p>
+            <p>누구나 게시판을 만들어 커뮤니티 공간으로 활용할 수 있습니다. 모바일 앱이 지원되어 언제 어디서나 게시물을 등록하고 확인할 수 있습니다.</p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/board/boardRecentList" role="button">게시판 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/check_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>전자결재</h2>
-            <p>끝에 구하지 이것을 장식하는 같으며, 어디 그리하였는가? 두기 싶이 봄날의 얼음 것이다. 청춘의 어디 바로 이는 것이다. 피고 있는 구하지 때문이다. 석가는 살 고동을 이상은 곧 뼈 그들에게 가장 칼이다.</p>
+            <p>신속한 의사 결정을 위한 무제한 사내 결재 시스템</p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/office/approval.do" role="button">전자결재 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
