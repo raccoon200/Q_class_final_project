@@ -101,11 +101,29 @@ $(function(){
 		
 	});
 });
+function fn_validate(){
+	var regExp = /^[0-9]+$/;
+	var phone_com = $("#phone_com").val();
+	var phone_cell = $("#phone_cell").val();
+	
+	if(!regExp.test(phone_com)){
+		alert("사내전화는 '-'없이 숫자만 가능합니다.");
+		$("#phone_com").focus();
+		return false;
+	}
+	if(!regExp.test(phone_cell)){
+		alert("휴대전화는 '-'없이 숫자만 가능합니다.");
+		$("#phone_cell").focus();
+		return false;
+	}
+	
+	return true;
+}
 </script>
 <h3>내 정보 관리</h3>
 <hr />
 <div class="table-responsive">
-	<form action="memberOneUpdate.do" method="post" id="memberOneUpdateForm">
+	<form action="memberOneUpdate.do" method="post" id="memberOneUpdateForm" onsubmit="return fn_validate();">
 		<table class="table table-hover" style="width: 600px;">
 			<tr>
 				<th>이름</th>
@@ -139,13 +157,13 @@ $(function(){
 			<tr>
 				<th>사내 전화</th>
 				<td>
-					<input type="text" class="form-control" id="phone_com" name="phone_com" value="${member.phone_com }" >
+					<input type="text" class="form-control" id="phone_com" name="phone_com" value="${member.phone_com }" maxlength="11">
 				</td>
 			</tr>
 			<tr>
 				<th>휴대전화</th>
 				<td>
-					<input type="text" class="form-control" id="phone_cell" name="phone_cell" value="${member.phone_cell }" >
+					<input type="text" class="form-control" id="phone_cell" name="phone_cell" value="${member.phone_cell }" maxlength="11">
 				</td>
 			</tr>
 			<tr>
@@ -176,7 +194,7 @@ $(function(){
 			<tr>
 				<th>자택주소</th>
 					<td>
-	                     <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
+	                     <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline;" value="<%=add!=null?add[0]:"" %>" > &nbsp;&nbsp; 
 	                     <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
 	                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add[1]!=null?add[1]:"" %>"> 
 	                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add[2]!=null?add[2]:"" %>">
@@ -201,10 +219,20 @@ $(function(){
 </div>
 <script>
 function fn_addressSum(){
-	if($("#sample4_postcode").val().trim().length != 0)
-	var add1 = $("#sample4_postcode").val() 
-			+",, "+ $("#sample4_roadAddress").val()
-			+",, "+ $("#sample4_jibunAddress").val();
+	if($("#sample4_postcode").val().trim().length != 0){
+		var add1 = $("#sample4_postcode").val();
+		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
+			add1 += ",, "+ $("#sample4_roadAddress").val();
+		}else{
+			add1 += ",,"+ $("#sample4_roadAddress").val();
+		}
+		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
+			add1 += ",, "+ $("#sample4_jibunAddress").val();
+		}else{			
+			add1 += ",,"+ $("#sample4_jibunAddress").val();
+		}
+	}
+	
 	$("#address").val(add1);
 	if($("#birthdaychk").val() != "" && $("#birthday").val() == ""){
 		alert("생일을 입력해 주세요");

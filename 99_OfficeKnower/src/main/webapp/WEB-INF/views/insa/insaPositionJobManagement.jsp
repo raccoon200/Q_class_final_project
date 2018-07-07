@@ -120,10 +120,18 @@ function fn_hide(){
 function fn_jobAdd(){
 	$("#btn_jobsubmitbutton").show();
 	
-	console.log($("#insa_job_tr td").length);
-	if($("#insa_job_tr td").length< ${jlist.size()}+1){
-		var html = '<td><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>'
-		$("#insa_job_tr").append(html);
+	console.log($(".insa_job_tr:nth-last-child(1) td").length);
+	if($(".insa_job_tr td").length< parseInt("${jlist.size()}")+1){
+		var html = "";
+		if($(".insa_job_tr:nth-last-child(1) td").length < 6){	
+			html += '<td><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
+			$(".insa_job_tr:nth-last-child(1)").append(html);
+		}else{
+			html += '<tr class="insa_job_tr">'
+			html += '<td><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
+			html += '</tr>';
+		 	$("#insa_job_table").append(html);
+		}
 	}
 }
 function fn_btnJobinsaDelte() {	
@@ -172,7 +180,7 @@ function fn_btnJobSubmit(){
 	$("#jobInsertAdd").submit();	
 }
 function fn_positionAdd(){
-	if($("#insa_position_table tr").length< ${plist.size()}+2){
+	if($("#insa_position_table tr").length< parseInt("${plist.size()}")+2){
 	var html = "<tr><th class='plist_th_count insa_th'>";
 		html += ($("#insa_position_table tr").length); 
 		html += "직위</th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -322,18 +330,22 @@ function fn_btninsaDelte() {
 <table class="table" id="insa_job_table" style="width: 400px;">
 	<c:if test="${empty jlist}">
 		<tr>
-			<td colspan="${jlist.size() }" style="text-align: center;">직무가 없습니다.
+			<td colspan="${jlist.size()%5 }" style="text-align: center;">직무가 없습니다.
 			</td>
 		</tr>
 	</c:if>
 	<c:if test="${not empty jlist }">
-		<tr id="insa_job_tr">
-			<c:forEach var="j" items="${jlist}" varStatus="sts">
+		<c:forEach var="j" items="${jlist}" varStatus="sts">
+			<c:if test="${jlist.indexOf(j)%6 eq 0}">			
+				<tr class="insa_job_tr">
+			</c:if>
 				<td class="jlist_th_count insa_td" id="jlist_td_count">
 					<input type="text" class="form-control insa_job_input" name="job"id="insa_position" value="${j.job}" readonly/> &nbsp;&nbsp;
 				</td>
-			</c:forEach>
-		</tr>
+			<c:if test="${jlist.indexOf(j)%6 eq 5 || jlist.indexOf(j) eq jlist.size()-1}">			
+				</tr>
+			</c:if>
+		</c:forEach>
 		<%-- <tr id="insa_job_tr">
 			<c:forEach var="j" items="${jlist}" varStatus="sts">
 				<td class="jlist_th_count insa_td" id="jlist_td_count">

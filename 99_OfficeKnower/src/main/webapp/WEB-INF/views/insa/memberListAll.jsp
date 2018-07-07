@@ -15,7 +15,7 @@
 <style>
 .groupBox {width: 100%;overflow: hidden; padding: 30px 0 0 0; min-height: 60px;}
 .groupBox .team {float: left; width: 200px;  padding-right: 20px;}
-.groupBox .people { padding: 0 0 0 220px;   width: 100%;}
+.groupBox .people { padding: 0 0 0 12%;   width: 100%;}
 .insaimg{
     width: 75px;
     height: 75px;
@@ -96,15 +96,16 @@ div#insamenu_container{
 	position: absolute;
 	width: 140px; 
 	padding: 20px 25px;
-	left: 40px;
-	top: 35px;
+	left: 1px;
+    top: 35px;
 	border: 1px solid #ccc;
 	background: white;
 	display: inline-block;
+	z-index: 1;
 }
 div.insagroupBox{
 	position: relative;
-	margin-top: 60px;
+	margin-top: 20px;
 	margin-left: 0px;
 	margin-right: 0px;
 	padding-left: 0px;
@@ -196,11 +197,10 @@ $(function(){
 	});
 });
 </script>
-
-<div class="groupBox">
-	<div class="insagroupBox">
+<h4 style="display: inline-block;">직원 목록</h4>&nbsp;
+<div class="insagroupBox" style="display: inline-block;">
 		<div id="insamenu_icon">
-			<span aria-hidden="true" class="icon-block-menu" style="font-size: 25px; color: lightgray; margin-left: 100px; cursor: pointer;"></span>
+			<span aria-hidden="true" class="icon-block-menu" style="font-size: 25px; color: lightgray; cursor: pointer;"></span>
 			<div id="insamenu_container" class="header_container" style="display: none;">
 				<p style="font-weight: bold; font-size: 20px;">정렬</p>
 				<p class="insa_span_menu insa_default">조직</p>
@@ -214,6 +214,8 @@ $(function(){
 			</div>
 		</div>
 	</div>
+<div class="groupBox">
+	
 	<hr /><br /><br />
 	
 	<div class="groupBox team">
