@@ -19,7 +19,7 @@
 		select u.username, c.com_name, kind, startdate, breakdays, BREAK_REQUEST_NO ,enddate
 		from break b join tbl_user u on (b.userid=u.userid)
              		 join tbl_com c on (c.com_no=u.com_no)
-            		 join (select * from break_request where APPROVAL_STATUS=0)r on (b.userid=r.userid)
+            		 join (select * from break_request where STATUS='결재 완료')r on (b.userid=r.userid)
 		where u.status='Y' and u.com_no=#{comId}
 		
   	</select>
@@ -127,8 +127,8 @@
   	<insert id="breakInesert">
   <!-- 	<if test="renamed_file_name !=null or renamed_file_name !=''"> -->
   		insert into break_request 
-  		values(seq_break_request.nextval,#{userid},#{kind},#{startdate},#{breakdays},#{reason},nvl(#{renamed_file_name},''),#{com_no},
-  										#{approvals},#{approval_status},#{enddate})
+  		values(seq_break_request.nextval,#{userid},#{kind},#{startdate},#{breakdays},#{reason},#{renamed_file_name},#{com_no},
+  										#{approvals},#{approval_status},#{enddate},'결재 중')
   	<!-- </if> -->
   	
   	<!-- <if test="renamed_file_name ==null or renamed_file_name ==''">
@@ -160,5 +160,34 @@
   	<update id="updateBreakSetting">
   		update break_setting set createdate = #{createdate}, breakdays = #{breakdays} where com_no = #{com_no}
   	</update>
+  	<select id="alllBreakList" resultType="map">
+  		select b.userid, u.username, u.joindate, b.regular_break, b.reward_break, b.regular_used_break, b.reward_used_break
+		from break b left join tbl_user u on (b.userid=u.userid)
+		where u.com_no=#{comId}
+  	</select>
+  	<select id="allBreakListCnt" resultType="_int">
+  		select count(*)
+		from break b left join tbl_user u on (b.userid=u.userid)
+		where u.com_no=#{comId}
+  	</select>
+  	<update id="updateBreakInfo" >
+  		update break set regular_break= #{regular}, reward_break = #{reward} where userid=#{breakUserid}
+  	</update>
+  	<select id="searchKindList" resultType="map">
+  	select distinct r.userid,u.username, u.joindate,
+   		   (select count(*) from break_request where userid=#{userid} and kind='연차' ) 연차,
+   	       (select count(*) from break_request where userid=#{userid} and kind='포상' ) 포상,
+           (select count(*) from break_request where userid=#{userid} and kind='훈련') 훈련,
+           (select count(*) from break_request where userid=#{userid} and kind='교육') 교육,
+           (select count(*) from break_request where userid=#{userid} and kind='경조사') 경조사,
+           (select count(*) from break_request where userid=#{userid} and kind='병가') 병가,
+           (select count(*) from break_request where userid=#{userid} and kind='출산') 출산
+	from break_request r left join tbl_user u on(r.userid=u.userid) 
+	where r.userid=#{userid} and r.status !='반려'
+  	
+  	</select>
+  	<select id="personBreakRequestList" resultType="map">
+  		select * from break_request where userid = #{userid}
+  	</select>
 
 </mapper>

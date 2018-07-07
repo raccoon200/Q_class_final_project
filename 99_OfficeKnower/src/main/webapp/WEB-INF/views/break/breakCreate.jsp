@@ -54,9 +54,12 @@ $( document ).ready(function() {
 function fn_createReward(userid,regular,reward, index){
 	afterReward = $("#reward"+index+"").val();
 	var test = $("input[name=reward]");
-	console.log("이스케이프..?/" + userid);
-	console.log("이스케이프..?/ index" + index);
-	
+		
+	var rewardDay = $("#reward"+index).val().trim().length;
+	if(rewardDay>2){
+		alert("최대 포상휴가는 99일입니다.");	
+	}
+
 	if(afterReward<0){
 		alert("포상휴가를 잘못입력하셨습니다.");
 		return;
@@ -74,9 +77,9 @@ function fn_createReward(userid,regular,reward, index){
 		reward =0;
 	}
 	
-	console.log("이스케이프..?/reward" + reward);
+/* 	console.log("이스케이프..?/reward" + reward);
 	console.log("이스케이프..?/regular" + regular);
-	console.log("input값" +afterReward);
+	console.log("input값" +afterReward); */
 	
 	$.ajax({
 	      url : "${pageContext.request.contextPath}/break/createReward.do",
@@ -261,7 +264,7 @@ function fn_select(){
 	 							html += "<td>" + c.REWARD_BREAK + "일</td>";
 	 						}
 	 						
-	 						html += "<td> <input type='number' name='reward' id='reward"+index+"' placeholder='포상휴가 일수 입력'/> 일</td>";
+	 						html += "<td> <input type='number' name='reward' id='reward"+index+"' placeholder='포상휴가 일수 입력' maxlength='2'> 일</td>";
 	 						html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
 	 						html += "</tr>";
 	                 	}
@@ -379,7 +382,7 @@ function rewardMemberDelete(){
 	 							html += "<td>" + c.REWARD_BREAK + "일</td>"; 
 	 						}
 	 						
-	 						html += "<td> <input type='number' name='reward' id='reward"+index+"' placeholder='포상휴가 일수 입력'/> 일</td>";
+	 						html += "<td> <input type='number' name='reward' id='reward"+index+"' placeholder='포상휴가 일수 입력' maxlength='2'/> 일</td>";
 	    			    	html += "<td><button class='btn btn-link' style='border:1px solid;' Onclick='fn_createReward(\""+c.USERID+"\",\""+c.REGULAR_BREAK+"\",\""+c.REWARD_BREAK+"\","+index+");'> 생성 </button></td>";
 	 						html += "</tr>";
 	                 	}

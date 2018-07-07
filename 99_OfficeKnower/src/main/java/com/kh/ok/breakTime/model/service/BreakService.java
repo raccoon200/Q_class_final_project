@@ -45,5 +45,15 @@ public interface BreakService {
 
 	int updateBreakSetting(BreakSetting bs);
 
+	List<Map<String, Object>> alllBreakList(String comId, int numPerPage, int cPage);
+
+	int allBreakListCnt(String comId);
+
+	int updateBreakInfo(Map<String, String> map);
+
+	List<Map<String, Object>> searchKindList(String userid);
+
+	List<Map<String, Object>> personBreakRequestList(String userid);
+
 
 }

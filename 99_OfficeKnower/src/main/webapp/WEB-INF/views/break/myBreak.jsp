@@ -267,7 +267,15 @@ try{
 
 function fn_deleteBreak(breakid){
 	
-	location.href="deleteBreak?breakid="+breakid+"&cPage="+"<%=cPage%>";
+	var bdelete = confirm("휴가신청을 취소하시겠습니까? 신청 취소를 하면 '반려'로 넘어갑니다.");
+	
+	if(bdelete==true){
+		location.href="deleteBreak?breakid="+breakid+"&cPage="+"<%=cPage%>";
+		alert("휴가신청이 취소되었습니다.");
+	}else if(bdelete==false){
+		alert("휴가신청취소가 취소되었습니다.");
+	}
+	
 	
 }
 
