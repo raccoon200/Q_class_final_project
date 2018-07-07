@@ -77,4 +77,10 @@ public interface ApprovalDAO {
 
 	List<Map<String, Object>> selectBreakRequestList(String com_no);
 
+	Approval selectApprovalOne(String approval_no);
+
+	String selectComName(String com_no);
+
+	int approvalAccept(Approval approval);
+
 }

@@ -191,4 +191,19 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.selectList("approval.selectBreakRequestList", com_no);
 	}
 
+	@Override
+	public Approval selectApprovalOne(String approval_no) {
+		return sqlSession.selectOne("approval.selectApprovalOne", approval_no);
+	}
+
+	@Override
+	public String selectComName(String com_no) {
+		return sqlSession.selectOne("approval.selectComName", com_no);
+	}
+
+	@Override
+	public int approvalAccept(Approval approval) {
+		return sqlSession.update("approval.approvalAccept", approval);
+	}
+
 }

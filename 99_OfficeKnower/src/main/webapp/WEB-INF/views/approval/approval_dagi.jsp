@@ -36,7 +36,7 @@
 	      <th scope="col" style="min-width:100px;">결재 상태</th>
 	    </tr>
 	    <c:forEach var="v" items="${approvalWaitList }">
-	    <tr>
+	    <tr onclick='location.href="${pageContext.request.contextPath}/office/approvalWaitView?approval_no=${v.APPROVAL_NO }"'>
 	    	<td>${v.APPROVAL_NO }</td>
 	    	<td>${v.TITLE }</td>
 	    	<td>${v.WRITER }</td>
@@ -47,6 +47,7 @@
 		</table>
   	
   </div>
+ 
   <div class="tab-pane fade" id="breakRequest" role="tabpanel" aria-labelledby="breakRequest-tab">
   		<table class="table table-bordered" id="approvalList" style="width : 100%">
 	    <tr style="background:#F6F6F6;">
