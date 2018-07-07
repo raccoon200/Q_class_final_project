@@ -11,6 +11,7 @@
 
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="주소록" name="pageTitle"/>
+	<jsp:param value="휴지통" name="selectMenu"/>
 </jsp:include>
 
 	<style>
@@ -30,8 +31,8 @@
 	      <th scope="col">이메일</th>
 	      <th scope="col">전화번호</th>
 	      <th scope="col">회사명</th>
-	      <th scope="col">주소</th>
-	     
+	      <!-- <th scope="col">주소</th> -->
+	      <th scope="col">복구</th>
 	    </tr>
 <!-- <form action="delete_user.iot" method="post"> -->
 
@@ -44,12 +45,19 @@
 			      <td>${addr.email}</td>
 			      <td>${addr.phone}</td>
 			      <td>${addr.company}</td>
-			      <td>${addr.address}</td>
+			      <%-- <td>${addr.address}</td> --%>
+			      <td> <button onclick="fn_reset('${addr.address_no}');">복구</button></td>
             </tr>
         
         </c:forEach>
 	</table>
-	
+	<script>
+	function fn_reset(addId){
+		alert(name+"복구완료 되었습니다.");
+		location.href="addressTrash?addId="+addId;
+	}
+	</script>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

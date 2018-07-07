@@ -155,4 +155,9 @@
   	<update id="updateBreakSetting">
   		update break_setting set createdate = #{createdate}, breakdays = #{breakdays} where com_no = #{com_no}
   	</update>
+  	<update id="callProc_break_manual" statementType="CALLABLE">
+	    {
+	        call proc_break_manual(#{com_no},#{createdate})
+	    }
+	</update>
 </mapper>

@@ -1,3 +1,4 @@
+<%@page import="com.kh.ok.address.model.vo.Address"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -16,42 +17,12 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
-
-<script type="text/javascript">
-
-  $('input:radio[name=addr_type]:input[value=addr_personal]').attr("checked", true);
-  $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
-</script>
-<script>
-function fn_addressSum(){
-	if($("#sample4_postcode").val().trim().length != 0){
-		var add1 = $("#sample4_postcode").val();
-		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
-			add1 += ",, "+ $("#sample4_roadAddress").val();
-		}else{
-			add1 += ",,"+ $("#sample4_roadAddress").val();
-		}
-		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
-			add1 += ",, "+ $("#sample4_jibunAddress").val();
-		}else{			
-			add1 += ",,"+ $("#sample4_jibunAddress").val();
-		}
-	}
-	
-	$("#address").val(add1);
-}
-function fn_validate(){
-	var regExp = /^[0-9]+$/;
-	var phone = $("#phone").val();
-	
-	if(!regExp.test(phone)){
-		alert("전화번호는 '-'없이 숫자만 가능합니다.");
-		$("#phone").focus();
-		return false;
-	}
-	return true;
-}
-</script>
+<%
+	String[] add = null; 
+	Address mem = ((Address)request.getAttribute("address"));
+	if(mem.getAddress() !=null)
+		add = (((Address)request.getAttribute("address")).getAddress()).split(",,");
+%>
 <script>
 
    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -110,19 +81,25 @@ function fn_validate(){
             }).open();
    }
 </script>
-<div style="width: 400px;">
-	<form action="InsertAddress.do" method="post" onsubmit="fn_validate();">
+<script type="text/javascript">
+  $('input:radio[name=addr_type]:input[value=addr_personal]').attr("checked", true);
+  $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
+</script>
+		<div style="width: 400px;">
+	<form action="updateAddress.do" method="post" id="updateAddressForm" onsubmit="return fn_validate();">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
 	<!-- 		<input type="button" value="Radio Value" onClick="();"> -->
-				<table class="table" id="addressTable">
+		
+		<table class="table" id="addressTable">
 			<tr>
 				<th >
 					<label style="width: 100px;" for="name">이름</label>
 				</th>   
 				<td>
-					<input type="text" class="form-control" name="name" id="name" required maxlength="30" placeholder="최대 30자"/>
+					<input type="text" class="form-control" name="name" id="name" value="${address.name}" requird maxlength="30" placeholder="최대 30자"/>
+					<input type="hidden" name="address_no" id="address_no" value="${address.address_no}" />
 				</td>
 			</tr>
 			<tr>
@@ -130,7 +107,7 @@ function fn_validate(){
 					<label for="email">이메일</label>
 				</th>
 				<td>
-					   <input type="text" class="form-control" name="email" id="email"  />
+					   <input type="text" class="form-control" name="email" id="email" value="${address.email}" />
 				</td>
 			</tr>
 			<tr>
@@ -138,7 +115,7 @@ function fn_validate(){
 					<label for="phone">전화번호</label>
 				</th>
 				<td>
-					  <input type="text"class="form-control" name="phone" id="phone" maxlength="11" placeholder="'-'없이 숫자만" />
+					  <input type="text"class="form-control" name="phone" id="phone" value="${address.phone}" maxlength="11" placeholder="'-'없이 숫자만"/>
 				</td>
 			</tr>
 			<tr>
@@ -146,7 +123,7 @@ function fn_validate(){
 					<label for="tag">태그</label>
 				</th>
 				<td>
-					   <input type="text" class="form-control" name="tag" id="tag" maxlength="15" placeholder="최대 15자"/>
+					   <input type="text"class="form-control" name="tag" id="tag" value="${address.tag}" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
@@ -154,7 +131,7 @@ function fn_validate(){
 					<label for="company">회사</label>
 				</th>
 				<td>
-					  <input type="text" class="form-control"name="company" id="company" maxlength="15" placeholder="최대 15자"/>
+					  <input type="text" class="form-control"name="company" id="company" value="${address.company}" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
@@ -163,10 +140,10 @@ function fn_validate(){
 				</th>
 				<td>
 			 
-					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 100px;" > &nbsp;&nbsp; 
+					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 100px;" value="<%=add!=null?add[0]:"" %>"> &nbsp;&nbsp; 
                      <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" > 
-                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" >
+                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" value="<%=add!=null?add[1]:"" %>"> 
+                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" value="<%=add!=null?add[2]:"" %>">
                      <input type="hidden" name="address" id="address" value="" />
                      <span id="guide" style="color: #999"></span>				 	 
 				</td>
@@ -177,7 +154,7 @@ function fn_validate(){
 					<label for="anniversary">기념일</label>
 				</th>
 				<td>
-				 	   <input type="date" class="form-control" name="anniversary" id="anniversary"/>
+				 	   <input type="date" class="form-control" name="anniversary" id="anniversary" value="${address.anniversary}"/>
 				</td>
 			</tr>
 			<tr>
@@ -186,16 +163,47 @@ function fn_validate(){
 				</th>
 				<td>
 				 	  
-			 	  <input type="text" class="form-control" name="memo" id="memo" maxlength="100" placeholder="최대 100자"/>
+			 	  <input type="text" class="form-control" name="memo" id="memo" value="${address.memo}" maxlength="100" placeholder="최대 100자"/>
+			 	  <input type="hidden" name="com_No" id="com_No" value="${address.com_No}" />
 				</td>
 			</tr>
 			<tr>
 				<th colspan="2" style="text-align: center;">
-					<input type="submit" value="저장" class="btn btn-outline-primary" onclick="fn_addressSum();"/>
+					<input type="button" value="수정" class="btn btn-outline-primary" onclick="fn_addressSum();"/>
 				</th>
 			</tr>
 		</table>
 	</form>
 	</div>
-
+<script>
+function fn_addressSum(){
+	if($("#sample4_postcode").val().trim().length != 0){
+		var add1 = $("#sample4_postcode").val();
+		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
+			add1 += ",, "+ $("#sample4_roadAddress").val();
+		}else{
+			add1 += ",,"+ $("#sample4_roadAddress").val();
+		}
+		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
+			add1 += ",, "+ $("#sample4_jibunAddress").val();
+		}else{			
+			add1 += ",,"+ $("#sample4_jibunAddress").val();
+		}
+	}
+	
+	$("#address").val(add1);
+	$("#updateAddressForm").submit();
+}
+function fn_validate(){
+	var regExp = /^[0-9]+$/;
+	var phone = $("#phone").val();
+	
+	if(!regExp.test(phone)){
+		alert("전화번호는 '-'없이 숫자만 가능합니다.");
+		$("#phone").focus();
+		return false;
+	}
+	return true;
+}
+</script>
 	

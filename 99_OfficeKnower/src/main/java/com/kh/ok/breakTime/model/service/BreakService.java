@@ -42,4 +42,6 @@ public interface BreakService {
 
 	int updateBreakSetting(BreakSetting bs);
 
+	int callProc_break_manual(BreakSetting bs);
+
 }

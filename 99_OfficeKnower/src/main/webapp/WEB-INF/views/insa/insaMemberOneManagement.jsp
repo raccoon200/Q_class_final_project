@@ -20,7 +20,7 @@
 	String[] add = null; 
 	Member mem = ((Member)request.getAttribute("member"));
 	if(mem.getAddress() !=null)
-		add = (((Member)request.getAttribute("member")).getAddress()).split(",");
+		add = (((Member)request.getAttribute("member")).getAddress()).split(",,");
 %>
 <style>
 /* input[type=button].btn2, input[type=submit].btn2{
@@ -98,6 +98,24 @@ $(function(){
 		});		
 	});
 });
+function fn_validate(){
+	var regExp = /^[0-9]+$/;
+	var phone_com = $("#phone_com").val();
+	var phone_cell = $("#phone_cell").val();
+	
+	if(!regExp.test(phone_com)){
+		alert("사내전화는 '-'없이 숫자만 가능합니다.");
+		$("#phone_com").focus();
+		return false;
+	}
+	if(!regExp.test(phone_cell)){
+		alert("휴대전화는 '-'없이 숫자만 가능합니다.");
+		$("#phone_cell").focus();
+		return false;
+	}
+	
+	return true;
+}
 </script>
 <script>
    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -160,7 +178,7 @@ $(function(){
 <h3>사용자 수정</h3>
 <hr />
 <div class="table-responsive">
-	<form action="insaMemberOneUpdate.do" method="post">
+	<form action="insaMemberOneUpdate.do" method="post" onsubmit="return fn_validate();">
 		<table class="table table-hover" style="width: 600px;">
 	<tr>
 		<td>
@@ -248,13 +266,13 @@ $(function(){
 			<tr>
 				<th>사내 전화</th>
 				<td>
-					<input type="text" class="form-control" id="phone_com" name="phone_com" value="${member.phone_com }" >
+					<input type="text" class="form-control" id="phone_com" name="phone_com" value="${member.phone_com }" maxlength="11">
 				</td>
 			</tr>
 			<tr>
 				<th>휴대전화</th>
 				<td>
-					<input type="text" class="form-control" id="phone_cell" name="phone_cell" value="${member.phone_cell }" >
+					<input type="text" class="form-control" id="phone_cell" name="phone_cell" value="${member.phone_cell }" maxlength="11">
 				</td>
 			</tr>
 			<tr>
@@ -307,11 +325,23 @@ $("#statusN").click(function() {
     $('#statusY').prop("checked", false);
   });
 function fn_addressSum(){
-	if($("#sample4_postcode").val().trim().length != 0)
-	var add1 = $("#sample4_postcode").val() 
-			+", "+ $("#sample4_roadAddress").val()
-			+", "+ $("#sample4_jibunAddress").val();
+	if($("#sample4_postcode").val().trim().length != 0){
+		var add1 = $("#sample4_postcode").val();
+		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
+			add1 += ",, "+ $("#sample4_roadAddress").val();
+		}else{
+			add1 += ",,"+ $("#sample4_roadAddress").val();
+		}
+		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
+			add1 += ",, "+ $("#sample4_jibunAddress").val();
+		}else{			
+			add1 += ",,"+ $("#sample4_jibunAddress").val();
+		}
+	}
+	
 	$("#address").val(add1);
+
+	$("#memberOneUpdateForm").submit();
 }
 </script>
 

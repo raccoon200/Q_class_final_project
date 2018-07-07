@@ -46,6 +46,7 @@ $(function(){
 			<td><input type="number" name="n4" id="" max="99" style="width: 50px;" value="${bs.n4 }"/></td>
 			<td><input type="number" name="n5" id="" max="99" style="width: 50px;" value="${bs.n5 }"/></td>
 			<td><input type="number" name="n6" id="" max="99" style="width: 50px;" value="${bs.n6 }"/></td>
+			
 		</tr>
 		<tr>
 			<td>N+7</td>
@@ -86,6 +87,6 @@ $(function(){
 			</td>
 		</tr>
 	</table>
-<button type="submit" class="btn btn-outline-info">저장</button>
+<button type="submit" class="btn btn-outline-info" >저장</button>
 </form>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -33,6 +33,7 @@ import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 import com.kh.ok.member.model.vo.Member;
 
 import net.sf.json.JSONArray;
@@ -1041,4 +1042,54 @@ public class ApprovalController {
 		mav.setViewName("common/msg");
 		return mav;
 	}
+	@RequestMapping("/office/TotalApproval.do")
+	public ModelAndView totalApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approvalTotList = approvalService.selectAllApproval(m);
+		List<BreakRequest> breakRequestTotList = approvalService.selectAllBreakRequest(m);
+		
+		mav.addObject("approvalTotList", approvalTotList);
+		mav.addObject("breakRequestTotList", breakRequestTotList);
+		
+		mav.setViewName("approval/approval_doc_total");
+		return mav;
+	}
+	@RequestMapping("/office/GianApproval.do")
+	public ModelAndView gianApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approval84List = approvalService.select84Approval(m);
+		List<BreakRequest> breakRequest84List = approvalService.select84BreakRequest(m);
+		
+		mav.addObject("approval84List", approval84List);
+		mav.addObject("breakRequest84List", breakRequest84List);
+		mav.setViewName("approval/approval_doc_84");
+		return mav;
+	}
+	@RequestMapping("/office/CompleteApproval.do")
+	public ModelAndView completeApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approvalComList = approvalService.selectComApproval(m);
+		List<BreakRequest> breakRequestComList = approvalService.selectComBreakRequest(m);
+		
+		mav.addObject("approvalComList", approvalComList);
+		mav.addObject("breakRequestComList", breakRequestComList);
+		mav.setViewName("approval/approval_doc_complete");
+		return mav;
+	}
+	@RequestMapping("/office/ReturnApproval.do")
+	public ModelAndView returnApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approvalReList = approvalService.selectReApproval(m);
+		List<BreakRequest> breakRequestReList = approvalService.selectReBreakRequest(m);
+		
+		mav.addObject("approvalReList", approvalReList);
+		mav.addObject("breakRequestReList", breakRequestReList);
+		mav.setViewName("approval/approval_doc_return");
+		return mav;
+	}
+	
 }

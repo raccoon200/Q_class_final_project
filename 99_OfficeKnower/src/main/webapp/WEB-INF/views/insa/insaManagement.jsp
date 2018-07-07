@@ -105,7 +105,7 @@ function fn_admin_add() {
 
 <hr />
 <br />
-<div class="insa_management" style="width: 95%;">
+<div class="insa_management" style="width: 100%;">
 <p id="admin-add" onclick="fn_admin_add()">+ 관리자 추가</p>
 <table class="table table table-hover" id="admin-table">
 	<thead class="thead-light">

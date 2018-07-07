@@ -97,4 +97,9 @@ public class BreakServiceImpl implements BreakService {
 	public int updateBreakSetting(BreakSetting bs) {
 		return breakDao.updateBreakSetting(bs);
 	}
+
+	@Override
+	public int callProc_break_manual(BreakSetting bs) {
+		return breakDao.callProc_break_manual(bs);
+	}
 }

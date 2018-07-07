@@ -28,9 +28,6 @@
 			$("img.icon_edit icon_edit_board").hide();
 		}
 		$(".menu_list li a").each(function(index, item) {
-			console.log(item.text.trim());
-			console.log("${param.selectMenu}");
-			console.log(item.text.trim() == "${param.selectMenu}");
 			if (item.text.trim() == "${param.selectMenu}") {
 				$(this).addClass("strong");
 			}
@@ -41,13 +38,17 @@
 		}
 		var parentsWidth = $("div.container_main").css("width");
 		var navWidth = $("nav#leftMenu").css("width");
-		console.log(parentsWidth);
-		console.log(navWidth);
 		$("div#sabu_container").css("width",parseFloat(parentsWidth)-parseFloat(navWidth)+"px");
 		$(window).resize(function(){
 			location.reload();
 		})
-	
+		$(".menu_list li a").hover(function(){
+			$(this).addClass("strong");
+		},function(){
+			if ($(this).text().trim() != "${param.selectMenu}") {
+				$(this).removeClass("strong");
+			}
+		});
 		
 	});
 </script>
@@ -67,10 +68,10 @@
 						alt="폴더" class="fold" /> 문서함
 				</a> <br />
 					<ul class="depth2 hide">
-						<li><a href="#">전체</a><br /></li>
-						<li><a href="#">기안</a><br /></li>
-						<li><a href="#">결제</a><br /></li>
-						<li><a href="#">반려</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/TotalApproval.do">전체</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/GianApproval.do">기안</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/CompleteApproval.do">결재</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/ReturnApproval.do">반려</a><br /></li>
 					</ul></li>
 				<li><a href="${pageContext.request.contextPath }/approval/approvalSetting.do">설정</a><br /></li>
 				<c:if
@@ -294,17 +295,11 @@
 			<ul class="menu_list">
 				<%-- <li><a href="${pageContext.request.contextPath}/address/addr_personal">개인 주소록&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li> --%>
-				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;<span
-						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;<span
-						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="javascript:void(0)" class="depth1"> <img
-						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
-						alt="폴더" class="fold" /> 환경설정
-				</a> <br />
-					<ul class="depth2 hide">
-						<li><a href="#">기본정보 설정</a><br /></li>
-					</ul></li>
+				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;</a>
+				<span class="badge badge-secondary" id="addressViewCount">${addCount}</span>
+				<br /></li>
+				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;</a>
+				<span class="badge badge-secondary" id="addressViewDeleteCount">${addDelCount }</span><br /></li>
 			</ul>
 		</div>
 	</c:if>
@@ -332,7 +327,7 @@
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationApprovalManagement">승인 관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationReturnManagement">반납 관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationCategoryManagement">카테고리 관리</a><br /></li>
-							<li><a href="#">자원관리</a><br /></li>
+							<li><a href="${pageContext.request.contextPath}/reservation/reservationResourcesManagement">자원관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath }/reservation/admin/reservationAdminInsert.do">예약 관리자</a><br /></li>
 						</ul></li>
 				</c:if>

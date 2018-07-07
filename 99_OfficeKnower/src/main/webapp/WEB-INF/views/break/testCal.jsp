@@ -36,11 +36,15 @@ function between(start,end){
 	 
    var diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
    diff = Math.ceil(diff / (1000 * 3600 * 24));
-
+   
+   /* 18.07.06 휴가 주 계산 */
+   if($('.fc-highlight').length != 1){
+	   diff = diff - ($('.fc-highlight').length-1)*2;
+   }
    
    $("#breakdays").val(diff);
    $("#selectedDay").html(diff);
- 
+ 	
 	
 }
 
@@ -89,7 +93,7 @@ function between(start,end){
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
-        		, right : null
+        		, right : 'month'
         		
         	},
         	
@@ -119,15 +123,17 @@ function between(start,end){
             , editable : false
             , eventLimit : true
             , events: [
-            	
+            	/* 18.07.07 신청휴가 날짜 겹치기 막기 */
+            	{
+            	}
             ]
         	
         	, dayClick: function(date, allDay, jsEvent, view) {
         	
-        	
      		} //dayClick끝
         
         	, eventClick:function(event) {
+        		console.log("찍히니 찍히니");
 
         	  } //eventClick끝  
         	,select: function(startDate, endDate) {

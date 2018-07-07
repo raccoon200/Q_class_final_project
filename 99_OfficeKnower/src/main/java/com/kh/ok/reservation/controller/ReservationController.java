@@ -356,4 +356,35 @@ public class ReservationController {
 		json.put("loc", loc);
 		return json;
 	}
+	
+	@RequestMapping("/reservation/reservationResourcesManagement")
+	public ModelAndView reservationResourcesManagement(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		List<Resources> resList = reservationService.selectResources(m.getCom_no());
+		List<Map<String, String>> cateList = reservationService.selectCategory(m.getCom_no());
+		mav.addObject("resList", resList);
+		mav.addObject("cateList", cateList);
+		return mav;
+	}
+	
+	@RequestMapping("/reservation/reservationResourcesAdd")
+	public ModelAndView reservationResourcesAdd(@RequestParam String com_no, @RequestParam String resource__name, @RequestParam String category) {
+		ModelAndView mav = new ModelAndView();
+		Resources resources = new Resources();
+		resources.setCom_no(com_no);
+		resources.setResource__name(resource__name);
+		resources.setCategory(category);
+		System.out.println(resources);
+		
+		int result = reservationService.reservationResourcesAdd(resources);
+		String msg = result>0?"추가 성공":"추가 실패";
+		String loc = "/reservation/reservationResourcesManagement";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
 }

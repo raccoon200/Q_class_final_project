@@ -143,6 +143,14 @@ public class ReservationDAOImpl implements ReservationDAO {
 
 	@Override
 	public int reservationCategoryDelete(HashMap<String, String> map) {
-		return sqlsession.delete("reservation.reservationCategoryDelete", map);
+		sqlsession.delete("reservation.reservationCategoryDelete", map);
+		sqlsession.delete("reservation.reservationCateResourcesDelete", map);
+		
+		return sqlsession.delete("reservation.reservationCateReservationDelete", map);
+	}
+
+	@Override
+	public int reservationResourcesAdd(Resources resources) {
+		return sqlsession.insert("reservation.reservationResourcesAdd", resources);
 	}
 }
