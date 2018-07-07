@@ -119,16 +119,18 @@ function fn_hide(){
 /* job+직무추가*/
 function fn_jobAdd(){
 	$("#btn_jobsubmitbutton").show();
-	
+	$("#btn_jobcanceltbutton").show();
+	$("#insa_jobtd").show();
+
 	console.log($(".insa_job_tr:nth-last-child(1) td").length);
 	if($(".insa_job_tr td").length< parseInt("${jlist.size()}")+1){
 		var html = "";
 		if($(".insa_job_tr:nth-last-child(1) td").length < 6){	
-			html += '<td><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
+			html += '<td id="insa_jobtd"><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
 			$(".insa_job_tr:nth-last-child(1)").append(html);
 		}else{
 			html += '<tr class="insa_job_tr">'
-			html += '<td><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
+			html += '<td id="insa_jobtd"><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
 			html += '</tr>';
 		 	$("#insa_job_table").append(html);
 		}
@@ -179,9 +181,15 @@ function fn_btnJobSubmit(){
 	</c:forEach>
 	$("#jobInsertAdd").submit();	
 }
+function fn_btnJobCancel(){
+	$("#btn_jobsubmitbutton").hide();
+	$("#btn_jobcanceltbutton").hide();
+	$("#insa_jobtd").hide();
+	
+}
 function fn_positionAdd(){
-	if($("#insa_position_table tr").length< parseInt("${plist.size()}")+2){
-	var html = "<tr><th class='plist_th_count insa_th'>";
+	if($("#insa_position_table tr").length< ${plist.size()}+2){
+	var html = "<tr id='insa_positionAddtr'><th class='plist_th_count insa_th'>";
 		html += ($("#insa_position_table tr").length); 
 		html += "직위</th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		html += '<input type="text" class="form-control insa_position insaPosi" name="position" id="insa_positionAdd" value="${p.position }"/>';
@@ -192,8 +200,24 @@ function fn_positionAdd(){
 	$("#positionRemove").hide();
 	$(".spanUpdateDelete").hide();
 	$("#btnPositionAdd").show();
+	$("#btnPositionCan").show();
+	}else{
+		$(".insa_position_update").hide();
+		$("#positionRemove").hide();
+		$(".spanUpdateDelete").hide();
+		$("#btnPositionAdd").show();
+		$("#btnPositionCan").show();
+		$("#insa_positionAddtr").show();
 	}
 	console.log($("#insa_position_table tr").length);
+}
+function fn_btnCancel(){
+	$("#btnPositionAdd").hide();
+	$("#btnPositionCan").hide();
+	$("#insa_positionAddtr").hide();
+	$(".insa_position_update").show();
+	$("#positionRemove").show();
+	$(".spanUpdateDelete").show();
 }
 function fn_positionRemove(){
 	if($("#insa_position_table tr").length >1 && $("#insa_position_table tr").length> ${plist.size()}){
@@ -310,7 +334,8 @@ function fn_btninsaDelte() {
 		</tbody>
 	</table>
 	<div>
-		<input type="button" class="btn btn-outline-secondary" value="저장" onclick="fn_btnSubmit()" id="btnPositionAdd" style="display: none; margin-left: 200px;"/>
+		<input type="button" class="btn btn-outline-secondary" value="저장" onclick="fn_btnSubmit()" id="btnPositionAdd" style="display: none; margin-left: 170px;"/>
+		<input type="button" class="btn btn-outline-secondary" value="취소" onclick="fn_btnCancel()" id="btnPositionCan" style="display: none; margin-left: 10px;"/>
 	</div>
 </form>
 </div>
@@ -359,6 +384,7 @@ function fn_btninsaDelte() {
 	<input type="hidden" id="job" name="job" value=""/>
 <div>
 	<input type="button" id="btn_jobsubmitbutton" class="btn btn-outline-secondary" value="저장" onclick="fn_btnJobSubmit()" style="display:none; margin-left: 200px;"/>
+	<input type="button" id="btn_jobcanceltbutton" class="btn btn-outline-secondary" value="취소" onclick="fn_btnJobCancel()" style="display:none; margin-left: 10px;"/>
 </div>
 </form>
 
