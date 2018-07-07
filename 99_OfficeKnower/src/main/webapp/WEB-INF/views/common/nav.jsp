@@ -68,10 +68,10 @@
 						alt="폴더" class="fold" /> 문서함
 				</a> <br />
 					<ul class="depth2 hide">
-						<li><a href="#">전체</a><br /></li>
-						<li><a href="#">기안</a><br /></li>
-						<li><a href="#">결제</a><br /></li>
-						<li><a href="#">반려</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/TotalApproval.do">전체</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/GianApproval.do">기안</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/CompleteApproval.do">결재</a><br /></li>
+						<li><a href="${pageContext.request.contextPath }/office/ReturnApproval.do">반려</a><br /></li>
 					</ul></li>
 				<li><a href="${pageContext.request.contextPath }/approval/approvalSetting.do">설정</a><br /></li>
 				<c:if

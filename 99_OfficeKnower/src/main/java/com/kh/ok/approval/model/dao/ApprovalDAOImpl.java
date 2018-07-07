@@ -13,6 +13,7 @@ import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 import com.kh.ok.member.model.vo.Member;
 
 @Repository
@@ -209,6 +210,46 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	@Override
 	public int approvalReject(Approval approval) {
 		return sqlSession.update("approval.approvalReject", approval);
+	}
+
+	@Override
+	public List<Approval> selectAllApproval(Member m) {
+		return sqlSession.selectList("approval.selectAllApproval", m);
+	}
+
+	@Override
+	public List<BreakRequest> selectAllBreakRequest(Member m) {
+		return sqlSession.selectList("approval.selectAllBreakRequest", m);
+	}
+
+	@Override
+	public List<Approval> select84Approval(Member m) {
+		return sqlSession.selectList("approval.select84Approval", m);
+	}
+
+	@Override
+	public List<BreakRequest> select84BreakRequest(Member m) {
+		return sqlSession.selectList("approval.select84BreakRequest", m);
+	}
+
+	@Override
+	public List<Approval> selectComApproval(Member m) {
+		return sqlSession.selectList("approval.selectComApproval", m);
+	}
+
+	@Override
+	public List<BreakRequest> selectComBreakRequest(Member m) {
+		return sqlSession.selectList("approval.selectComBreakRequest", m);
+	}
+
+	@Override
+	public List<Approval> selectReApproval(Member m) {
+		return sqlSession.selectList("approval.selectReApproval",m);
+	}
+
+	@Override
+	public List<BreakRequest> selectReBreakRequest(Member m) {
+		return sqlSession.selectList("approval.selectReBreakRequest", m);
 	}
 
 }
