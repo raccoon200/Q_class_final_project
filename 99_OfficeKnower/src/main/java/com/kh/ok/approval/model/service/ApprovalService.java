@@ -84,4 +84,6 @@ public interface ApprovalService {
 	String selectComName(String com_no);
 
 	int approvalAccept(Approval approval);
+
+	int approvalReject(Approval approval);
 }

@@ -162,5 +162,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int approvalAccept(Approval approval) {
 		return approvalDAO.approvalAccept(approval);
 	}
+	@Override
+	public int approvalReject(Approval approval) {
+		return approvalDAO.approvalReject(approval);
+	}
 	
 }

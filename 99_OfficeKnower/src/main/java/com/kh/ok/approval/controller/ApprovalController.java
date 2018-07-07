@@ -963,8 +963,8 @@ public class ApprovalController {
 		mav.setViewName("approval/approval_dhksfy");
 		return mav;
 	}
-	@RequestMapping("/office/approvalWaitView")
-	public ModelAndView selectApprovalWaitView(@RequestParam String approval_no, HttpSession session) {
+	@RequestMapping("/office/approvalView")
+	public ModelAndView selectApprovalView(@RequestParam String approval_no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = approvalService.selectApprovalOne(approval_no);
 		Member writer = null;
@@ -991,7 +991,7 @@ public class ApprovalController {
 		mav.addObject("approvals_list", approvals_list);
 		mav.addObject("approvals_count", approvals_count);
 		mav.addObject("approval", approval);
-		mav.setViewName("approval/approval_dagi_view");
+		mav.setViewName("approval/approval_view");
 		return mav;
 	}
 
@@ -1007,6 +1007,27 @@ public class ApprovalController {
 			approval.setStatus("결재 완료");
 		}
 		int result = approvalService.approvalAccept(approval);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalWaitView?approval_no="+approval.getApproval_no());
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/approval/approvalReject")
+	public ModelAndView approvalReject(@RequestParam String approval_no, @RequestParam int approval_status) {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = new Approval();
+		approval.setApproval_no(approval_no);
+		approval.setApproval_status(approval_status);
+		approval.setApproval_status(approval.getApproval_status()-1);
+		approval.setStatus("반려");
+		
+		int result = approvalService.approvalReject(approval);
 		
 		if(result > 0) {
 			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
