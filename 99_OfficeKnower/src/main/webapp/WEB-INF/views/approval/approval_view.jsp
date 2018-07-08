@@ -36,7 +36,7 @@ span.icon-plus {
 }
 .transaction{
 	border:1px solid rgb(200,200,200);
-	width:80%;
+	width:100%;
 	padding :5px;
 }
 .transaction tr th{
@@ -116,9 +116,6 @@ span.ok {
 	color: green;
 }
 
-div.insertDiv {
-	display: none;
-}
 
 div.div-inline {
 	display: inline-block;
@@ -192,7 +189,97 @@ select {
 }
 </style>
 
-
+<script>
+	$(function() {
+	var approvalDataList;
+	var str ="";
+		var content = ${approval.content};
+		
+		content = JSON.stringify(content);
+	
+		var contentParse = JSON.parse(content);
+		var transaction = contentParse.transaction;
+		console.log("contentParse : "+contentParse.kind);
+		console.log("contentparse : "+contentParse.content);
+		var kind = contentParse.kind;
+		if(kind == '기타'){
+			$("#extraDiv").show();
+			$("#spendingDiv").hide();
+			$("#editor").html(contentParse.content);
+			$("#kind").html("기타");
+		}else if(kind == '지결'){
+			$("#extraDiv").hide();
+			$("#spendingDiv").show();
+			$("#year").html(contentParse.year);
+			$("#kind").html("지출결의서");
+			$("#month").html(contentParse.month);
+			$("#spendingMemberP").html("${spenderName}("+contentParse.userId+")");
+			$("#account_info").html(contentParse.bankName+"  "+contentParse.account_no);
+			
+			var transactionParse = JSON.parse(contentParse.transaction);
+			var sumPrice = 0;
+			var arr;
+			var priceNum='';
+			for(var i=0; i<transactionParse.length; i++){
+				str += "<tr>";
+				str += "<td>"+transactionParse[i].title_of_account+"</td>";
+				str += "<td>"+transactionParse[i].transactionDate+"</td>";
+				str += "<td>"+transactionParse[i].dept+"</td>";
+				str += "<td>"+transactionParse[i].price+"원</td>";
+				str += "<td>"+transactionParse[i].connection+"</td>";
+				str += "<td>"+transactionParse[i].summary+"</td>";
+				str += "</tr>";
+				
+				arr = transactionParse[i].price.split(",");
+				for(var i=0; i<arr.length; i++){
+					priceNum += arr[i];
+				}
+				sumPrice = parseInt(priceNum);
+			}
+		
+			var val = String(sumPrice.toString().replace(/[^0-9]/g, ""));
+	        if(val.length < 1)
+	            return false;
+	        val = number_format(val);
+			$("#sumPrice").html(val);			
+			
+		}
+		
+		
+	$("#transaction").append(str);	
+	})
+	function number_format(data)
+	{
+	    var tmp = '';
+	    var number = '';
+	    var cutlen = 3;
+	    var comma = ',';
+	    var i;
+	    var sign = data.match(/^[\+\-]/);
+	    if(sign) {
+	        data = data.replace(/^[\+\-]/, "");
+	    }
+	    len = data.length;
+	    mod = (len % cutlen);
+	    k = cutlen - mod;
+	    for (i=0; i<data.length; i++)
+	    {
+	        number = number + data.charAt(i);
+	        if (i < data.length - 1)
+	        {
+	            k++;
+	            if ((k % cutlen) == 0)
+	            {
+	                number = number + comma;
+	                k = 0;
+	            }
+	        }
+	    }
+	    if(sign != null)
+	        number = sign+number;
+	    return number;
+	}
+</script>
 <h4>${navkind }</h4>
 <hr />
 <h6>기본설정</h6>
@@ -203,7 +290,9 @@ select {
 			<td scope="col"><!-- <select name="" id="" class="custom-select"
 				style="width: 49%;"> -->
 				<span style="padding-left:20%;padding-right:20%">공용</span>
-				<span style="padding-left:20%;">지출결의서</span>
+				<span style="padding-left:20%;" id="kind">
+					
+				</span>
 				<!-- <span>기타</span> -->
 			</td>
 			<th style="width: 110px;" class="table-info">작성자</th>
@@ -223,7 +312,7 @@ select {
 				신청 
 			</th>
 			<c:forEach var="v" items="${approvals_list }">
-				<td>${v.userId }</td>
+				<td>${v.position }</td>
 			</c:forEach>
 			<c:if test="${approvals_count != 4 }">
 				<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
@@ -235,11 +324,15 @@ select {
 		<tr style="height: 80px;">
 			<c:forEach var="v" begin="0" end="${approvals_count-1}" step="1">
 			<td>
-				
 				<div style="width: 130px; height: 70px; display: inline-block;">
 					
 					<c:if test="${approval.approval_status < approvals_count-v}">
-						<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(0).sign }" alt="싸인이미지" />
+						<c:if test="${approval.status eq '반려' and approval.approval_status + approvals_count-1 == v }">
+							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/sign_reject.png" alt="싸인이미지" />
+						</c:if>
+						<c:if test="${approval.status ne '반려' or approval.approval_status +approvals_count-1 != v }">
+							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(v).sign }" alt="싸인이미지" />
+						</c:if> 
 					</c:if>
 					<c:if test="${approval.approval_status == approvals_count-v and approvals_list.get(v).userId eq memberLoggedIn.userId}">
 						<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
@@ -261,7 +354,7 @@ select {
 		</c:forEach>
 		<c:if test="${approvals_count != 4 }">
 				<c:forEach var="v" begin="0" end="${4-approvals_count-1}" step="1">
-					<td>&nbsp;</td>
+					<td>&nbsp;</td> 
 				</c:forEach>
 			</c:if>
 		</tr>
@@ -283,8 +376,6 @@ select {
       	<label for="accept">승인</label>
       	<input type="radio" name="approvalType" id="reject" value="반려"/>
         <label for="reject">반려</label>
-<!--         <p id="acceptLabel">승인하시겠습니까?</p>
-        <p id="rejectLabel">반려하시겠습니까?</p> -->
       </div>
      
       <div class="modal-footer">
@@ -307,11 +398,10 @@ select {
 <br />
 
 <div id="spendingDiv" class="insertDiv">
-	<form action="${pageContext.request.contextPath }/approvals/insertApprovalSpending" onsubmit="validate2()" id="spendingFrm" method="POST">
-		<h6>상세 입력</h6>
+		<h6>상세 보기</h6>
 		<hr />
-		제목 <input type="text" name="title" id="" class="form-control"
-			style="width: 85%; display: inline-block; float: right;" /> <br
+		제목   <p type="text" name="title" id="" class="form-control"
+			style="width: 85%; display: inline-block; float: right;" >${approval.title }</p> <br
 			clear="right" /> <br />
 		<input type="hidden" name="transaction" value="" />
 		<input type="hidden" name="approvals" value="${memberLoggedIn.userId }"/>
@@ -321,47 +411,29 @@ select {
 			<tbody>
 				<tr>
 					<th class="table-info" style="width: 110px; text-align: center;">회계기준월</th>
-					<td><select name="year" id="" class="custom-select"
+					<td><span  id="year" 
 						style="width: 20%;" >
 			
-					</select> 년 &nbsp; <select name="month" id="" class="custom-select"
-						style="width: 20%;">
-							<option value='01'>01</option>
-							<option value="02">02</option>
-							<option value="03">03</option>
-							<option value='04'>04</option>
-							<option value="05">05</option>
-							<option value="06">06</option>
-							<option value='07'>07</option>
-							<option value="08">08</option>
-							<option value="09">09</option>
-							<option value='10'>10</option>
-							<option value="11">11</option>
-							<option value="12">12</option>
-					</select> 월</td>
+					</span> 년 &nbsp; <span id="month" 
+						style="width: 20%;"></span> 월</td>
 				</tr>
 				<tr>
 					<th class="table-info" style="width: 110px; text-align: center;">지출자</th>
-					<td style="position: relative;"><input type="text"
-						class="form-control" name="" id="spendingMember"
-						autocomplete="off" style="width: 31%; position: relative;" /> <input
-						type="hidden" name="com_no" value="${memberLoggedIn.com_no}" /> <input
-						type="hidden" name="userId" /> <span class="guide ok"></span>
-						<ul id="autoComplete" style="width: 30%;"></ul> <a
-						href="javascript:void(0)" id="editName" onclick="fn_editName()">변경</a>
+					<td style="position: relative;">
+						<p id="spendingMemberP"></p>
+					
 					</td>
 				</tr>
 				<tr>
 					<th class="table-info" style="width: 110px; text-align: center;"
-						id="account_td">계좌정보 <input type="hidden" name="bankName" />
-						<input type="hidden" name="account_no" id="account_no"/>
+						id="account_td">계좌정보 
 					</th>
-					<td id="info_account"></td>
+					<td id="account_info"></td>
 				</tr>
 			</tbody>
 		</table>
 		
-		<h6>거래 내역 &nbsp; <span style="color:rgb(119, 158, 196); cursor:pointer;" id="transactionAdd" onclick="fn_addTransactionHistory()">추가</span></h6>
+		<h6>거래 내역 </h6>
 		<table id="transaction" class="transaction">
 			<tr>
 				<th>계정 과목</th>
@@ -370,195 +442,35 @@ select {
 				<th>금액</th>
 				<th>거래처</th>
 				<th>적요</th>
-				<th>상태</th>
 			</tr>
 			
 		</table>
 		<table id="sum" class="transaction">
 			<tr>
-				<td id="sumIn" >총 <span id="sumValue" value="0">0</span>원</td>
+				<td id="sumIn" >총 <span id="sumPrice" >0</span>원</td>
 			</tr>
 		</table>
-		<script>
-		function fn_addTransactionHistory(){
-			if(document.getElementById("account_no").value==""){
-				alert("지출자를 확인해주세요");
-			}else {
-				$("#transactionHistory").modal();
-			} 
-		}
-		</script>
 		<hr />
-		<input type="submit" value="등록" class="submitBtn"/>
-		<br />
-		<br />
-		<br />
-		<br />
-	</form>
-</div>
-<div id="extraDiv" class="insertDiv">
-	<form action="${pageContext.request.contextPath }/approvals/insertApprovalExtra" onsubmit="validate()">
-		<h6>상세 입력</h6>
+
+	</div>
+	<div id="extraDiv" class="insertDiv">
+		<h6>상세 보기</h6>
 		<hr />
- 		<input type="hidden" name="approvals" value="${memberLoggedIn.userId }"/> 
-		<input type="hidden" name="approval_status" value="" />
-		<input type="hidden" name="writer" value="${memberLoggedIn.userId }" />
-		<input type="hidden" name="content" />
-		<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" />
 		제목 <input type="text" name="title" id="" class="form-control"
-			style="width: 85%; display: inline-block; float: right;" /> <br
+			style="width: 85%; display: inline-block; float: right;" value="${approval.title }"/> <br
 			clear="right" /> <br /> <span class="input-group-text"
 			id="input-group-text-cum">내용</span>
 		<!-- <textarea name="content" id="" cols="30" rows="10" class="form-control" required></textarea> -->
-		<div id="editor" class="form-control" style="height: 300px;"></div>
-		<!-- Include the Quill library -->
-		<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+		<div id="editor" class="form-control" style="height: 300px;">
 
-		<!-- Initialize Quill editor -->
-		<script>
-			// var quill = new Quill('#editor', {
-			//     theme: 'snow'
-			// });
-			var toolbarOptions = [ [ 'bold', 'italic', 'underline', 'strike' ], // toggled buttons
-
-			[ {
-				'header' : 1
-			}, {
-				'header' : 2
-			} ], // custom button values
-			[ {
-				'list' : 'ordered'
-			}, {
-				'list' : 'bullet'
-			} ], [ {
-				'script' : 'sub'
-			}, {
-				'script' : 'super'
-			} ], // superscript/subscript
-			[ {
-				'indent' : '-1'
-			}, {
-				'indent' : '+1'
-			} ], // outdent/indent
-			[ {
-				'direction' : 'rtl'
-			} ], // text direction
-
-			//[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-			[ {
-				'header' : [ 1, 2, 3, 4, 5, 6, false ]
-			} ], [ {
-				'color' : []
-			}, {
-				'background' : []
-			} ], // dropdown with defaults from theme
-			[ {
-				'font' : []
-			} ], [ {
-				'align' : []
-			} ], [ 'image', 'link' ], [ 'clean' ] // remove formatting button
-			];
-
-			var quill = new Quill('#editor', {
-				modules : {
-					toolbar : toolbarOptions
-				},
-				theme : 'snow'
-			});
-		</script>
+		</div>
+		
 		<br />
 		<hr />
-		<input type="submit" value="등록" class="submitBtn"/>
-	</form>
 	<br />
 	<br />
 	<br />
 	<br />
 </div>
 
-<!-- Modal -->
-		<div class="modal fade" id="transactionHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-lg" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">거래 내역 추가(개인)</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-
-		      <div class="modal-body">
-		        <table id="transactionAdd">
-		        	<tr>
-		        		<th>계정과목</th>
-		        		<td>
-		        		<select name="title_of_account" required>
-		        			<option value="" selected disabled hidden>계정과목</option>
-		        			<c:forEach items="${title_of_accountList }" var="v">
-		        			<option value="${v.TITLE_OF_ACCOUNT }">${v.TITLE_OF_ACCOUNT }</option>
-		        			</c:forEach>
-		        		</select>
-		        		</td>
-		        		<th>지출일자</th>
-		        		<td>
-		        		
-		        		<script>
-						$(function() {
-						  $( "#datepicker1" ).datepicker({
-						    dateFormat: 'yy-mm-dd',
-						    prevText: '이전 달',
-						    nextText: '다음 달',
-						    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-						    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-						    dayNames: ['일','월','화','수','목','금','토'],
-						    dayNamesShort: ['일','월','화','수','목','금','토'],
-						    dayNamesMin: ['일','월','화','수','목','금','토'],
-						    showMonthAfterYear: true,
-						    changeMonth: true,
-						    changeYear: true,
-						    yearSuffix: '년'
-						  });
-						});
-						</script>
-    
-						<input type="text" id="datepicker1" name="transactionDate" required></td>
-			        	</tr>
-		        	<tr>
-		        		<th>지출부서</th>
-		        		<td>
-		        		<select name="dept" required>
-		        			<option value="" selected disabled hidden>지출부서</option>
-		        			<c:forEach items="${deptList }" var="v">
-		        			<option value="${v.DEPT }">${v.DEPT }</option>
-		        			</c:forEach>
-		        		</select>
-		        		</td>
-		        		<th>공급가액</th>
-		        		<td>
-		        			<input type="text" name="price" id="price" placeholder="공급가액을 입력하세요" required/>
-		        		</td>
-		        	</tr>
-		        	<tr>
-		        		<th>거래처</th>
-		        		<td>
-		        			<input type="text" name="connection" placeholder="거래처명을 입력하세요" required/>
-		        		</td>
-		        		<th>적요</th>
-						<td>
-							<input type="text" name="summary" id="" placeholder="적요를 입력하세요" required/>
-						</td>
-		        	</tr>
-		        </table>
-		     
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary"  data-dismiss="modal">취소</button>
-		        <input type="button" class="btn btn-primary" id="modalForm" onclick="fn_transactionSubmit()" value="저장"/>
-		      </div>
-		
-		    </div>
-
-		 
-		  </div>
-		</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

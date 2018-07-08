@@ -1,8 +1,11 @@
 package com.kh.ok.approval.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +15,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -965,11 +970,11 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/office/approvalView")
-	public ModelAndView selectApprovalView(@RequestParam String approval_no, @RequestParam("navkind") String navkind, HttpSession session) {
+	public ModelAndView selectApprovalView(@RequestParam("approval_no") String approval_no, @RequestParam("navkind") String navkind, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = approvalService.selectApprovalOne(approval_no);
 		Member writer = null;
-
+		String spenderName ="";
 		String status = approval.getStatus();
 		String approvalsT = approval.getApprovals();
 		String[] approvals;
@@ -984,6 +989,10 @@ public class ApprovalController {
 				writer = m;
 			}
 		}
+		if(approval.getSpender() != null) {
+			spenderName = approvalService.selectUserName(approval.getSpender());
+		}
+		
 		int approvals_count = approvals_list.size();	
 		for(int i=0; i<approvals_list.size(); i++) {
 			System.out.println(approvals_list.get(i));
@@ -994,6 +1003,7 @@ public class ApprovalController {
 		mav.addObject("approvals_list", approvals_list);
 		mav.addObject("approvals_count", approvals_count);
 		mav.addObject("approval", approval);
+		mav.addObject("spenderName", spenderName);
 		mav.addObject("navkind",navkind);
 		mav.setViewName("approval/approval_view");
 		return mav;
@@ -1042,54 +1052,103 @@ public class ApprovalController {
 		mav.setViewName("common/msg");
 		return mav;
 	}
-	@RequestMapping("/office/TotalApproval.do")
-	public ModelAndView totalApproval(HttpServletRequest request) {
+	
+	@RequestMapping("/office/approvalBreakRequestView")
+	public ModelAndView approvalBreakRequestView(@RequestParam String break_request_no, @RequestParam("navkind") String navkind) {
 		ModelAndView mav = new ModelAndView();
-		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
-		List<Approval> approvalTotList = approvalService.selectAllApproval(m);
-		List<BreakRequest> breakRequestTotList = approvalService.selectAllBreakRequest(m);
+		BreakRequest breakRequest = approvalService.selectBreakRequestOne(break_request_no);
+		Member writer = null;
+		String status = breakRequest.getStatus();
+		String approvalsT = breakRequest.getApprovals();
+		String[] approvals;
+	
+		String com_name = approvalService.selectComName(breakRequest.getCom_no());
+		approvals = approvalsT.split(",");
+		ArrayList<Member> approvals_list = new ArrayList<Member>();
+		for(int j=approvals.length-1; j>=0; j--) {
+			Member m = approvalService.selectMember(approvals[j]);
+			approvals_list.add(m);
+			if(breakRequest.getUserid().equals(approvals[j])) {	//작성자 객체 생성
+				writer = m;
+			}
+		}
 		
-		mav.addObject("approvalTotList", approvalTotList);
-		mav.addObject("breakRequestTotList", breakRequestTotList);
+		int approvals_count = approvals_list.size();	
+		for(int i=0; i<approvals_list.size(); i++) {
+			System.out.println(approvals_list.get(i));
+		}
 		
-		mav.setViewName("approval/approval_doc_total");
-		return mav;
-	}
-	@RequestMapping("/office/GianApproval.do")
-	public ModelAndView gianApproval(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
-		List<Approval> approval84List = approvalService.select84Approval(m);
-		List<BreakRequest> breakRequest84List = approvalService.select84BreakRequest(m);
-		
-		mav.addObject("approval84List", approval84List);
-		mav.addObject("breakRequest84List", breakRequest84List);
-		mav.setViewName("approval/approval_doc_84");
-		return mav;
-	}
-	@RequestMapping("/office/CompleteApproval.do")
-	public ModelAndView completeApproval(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
-		List<Approval> approvalComList = approvalService.selectComApproval(m);
-		List<BreakRequest> breakRequestComList = approvalService.selectComBreakRequest(m);
-		
-		mav.addObject("approvalComList", approvalComList);
-		mav.addObject("breakRequestComList", breakRequestComList);
-		mav.setViewName("approval/approval_doc_complete");
-		return mav;
-	}
-	@RequestMapping("/office/ReturnApproval.do")
-	public ModelAndView returnApproval(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
-		List<Approval> approvalReList = approvalService.selectReApproval(m);
-		List<BreakRequest> breakRequestReList = approvalService.selectReBreakRequest(m);
-		
-		mav.addObject("approvalReList", approvalReList);
-		mav.addObject("breakRequestReList", breakRequestReList);
-		mav.setViewName("approval/approval_doc_return");
+		System.out.println("navkind : "+navkind);
+		mav.addObject("status", status);
+		mav.addObject("writer", writer);
+		mav.addObject("com_name", com_name);
+		mav.addObject("approvals_list", approvals_list);
+		mav.addObject("approvals_count", approvals_count);
+		mav.addObject("breakRequest", breakRequest);
+		mav.addObject("navkind",navkind);
+		mav.setViewName("approval/breakRequest_view");
 		return mav;
 	}
 	
+	@RequestMapping("/approval/approvalDownload.do")
+	public void fileDownload(@RequestParam String rName, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		BufferedInputStream bis = null;
+		ServletOutputStream sos = null;
+
+		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/board"); // request로부터
+																												// session을
+																												// 얻고
+																												// 거기서
+																												// servletcontext를
+																												// 얻는구조
+
+		File savedFile = new File(saveDirectory + "/" + rName);
+
+		try {
+			bis = new BufferedInputStream(new FileInputStream(savedFile));
+			sos = response.getOutputStream();
+
+			// 응답세팅
+			response.setContentType("application/octet-stream; charset=utf-8");
+
+			// 한글파일명 처리
+			String resFilename = "";
+			boolean isMSIE = request.getHeader("user-agent").indexOf("MSIE") != -1
+					|| request.getHeader("user-agent").indexOf("Trident") != -1;
+			// IE 8이하는 MSIE라는 키워드를, 이후는 Trident라는 키워드를 갖고 있기에 둘다 체크해봐야함.
+
+			if (isMSIE) {
+				// ie는 utf-8인코딩을 명시적으로 해줌.
+				//resFilename = URLEncoder.encode(oName, "utf-8"); // 이렇게 하면 공백이 +로 바뀌는 문제가 있음.
+				resFilename = resFilename.replaceAll("\\+", "%20"); // +를 공백으로 바꾸는 코드.
+			} else {
+				//resFilename = new String(oName.getBytes("utf-8"), "ISO-8859-1"); // 기존 파일명을 바이트로 바꾼 후 ISO-8859-1형식으로 재
+																					// 인코딩...
+
+			}
+			logger.debug("resFilename=" + resFilename);
+
+			response.addHeader("Content-Disposition", "attachment; filename=\"" + resFilename + "\"");
+
+			// 쓰기
+			int read = 0;
+			while ((read = bis.read()) != -1) {
+				sos.write(read);
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				sos.close();
+				bis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
 }

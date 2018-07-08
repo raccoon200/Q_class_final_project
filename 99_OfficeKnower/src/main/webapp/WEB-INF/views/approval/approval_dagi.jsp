@@ -70,7 +70,7 @@
 	      <th scope="col" style="min-width:110px;">결재 상태</th>
 	    </tr>
 	    <c:forEach var="v" items="${breakRequestWaitList }">
-	    <tr>
+	    <tr class="trtr" onclick='location.href="${pageContext.request.contextPath}/office/approvalBreakRequestView?break_request_no=${v.BREAK_REQUEST_NO }&navkind=${navkind}"' >
 	    	<td>${v.BREAK_REQUEST_NO}</td>
 	    	<td>${v.USERID }</td>
 	    	<td>${v.KIND }</td>

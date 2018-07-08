@@ -102,4 +102,8 @@ public interface ApprovalDAO {
 
 	List<BreakRequest> selectReBreakRequest(Member m);
 
+	String selectUserName(String spender);
+
+	BreakRequest selectBreakRequestOne(String break_request_no);
+
 }
