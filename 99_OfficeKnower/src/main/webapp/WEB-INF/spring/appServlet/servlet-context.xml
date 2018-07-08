@@ -84,6 +84,13 @@
 			
 			<beans:bean id="companyCheckIntercepter" class="com.kh.ok.common.intercepter.CompanyCheckIntercepter"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/office/approval/code.do"/>
+			<mapping path="/office/approval/account.do"/>
+			<mapping path="/approval/admin/**"/>
+			
+			<beans:bean id="adminCheckIntercepter" class="com.kh.ok.common.intercepter.AdminCheckIntercepter"/>
+		</interceptor>
 	</interceptors> 
 </beans:beans>
 

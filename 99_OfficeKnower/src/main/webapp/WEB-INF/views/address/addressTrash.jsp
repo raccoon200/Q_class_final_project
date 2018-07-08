@@ -13,7 +13,6 @@
 	<jsp:param value="주소록" name="pageTitle"/>
 	<jsp:param value="휴지통" name="selectMenu"/>
 </jsp:include>
-
 	<style>
 	table.table tr th{
 		background:rgb(230,230,230);
@@ -23,7 +22,8 @@
 		cursor:pointer;
 	}
 	</style>
-	<br /><br />
+	<h4>휴지통</h4>
+	<hr />
 	<table class="table table-hover">
 	    <tr>
 	      <th scope="col">번호</th>

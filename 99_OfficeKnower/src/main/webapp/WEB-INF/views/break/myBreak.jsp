@@ -187,14 +187,14 @@ try{
  	<table class="table table-bordered">
 		  <thead>
 		    <tr style="background:#F6F6F6;text-align:center;">
-		      <th scope="col">신청자</th>
-		      <th scope="col">소속</th>
-		      <th scope="col">종류</th>
-		      <th scope="col">일수</th>
+		      <th scope="col" style="white-space: nowrap;">신청자</th>
+		      <th scope="col" style="white-space: nowrap;">소속</th>
+		      <th scope="col" style="white-space: nowrap;">종류</th>
+		      <th scope="col" style="white-space: nowrap;">일수</th>
 		      <th scope="col">기간</th>
 		      <th scope="col">상태</th>
-		      <th scope="col">상세</th>
-		      <th scope="col">휴가신청취소</th>
+		      <th scope="col" style="white-space: nowrap;">상세</th>
+		      <th scope="col" style="white-space: nowrap;">휴가신청취소</th>
 		    </tr>
 
 		    </thead>
@@ -203,11 +203,13 @@ try{
 		  <c:if test="${not empty BreakRequest}">
 		  <c:forEach var="bre" items="${BreakRequest}">
 			  <tr style='text-align:center;'>
-			     <td>${bre.USERNAME}</td>
-			     <td>${bre.COM_NAME}</td>
+			     <td style="white-space: nowrap;">${bre.USERNAME}</td>
+			     <td style="white-space: nowrap;">${bre.COM_NAME}</td>
 			     <td>${bre.KIND}</td>
 			     <td>${bre.BREAKDAYS}</td>
-			     <td>${bre.STARTDATE} ~ ${bre.ENDDATE} </td>
+			     <fmt:parseDate var="startDate" value="${bre.STARTDATE}" pattern="yyyy-MM-dd" />
+			     <fmt:parseDate var="endDate" value="${bre.ENDDATE}" pattern="yyyy-MM-dd" />
+			     <td><fmt:formatDate value="${startDate}" pattern="yy/MM/dd"/> ~ <fmt:formatDate value="${endDate}" pattern="yy/MM/dd"/></td>
    
 			     <%-- <c:if test="${bre.APPROVAL_STATUS eq 0}">
 			    	 <th>결재 완료</th>
@@ -215,7 +217,7 @@ try{
 			     <c:if test="${bre.APPROVAL_STATUS ne 0}">
 			    	 <th>결재 중</th>
 			     </c:if> --%>
-			     <th>${bre.STATUS}</th>
+			     <th style="white-space: nowrap;">${bre.STATUS}</th>
 			     <th><span class='viewFont' onclick="fn_BreakView('${bre.BREAK_REQUEST_NO}');">상세</span></th>
 			     <th><span class='viewFont' onclick="fn_deleteBreak('${bre.BREAK_REQUEST_NO}');">휴가신청취소</span></th>
 			  </tr>

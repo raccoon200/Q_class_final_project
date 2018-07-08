@@ -327,14 +327,14 @@ function fn_ViewBreak(userid,username){
 		      <th scope="col" colspan="2">생성 내역</th>
 		      <th scope="col" colspan="2">사용현황</th>
 		      <th scope="col" rowspan="2">잔여</th>
-		      <th scope="col" rowspan="2">수정 &nbsp; |&nbsp; 상세</th>
+		      <th scope="col" rowspan="2" style="white-space: nowrap;">수정 &nbsp; |&nbsp; 상세</th>
 		    </tr>
 		  
 		    <tr style="background:#F6F6F6;"> 	  
-			    <td>정기</td>
-			    <td>포상</td>
-			    <td>정기</td>
-			    <td>포상</td>
+			    <td style="white-space: nowrap;">정기</td>
+			    <td style="white-space: nowrap;">포상</td>
+			    <td style="white-space: nowrap;">정기</td>
+			    <td style="white-space: nowrap;">포상</td>
 			   <!--  <td>연차</td>
 			    <td>포상</td>
 			    <td>훈련</td>
@@ -350,14 +350,14 @@ function fn_ViewBreak(userid,username){
 		  <c:forEach var="bre" items="${allList}">
 			    <tr>
 			      <th scope="row" style="width:180px;" >${bre.USERNAME}</th>
-			      <td> <fmt:formatDate value="${bre.JOINDATE}" pattern="yyyy년 MM월 dd일"/></td>
-			     <td>${bre.REGULAR_BREAK + bre.REWARD_BREAK}일</td>
-			      <td>${bre.REGULAR_BREAK}일</td>
-			      <td>${bre.REWARD_BREAK}일</td>
-			      <td> ${bre.REGULAR_USED_BREAK}일</td>
-			      <td>${bre.REWARD_USED_BREAK}일</td> 
-			      <td>${(bre.REGULAR_BREAK + bre.REWARD_BREAK)-(bre.REGULAR_USED_BREAK+bre.REWARD_USED_BREAK)}일</td> 
-			      <td> <span class="updateViewText" onclick="fn_updateBreakInfo('${bre.USERID}')">수정</span> &nbsp;|&nbsp;
+			      <td> <fmt:formatDate value="${bre.JOINDATE}" pattern="yy/MM/dd"/></td>
+			     <td style="white-space: nowrap;">${bre.REGULAR_BREAK + bre.REWARD_BREAK}일</td>
+			      <td style="white-space: nowrap;">${bre.REGULAR_BREAK}일</td>
+			      <td style="white-space: nowrap;">${bre.REWARD_BREAK}일</td>
+			      <td style="white-space: nowrap;"> ${bre.REGULAR_USED_BREAK}일</td>
+			      <td style="white-space: nowrap;">${bre.REWARD_USED_BREAK}일</td> 
+			      <td style="white-space: nowrap;">${(bre.REGULAR_BREAK + bre.REWARD_BREAK)-(bre.REGULAR_USED_BREAK+bre.REWARD_USED_BREAK)}일</td> 
+			      <td style="white-space: nowrap;"> <span class="updateViewText" onclick="fn_updateBreakInfo('${bre.USERID}')">수정</span> &nbsp;|&nbsp;
 			       <span class="updateViewText" onclick="fn_ViewBreak('${bre.USERID}','${bre.USERNAME}')">상세</span></td> 
 			    </tr> 
 			</c:forEach>

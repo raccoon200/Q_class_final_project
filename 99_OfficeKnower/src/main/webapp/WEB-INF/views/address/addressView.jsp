@@ -27,13 +27,16 @@
 		cursor:pointer;
 	}
 	</style>
+	<h4>공유 주소록</h4>
+	<hr />
 	<div id="input-form">
     	<form action="${pageContext.request.contextPath }/address/addressSearch">
      		<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
-          	이름검색    <input type="text" name="name" id="name" />
-            <button type="submit">검색</button>
+          	이름검색  : <input type="text" name="name" id="name" class="form-control" style="display: inline-block; width: 20%"/>
+            <button type="submit" class="btn btn-outline-info">검색</button>
    		</form>     
    </div>
+   <br />
 	<table class="table table-hover">
     <tr>
       <th scope="col">번호</th>
