@@ -103,4 +103,12 @@ public interface ApprovalService {
 	List<Approval> selectReApproval(Member m);
 
 	List<BreakRequest> selectReBreakRequest(Member m);
+
+	String selectUserName(String spender);
+
+	BreakRequest selectBreakRequestOne(String break_request_no);
+
+	int breakRequestAccept(BreakRequest breakRequest);
+
+	int breakRequestReject(BreakRequest breakRequest);
 }

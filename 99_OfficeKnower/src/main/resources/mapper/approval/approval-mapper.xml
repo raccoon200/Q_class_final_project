@@ -114,10 +114,13 @@
 		select count(*) from approval where approval_no like '지결%' and com_no=#{com_no}
 	</select>
 	<select id="selectApprovalList" resultMap="approvalDataList">
-		select approval_no, title, to_char(writedate,'yyyy-mm-dd') WRITEDATE, status, approvals, writer, approval_status, com_no, content from approval where com_no=#{com_no} and status != '반려'
+		select approval_no, title, to_char(writedate,'yyyy-mm-dd') WRITEDATE, status, approvals, writer, approval_status, com_no, content from approval where com_no=#{com_no}
+	</select>
+	<select id="selectUserName" resultType="string">
+		select username from tbl_user where userid=#{spender}
 	</select>
 	<select id="selectBreakRequestList" resultType="map">
-		select * from break_request where com_no=#{com_no} and status != '반려'
+		select * from break_request where com_no=#{com_no}
 	</select>
 	<select id="selectApprovalOne" resultType="com.kh.ok.approval.model.vo.Approval">
 		select * from approval where approval_no = #{approval_no}
@@ -128,8 +131,14 @@
 	<update id="approvalAccept">
 		update approval set status=#{status}, approval_status=#{approval_status} where approval_no=#{approval_no}
 	</update>
+	<update id="breakRequestAccept">
+		update break_request set status=#{status}, approval_status=#{approval_status} where break_request_no=#{break_request_no}
+	</update>
 	<update id="approvalReject">
 		update approval set status=#{status}, approval_status=#{approval_status} where approval_no=#{approval_no}
+	</update>
+	<update id="breakRequestReject">
+		update break_request set status=#{status}, approval_status=#{approval_status} where break_request_no=#{break_request_no}
 	</update>
 	<select id="selectAllApproval" resultType="com.kh.ok.approval.model.vo.Approval">
 		select * from approval where com_no = #{com_no} and writer = #{userId} order by writedate desc
@@ -154,5 +163,8 @@
 	</select>
 	<select id="selectReBreakRequest" resultType="breakrRequest">
 		select * from break_request where com_no = #{com_no} and userid = #{userId} and status = '반려' order by break_request_no desc	
+	</select>
+	<select id="selectbreakRequestOne" resultType="breakrRequest">
+		select * from break_request where break_request_no=#{break_request_no}
 	</select>
 </mapper>

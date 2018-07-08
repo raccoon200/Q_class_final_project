@@ -456,7 +456,7 @@ public class BreakController {
 		mav.setViewName("common/msg");
 		return mav;
 	}
-
+	
 	@RequestMapping("/break/breakManagement.do")
 	public ModelAndView breakManagement(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();

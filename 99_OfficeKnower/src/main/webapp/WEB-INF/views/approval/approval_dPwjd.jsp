@@ -70,13 +70,13 @@
 	      <th scope="col" style="min-width:110px;">결재 상태</th>
 	    </tr>
 	    <c:forEach var="v" items="${breakRequestExpectedList }">
-	    <tr>
+	    <tr class="trtr" onclick='location.href="${pageContext.request.contextPath}/office/approvalBreakRequestView?break_request_no=${v.BREAK_REQUEST_NO }&navkind=${navkind}"' >
 	    	<td>${v.BREAK_REQUEST_NO}</td>
 	    	<td>${v.USERID }</td>
 	    	<td>${v.KIND }</td>
 	    	<td>
 	    		<c:if test="${v.RENAMED_FILE_NAME != 'no'}"> 
-	    			${v.RENAMED_FILE_NAME }
+	    			<img src="${pageContext.request.contextPath }/resoures/images/common/board_file_image.PNG" alt="첨부파일" />
 	    		</c:if>		
 	    	</td>
 	    	<td>${v.STARTDATE }</td>
