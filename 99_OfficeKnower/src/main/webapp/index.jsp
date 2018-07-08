@@ -268,19 +268,20 @@ $(function(){
 	<div id="insa_main" class="hide main-exc container">
 		<div style="width: 100%; display: inline-block; margin-bottom: 100px;">
 			<div style="display: inline-block; width: 416px;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">한 눈에 볼 수있는 <br />직원 목록</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다.수정해야한다. <br />수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.
+					전체 직원을 볼 수 있을 뿐 아니라<br />입사년도, 직위, 부서 별로도 볼 수 있습니다.
 				</p>
 			</div>
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_schedule1.JPG" alt="main_schedule1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_insa1.JPG" alt="main_insa1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
 		</div>
 		<div style="width: 100%; display: inline-block; margin-bottom: 20px;">
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_schedule2.JPG" alt="main_schedule2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_insa2.JPG" alt="main_insa2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
 			<div style="display: inline-block; width: 416px; float: right;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">이젠 전자결재로<br />휴가가자~~</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.
+					휴가 신청을 전자결재로 기안할 수 있고, 관리자는 휴가를 생성, 수정, 삭제할 수 있습니다. <br />
+					휴가 기본 설정을 통해 선택한 달의 1일에 연차 휴가가 자동으로 생성됩니다.
 				</p>
 			</div>
 		</div>
@@ -328,19 +329,19 @@ $(function(){
 	<div id="address_main" class="hide main-exc container">
 		<div style="width: 100%; display: inline-block; margin-bottom: 100px;">
 			<div style="display: inline-block; width: 416px;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">업무에 관련된<br />주소록은 공유하자~~</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.<br />수정해야한다.수정해야한다.수정해야한다.수정해야한다.
+					업무에 관련된 주소록을 등록, 수정, 삭제 할 수 있고, <br />주소록은 사내 공유 됩니다.
 				</p>
 			</div>
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_board1.JPG" alt="main_board1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_address1.JPG" alt="main_address1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
 		</div>
 		<div style="width: 100%; display: inline-block; margin-bottom: 20px;">
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_board2.JPG" alt="main_board2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_address2.JPG" alt="main_address2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
 			<div style="display: inline-block; width: 416px; float: right;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">버린 주소록도<br />다시보자</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.
+					삭제된 주소록은 다시 복원 할 수 있습니다.
 				</p>
 			</div>
 		</div>
@@ -383,7 +384,7 @@ $(function(){
 	        <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required />
 	      </div>
 	      <div class="modal-footer">
-	        <button type="submit" class="btn btn-outline-success">로그인</button>
+	        <button type="submit" class="btn btn-outline-info">로그인</button>
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 	      </div>
 	      </form>

@@ -36,12 +36,12 @@
 	      <th scope="col" style="min-width:100px;">결재 상태</th>
 	    </tr>
 	    <c:forEach var="v" items="${approvalComList }">
-	    <tr onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.APPROVAL_NO }"'>
-	    	<td>${v.APPROVAL_NO }</td>
-	    	<td>${v.TITLE }</td>
-	    	<td>${v.WRITER }</td>
-	    	<td>${v.WRITEDATE }</td>
-	    	<td>${v.STATUS }</td>
+	    <tr onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.approval_no }"'>
+	    	<td>${v.approval_no }</td>
+	    	<td>${v.title }</td>
+	    	<td>${v.writer }</td>
+	    	<td>${v.writeDate }</td>
+	    	<td>${v.status }</td>
 	    </tr>
 	    </c:forEach>
 		</table>
