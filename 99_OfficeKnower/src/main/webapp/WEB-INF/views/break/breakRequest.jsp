@@ -31,7 +31,7 @@
 	color: #6699FF
 }
 #divChoice{
-	width : 500px;
+	width : 25%;
 	height : 500px;
 	background: white;
 	border-radius:5px;

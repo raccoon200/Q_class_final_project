@@ -35,12 +35,12 @@ th{
 	top: -150px;
 	left : 350px;
 	width: 60%;
-	height: 700px;
+	height: 500px;
 	background: white;
 	z-index: 1;
 	border-radius: 5px;
 	border: 1px solid;
-	padding: 15px;
+	padding: 30px;
 }
 #close3{
 	width: 30px;
@@ -51,6 +51,9 @@ th{
 .viewFont{
 	color : #6699FF;
 	cursor: pointer;
+}
+#innerTableDiv{
+	overflow-y: scroll;
 }
 </style>
 <script>
@@ -217,10 +220,12 @@ try{
 		<!-- 휴가 상세보기  div-->
 		<div id="BreakView">
 			<div style="font-size:30px;" id="close3">X</div>
-			<p>휴가 신청 상세</p>
+			<br />
+			<p style="font-size:20px; color: ">휴가 신청 상세</p>
+			<br /><br />
 			
-			
-		<table class="table">
+		<div id="innerTableDiv">
+			<table class="table">
 			  <thead>
 			    <tr>
 			      <th scope="col" style="width:300px; background:#F6F6F6; text-align:center;">이름</th>
@@ -250,10 +255,7 @@ try{
 		   		 </tr>
 		     </tbody>
 		</table>
-			
-			
-			
-			
+	</div>
 			
 		</div><!-- 휴가 상세보기 div end-->
 		
