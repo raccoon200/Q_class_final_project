@@ -35,17 +35,25 @@ th{
 	top: -150px;
 	left : 350px;
 	width: 60%;
-	height: 700px;
+	height: 500px;
 	background: white;
 	z-index: 1;
 	border-radius: 5px;
 	border: 1px solid;
-	padding: 15px;
+	padding: 30px;
 }
 #close3{
 	width: 30px;
 	float: right;
 	cursor: pointer;
+}
+
+.viewFont{
+	color : #6699FF;
+	cursor: pointer;
+}
+#innerTableDiv{
+	overflow-y: scroll;
 }
 </style>
 <script>
@@ -190,16 +198,16 @@ try{
 			     <td>${bre.KIND}</td>
 			     <td>${bre.BREAKDAYS}</td>
 			     <td>${bre.STARTDATE} ~ ${bre.ENDDATE} </td>
-			     
-			     
-			     <c:if test="${bre.APPROVAL_STATUS eq 0}">
+   
+			     <%-- <c:if test="${bre.APPROVAL_STATUS eq 0}">
 			    	 <th>결재 완료</th>
 			     </c:if>
 			     <c:if test="${bre.APPROVAL_STATUS ne 0}">
 			    	 <th>결재 중</th>
-			     </c:if>
-			     <th><span onclick="fn_BreakView('${bre.BREAK_REQUEST_NO}');">상세</span></th>
-			     <th><span>휴가신청취소</span></th>
+			     </c:if> --%>
+			     <th>${bre.STATUS}</th>
+			     <th><span class='viewFont' onclick="fn_BreakView('${bre.BREAK_REQUEST_NO}');">상세</span></th>
+			     <th><span class='viewFont' onclick="fn_deleteBreak('${bre.BREAK_REQUEST_NO}');">휴가신청취소</span></th>
 			  </tr>
 			</c:forEach>
 		   </c:if>
@@ -212,10 +220,12 @@ try{
 		<!-- 휴가 상세보기  div-->
 		<div id="BreakView">
 			<div style="font-size:30px;" id="close3">X</div>
-			<p>휴가 신청 상세</p>
+			<br />
+			<p style="font-size:20px; color: ">휴가 신청 상세</p>
+			<br /><br />
 			
-			
-		<table class="table">
+		<div id="innerTableDiv">
+			<table class="table">
 			  <thead>
 			    <tr>
 			      <th scope="col" style="width:300px; background:#F6F6F6; text-align:center;">이름</th>
@@ -245,10 +255,7 @@ try{
 		   		 </tr>
 		     </tbody>
 		</table>
-			
-			
-			
-			
+	</div>
 			
 		</div><!-- 휴가 상세보기 div end-->
 		
@@ -259,6 +266,21 @@ try{
 </div> <!-- div 모음 끝 -->
 
 <script>
+
+function fn_deleteBreak(breakid){
+	
+	var bdelete = confirm("휴가신청을 취소하시겠습니까? 신청 취소를 하면 '반려'로 넘어갑니다.");
+	
+	if(bdelete==true){
+		location.href="deleteBreak?breakid="+breakid+"&cPage="+"<%=cPage%>";
+		alert("휴가신청이 취소되었습니다.");
+	}else if(bdelete==false){
+		alert("휴가신청취소가 취소되었습니다.");
+	}
+	
+	
+}
+
 function fn_BreakView(breakid){
 	alert("상세보기 " +breakid);
 	
@@ -271,12 +293,13 @@ function fn_BreakView(breakid){
 		     $("#nameInfo").html("${bre.USERNAME}");
 			  
 		  
-			 <c:if test="${bre.APPROVAL_STATUS eq 0}">
+			/*  <c:if test="${bre.APPROVAL_STATUS eq 0}">
 		 	 	$("#status").html("결재완료");
 		 	 </c:if>
 		  	 <c:if test="${bre.APPROVAL_STATUS ne 0}">
 		  		$("#status").html("결재중");
-		  	 </c:if>
+		  	 </c:if> */
+		  	 $("#status").html("${bre.STATUS}");
 		  	 $("#com_nameInfo").html("${bre.COM_NAME}");
 		  	 $("#kindInfo").html("${bre.KIND}");
 		  	 $("#dayInfo").html("${bre.BREAKDAYS}");

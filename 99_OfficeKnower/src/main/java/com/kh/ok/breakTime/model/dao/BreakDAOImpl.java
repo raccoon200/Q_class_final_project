@@ -93,6 +93,10 @@ public class BreakDAOImpl implements BreakDAO {
 	}
 
 	@Override
+
+	public int deleteBreak(String breakid) {
+		return sqlSession.update("break.deleteBreak",breakid);
+	}
 	public BreakSetting selectBreakSetting(String com_no) {
 		return sqlSession.selectOne("break.selectBreakSetting", com_no);
 	}
@@ -100,6 +104,36 @@ public class BreakDAOImpl implements BreakDAO {
 	@Override
 	public int updateBreakSetting(BreakSetting bs) {
 		return sqlSession.update("break.updateBreakSetting", bs);
+
+	}
+
+	@Override
+	public List<Map<String, Object>> alllBreakList(String comId,int numPerPage, int cPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		
+		System.out.println("daoImpl numPerPage" + numPerPage);
+		return sqlSession.selectList("break.alllBreakList", comId, rowBounds);
+		
+	}
+
+	@Override
+	public int allBreakListCnt(String comId) {
+		return sqlSession.selectOne("break.allBreakListCnt", comId);
+	}
+
+	@Override
+	public int updateBreakInfo(Map<String, String> map) {
+		return sqlSession.update("break.updateBreakInfo", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchKindList(String userid) {
+		return sqlSession.selectList("break.searchKindList", userid);
+	}
+
+	@Override
+	public List<Map<String, Object>> personBreakRequestList(String userid) {
+		return sqlSession.selectList("break.personBreakRequestList", userid);
 	}
 
 	@Override

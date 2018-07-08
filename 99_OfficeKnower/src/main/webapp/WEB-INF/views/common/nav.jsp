@@ -276,7 +276,7 @@
 								<a href="${pageContext.request.contextPath}/break/breakCreate.do">휴가 생성</a><br />
 							</li>
 							<li>
-								<a href="#">직원 휴가 관리</a><br />
+								<a href="${pageContext.request.contextPath}/break/breakManagement.do">직원 휴가 관리</a><br />
 							</li>
 						</ul>
 					</li>

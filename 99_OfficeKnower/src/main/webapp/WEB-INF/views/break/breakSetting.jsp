@@ -16,6 +16,16 @@
 	font-weight: bold;
 	margin-top:20px;
 }
+table tr td {
+	text-align: center;
+}
+#hFont{
+	font-size: 20px;
+	font-weight: bolder;
+}
+#left{
+	text-align: left;
+}
 </style>
 <script>
 $(function(){
@@ -24,12 +34,14 @@ $(function(){
 </script>
 <p id="pFont2">기본설정</p>
 <hr />
-<h6>휴가 생성 조건</h6>
+<br />
+<h6 id="hFont">휴가 생성 조건</h6>
+<br /><br />
 <form action="${pageContext.request.contextPath }/break/breakSettingEnd.do" method="post">
 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
 	<table class="table">
 		<tr>
-			<th rowspan="4">휴가일수<br />(입사년도)</th>
+			<th rowspan="4" style="background:#F6F6F6; text-align:center;">휴가일수<br />(입사년도)</th>
 			<td scope="col">N</td>
 			<td>N+1</td>
 			<td>N+2</td>
@@ -67,8 +79,8 @@ $(function(){
 			<td></td>
 		</tr>
 		<tr style="border-bottom: 1px solid #dee2e6;">
-			<th>생성일자</th>
-			<td colspan="13">
+			<th style="background:#F6F6F6; text-align:center;">생성일자</th>
+			<td colspan="13" id="left">  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;매년 &nbsp;
 				<select name="createdate" id="">
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -83,7 +95,7 @@ $(function(){
 					<option value="11">11</option>
 					<option value="12">12</option>
 				</select>
-				월 1일
+				월 &nbsp;1일
 			</td>
 		</tr>
 	</table>

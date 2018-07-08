@@ -125,7 +125,6 @@ function len_chk(content){
         return false;
     }
 	
-	
 }
 function len_chk2(content){
 
