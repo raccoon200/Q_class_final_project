@@ -39,7 +39,7 @@
       
       <div class="checkbox mb-3">
        	 죄송합니다. 관리자에게 문의해주세요. <br />
-       	01027809071
+       	raccoon200@naver.com
       </div>
       <button class="btn btn-lg btn-info btn-block" onclick="location.href='/ok/'">홈으로 돌아가기</button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
