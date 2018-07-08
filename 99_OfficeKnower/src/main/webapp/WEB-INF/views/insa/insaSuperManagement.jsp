@@ -112,7 +112,9 @@ function fn_btnCancel(){
 <hr />
 <br />
 <div class="insa_management" style="width: 95%;">
+<c:if test='${myGrade eq "슈퍼관리자"}'>
 <p id="admin-add" onclick="fn_admin_add()">+ 관리자 추가</p>
+</c:if>
 <table class="table table table-hover" id="admin-table">
 	<thead class="thead-light">
 		<tr>
@@ -133,7 +135,9 @@ function fn_btnCancel(){
 					<td>${v.getDept() }</td>
 					<td id="delete">
 						${v.getGrade() }
-					 	<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/insa/adminSuperDeleteEnd.do?userId=${v.getUserId() }'">삭제</span>
+						<c:if test='${myGrade eq "슈퍼관리자"}'>
+					 		<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/insa/adminSuperDeleteEnd.do?userId=${v.getUserId() }'">삭제</span>
+					 	</c:if>
 				</c:if>
 			</tr>
 		</c:forEach>
