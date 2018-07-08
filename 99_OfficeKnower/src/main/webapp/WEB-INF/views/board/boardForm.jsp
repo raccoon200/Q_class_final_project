@@ -11,7 +11,7 @@
 </jsp:include>
 <script>
 function validate() {
-	var str = $(".ql-editor").html();
+	var str = document.getElementById('editor').innerHTML;
 	$("[name=content]").attr("value", str);
 	return true;
 }
@@ -59,16 +59,15 @@ $(function() {
 <div id="board-container">
 	<br />
 
-	<form action="boardFormEnd.do" name="boardFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+	<form action="${pageContext.request.contextPath }/board/boardFormEnd.do" name="boardFrm" method="POST" enctype="multipart/form-data" onsubmit="return validate();">
 		<input type="hidden" name="content" />
-		 
+		
 		<div class="input-group mb-3" style="padding:0px">
 			<div class="input-group-prepend" style="padding:0px">
 			    <span class="input-group-text">게시판</span>
 			</div>
-
 			 <select class="selectpicker" name="board_menu_no" style="date-width:'500px'">
-				<option value="" id="no-selected" selected disabled hidden>게시판을 선택</option>
+				<option value="" id="no-selected" selected disabled hidden>게시판을 선택하세요</option>
 			  <optgroup label="전사게시판">
 			    <c:forEach var="v" varStatus="vs" items="${basicBoard }">
 			    	<c:if test="${!fn:contains(memberLoggedIn.grade,'게시판관리자') and !fn:contains(memberLoggedIn.grade, '슈퍼관리자') }">
@@ -106,7 +105,7 @@ $(function() {
 			    <span class="input-group-text">제목</span>
 			</div>
 			<div class="custom-file">
-				<input type="text" name="title" id="boardTitle" class="form-control" required />
+				<input type="text" name="title" id="boardTitle" class="form-control"  required />
 			</div>
 		</div>
 		
@@ -122,15 +121,15 @@ $(function() {
 		  <div class="input-group-prepend">
 		    <span class="input-group-text">첨부파일</span>
 		  </div>
-		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="inputGroupFile01">
+		   <div class="custom-file">
+		    <input type="file" class="custom-file-input" name="upFile" id="inputGroupFile01" >
 		    <label class="custom-file-label" for="inputGroupFile01"></label>
 		  </div>
 		</div>
 		<span class="input-group-text" id="input-group-text-cum">내용</span>
 		<!-- <textarea name="content" id="" cols="30" rows="10" class="form-control" required></textarea> -->
 		<div id="editor" class="form-control" style="height:300px;">
-    
+    	
     	</div>
     	 <!-- Include the Quill library -->
 	    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>

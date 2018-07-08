@@ -57,7 +57,7 @@
 	<thead class="thead-light">
 		<tr>
 			<th scope="col">카테고리</th>
-			<th scope="col">자원 이름</th>
+			<th scope="col">자원명</th>
 			<th scope="col">사용 목적</th>
 			<th scope="col">예약 날짜</th>
 			<th scope="col">상태</th>
@@ -91,7 +91,6 @@ function fn_reservationNoClick(reservationNo, flag){
         data : {reservationNo:reservationNo},  
         contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
         success : function(data) {
-        	console.log(data);
         	$("#res_name").text(data.res_name);
         	$("#reservation_date").text(data.startdate+' ~ '+data.quitdate);
         	$("#writer").text(data.writer);
@@ -112,7 +111,7 @@ function fn_reservationNoClick(reservationNo, flag){
      });
 	}
 function fn_validate() {
-	return confirm("정말로 삭제하시겠습니까?")?true:false;
+	return confirm("계속 진행하시겠습니까?")?true:false;
 }
 
 </script>
@@ -138,7 +137,7 @@ function fn_validate() {
 					<input type="hidden" name="reservation_no" id="reservation_no"/>
 					<table class="table">
 					<tr>
-					<th>자원 이름</th>
+					<th>자원명</th>
 					<td><label id="res_name"/></td>
 					</tr>
 					<tr>

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.ok.breakTime.model.service.BreakService;
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
+import com.kh.ok.breakTime.model.vo.BreakSetting;
 import com.kh.ok.member.model.vo.Member;
 
 @Controller
@@ -48,7 +49,7 @@ public class BreakController {
 	
 	
 	@RequestMapping("/break/myBreak")
-	public String myBreak(Model model, HttpServletRequest request) {
+	public String myBreak(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		String userId = null;
 		String comId = null;
@@ -59,15 +60,31 @@ public class BreakController {
 		
 		List<Break> myBreak = breakService.selectMyBreak(userId);
 		List<Map<String,String>> breaklist = breakService.selectBreakList(comId);
-		
 		System.out.println("breakList=" + breaklist);
 		System.out.println("myBreak@myBreak =" + myBreak);
+		
+		
+		//페이징처리
+		int numPerPage = 5;
+		List<Map<String,Object>> BreakRequest = breakService.selectBreakRequest(cPage, numPerPage,comId);
+		System.out.println("BreakRequest = " + BreakRequest);
+		int pageNum = breakService.selectBreakRequestCnt(comId);
+		
+		
 	   
 		model.addAttribute("myBreak",myBreak);
 		model.addAttribute("breaklist",breaklist);
+		model.addAttribute("BreakRequest",BreakRequest);
+		model.addAttribute("numPerPage",numPerPage);
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("cPage",cPage);
 		
 		return "break/myBreak";
 	}
+	
+	
+	
+	
 	
 	@RequestMapping("/break/breakCreate.do")
 	public String breakCreate() {
@@ -79,8 +96,8 @@ public class BreakController {
 	@RequestMapping("/break/searchMember.do")
 	@ResponseBody
 	public Map<String,Object> searchMember(HttpServletRequest request) {
-		String enrolldate1 = request.getParameter("enrolldate1");
-		String enrolldate2 = request.getParameter("enrolldate2");
+		String enrolldate1 = request.getParameter("enrolldate1")!= null ? request.getParameter("enrolldate1"):"";
+		String enrolldate2 = request.getParameter("enrolldate2") != null ? request.getParameter("enrolldate2"):"";
 		String name_com = request.getParameter("name_com");
 		
 		HttpSession session = request.getSession(false);
@@ -151,6 +168,7 @@ public class BreakController {
 		String enrolldate1 = request.getParameter("enrolldate1");
 		String enrolldate2 = request.getParameter("enrolldate2");
 		String name_com = request.getParameter("name_com");
+		String[] selectedUser = request.getParameter("selectedUser").split(",");
 		
 		HttpSession session = request.getSession(false);
 		String comId = null;
@@ -169,11 +187,23 @@ public class BreakController {
 				System.out.println("userList" + userList);
 			}
 		}
+		
+		List<String> selectedUserList = new ArrayList<String>();
+		if(selectedUser.length>0) {
+			
+			for(int i=0; i<selectedUser.length; i++) {
+				selectedUserList.add(selectedUserList.size(), selectedUser[i]);
+				System.out.println("selectedUserList" + selectedUserList);
+			}
+		}
+		
+		
 		map.put("userList", userList);
 		map.put("comId", comId);
 		map.put("enrolldate1",enrolldate1);
 		map.put("enrolldate2",enrolldate2);
 		map.put("name_com",name_com);
+		map.put("selectedUserList",selectedUserList);
 		
 		List<Map<String,String>> deleteAfterMember = breakService.choiceMemberDelete(map);
 		System.out.println("지우고 남은 회원=" + deleteAfterMember);
@@ -266,11 +296,17 @@ public class BreakController {
 		for(int i=username.length-1; i>=0; i--) {
 			cnt++;
 			System.out.println("결재자 이름 이다!!!!!!!!!!!!"+i +username[i]);
+		
+			
 			
 			if(i==0) {
-				approvals += username[i] ;
+				approvals += username[0];
 			}else {
-				approvals += username[i]+",";
+				if(username[i].equals("")) {
+//					approvals += username[0];
+				}else {
+					approvals += username[i] + ",";
+				}
 			}
 			System.out.println("i는 뭐지??" + i);
 		}
@@ -333,8 +369,44 @@ public class BreakController {
 		return mav;
 	}
 		
-	
-	
-	
-	
+	@RequestMapping("/break/breakSetting.do")
+	public ModelAndView breakSetting(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession(false);
+		Member m = (Member)session.getAttribute("memberLoggedIn");;
+		BreakSetting bs = breakService.selectBreakSetting(m.getCom_no());
+		String[] breakdays = bs.getBreakdays().substring(1, bs.getBreakdays().lastIndexOf(",")).split(",");
+		bs.setN(breakdays[0]);
+		bs.setN1(breakdays[1]);
+		bs.setN2(breakdays[2]);
+		bs.setN3(breakdays[3]);
+		bs.setN4(breakdays[4]);
+		bs.setN5(breakdays[5]);
+		bs.setN6(breakdays[6]);
+		bs.setN7(breakdays[7]);
+		bs.setN8(breakdays[8]);
+		bs.setN9(breakdays[9]);
+		bs.setN10(breakdays[10]);
+		bs.setN11(breakdays[11]);
+		bs.setN12(breakdays[12]);
+		mav.addObject("bs", bs);
+		mav.setViewName("break/breakSetting");
+		return mav;
+	}
+	@RequestMapping("/break/breakSettingEnd.do")
+	public ModelAndView breakSettingEnd(BreakSetting bs) {
+		ModelAndView mav = new ModelAndView();
+		bs.setBreakdays("," + bs.getN()+","+ bs.getN1()+","+ bs.getN2()+","+ bs.getN3()+","+ bs.getN4()
+					   +","+ bs.getN5()+","+ bs.getN6()+","+ bs.getN7()+","+ bs.getN8()+","+ bs.getN9()
+					   +","+ bs.getN10()+","+ bs.getN11()+","+ bs.getN12()+",");
+		int result = breakService.updateBreakSetting(bs);
+		if(result > 0) {
+			mav.setViewName("redirect:/break/breakSetting.do");
+		}else {
+			mav.addObject("loc", "/break/breakSetting.do");
+			mav.addObject("msg", "휴가 기본 설정에 실패했습니다.\n관리자에게 문의하세요.");
+			mav.setViewName("common/msg");
+		}
+		return mav;
+	}
 }

@@ -28,19 +28,19 @@
   		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break, t.position
 		from tbl_user t left join break b on(t.userid=b.userid)
                         join tbl_com c on (t.com_no=c.com_no)
-        where 1=1
+        where 1=1 and t.status='Y' and c.com_no =#{comId}
         <if test="name_com != null and name_com!=''">
- 		and t.status='Y' and c.com_no =#{comId} and t.username like '%'||#{name_com}||'%' 
+ 		  and t.username like '%'||#{name_com}||'%' 
  		
  		</if>
      
-  		<if test="enddate1 != null and enddate1 !=''">
-  			and joindate between #{enddate1} and
-  			<if test="enddate2 != null and enddate2 !=''">
-  				#{enddate2}
+  		<if test=" enrolldate1 !=''">
+  			and (joindate between #{enrolldate1} and 
+  			<if test="enrolldate2 != '' ">
+  				#{enrolldate2})
   			</if>
-  			<if test="!(enddate2 != null and enddate2 !='')">
-  				sysdate
+  			<if test="enrolldate2 == '' ">
+  				sysdate)
   			</if>
   		</if>
   	</select> 
@@ -56,7 +56,7 @@
   	</select>
   	
   	<select id="choiceMemberDelete" resultType="map" parameterType="list">
-  		select a.* 
+  		<!-- select a.* 
 		from (
 		
 		select t.username, t.userid, c.com_name, b.regular_break, b.reward_break
@@ -78,9 +78,17 @@
   			</if>
   		</if>
  		
+ 		 )a -->
+ 		 
+ 		 select a.*
+ 		 from (
+ 		 	select * from tbl_user u left join tbl_com c on(u.com_no=c.com_no)
+ 		 	where userid in
+ 		 <foreach item="slist" index="index" collection="selectedUserList" open="(" separator="," close=")">
+			#{slist}
+		</foreach> 
  		 )a
-		
-		
+	
 		where userid not in 
 		<foreach item="clist" index="index" collection="userList" open="(" separator="," close=")">
 			#{clist}
@@ -129,6 +137,22 @@
   										#{approvals},#{approval_status},#{enddate}) 
   	</if> -->
   	</insert>
-  	
-  	
+  	<select id="selectBreakRequest" resultType="map">
+  		select *
+		from break_request r left join tbl_user u on (r.userid=u.userid)
+                  			 left join tbl_com c on (u.com_no=c.com_no)
+		where c.com_no= #{comId}
+  	</select>
+  	<select id="selectBreakRequestCnt" resultType="_int">
+  		select count(*)
+		from break_request r left join tbl_user u on (r.userid=u.userid)
+                    		 left join tbl_com c on (u.com_no=c.com_no)
+		where c.com_no= #{comId}
+  	</select>
+  	<select id="selectBreakSetting" resultType="breakSetting">
+  		select * from break_setting where com_no =#{com_no}
+  	</select>
+  	<update id="updateBreakSetting">
+  		update break_setting set createdate = #{createdate}, breakdays = #{breakdays} where com_no = #{com_no}
+  	</update>
 </mapper>

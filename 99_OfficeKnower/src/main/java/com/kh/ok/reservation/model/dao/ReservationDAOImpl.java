@@ -28,7 +28,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 	}
 	
 	@Override
-	public List<Resources> selectResourcesList(String com_no) {
+	public List<Map<String, String>> selectResourcesList(String com_no) {
 		return sqlsession.selectList("reservation.selectResourcesList", com_no);
 	}
 	
@@ -135,5 +135,49 @@ public class ReservationDAOImpl implements ReservationDAO {
 	public int reservationCategoryAdd(HashMap<String, String> map) {
 		return sqlsession.insert("reservation.reservationCategoryAdd", map);
 	}
-	
+
+	@Override
+	public int reservationCategoryUpdate(HashMap<String, String> map) {
+		return sqlsession.update("reservation.reservationCategoryUpdate", map);
+	}
+
+	@Override
+	public int reservationCategoryDelete(HashMap<String, String> map) {
+		sqlsession.delete("reservation.reservationCateReservationDelete", map);
+		sqlsession.delete("reservation.reservationCateResourcesDelete", map);		
+		
+		return sqlsession.delete("reservation.reservationCategoryDelete", map);
+	}
+
+	@Override
+	public int reservationResourcesAdd(Resources resources) {
+		return sqlsession.insert("reservation.reservationResourcesAdd", resources);
+	}
+
+	@Override
+	public int reservationResourcesUpdate(Resources resources) {
+		return sqlsession.update("reservation.reservationResourcesUpdate", resources);
+	}
+
+	@Override
+	public int reservationResourcesDelete(int res_no) {
+		sqlsession.delete("reservation.reservationResReservationDelete", res_no);
+		return sqlsession.delete("reservation.reservationResourcesDelete", res_no);
+	}
+
+	@Override
+	public List<Reservation> reservationListCategory(HashMap<String, String> map) {
+		return sqlsession.selectList("reservation.reservationListCategory", map);
+	}
+
+	@Override
+	public List<Reservation> reservationListCategoryNull(HashMap<String, String> map) {
+		return sqlsession.selectList("reservation.reservationListCategoryNull", map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectReservationDateList(String com_no) {
+		return sqlsession.selectList("reservation.selectReservationDateList", com_no);
+	}
+
 }

@@ -3,6 +3,7 @@ package com.kh.ok.insa.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.insa.model.vo.Position;
 import com.kh.ok.member.model.vo.Member;
 
@@ -59,5 +60,11 @@ public interface InsaDAO {
 	List<Map<String, String>> insaselectAdmin(Member member);
 
 	int insaadminInsert(Member m);
+
+	List<Member> insaNewMemberSearch(Map<String, String> map);
+
+	int insaMemberAddUpdate(Map<String, String> map);
+
+	List<Dept> selectDeptList(String com_no);
 
 }

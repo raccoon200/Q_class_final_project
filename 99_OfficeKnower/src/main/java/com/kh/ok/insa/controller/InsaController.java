@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.breakTime.model.service.BreakService;
 import com.kh.ok.insa.model.service.InsaService;
 import com.kh.ok.insa.model.vo.Position;
@@ -55,7 +56,7 @@ public class InsaController {
 		List<Member> list =  insaService.memberListAll(m.getCom_no());
 		List<String> yearList = insaService.yearListGroup(m.getCom_no());
 		List<String> positionList = insaService.positionListGroup(m.getCom_no());
-		
+		List<Dept> dlist = insaService.selectDeptList(m.getCom_no());
 		//희운 시작
 			HttpSession session = request.getSession(false);
 			String userId = ((Member)request.getSession().getAttribute("memberLoggedIn")).getUserId();
@@ -70,15 +71,16 @@ public class InsaController {
 			if(list.get(i).getPosition() == null)
 				list.get(i).setPosition("미기재");
 		}
-			
-		System.out.println(list);
-		System.out.println(yearList);
-		System.out.println(positionList);
+//		System.out.println(list);
+//		System.out.println(yearList);
+//		System.out.println(positionList);
 		
+		mav.addObject("dlist",dlist);
 		mav.addObject("list",list);
 		mav.addObject("yearList",yearList);
 		mav.addObject("positionList",positionList);
 		mav.setViewName("insa/memberListAll");
+		
 		return mav;
 	}
 	
@@ -161,9 +163,11 @@ public class InsaController {
 		
 		List<Job> jlist = jobService.selectJobList(m.getCom_no());
 		List<Position> plist = insaService.selectPositionList(m.getCom_no());
+		List<Dept> dlist = insaService.selectDeptList(m.getCom_no());
 		
 		mav.addObject("jlist",jlist);
 		mav.addObject("plist",plist);
+		mav.addObject("dlist",dlist);
 		mav.addObject("yearList",yearList);
 		mav.addObject("positionList",positionList);
 		mav.setViewName("insa/insaMemberManagement");
@@ -258,6 +262,33 @@ public class InsaController {
 		return list;
 	}
 	
+	@RequestMapping("/insa/insaNewMemberSearch.do")
+	@ResponseBody
+	public Map<String, Object> insaNewMemberSearch(@RequestParam("searchKey") String searchKey,
+			HttpServletRequest request) throws JsonProcessingException {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("searchKey", searchKey);
+		System.out.println(map.get("searchKey"));
+		boolean searchchk = false;
+		
+		List<Member> list = new ArrayList<Member>();
+		
+		list = insaService.insaNewMemberSearch(map);
+		
+		for(int i =0; i< list.size(); i++) {
+			if((list.get(i).getUserId()).equals(searchKey)) {
+				searchchk = true;
+				break;
+			}
+		}
+		
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("list", list);
+		m.put("searchchk", searchchk);
+		
+		return m;
+	}
+	
 	@RequestMapping("/insa/memberSelectManagement.do")
 	public ModelAndView memberSelectManagement(@RequestParam("userId") String userId) {
 		ModelAndView mav = new ModelAndView();
@@ -265,11 +296,12 @@ public class InsaController {
 		Member member = insaService.memberSelectManagement(userId);
 		List<Job> jlist = jobService.selectJobList(member.getCom_no());
 		List<Position> plist = insaService.selectPositionList(member.getCom_no());
+		List<Dept> dlist = insaService.selectDeptList(member.getCom_no());
 		
 		mav.addObject("member",member);
 		mav.addObject("jlist",jlist);
 		mav.addObject("plist",plist);
-		
+		mav.addObject("dlist",dlist);
 		mav.setViewName("insa/insaMemberOneManagement");
 		
 		return mav;
@@ -344,7 +376,7 @@ public class InsaController {
 	@RequestMapping("/insa/insaMemberOneUpdate.do")
 	public String insaMemberOneUpdate(Member member) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("실행하니?");
+
 		int result = insaService.insaMemberOneUpdate(member);
 		
 		return "redirect:/insa/memberSelectManagement.do?userId="+member.getUserId();
@@ -596,19 +628,16 @@ public class InsaController {
 	}
 	
 	@RequestMapping("/insa/adminInsertEnd.do")
-	public ModelAndView insertAdmin(@RequestParam String userId) {
+	public ModelAndView insertAdmin(@RequestParam String userId,
+			@RequestParam(value="grade", required=false, defaultValue="")String grade) {
 		ModelAndView mav = new ModelAndView();
 		
 		Member m = insaService.memberSelectManagement(userId);
 		
-		if(m.getGrade() == null || m.getGrade() == "") {
 			m.setGrade("인사관리자");
-		}else {
-			m.setGrade(",인사관리자");
-		}
-		
+//		System.out.println("grade="+grade);
+//		System.out.println("userId="+userId);
 		int result = insaService.insaadminInsert(m);
-		
 		
 		String loc = "/";
 		String msg = "";
@@ -617,10 +646,125 @@ public class InsaController {
 			msg = "인사 관리자 추가 성공";
 			loc = "/insa/insaManagement.do";
 		} else
-			msg = "게시판 관리자 추가 실패";
+			msg = "인사 관리자 삭제 실패";
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);
 		mav.setViewName("common/msg");
 		return mav;
 	}
+	@RequestMapping("/insa/adminDeleteEnd.do")
+	public ModelAndView adminDeleteEnd(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = insaService.memberSelectManagement(userId);
+		System.out.println("실행하니?");
+		m.setGrade("");
+		int result = insaService.insaadminInsert(m);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if (result > 0) {
+			msg = "인사 관리자 삭제 성공";
+			loc = "/insa/insaManagement.do";
+		} else
+			msg = "인사 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+//	슈퍼관리자
+	@RequestMapping("/insa/insaSuperManagement.do")
+	public ModelAndView insaSuperManagement(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		// 업무로직
+		List<Member> list =  insaService.memberListAll(m.getCom_no());
+		
+		mav.addObject("list",list);
+		
+		mav.setViewName("insa/insaSuperManagement");
+		return mav;
+	}
+	@RequestMapping("/insa/adminSuperInsertEnd.do")
+	public ModelAndView adminSuperInsertEnd(@RequestParam String userId,
+			@RequestParam(value="grade", required=false, defaultValue="")String grade) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = insaService.memberSelectManagement(userId);
+		
+			m.setGrade("슈퍼관리자");
+//		System.out.println("grade="+grade);
+//		System.out.println("userId="+userId);
+		int result = insaService.insaadminInsert(m);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if (result > 0) {
+			msg = "슈퍼 관리자 추가 성공";
+			loc = "/insa/insaSuperManagement.do";
+		} else
+			msg = "슈퍼 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("/insa/adminSuperDeleteEnd.do")
+	public ModelAndView adminSuperDeleteEnd(@RequestParam String userId) {
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = insaService.memberSelectManagement(userId);
+		
+		m.setGrade("1");
+		int result = insaService.insaadminInsert(m);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if (result > 0) {
+			msg = "슈퍼 관리자 삭제 성공";
+			loc = "/insa/insaSuperManagement.do";
+		} else
+			msg = "슈퍼 관리자 삭제 실패";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	/*@RequestMapping("/insa/newMemberAdminAdd.do")
+	public ModelAndView newMemberAdminAdd(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/insa/newMemberAdminAdd");
+		return mav;
+	}*/
+	
+	@RequestMapping("/insa/newMemberAdminAddModal.do")
+	public String newMemberAdminAddModal(
+			@RequestParam(value="searchKey", required=false, defaultValue="") String searchKey,
+			HttpServletRequest request) {
+		
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("com_no", m.getCom_no());
+		map.put("userId", searchKey);
+		
+		int result = insaService.insaMemberAddUpdate(map);
+		
+		return "redirect:/insa/memberManagement.do";
+	}
+//	조직관리
+	@RequestMapping("/insa/deptManagement.do")
+	public ModelAndView deptManagement(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/insa/deptAdminAdd");
+		return mav;
+	}
+	
 }

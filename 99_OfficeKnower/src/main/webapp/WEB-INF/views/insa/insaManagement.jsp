@@ -82,7 +82,7 @@ function fn_admin_add() {
 	$(document).on('click', '.memberList', function(){
 		var userId= $(this).attr("id");
 		var userName = $(this).attr("value");
-		var bool = confirm("["+userName+"] 회원을 게시판 관리자로 추가시키겠습니까?");
+		var bool = confirm("["+userName+"] 회원을 인사 관리자로 추가시키겠습니까?");
 		var bool2 = true;
 		if(bool == true){
 			<c:forEach var="v" items="${boardAdminList }">
@@ -131,7 +131,7 @@ function fn_admin_add() {
 							<span id="delete-impossible">삭제불가</span>
 						</c:if> 
 						<c:if test="${v.getGrade() ne '슈퍼관리자' }">
-						 	<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/board/admin/boardAdminDelete.do?userId=${v.getUserId() }&grade=${v.getGrade()}'">삭제</span>
+						 	<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/insa/adminDeleteEnd.do?userId=${v.getUserId() }'">삭제</span>
 						</c:if></td>
 				</c:if>
 			</tr>

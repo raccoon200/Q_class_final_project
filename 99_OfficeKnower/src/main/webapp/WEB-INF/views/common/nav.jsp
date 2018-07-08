@@ -106,7 +106,7 @@
 								<a href="${pageContext.request.contextPath }/office/approval/code.do">코드 관리</a><br />
 							</li>
 							<li>
-								<a href="#">데이터 조회</a><br />
+								<a href="${pageContext.request.contextPath }/approval/admin/approvalDataList">데이터 조회</a><br />
 							</li>
 						</ul>
 					</li>
@@ -203,9 +203,16 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="title">남은 휴가</span> <span
 					class="num" id="left_vation_num"> <!-- 10 -->  
 					
+					
 					<c:forEach var="item" items="${personBreak}">
+						<c:if test="${not empty personBreak}">
 						 ${item.REWARD_BREAK + item.REGULAR_BREAK}
+						</c:if>
 					</c:forEach>
+					<c:if test="${empty personBreak}">
+					0
+					</c:if>
+					
 				</span>일
 			</p>
 		</div>
@@ -235,16 +242,16 @@
 						</li>
 					</ul>
 				</li>
-				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "인사관리관리자"}'>
+				<c:if test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "인사관리자"}'>
 					<br />
 					<li><a href="javascript:void(0)" class="depth1"> <img
 							src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
 							alt="폴더" class="fold" /> 인사관리
 					</a> <br />
 						<ul class="depth2 hide">
-							<li>
-								<a href="#">조직 관리</a><br />
-							</li>
+							<%-- <li>
+								<a href="${pageContext.request.contextPath}/insa/deptManagement.do">조직 관리</a><br />
+							</li> --%>
 							<li>
 								<a href="${pageContext.request.contextPath}/insa/memberManagement.do">사용자 관리</a><br />
 							</li>
@@ -253,6 +260,9 @@
 							</li>							
 							<li>
 								<a href="${pageContext.request.contextPath }/insa/insaManagement.do">인사관리자</a><br />
+							</li>
+							<li>
+								<a href="${pageContext.request.contextPath }/insa/insaSuperManagement.do">슈퍼관리자</a><br />
 							</li>
 						</ul>
 					</li>
@@ -265,7 +275,7 @@
 						<br />
 						<ul class="depth2 hide">
 							<li>
-								<a href="#">기본설정</a><br />
+								<a href="${pageContext.request.contextPath }/break/breakSetting.do">기본설정</a><br />
 							</li>
 							<li>
 								<a href="${pageContext.request.contextPath}/break/breakCreate.do">휴가 생성</a><br />
@@ -288,11 +298,11 @@
 		</div>
 		<div class="menufield">
 			<ul class="menu_list">
-				<li><a href="#">개인 주소록&nbsp;<span
+				<%-- <li><a href="${pageContext.request.contextPath}/address/addr_personal">개인 주소록&nbsp;<span
+						class="badge badge-secondary">2</span></a><br /></li> --%>
+				<li><a href="${pageContext.request.contextPath}/address/addressView.do">공유 주소록&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="#">공유 주소록&nbsp;<span
-						class="badge badge-secondary">2</span></a><br /></li>
-				<li><a href="#">휴지통&nbsp;<span
+				<li><a href="${pageContext.request.contextPath}/address/addressTrashList">휴지통&nbsp;<span
 						class="badge badge-secondary">2</span></a><br /></li>
 				<li><a href="javascript:void(0)" class="depth1"> <img
 						src="${pageContext.request.contextPath }/resources/images/common/folder_icon.png"
@@ -314,8 +324,9 @@
 			<ul class="menu_list">
 				<li><a href="${pageContext.request.contextPath}/reservation/reservationListPage">나의 예약 목록</a><br /></li>
 				<!-- 여기 반복문 돌리시길........................... -->
-				<li><a href="#">회의실</a><br /></li>
-				<li><a href="#">여기 반복문</a><br /></li>
+				<c:forEach var="category" items="${category}">
+				<li><a href="${pageContext.request.contextPath}/reservation/reservationListCategory?category=${category.CATEGORY}">${category.CATEGORY}</a><br /></li>
+				</c:forEach>
 				<!---------------------------------------------->
 				<c:if
 					test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "예약관리자"}'>
@@ -328,7 +339,7 @@
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationApprovalManagement">승인 관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationReturnManagement">반납 관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath}/reservation/reservationCategoryManagement">카테고리 관리</a><br /></li>
-							<li><a href="#">자원관리</a><br /></li>
+							<li><a href="${pageContext.request.contextPath}/reservation/reservationResourcesManagement">자원관리</a><br /></li>
 							<li><a href="${pageContext.request.contextPath }/reservation/admin/reservationAdminInsert.do">예약 관리자</a><br /></li>
 						</ul></li>
 				</c:if>

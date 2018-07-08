@@ -12,7 +12,7 @@ public interface ReservationDAO {
 
 	List<Reservation> reservationListPage(String userId);
 
-	List<Resources> selectResourcesList(String com_no);
+	List<Map<String, String>> selectResourcesList(String com_no);
 
 	List<Map<String, String>> selectCategory(String com_no);
 
@@ -55,5 +55,21 @@ public interface ReservationDAO {
 	List<Map<String, String>> reservationCategoryListCnt(String com_no);
 
 	int reservationCategoryAdd(HashMap<String, String> map);
+
+	int reservationCategoryUpdate(HashMap<String, String> map);
+
+	int reservationCategoryDelete(HashMap<String, String> map);
+
+	int reservationResourcesAdd(Resources resources);
+
+	int reservationResourcesUpdate(Resources resources);
+
+	int reservationResourcesDelete(int res_no);
+
+	List<Reservation> reservationListCategory(HashMap<String, String> map);
+
+	List<Reservation> reservationListCategoryNull(HashMap<String, String> map);
+
+	List<Map<String, String>> selectReservationDateList(String com_no);
 
 }

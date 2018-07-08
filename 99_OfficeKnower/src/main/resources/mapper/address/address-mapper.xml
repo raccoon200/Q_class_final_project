@@ -21,10 +21,24 @@
 			   
 	</insert>
 	 -->
-	  <select id="addressView" parameterType="string"  resultType="com.kh.ok.address.model.vo.Address">
-		    SELECT * FROM tbl_address
+	  <select id="addressView"  resultType="com.kh.ok.address.model.vo.Address">
+		    SELECT * FROM tbl_address where status = 'Y'
 	   </select> 
 	   
+<!-- 	    <select id="addressTrash"  resultType="com.kh.ok.address.model.vo.Address">
+		    FROM tbl_address
+	   </select>  -->
+	   
+  		 <update id="addressTrash">
+  		 update tbl_address set status = 'N' where address_no = #{addId}
+		</update>
+	
+		 <select id="addressTrashList"  resultType="com.kh.ok.address.model.vo.Address">
+		    SELECT * FROM tbl_address where status = 'N'
+	    </select> 
+ 	
+
+
 	   <insert id="InsertAddress">
 	   		insert into tbl_address
 	   		values(SEQ_TBL_ADDRESS.nextval,#{userId},#{comId},#{name},#{email},#{phone},#{tag},#{company},#{address},#{anniversary},#{memo},'Y')

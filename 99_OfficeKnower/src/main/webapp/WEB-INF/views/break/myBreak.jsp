@@ -27,7 +27,32 @@ th{
 	font-size: 18px;
 	font-weight: bold;
 }
+#request{
+	position: relative;
+}
+#BreakView{
+	position: absolute;
+	top: -150px;
+	left : 350px;
+	width: 60%;
+	height: 700px;
+	background: white;
+	z-index: 1;
+	border-radius: 5px;
+	border: 1px solid;
+	padding: 15px;
+}
+#close3{
+	width: 30px;
+	float: right;
+	cursor: pointer;
+}
 </style>
+<script>
+$(function(){
+	$("#BreakView").hide();
+});
+</script>
 <div>
 	<p id="pFont">휴가 현황</p>
 </div>
@@ -36,16 +61,29 @@ th{
 <br /><br />
 
 <div>
+<%
+	String paramCPage = request.getParameter("cPage");
+%>
+		<!-- 페이지바 처리 -->
+<% 
+int pageNum = Integer.parseInt(String.valueOf(request.getAttribute("pageNum")));
+int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));	
+int cPage=1;
+try{
+	cPage = Integer.parseInt(request.getParameter("cPage"));
+}catch(NumberFormatException e) {
 	
+}
+%>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
 	  <li class="nav-item">
-	    <a class="nav-link active" id="myBreak-tab" data-toggle="tab" href="#myBreak" role="tab" aria-controls="myBreak" aria-selected="true">내 휴가</a>
+	    <a class="nav-link <%=paramCPage == null?"active":"" %>" id="myBreak-tab" data-toggle="tab" href="#myBreak" role="tab" aria-controls="myBreak" aria-selected="true">내 휴가</a>
 	  </li>
 	  <li class="nav-item">
 	    <a class="nav-link" id="cal-tab" data-toggle="tab" role="tab" href="#Bcalendar" aria-controls="Bcalendar" aria-selected="false">휴가 캘린더</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" id="request-tab" data-toggle="tab" href="#request" role="tab" aria-controls="request" aria-selected="false">Contact</a>
+	    <a class="nav-link <%=paramCPage != null?"active":"" %>" id="request-tab" data-toggle="tab" href="#request" role="tab" aria-controls="request" aria-selected="false">휴가 신청 관리</a>
 	  </li>
 </ul>
 
@@ -57,7 +95,7 @@ th{
 <!-- div모음 -->
 <div class="tab-content" id="myTabContent">
 <!-- 내 휴가 -->
-<div class="tab-pane fade show active" id="myBreak" role="tabpanel" aria-labelledby="myBreak-tab">
+<div class="tab-pane fade <%=paramCPage == null?"show active":"" %>" id="myBreak" role="tabpanel" aria-labelledby="myBreak-tab">
 	
 		<c:if test="${not empty myBreak}">
 		  <c:forEach var="bre" items="${myBreak}">
@@ -124,14 +162,149 @@ th{
 
 <!-- 휴가 신청 관리 -->
 
- <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="request-tab">
+ <div class="tab-pane fade <%=paramCPage != null?"show active":"" %>" id="request" role="tabpanel" aria-labelledby="request-tab">
  
- 	휴가 신청 관리 div
- </div>
+ 	<span style='font-size:18px;'>총 &nbsp;<%=pageNum %> &nbsp;명</span>
+ 	<br /><br />
+ 	<table class="table table-bordered">
+		  <thead>
+		    <tr style="background:#F6F6F6;text-align:center;">
+		      <th scope="col">신청자</th>
+		      <th scope="col">소속</th>
+		      <th scope="col">종류</th>
+		      <th scope="col">일수</th>
+		      <th scope="col">기간</th>
+		      <th scope="col">상태</th>
+		      <th scope="col">상세</th>
+		      <th scope="col">휴가신청취소</th>
+		    </tr>
+
+		    </thead>
+		  <tbody>
+		  
+		  <c:if test="${not empty BreakRequest}">
+		  <c:forEach var="bre" items="${BreakRequest}">
+			  <tr style='text-align:center;'>
+			     <td>${bre.USERNAME}</td>
+			     <td>${bre.COM_NAME}</td>
+			     <td>${bre.KIND}</td>
+			     <td>${bre.BREAKDAYS}</td>
+			     <td>${bre.STARTDATE} ~ ${bre.ENDDATE} </td>
+			     
+			     
+			     <c:if test="${bre.APPROVAL_STATUS eq 0}">
+			    	 <th>결재 완료</th>
+			     </c:if>
+			     <c:if test="${bre.APPROVAL_STATUS ne 0}">
+			    	 <th>결재 중</th>
+			     </c:if>
+			     <th><span onclick="fn_BreakView('${bre.BREAK_REQUEST_NO}');">상세</span></th>
+			     <th><span>휴가신청취소</span></th>
+			  </tr>
+			</c:forEach>
+		   </c:if>
+		  </tbody>
+		</table>
+		
+		<!-- 페이지바 -->
+		<%=com.kh.ok.board.common.util.Util2s.getPageBar(pageNum, cPage, numPerPage, "myBreak")%>
+		
+		<!-- 휴가 상세보기  div-->
+		<div id="BreakView">
+			<div style="font-size:30px;" id="close3">X</div>
+			<p>휴가 신청 상세</p>
+			
+			
+		<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col" style="width:300px; background:#F6F6F6; text-align:center;">이름</th>
+			      <td><span id="nameInfo"></span></td>
+			      <td style="width:150px; background:#F6F6F6; text-align:center;" >상태</td>
+			      <td><span id="status"></span></td>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <th scope="row" style="background:#F6F6F6;text-align:center;">소속</th>
+			      <td colspan="3"><span id="com_nameInfo"></span></td>
+		   		 </tr>
+		   		 <tr>
+		   			 <th scope="row" style="background:#F6F6F6;text-align:center;">종류</th>
+		   		 	 <td><span id="kindInfo"></span></td>
+		   		 	 <th scope="row" style="background:#F6F6F6;text-align:center;">휴가 일수</th>
+		   		 	 <td><span id="dayInfo"></span></td>
+		   		 </tr>
+		   		 <tr>
+		   		 	<th scope="row" style="background:#F6F6F6;text-align:center;">기간</th>
+		   		 	<td colspan="3"><span id="dateInfo"></span></td>
+		   		 </tr>
+		   		 <tr>
+		   		 	<th scope="row" style="background:#F6F6F6;text-align:center;">사유</th>
+		   		 	<td colspan="3"><span id="reasonInfo"></span></td>
+		   		 </tr>
+		     </tbody>
+		</table>
+			
+			
+			
+			
+			
+		</div><!-- 휴가 상세보기 div end-->
+		
+		
+ </div> <!-- 휴가 신청 관리 div끝 -->
+
 
 </div> <!-- div 모음 끝 -->
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
+<script>
+function fn_BreakView(breakid){
+	alert("상세보기 " +breakid);
+	
+	<c:if test="${not empty BreakRequest}">
+	
+	
+	  <c:forEach var="bre" items="${BreakRequest}">
+		  if("${bre.BREAK_REQUEST_NO}"==breakid){
+			 
+		     $("#nameInfo").html("${bre.USERNAME}");
+			  
+		  
+			 <c:if test="${bre.APPROVAL_STATUS eq 0}">
+		 	 	$("#status").html("결재완료");
+		 	 </c:if>
+		  	 <c:if test="${bre.APPROVAL_STATUS ne 0}">
+		  		$("#status").html("결재중");
+		  	 </c:if>
+		  	 $("#com_nameInfo").html("${bre.COM_NAME}");
+		  	 $("#kindInfo").html("${bre.KIND}");
+		  	 $("#dayInfo").html("${bre.BREAKDAYS}");
+		  	 $("#dateInfo").html("${bre.STARTDATE} ~ ${bre.ENDDATE}");
+		  	 $("#reasonInfo").html("${bre.REASON}");
+	  	 
+		  }else{
+			  
+		  }
+	  
+	  </c:forEach>
+   </c:if>
+	
+	$("#BreakView").show();
+	
+	
+}
+$("#close3").click(function() {
+
+	$("#BreakView").hide();
+
+});
+</script>
+
+
+
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
 
 

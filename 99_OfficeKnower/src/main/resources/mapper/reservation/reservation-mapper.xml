@@ -7,7 +7,7 @@
 	<select id="reservationListPageN" resultType="reservation">
 		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where writer = #{userId} and approval_status is null
 	</select>
-	<select id="selectResourcesList" resultType="resources">
+	<select id="selectResourcesList" resultType="map">
 		select * from tbl_resources where com_no = #{com_no}
 	</select>
 	<select id="selectCategory" resultType="map">
@@ -65,11 +65,11 @@
 	</update>
 	
 	<select id="selectReturnListN" resultType="reservation">
-		select * from reservation where quit_status = 'N'
+		select r.*, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where quit_status = 'N'
 	</select>
 	
 	<select id="selectReturnListY" resultType="reservation">
-		select * from reservation where quit_status = 'Y'
+		select r.*, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where quit_status = 'Y'
 	</select>
 	
 	<update id="reservationQuitStatusSetYes"> 
@@ -83,4 +83,49 @@
 	<insert id="reservationCategoryAdd">
 		insert into tbl_category values (#{com_no}, #{category}, #{category_purpose})
 	</insert>
+	
+	<update id="reservationCategoryUpdate">
+		update tbl_category set category = #{category}, category_purpose = #{category_purpose} where category = #{category_origin} 
+	</update>
+	
+	<delete id="reservationCategoryDelete">
+		delete from tbl_category where com_no = #{com_no} and category = #{category} 
+	</delete> 
+	
+	<delete id="reservationCateResourcesDelete">
+		delete from tbl_resources where com_no = #{com_no} and category = #{category}
+	</delete>
+	
+	<delete id="reservationCateReservationDelete">
+		delete from reservation where com_no = #{com_no} and category = #{category}
+	</delete>
+	
+	<insert id="reservationResourcesAdd">
+		insert into tbl_resources values (SEQ_RES_NO.nextval, #{resource__name}, #{category}, #{com_no})
+	</insert>
+	
+	<update id="reservationResourcesUpdate">
+		update tbl_resources set resource__name = #{resource__name}, category = #{category} where res_no = #{res_no}
+	</update>
+	
+	<delete id="reservationResReservationDelete">
+		delete from reservation where res_no = #{res_no}
+	</delete>
+	
+	<delete id="reservationResourcesDelete">
+		delete from tbl_resources where res_no = #{res_no}
+	</delete>
+	
+	<select id="reservationListCategory" resultType="reservation">
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where writer = #{userId} and approval_status = 'Y' and quit_status is null and category = #{category}
+	</select>
+	
+	<select id="reservationListCategoryNull" resultType="reservation">
+		select reservation_no, writer, category, res_no, to_char(startdate, 'YYYY-MM-DD HH24:MI') startdate, to_char(quitdate, 'YYYY-MM-DD HH24:MI') quitdate, purpose, quit_status, photo, approval_status, com_no, (select resource__name from tbl_resources where res_no = r.res_no) res_name from reservation r where writer = #{userId} and approval_status is null and quit_status is null and category = #{category}
+	</select>
+	
+	<select id="selectReservationDateList" resultType="map">
+		select to_char(startdate, 'yyyy-mm-dd') startDate, to_char(startdate, 'HH24:MI') startTime, to_char(quitdate, 'yyyy-mm-dd') quitdate, to_char(quitdate, 'HH24:MI') quittime from reservation where com_no = #{com_no}	
+	</select>
+	
 </mapper>

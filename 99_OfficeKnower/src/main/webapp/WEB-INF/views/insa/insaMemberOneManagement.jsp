@@ -196,14 +196,27 @@ $(function(){
 			<tr>
 				<th>입사일</th>
 				<td>
-					<input type="date" class="form-control" id="joinDate" name="joinDate" value="${member.joinDate }" >
+					<input type="date" class="form-control" id="joinDate" name="joinDate" value="${member.joinDate }" required >
 				</td>
 			</tr>
 			<tr>
 				<th>소속</th>
 				<td>
-					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" >
+					<input type="text" class="form-control" id="com_name" name="com_name" value="${member.com_name}" readonly>
 					<input type="hidden" class="form-control" id="com_no" name="com_no" value="${member.com_no}" >
+				</td>
+			</tr>
+			<tr>
+				<th>부서</th>
+				<td>
+					<select name="dept" id="dept" class="custom-select" style="width: 250px;">
+						<c:if test="${empty member.dept}">
+							<option value="" ${empty member.dept ?"selected":""}>미기재</option>						
+						</c:if>
+						<c:forEach var="d" items="${dlist}">
+							<option value="${d.dept}" ${d.dept eq member.dept?"selected":""}>${d.dept}</option>
+						</c:forEach>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -258,7 +271,7 @@ $(function(){
 			<tr>
 				<th>생년월일</th>
 				<td>
-					<input type="date" class="form-control" id="birthday" name="birthday" value="${member.birthday }" >
+					<input type="date" class="form-control" id="birthday" name="birthday" value="${member.birthday }" required>
 				</td>
 			</tr>
 			<tr>

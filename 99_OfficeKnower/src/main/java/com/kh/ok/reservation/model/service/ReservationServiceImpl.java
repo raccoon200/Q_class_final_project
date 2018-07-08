@@ -1,6 +1,7 @@
 package com.kh.ok.reservation.model.service;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<Resources> selectResources(String com_no) {
+	public List<Map<String, String>> selectResources(String com_no) {
 		return reservationDAO.selectResourcesList(com_no);
 	}
 
@@ -129,6 +130,46 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public int reservationCategoryAdd(HashMap<String, String> map) {
 		return reservationDAO.reservationCategoryAdd(map);
+	}
+
+	@Override
+	public int reservationCategoryUpdate(HashMap<String, String> map) {
+		return reservationDAO.reservationCategoryUpdate(map);
+	}
+
+	@Override
+	public int reservationCategoryDelete(HashMap<String, String> map) {
+		return reservationDAO.reservationCategoryDelete(map);
+	}
+
+	@Override
+	public int reservationResourcesAdd(Resources resources) {
+		return reservationDAO.reservationResourcesAdd(resources);
+	}
+
+	@Override
+	public int reservationResourcesUpdate(Resources resources) {
+		return reservationDAO.reservationResourcesUpdate(resources);
+	}
+
+	@Override
+	public int reservationResourcesDelete(int res_no) {
+		return reservationDAO.reservationResourcesDelete(res_no);
+	}
+
+	@Override
+	public List<Reservation> reservationListCategory(HashMap<String, String> map) {
+		return reservationDAO.reservationListCategory(map);
+	}
+
+	@Override
+	public List<Reservation> reservationListCategoryNull(HashMap<String, String> map) {
+		return reservationDAO.reservationListCategoryNull(map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectReservationDateList(String com_no) {
+		return reservationDAO.selectReservationDateList(com_no);
 	}
 
 }

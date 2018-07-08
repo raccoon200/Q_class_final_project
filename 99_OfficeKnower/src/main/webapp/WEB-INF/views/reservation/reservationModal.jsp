@@ -1,8 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
 <script>
 $(function() {
 $("#datepicker1").datepicker(
 		{
-			dateFormat : 'yy/mm/dd',
+			dateFormat : 'yy-mm-dd',
 			prevText : '이전 달',
 			nextText : '다음 달',
 			monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
@@ -15,8 +20,14 @@ $("#datepicker1").datepicker(
 			showMonthAfterYear : true,
 			changeMonth : true,
 			changeYear : true,
-			yearSuffix : '년'
+			yearSuffix : '년',
+			minDate : 0,
+			beforeShowDay: noSundays
 		});
+//일요일만 선택 막기  
+function noSundays(date) {  
+ return [date.getDay() != 0, ''];  
+} 
 
 var date = new Date();
 
@@ -43,10 +54,6 @@ function fn_enrollValidate() {
 	return true;
 }
 </script>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <div class="modal fade" id="reservation" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,25 +69,27 @@ function fn_enrollValidate() {
 				<form
 					action="${pageContext.request.contextPath}/reservation/reservationEnroll"
 					method="post"
-					onsubmit="return fn_enrollValidate();")>
+					onsubmit="return fn_enrollValidate();">
 					<div class="modal-body">
 						<table class="table">
 							<tr>
 								<td>자원명</td>
 								<td><select class="selectpicker" name="res_name" id="selectpicker">
-										<c:if test="${!empty resources }">
-											<c:forEach var="a" begin="0" end="${fn:length(resources)}"
-												step="1">
-												<optgroup label="${category[a].CATEGORY}">
+										<%-- <c:if test="${!empty resources }"> --%>
+											<%-- <c:forEach var="a" begin="0" end="${fn:length(resources)}"
+												step="1"> --%>
+												<c:forEach var="category" items="${category}">	
+												<optgroup label="${category.CATEGORY}">
 													<c:forEach items="${resources}" var="resource">
-														<c:if test="${category[a].CATEGORY eq resource.category}">
-															<option value="${resource.category}*${resource.res_no }*${resource.resource__name}">${resource.resource__name}</option>
+														<c:if test="${category.CATEGORY eq resource.CATEGORY}">
+															<option value="${resource.CATEGORY}*${resource.RES_NO}*${resource.RESOURCE__NAME}">${resource.RESOURCE__NAME}</option>
 														</c:if>
+														
 														<br />
 													</c:forEach>
 											</c:forEach>
 											</optgroup>
-										</c:if>
+										<%-- </c:if> --%>
 								</select></td>
 							</tr>
 							<tr>

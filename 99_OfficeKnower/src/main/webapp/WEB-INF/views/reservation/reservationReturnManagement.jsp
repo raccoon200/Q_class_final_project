@@ -31,7 +31,7 @@
 		<tr>
 			<th scope="col">요청자</th>
 			<th scope="col">카테고리</th>
-			<th scope="col">자원 이름</th>
+			<th scope="col">자원명<th>
 			<th scope="col">예약 날짜</th>
 			<th scope="col">설정</th>
 		</tr>
@@ -41,8 +41,8 @@
 			<c:if test='${!empty returnListN}'>
 				<tr>
 					<td>${returnListN.writer}</td>
-					<td>${returnListN.category }</td>
-					<td>${returnListN.res_name }</td>
+					<td>${returnListN.category}</td>
+					<td>${returnListN.res_name}</td>
 					<td>${returnListN.startdate}~ ${returnListN.quitdate}</td>
 					<td>
 					<button type="button" class="btn btn-light" value="${returnListN.reservation_no}" onclick="fn_reservationReturnClick(this.value)">반납 확인</button>
@@ -111,7 +111,7 @@
 					<input type="hidden" name="reservation_no" id="reservation_no"/>
 					<table class="table">
 					<tr>
-					<th>자원 이름</th>
+					<th>자원명</th>
 					<td><label id="res_name"/></td>
 					</tr>
 					<tr>
