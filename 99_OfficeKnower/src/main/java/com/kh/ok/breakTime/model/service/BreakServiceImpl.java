@@ -132,4 +132,9 @@ public class BreakServiceImpl implements BreakService {
 	public int callProc_break_manual(BreakSetting bs) {
 		return breakDao.callProc_break_manual(bs);
 	}
+
+	@Override
+	public List<BreakRequest> selectBreakRequestUserIdList(Map<String, String> map) {
+		return breakDao.selectBreakRequestUserIdList(map);
+	}
 }
