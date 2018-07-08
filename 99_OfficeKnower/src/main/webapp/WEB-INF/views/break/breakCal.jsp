@@ -113,6 +113,8 @@
         		
         		<c:if test="${not empty breaklist}">
       		  	<c:forEach var="bre" items="${breaklist}">
+      		  	
+		  	   if("${bre.BREAK_REQUEST_NO}" == event.id){
         		
 	        		html += " <tr>";
 	        		html += " <th scope='row'>1</th>";
@@ -121,6 +123,7 @@
 	        	    html += " <td>${bre.KIND}</td>";
 	  				html += "</tr>";
   				
+		  	   }	
   				</c:forEach>
        		   </c:if>
   				
