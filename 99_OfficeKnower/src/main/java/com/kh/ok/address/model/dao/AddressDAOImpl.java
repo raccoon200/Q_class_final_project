@@ -57,6 +57,11 @@ public class AddressDAOImpl implements AddressDAO {
 
 	}
 
+	@Override
+	public List<Address> addressSearch(Map<String, String> map) {
+		return sqlSession.selectList("address.addressSearch", map);
+	}
+
 	
 
 	

@@ -70,5 +70,7 @@
 			</if>
 			where address_no = #{address_no} and com_no = #{com_No}
 		</update>
-	 
+	 	<select id="addressSearch" resultType="address">
+	 		select * from tbl_address where name like '%'||#{name}||'%' and com_no = #{com_no}
+	 	</select>
 </mapper>

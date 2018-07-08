@@ -265,8 +265,23 @@ public class AddressController {
 		
 		return mav;
 	}
-	
-	
+
+	@RequestMapping("/address/addressSearch")
+	public ModelAndView addressSearch(HttpServletRequest request){
+		String name = request.getParameter("name");
+		String com_no = request.getParameter("com_no");
+		Map<String,String> map = new HashMap<String,String>();
+		ModelAndView mav = new ModelAndView();
+		map.put("name", name);
+		map.put("com_no",com_no);
+		List<Address> list = addressService.addressSearch(map);
+  
+		mav.addObject("name", name);
+		mav.addObject("address", list);
+		mav.setViewName("address/addressSearch");
+      
+		return mav;
+	}
 }
 
 

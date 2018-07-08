@@ -25,6 +25,8 @@ public interface AddressDAO {
 
 	int addressReset(String addId);
 
+	List<Address> addressSearch(Map<String, String> map);
+
 
 	
 

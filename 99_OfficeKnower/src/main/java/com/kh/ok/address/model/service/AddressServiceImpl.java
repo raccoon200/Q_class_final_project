@@ -58,6 +58,11 @@ public class AddressServiceImpl implements AddressService {
 		return addressDAO.addressReset(addId);
 	}
 
+	@Override
+	public List<Address> addressSearch(Map<String, String> map) {
+		return addressDAO.addressSearch(map);
+	}
+
 
 
 
