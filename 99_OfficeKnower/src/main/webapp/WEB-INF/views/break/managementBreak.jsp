@@ -501,17 +501,17 @@ try{
 	<br />
   	<p>※ 사용 내역에서는 결재 완료된 휴가를 확인할 수 있습니다.</p>
  	<br />
-  	<div id="breakRequestListDiv" style="overflow-y:auto; height:500px;"></div>
-	
+  	<div id="breakRequestListDiv" style="overflow-y:auto; height:300px;"></div>
+	<br />
   </div> <!-- 사용 내역 div end -->
   
   <!-- 휴가 취소 div -->
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab" >
   	<br />
   	<p>※ 최소된 휴가를 확인할 수 있습니다.</p>
-  	<div id="breakRequestDeleteListDiv" style="overflow-y:auto; height:500px;"></div>
- 	<br />
-  s
+  	<div id="breakRequestDeleteListDiv" style="overflow-y:auto; height:300px;"></div>
+ 	<br /><br /><br />
+  
 </div>
 
 

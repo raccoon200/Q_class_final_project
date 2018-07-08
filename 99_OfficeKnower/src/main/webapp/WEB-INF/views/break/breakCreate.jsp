@@ -49,6 +49,7 @@
 
 $( document ).ready(function() {
 	$("#divInnerBox").hide();
+	$("option[value=${bs.createdate}]").attr("selected","selected");
 }); 
 
 function fn_createReward(userid,regular,reward, index){
