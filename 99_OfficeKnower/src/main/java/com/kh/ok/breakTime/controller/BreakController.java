@@ -312,25 +312,28 @@ public class BreakController {
 		
 		int cnt =0;
 		for(int i=username.length-1; i>=0; i--) {
-			cnt++;
+			//cnt++;
 			System.out.println("결재자 이름 이다!!!!!!!!!!!!"+i +username[i]);
 		
-			
-			
 			if(i==0) {
+				cnt++;
 				approvals += username[0];
 			}else {
 				if(username[i].equals("")) {
 //					approvals += username[0];
 				}else {
+					cnt++;
 					approvals += username[i] + ",";
 				}
 			}
 			System.out.println("i는 뭐지??" + i);
 		}
+		
+		
+		System.out.println("cnt-1=" + (cnt-1));
 		System.out.println("cnt" +cnt);
 		breakrequest.setApprovals(approvals);
-		breakrequest.setApproval_status(cnt);
+		breakrequest.setApproval_status((cnt-1));
 		System.out.println("approvals" + approvals);
 		
 		
@@ -380,12 +383,27 @@ public class BreakController {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return mav;
+	}
 		
+	@RequestMapping("/break/deleteBreak")
+	public ModelAndView deleteBreak(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		String breakid = request.getParameter("breakid");
+		String cPage = request.getParameter("cPage");
+		System.out.println("breakid=" + breakid);
+		System.out.println("cPage=" + cPage);
 		
+		int result = breakService.deleteBreak(breakid);
+		
+		mav.addObject("cPage",cPage);
+		mav.setViewName("redirect:/break/myBreak");
 		
 		
 		return mav;
 	}
+
 		
 	@RequestMapping("/break/breakSetting.do")
 	public ModelAndView breakSetting(HttpServletRequest request) {
@@ -437,5 +455,106 @@ public class BreakController {
 		mav.addObject("msg", "정기휴가가 생성되었습니다.");
 		mav.setViewName("common/msg");
 		return mav;
+	}
+	@RequestMapping("/break/breakManagement.do")
+	public ModelAndView breakManagement(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+	
+		HttpSession session = request.getSession(false);
+
+		String comId = null;
+		if(session != null && session.getAttribute("memberLoggedIn") != null) {
+			 comId = ((Member)session.getAttribute("memberLoggedIn")).getCom_no();
+		}
+		
+		
+		int numPerPage = 5;
+		
+		List<Map<String,Object>> allList = breakService.alllBreakList(comId, numPerPage,cPage);
+		
+		System.out.println("allList = " + allList);
+		int pageNum = breakService.allBreakListCnt(comId);
+	
+		System.out.println("모든 사람 휴가" + allList);
+		
+		mav.addObject("allList",allList);
+		mav.addObject("numPerPage",numPerPage);
+		mav.addObject("pageNum",pageNum);
+		mav.addObject("cPage",cPage);
+		
+		
+		mav.setViewName("break/managementBreak");
+		return mav;
+	}
+	
+	@RequestMapping("/break/addressBreakUpdate.do")
+	public ModelAndView addressBreakUpdate(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("들어오냐고");
+		String regular= request.getParameter("regularVal");
+		String beforeRegular = request.getParameter("beforeRegular");
+		String reward= request.getParameter("rewardVal");
+		String beforeReward = request.getParameter("beforeReward");
+		String breakUserid = request.getParameter("breakUserid");
+
+		System.out.println("regular" + regular);
+		System.out.println("reward" + reward);
+		System.out.println("beforeRegular" + beforeRegular);
+		System.out.println("beforeReward" + beforeReward);
+		System.out.println("breakUserid" + breakUserid);
+		
+		if(regular==null || regular=="") {
+			System.out.println("정규휴가 널값 들어왔는데");
+			regular = beforeRegular;
+		}else if(reward==null || reward=="") {
+			System.out.println("포상휴가 널값 들어왔는데");
+			reward = beforeReward;
+		}
+		
+		System.out.println("최종 정규휴가" +regular );
+		System.out.println("최종 포상휴가" +reward );
+		
+		Map<String,String> map = new HashMap<>();
+		map.put("regular", regular);
+		map.put("reward", reward);
+		map.put("breakUserid", breakUserid);
+		
+		int result = breakService.updateBreakInfo(map);
+		System.out.println("result= " + result);
+		
+		mav.setViewName("redirect:/break/breakManagement.do");
+		return mav;
+	}
+	
+	
+	
+	@RequestMapping("/break/searchKindList.do")
+	@ResponseBody
+	public Map<String,Object> searchKindList(HttpServletRequest request) {
+		Map<String,Object> map = new HashMap<>();
+		String userid = request.getParameter("userid");
+		System.out.println("useriddddddd=" + userid);
+		System.out.println("kind userid" + userid);
+		
+		List<Map<String,Object>> kindList = breakService.searchKindList(userid);
+		System.out.println("kindList=" + kindList);
+		
+		map.put("kindList", kindList);
+		
+		return map;
+	}
+	
+	@RequestMapping("/break/personBreakRequestList.do")
+	@ResponseBody
+	public Map<String,Object> personBreakRequestList(HttpServletRequest request){
+		Map<String,Object> map = new HashMap<>();
+		String userid = request.getParameter("userid");
+		
+		List<Map<String,Object>> personBreakRequestList = breakService.personBreakRequestList(userid);
+		System.out.println("personBreakRequestList" + personBreakRequestList);
+		
+		map.put("personBreakRequestList", personBreakRequestList);
+		
+		return map;
 	}
 }

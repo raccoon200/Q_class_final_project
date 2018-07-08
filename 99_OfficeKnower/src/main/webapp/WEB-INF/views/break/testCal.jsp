@@ -145,7 +145,7 @@ function between(start,end){
         	     console.log("endDate.format()" + endDate.format()+"T02:00");
         	     
         	      $("#start").html(startDate.format()+"~");
-        	     //$(".fc-highlight").css("background", "red");
+        	     $(".fc-highlight").css("background", "red");
         		  enddateSolve(endDate.format());
         	     
         	      between(startDate.format(),endDate.format());

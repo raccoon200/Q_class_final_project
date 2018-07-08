@@ -31,7 +31,7 @@
 	color: #6699FF
 }
 #divChoice{
-	width : 500px;
+	width : 25%;
 	height : 500px;
 	background: white;
 	border-radius:5px;
@@ -96,12 +96,27 @@
 	font-size: 20px;
 	font-weight: bolder;
 	color :  #6699FF;
+	cursor: pointer;
+	
 }
-
+#spanChoice{
+	cursor: pointer;
+}
 </style>
 <script>
 $(function(){
 	$("#divChoice").hide();
+	
+	$("[name=upFile]").on("change",function(){
+	    //var fileName = $(this).val();
+	    var fileName = $(this).prop("files")[0].name;
+	    
+	    $(this).next(".custom-file-label").html(fileName);custom-file-label
+	 });
+	
+	
+	
+	
 });
 function fn_showdivChoice(){
 	$("#divChoice").show();
@@ -195,6 +210,8 @@ function len_chk(content){
     }
 	
 }
+
+
 </script>
 
 <div>
@@ -206,9 +223,12 @@ function len_chk(content){
 
 <!-- 기안하기 div -->
 <div>
-	<p onclick="fn_BreakRequestSubmit()" id="breakPull">기안하기</p>
+<!-- 	<p onclick="fn_BreakRequestSubmit()" id="breakPull">기안하기</p> -->
+	<button type="button" class="btn btn-outline-primary" onclick="fn_BreakRequestSubmit()" id="breakPull">기안하기</button>
+	<br /><br />
+	<p>※  휴가 신청 작성을 완료하고 '기안하기' 버튼을 누르면 신청이 완료됩니다.</p>
 </div>
-
+<br />
 <!-- 제일 바깥 div -->
 <div id="requestDiv">
 
@@ -274,7 +294,7 @@ function len_chk(content){
 		      		<option value="포상">포상</option>
 		      		<option value="훈련">훈련</option>
 		      		<option value="교육">교육</option>
-		      		<option value="경로사">경로사</option>
+		      		<option value="경조사">경조사</option>
 		      		<option value="병가">병가</option>
 		      		<option value="출산">출산</option>
 		      	</select>
@@ -291,13 +311,21 @@ function len_chk(content){
 		    	<!-- 파일첨부 div -->
 		    	<div id="fileAdd">
 					<span>별첨</span>
-					<div class="input-group">
-					  <div class="custom-file">
+					
+					  <!-- <div class="custom-file">
 					    <input type="file" class="custom-file-input" id="breakFile" name="upFile">
-					    <label class="custom-file-label" for="breakFile">파일을 선택하세요 </label>
-					  </div>
-					  
-					 </div>
+					    <label class="custom-file-label" for="breakFile"></label>
+					  </div> -->
+					  <div class="input-group mb-3">
+						  <div class="input-group-prepend">
+						    <span class="input-group-text">Upload</span>
+						  </div>
+						  <div class="custom-file">
+						    <input type="file" class="custom-file-input" id="inputGroupFile01" name="upFile">
+						    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+						  </div>
+					   </div>
+			  
 				</div>
 		    	</th>
 		    </tr>

@@ -89,6 +89,10 @@ public class BreakServiceImpl implements BreakService {
 	}
 
 	@Override
+
+	public int deleteBreak(String breakid) {
+		return breakDao.deleteBreak(breakid);
+	}
 	public BreakSetting selectBreakSetting(String com_no) {
 		return breakDao.selectBreakSetting(com_no);
 	}
@@ -96,6 +100,32 @@ public class BreakServiceImpl implements BreakService {
 	@Override
 	public int updateBreakSetting(BreakSetting bs) {
 		return breakDao.updateBreakSetting(bs);
+
+	}
+
+	@Override
+	public List<Map<String, Object>> alllBreakList(String comId, int numPerPage, int cPage) {
+		return breakDao.alllBreakList(comId,numPerPage,cPage);
+	}
+
+	@Override
+	public int allBreakListCnt(String comId) {
+		return breakDao.allBreakListCnt(comId);
+	}
+
+	@Override
+	public int updateBreakInfo(Map<String, String> map) {
+		return breakDao.updateBreakInfo(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchKindList(String userid) {
+		return breakDao.searchKindList(userid);
+	}
+
+	@Override
+	public List<Map<String, Object>> personBreakRequestList(String userid) {
+		return breakDao.personBreakRequestList(userid);
 	}
 
 	@Override
