@@ -200,7 +200,7 @@
 					
 					<c:forEach var="item" items="${personBreak}">
 						<c:if test="${not empty personBreak}">
-						 ${item.REWARD_BREAK + item.REGULAR_BREAK}
+						 ${(item.REWARD_BREAK + item.REGULAR_BREAK)-(item.REGULAR_USED_BREAK+REWARD_USED_BREAK)}
 						</c:if>
 					</c:forEach>
 					<c:if test="${empty personBreak}">

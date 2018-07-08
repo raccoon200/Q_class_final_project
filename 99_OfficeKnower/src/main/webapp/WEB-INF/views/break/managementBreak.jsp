@@ -32,11 +32,11 @@
 	border-radius: 5px;
 	top : 30px;
 	left: 300px;
-	width : 800px;
-	height : 450px;
+	width : 60%;
+	height : 500px;
 	background: white;
 	z-index: 1;
-	padding: 15px;
+	padding: 30px;
 }
 #innerView{
 	position: absolute;
@@ -44,7 +44,7 @@
 	border-radius: 5px;
 	top : 30px;
 	left: 300px;
-	width : 1000px;
+	width : 60%;
 	height : 450px;
 	background: white;
 	z-index: 1;
@@ -317,7 +317,7 @@ function fn_ViewBreak(userid,username){
 <p style="font-size:18px; font-weight:bold;">휴가 현황 조회</p>
 <br />
 <!-- 휴가 현황 조회 table div -->
-<div>
+<div >
 	<table id="Info" class="table table-bordered">
 		  <thead>
 		    <tr style="background:#F6F6F6;">
@@ -327,7 +327,7 @@ function fn_ViewBreak(userid,username){
 		      <th scope="col" colspan="2">생성 내역</th>
 		      <th scope="col" colspan="2">사용현황</th>
 		      <th scope="col" rowspan="2">잔여</th>
-		      <th scope="col" rowspan="2">수정 | 상세</th>
+		      <th scope="col" rowspan="2">수정 &nbsp; |&nbsp; 상세</th>
 		    </tr>
 		  
 		    <tr style="background:#F6F6F6;"> 	  
@@ -357,7 +357,7 @@ function fn_ViewBreak(userid,username){
 			      <td> ${bre.REGULAR_USED_BREAK}일</td>
 			      <td>${bre.REWARD_USED_BREAK}일</td> 
 			      <td>${(bre.REGULAR_BREAK + bre.REWARD_BREAK)-(bre.REGULAR_USED_BREAK+bre.REWARD_USED_BREAK)}일</td> 
-			      <td> <span class="updateViewText" onclick="fn_updateBreakInfo('${bre.USERID}')">수정</span> |
+			      <td> <span class="updateViewText" onclick="fn_updateBreakInfo('${bre.USERID}')">수정</span> &nbsp;|&nbsp;
 			       <span class="updateViewText" onclick="fn_ViewBreak('${bre.USERID}','${bre.USERNAME}')">상세</span></td> 
 			    </tr> 
 			</c:forEach>
@@ -393,6 +393,7 @@ try{
 <p>※ 최대 포상휴가는 99일입니다.</p>
 <br />
 
+<div>
 	<form action="addressBreakUpdate.do" id="BreakUpdateFrm">
 		<table class="table table-bordered">		
 		  <thead>
@@ -432,7 +433,7 @@ try{
 		    </thead>
 		</table>
 	</form>
-
+</div>
 </div>
 <!-- 휴가 수정 div end -->
 
@@ -453,11 +454,13 @@ try{
 </ul>
 
 <!-- 휴가 상세 div -->
-<div class="tab-content" id="myTabContent">
+<div class="tab-content" id="myTabContent" >
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
   <br />
   <p>※ 휴가 상세에서는 결재 완료된 휴가와 결재 대기 중인 휴가가 같이 표시됩니다.</p>
   <br />
+  
+  <div style="overflow-y:auto; height:400px;">
 	<table id="Info" class="table table-bordered">
 		  <thead>
 		    <tr style="background:#F6F6F6;">
@@ -490,7 +493,7 @@ try{
 
 		  </tbody>
 	</table>
-  
+  </div>
   </div><!-- 휴가 상세 div end-->
   
   <!-- 사용 내역 div  -->
@@ -498,18 +501,17 @@ try{
 	<br />
   	<p>※ 사용 내역에서는 결재 완료된 휴가를 확인할 수 있습니다.</p>
  	<br />
-  	<div id="breakRequestListDiv"></div>
-	
+  	<div id="breakRequestListDiv" style="overflow-y:auto; height:300px;"></div>
+	<br />
   </div> <!-- 사용 내역 div end -->
   
   <!-- 휴가 취소 div -->
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab" >
   	<br />
   	<p>※ 최소된 휴가를 확인할 수 있습니다.</p>
-  	<div id="breakRequestDeleteListDiv"></div>
- 	<br />
+  	<div id="breakRequestDeleteListDiv" style="overflow-y:auto; height:300px;"></div>
+ 	<br /><br /><br />
   
-  </div>
 </div>
 
 

@@ -23,7 +23,7 @@
 	position:relative;
 }
 #divInnerBox{
-	width : 800px;
+	width :50%;
 	height : 800px;
 	background: white;
 	border-radius:5px;
@@ -40,8 +40,8 @@
 }
 #memberTable{
 	height : 400px;
-	overflow-y: scroll;
-	verflow-x:hidden
+	overflow-y: auto;
+	
 }
 
 </style>
@@ -291,7 +291,7 @@ function fn_select(){
 	$("#backgroundSmsLayer").remove();
 
 	$("#divInnerBox").hide();
-	$(".close").hide();  
+	/* $(".close").hide(); */  
 		   
 }	
 
@@ -542,7 +542,9 @@ function rewardMemberDelete(){
 		      	대상자 <span id="memberCnt"> 0 </span> 명
 		      	<br /><br />
 		      	
-		      	<div id="selectedMember">
+		      	<div style="color: lightblue; font-size:20px; padding-left:15px;" onclick='rewardMemberDelete()'> 삭제</div>
+		      	
+		      	<div id="selectedMember" style="overflow-y:auto; height:500px;">
 			      	<table class="table table-bordered" >
 					  <thead>
 					    <tr style="background:#F6F6F6; text-align:center;">
@@ -568,7 +570,7 @@ function rewardMemberDelete(){
 				</div>
 			
 	
-			<div style="color: lightblue; font-size:20px;" onclick='rewardMemberDelete()'> 삭제</div>
+			<!-- <div style="color: lightblue; font-size:20px;" onclick='rewardMemberDelete()'> 삭제</div> -->
 	
 	   		<div id="afterRewardDiv"></div>
 	      </td>
@@ -604,7 +606,7 @@ function rewardMemberDelete(){
 					<label for='startdate' class='col-sm-2 col-form-label'>이름</label>
 					<div class='row'>
 						<div class='col'>
-							<input type='text' name='name_com' id='name_com' class='form-control' /> 
+							<input type='text' name='name_com' id='name_com' class='form-control' autocomplete="off"/> 
 						</div>
 					</div>
 				</div>
@@ -691,7 +693,7 @@ $(function(){
 		$("#backgroundSmsLayer").remove();
 
 		$("#divInnerBox").hide();
-		$(".close").hide();
+		/* $(".close").hide(); */
 
 	});
 
@@ -705,7 +707,7 @@ function fn_close(){
 	$("#backgroundSmsLayer").remove();
 
 	$("#divInnerBox").hide();
-	$(".close").hide();
+	/* $(".close").hide(); */
 	
 }
 
