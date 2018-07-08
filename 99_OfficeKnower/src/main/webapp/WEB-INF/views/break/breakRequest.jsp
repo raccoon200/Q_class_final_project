@@ -31,7 +31,7 @@
 	color: #6699FF
 }
 #divChoice{
-	width : 25%;
+	width : 30%;
 	height : 500px;
 	background: white;
 	border-radius:5px;
@@ -55,7 +55,7 @@
 }
 #nameSelected{
 	border: 1px solid darkgray;
-	width: 330px;
+	width: 90%;
 	height: 300px;
 	display: inline-block;
 	position: relative;
@@ -63,11 +63,12 @@
 }
 #break_approval{
 	display:inline-block;
-	position:absolute; top:80px; left: 380px; z-index:1;
+	position:absolute; top:80px; left: 80%; z-index:1;
 	padding-left:20px;
 	
 }
 #icon_break{
+	width : 99%;
 	height: 300px;
 }
 #searchBox{
@@ -346,7 +347,7 @@ function len_chk(content){
 			<p id="innerFont">신청 실정</p> <span style='color:darkgray;'>최대 3명까지 선택 가능합니다.</span>
 		</div>
 		<div id="nameSelected">
-			<input type="text" name="searchBox" id="searchBox" placeholder="클릭 후 입력"/>
+			<input type="text" name="searchBox" id="searchBox" placeholder="클릭 후 입력" autocomplete="off" />
 			<div id="breakAjax"></div>
 			<div id="afterAjaxBox">
 				<div id="afterAjaxMember1"></div>

@@ -90,9 +90,19 @@ try{
 	  <li class="nav-item">
 	    <a class="nav-link" id="cal-tab" data-toggle="tab" role="tab" href="#Bcalendar" aria-controls="Bcalendar" aria-selected="false">휴가 캘린더</a>
 	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link <%=paramCPage != null?"active":"" %>" id="request-tab" data-toggle="tab" href="#request" role="tab" aria-controls="request" aria-selected="false">휴가 신청 관리</a>
-	  </li>
+	  
+	  <!-- 휴가 신청 관리  tabs-->
+	  
+	  
+	  <c:if test="${memberLoggedIn.grade eq '슈퍼관리자'}">
+		  <li class="nav-item">
+		    <a class="nav-link <%=paramCPage != null?"active":"" %>" id="request-tab" data-toggle="tab" href="#request" role="tab" aria-controls="request" aria-selected="false">휴가 신청 관리</a>
+		  </li>
+	  </c:if>
+	  
+	  <!-- 휴가 신청 관리  tabs end-->
+	  
+	  
 </ul>
 
 </div> 
@@ -221,7 +231,7 @@ try{
 		<div id="BreakView">
 			<div style="font-size:30px;" id="close3">X</div>
 			<br />
-			<p style="font-size:20px; color: ">휴가 신청 상세</p>
+			<p style="font-size:20px; font-weight:bold; ">휴가 신청 상세</p>
 			<br /><br />
 			
 		<div id="innerTableDiv">
@@ -282,7 +292,7 @@ function fn_deleteBreak(breakid){
 }
 
 function fn_BreakView(breakid){
-	alert("상세보기 " +breakid);
+//	alert("상세보기 " +breakid);
 	
 	<c:if test="${not empty BreakRequest}">
 	

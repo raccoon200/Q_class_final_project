@@ -43,8 +43,8 @@ public class InsaController {
 	
 	@Autowired
 	private JobService jobService;
-	
 	@Autowired
+	
 	BreakService breakService;
 	
 	@RequestMapping("/insa/memberListAll.do")
