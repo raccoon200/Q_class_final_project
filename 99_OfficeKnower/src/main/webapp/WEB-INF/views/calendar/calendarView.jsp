@@ -30,7 +30,7 @@ body {
 }
 #calendar {
     display: inline-block;
-    width: 90%;
+    width: 100%;
 }
 .fc-view-container{
 	display: inline-block;
