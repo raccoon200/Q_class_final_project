@@ -153,10 +153,10 @@ select {
 				<div style="width: 130px; height: 70px; display: inline-block;">
 					
 					<c:if test="${breakRequest.approval_status < approvals_count-v}">
-						<c:if test="${breakRequest.status eq '반려' and breakRequest.approval_status + approvals_count-1 == v }">
+						<c:if test="${breakRequest.status eq '반려' and breakRequest.approval_status == approvals_count-1-v }">
 							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/sign_reject.png" alt="싸인이미지" />
 						</c:if>
-						<c:if test="${breakRequest.status ne '반려' or breakRequest.approval_status +approvals_count-1 != v }">
+						<c:if test="${breakRequest.status ne '반려' or breakRequest.approval_status == approvals_count-1-v }">
 							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(v).sign }" alt="싸인이미지" />
 						</c:if> 
 					</c:if>

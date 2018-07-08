@@ -106,4 +106,8 @@ public interface ApprovalDAO {
 
 	BreakRequest selectBreakRequestOne(String break_request_no);
 
+	int breakRequestAccept(BreakRequest breakRequest);
+
+	int breakRequestReject(BreakRequest breakRequest);
+
 }

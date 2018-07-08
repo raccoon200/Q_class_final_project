@@ -107,4 +107,8 @@ public interface ApprovalService {
 	String selectUserName(String spender);
 
 	BreakRequest selectBreakRequestOne(String break_request_no);
+
+	int breakRequestAccept(BreakRequest breakRequest);
+
+	int breakRequestReject(BreakRequest breakRequest);
 }

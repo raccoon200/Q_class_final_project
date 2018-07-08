@@ -327,10 +327,10 @@ select {
 				<div style="width: 130px; height: 70px; display: inline-block;">
 					
 					<c:if test="${approval.approval_status < approvals_count-v}">
-						<c:if test="${approval.status eq '반려' and approval.approval_status + approvals_count-1 == v }">
+						<c:if test="${approval.status eq '반려' and approval.approval_status == approvals_count-1-v }">
 							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/sign_reject.png" alt="싸인이미지" />
 						</c:if>
-						<c:if test="${approval.status ne '반려' or approval.approval_status +approvals_count-1 != v }">
+						<c:if test="${approval.status ne '반려' or approval.approval_status != approvals_count-1-v }">
 							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(v).sign }" alt="싸인이미지" />
 						</c:if> 
 					</c:if>

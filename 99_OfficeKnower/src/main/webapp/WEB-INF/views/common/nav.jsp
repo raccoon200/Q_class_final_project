@@ -83,7 +83,6 @@
 						<ul class="depth2 hide">
 							<li><a href="${pageContext.request.contextPath }/approval/admin/approvalAdminInsert.do">관리자 추가</a><br /></li>
 							<li><a href="#">기본 설정</a><br /></li>
-							<li><a href="#">양식함 관리</a><br /></li>
 							<li><a href="#">전체 문서 목록</a><br /></li>
 							<li><a href="#">삭제 문서 목록</a><br /></li>
 						</ul></li>

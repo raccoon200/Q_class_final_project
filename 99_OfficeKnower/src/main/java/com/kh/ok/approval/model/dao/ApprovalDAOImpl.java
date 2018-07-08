@@ -262,4 +262,14 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 		return sqlSession.selectOne("approval.selectbreakRequestOne", break_request_no);
 	}
 
+	@Override
+	public int breakRequestAccept(BreakRequest breakRequest) {
+		return sqlSession.update("approval.breakRequestAccept", breakRequest);
+	}
+
+	@Override
+	public int breakRequestReject(BreakRequest breakRequest) {
+		return sqlSession.update("approval.breakRequestReject", breakRequest);
+	}
+
 }

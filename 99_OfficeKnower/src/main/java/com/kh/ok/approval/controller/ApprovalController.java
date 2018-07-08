@@ -1010,7 +1010,7 @@ public class ApprovalController {
 	}
 
 	@RequestMapping("/approval/approvalAccept")
-	public ModelAndView approvalAccept(@RequestParam String approval_no, @RequestParam("navkind") String navkind, @RequestParam int approval_status, @RequestParam String status) {
+	public ModelAndView approvalAccept(@RequestParam("approval_no") String approval_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status, @RequestParam("status") String status) {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no(approval_no);
@@ -1033,7 +1033,7 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/approval/approvalReject")
-	public ModelAndView approvalReject(@RequestParam String approval_no, @RequestParam("navkind") String navkind, @RequestParam int approval_status) {
+	public ModelAndView approvalReject(@RequestParam("approval_no") String approval_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status) {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no(approval_no);
@@ -1054,7 +1054,7 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("/office/approvalBreakRequestView")
-	public ModelAndView approvalBreakRequestView(@RequestParam String break_request_no, @RequestParam("navkind") String navkind) {
+	public ModelAndView approvalBreakRequestView(@RequestParam("break_request_no") String break_request_no, @RequestParam("navkind") String navkind) {
 		ModelAndView mav = new ModelAndView();
 		BreakRequest breakRequest = approvalService.selectBreakRequestOne(break_request_no);
 		Member writer = null;
@@ -1097,7 +1097,7 @@ public class ApprovalController {
 		BufferedInputStream bis = null;
 		ServletOutputStream sos = null;
 
-		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/board"); // request로부터
+		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/break"); // request로부터
 																												// session을
 																												// 얻고
 																												// 거기서
@@ -1151,4 +1151,48 @@ public class ApprovalController {
 
 		}
 	}
+	@RequestMapping("/approval/breakRequestAccept")
+	public ModelAndView breakRequestAccept(@RequestParam("break_request_no") String break_request_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status, @RequestParam("status") String status) {
+		ModelAndView mav = new ModelAndView();
+		BreakRequest breakRequest = new BreakRequest();
+		breakRequest.setBreak_request_no(break_request_no);
+		breakRequest.setApproval_status(approval_status);
+		breakRequest.setStatus(status);
+		breakRequest.setApproval_status(breakRequest.getApproval_status()-1);
+		if(!breakRequest.getStatus().equals("반려") &&  breakRequest.getApproval_status()==0) {
+			breakRequest.setStatus("결재 완료");
+		}
+		int result = approvalService.breakRequestAccept(breakRequest);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalBreakRequestView?break_request_no="+breakRequest.getBreak_request_no()+"&navkind="+navkind);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/approval/breakRequestReject")
+	public ModelAndView breakRequestReject(@RequestParam("break_request_no") String break_request_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status) {
+		ModelAndView mav = new ModelAndView();
+		BreakRequest breakRequest = new BreakRequest();
+		breakRequest.setBreak_request_no(break_request_no);
+		breakRequest.setApproval_status(approval_status);
+		breakRequest.setApproval_status(breakRequest.getApproval_status()-1);
+		breakRequest.setStatus("반려");
+		
+		int result = approvalService.breakRequestReject(breakRequest);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalBreakRequestView?break_request_no="+breakRequest.getBreak_request_no()+"&navkind="+navkind);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
 }

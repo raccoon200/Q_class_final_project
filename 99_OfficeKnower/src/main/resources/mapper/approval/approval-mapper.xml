@@ -131,8 +131,14 @@
 	<update id="approvalAccept">
 		update approval set status=#{status}, approval_status=#{approval_status} where approval_no=#{approval_no}
 	</update>
+	<update id="breakRequestAccept">
+		update break_request set status=#{status}, approval_status=#{approval_status} where break_request_no=#{break_request_no}
+	</update>
 	<update id="approvalReject">
 		update approval set status=#{status}, approval_status=#{approval_status} where approval_no=#{approval_no}
+	</update>
+	<update id="breakRequestReject">
+		update break_request set status=#{status}, approval_status=#{approval_status} where break_request_no=#{break_request_no}
 	</update>
 	<select id="selectAllApproval" resultType="com.kh.ok.approval.model.vo.Approval">
 		select * from approval where com_no = #{com_no} and writer = #{userId} order by writedate desc

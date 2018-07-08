@@ -207,5 +207,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public BreakRequest selectBreakRequestOne(String break_request_no) {
 		return approvalDAO.selectBreakRequestOne(break_request_no);
 	}
+	@Override
+	public int breakRequestAccept(BreakRequest breakRequest) {
+		return approvalDAO.breakRequestAccept(breakRequest);
+	}
+	@Override
+	public int breakRequestReject(BreakRequest breakRequest) {
+		return approvalDAO.breakRequestReject(breakRequest);
+	}
 	
 }
