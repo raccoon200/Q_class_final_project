@@ -156,12 +156,14 @@ select {
 						<c:if test="${breakRequest.status eq '반려' and breakRequest.approval_status == approvals_count-1-v }">
 							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/sign_reject.png" alt="싸인이미지" />
 						</c:if>
-						<c:if test="${breakRequest.status ne '반려' or breakRequest.approval_status == approvals_count-1-v }">
+						<c:if test="${breakRequest.status ne '반려' or breakRequest.approval_status != approvals_count-1-v }">
 							<img class="sign-image" src="${pageContext.request.contextPath }/resources/upload/member/${approvals_list.get(v).sign }" alt="싸인이미지" />
 						</c:if> 
 					</c:if>
 					<c:if test="${breakRequest.approval_status == approvals_count-v and approvals_list.get(v).userId eq memberLoggedIn.userId}">
-						<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
+						<c:if test="${breakRequest.status ne '반려' }">
+							<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
+						</c:if>
 					</c:if>
 				</div>	
 			</td> 

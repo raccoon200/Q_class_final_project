@@ -806,6 +806,7 @@ return true;
 					onclick="fn_addApprovals();">추가</button>
 			</div>
 		</div>
+
 	</div>
 </div>
 <!-- Modal -->

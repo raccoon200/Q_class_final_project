@@ -113,7 +113,7 @@ function fn_sign_default_setting() {
 		 </div>
 	</div>
 	
-	<input type="submit" value="저장" />
+	<input type="submit" value="저장" onsubmit="fn_check()"/>
 	</form>
 </div>
 
