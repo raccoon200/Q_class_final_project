@@ -45,7 +45,7 @@ public interface BreakDAO {
 	int updateBreakSetting(BreakSetting bs);
 
 	int callProc_break_manual(BreakSetting bs);
-	
+
 	List<Map<String, Object>> alllBreakList(String comId,int numPerPage, int cPage);
 
 	int allBreakListCnt(String comId);
