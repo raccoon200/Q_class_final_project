@@ -10,7 +10,14 @@
 	<jsp:param value="전자결재" name="pageTitle" />
 	<jsp:param value="반려" name="selectMenu" />
 </jsp:include>
-
+<style>
+.trtr:hover{
+	background:rgb(240,240,240);
+}
+.trtr{
+	cursor:pointer;
+}
+</style>
 <h6 style="font-weight:bold">반려</h6>
 
 <hr />
@@ -35,8 +42,8 @@
 	      <th scope="col" style="min-width:110px;">기안일</th>
 	      <th scope="col" style="min-width:100px;">결재 상태</th>
 	    </tr>
-	    <c:forEach var="v" items="${approvalComList }">
-	    <tr onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.approval_no }"'>
+	    <c:forEach var="v" items="${approvalReList }">
+	    <tr class="trtr" onclick='location.href="${pageContext.request.contextPath}/office/approvalView?approval_no=${v.approval_no }&navkind=반려"'>
 	    	<td>${v.approval_no }</td>
 	    	<td>${v.title }</td>
 	    	<td>${v.writer }</td>
@@ -59,14 +66,14 @@
 	      <th scope="col" style="min-width:110px;">종료일</th>
 	      <th scope="col" style="min-width:110px;">결재 상태</th>
 	    </tr>
-	    <c:forEach var="v" items="${breakRequestComList }">
-	    <tr>
+	    <c:forEach var="v" items="${breakRequestReList }">
+	     <tr class="trtr" onclick='location.href="${pageContext.request.contextPath}/office/approvalBreakRequestView?break_request_no=${v.break_request_no }&navkind=반려"'>
 	    	<td>${v.break_request_no}</td>
 	    	<td>${v.userid }</td>
 	    	<td>${v.kind }</td>
 	    	<td>
 	    		<c:if test="${v.renamed_file_name != 'no'}"> 
-	    			${v.renamed_file_name }
+	    			<img style="width:18px" src="${pageContext.request.contextPath }\resources\images\common\board_file_image.PNG" alt="첨부파일" />
 	    		</c:if>		
 	    	</td>
 	    	<td>${v.startdate }</td>

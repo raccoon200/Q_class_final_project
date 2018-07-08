@@ -335,7 +335,9 @@ select {
 						</c:if> 
 					</c:if>
 					<c:if test="${approval.approval_status == approvals_count-v and approvals_list.get(v).userId eq memberLoggedIn.userId}">
-						<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
+						<c:if test="${breakRequest.status ne '반려' }">
+							<input type="button" class="approvalBtn" value="결재" data-toggle="modal" data-target="#approvalAction"/>
+						</c:if>
 					</c:if>
 				</div>	
 			</td> 

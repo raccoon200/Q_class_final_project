@@ -74,7 +74,7 @@
 	    	<td>${v.KIND }</td>
 	    	<td>
 	    		<c:if test="${v.RENAMED_FILE_NAME != 'no'}"> 
-	    			<img src="${pageContext.request.contextPath }/resoures/images/common/board_file_image.PNG" alt="첨부파일" />
+	    			<img style="width:18px" src="${pageContext.request.contextPath }\resources\images\common\board_file_image.PNG" alt="첨부파일" />
 	    		</c:if>		
 	    	</td>
 	    	<td>${v.STARTDATE }</td>

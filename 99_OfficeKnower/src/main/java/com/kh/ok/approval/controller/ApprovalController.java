@@ -1200,7 +1200,7 @@ public class ApprovalController {
 		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
 		List<Approval> approvalTotList = approvalService.selectAllApproval(m);
 		List<BreakRequest> breakRequestTotList = approvalService.selectAllBreakRequest(m);
-		
+
 		mav.addObject("approvalTotList", approvalTotList);
 		mav.addObject("breakRequestTotList", breakRequestTotList);
 		
@@ -1213,7 +1213,7 @@ public class ApprovalController {
 		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
 		List<Approval> approval84List = approvalService.select84Approval(m);
 		List<BreakRequest> breakRequest84List = approvalService.select84BreakRequest(m);
-		
+
 		mav.addObject("approval84List", approval84List);
 		mav.addObject("breakRequest84List", breakRequest84List);
 		mav.setViewName("approval/approval_doc_84");
@@ -1225,7 +1225,7 @@ public class ApprovalController {
 		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
 		List<Approval> approvalComList = approvalService.selectComApproval(m);
 		List<BreakRequest> breakRequestComList = approvalService.selectComBreakRequest(m);
-		
+
 		mav.addObject("approvalComList", approvalComList);
 		mav.addObject("breakRequestComList", breakRequestComList);
 		mav.setViewName("approval/approval_doc_complete");
@@ -1237,7 +1237,7 @@ public class ApprovalController {
 		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
 		List<Approval> approvalReList = approvalService.selectReApproval(m);
 		List<BreakRequest> breakRequestReList = approvalService.selectReBreakRequest(m);
-		
+
 		mav.addObject("approvalReList", approvalReList);
 		mav.addObject("breakRequestReList", breakRequestReList);
 		mav.setViewName("approval/approval_doc_return");
