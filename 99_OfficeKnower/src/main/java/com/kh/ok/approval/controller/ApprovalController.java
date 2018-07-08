@@ -1,17 +1,23 @@
 package com.kh.ok.approval.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -32,6 +38,7 @@ import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 import com.kh.ok.member.model.vo.Member;
 
 import net.sf.json.JSONArray;
@@ -42,13 +49,7 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@RequestMapping("/office/approval.do")
-	public ModelAndView approvalDagi () {
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("approval/approval_dagi");
-		return mav;
-	}
+
 	@RequestMapping("/office/approval/code.do")
 	public ModelAndView aprovalCode(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
@@ -387,7 +388,7 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/approval/approvalSignUpdate")
-	public ModelAndView approvalSignUpdate(HttpSession session, String basicFile, @RequestParam(value = "upFile", required = false) MultipartFile upFile,
+	public ModelAndView approvalSignUpdate(HttpSession session, @RequestParam(value = "upFile", required = false) MultipartFile upFile,
 			HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		Member m = (Member)session.getAttribute("memberLoggedIn");
@@ -546,14 +547,13 @@ public class ApprovalController {
 		return mav;
 	}
 	@RequestMapping("/approvals/insertApprovalExtra")
-	public ModelAndView insertApproval(@RequestParam String approvals, @RequestParam String writer, @RequestParam String content,
-			@RequestParam String com_no, @RequestParam String title) throws JsonProcessingException {
+	public ModelAndView insertApproval(@RequestParam("approvals") String approvals, @RequestParam("writer") String writer, @RequestParam("content") String content,
+			@RequestParam("com_no") String com_no, @RequestParam("title") String title) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no("기타-");
 		approval.setWriter(writer);
 		approval.setCom_no(com_no);
-		approval.setStatus("결재 중");
 		approval.setTitle(title);
 		
 		String[] appro = approvals.split(",");
@@ -566,6 +566,12 @@ public class ApprovalController {
 		
 		approval.setApprovals(newAppro);
 		approval.setApproval_status(appro.length-1);
+		
+		if(approval.getApproval_status()==0) {
+			approval.setStatus("결재 완료");
+		}else {
+			approval.setStatus("결재 중");
+		}
 		
 		String jsonStr = "";
 		ObjectMapper mapper = new ObjectMapper();
@@ -584,7 +590,7 @@ public class ApprovalController {
 
 		if (result > 0) {
 			msg = "결재 등록 성공";
-			loc = "approval.do";
+			loc = "/office/approval.do";
 		} else
 			msg = "결재 등록 실패";
 		mav.addObject("msg", msg);
@@ -596,15 +602,14 @@ public class ApprovalController {
 	
 	@RequestMapping("/approvals/insertApprovalSpending")
 	public ModelAndView insertApprovalSpending(@RequestParam(value="approvals") String approvals, 
-			@RequestParam(value="title") String title, @RequestParam(value="year") int year, @RequestParam(value="month") int month,
+			@RequestParam(value="title") String title, @RequestParam(value="writer") String writer, @RequestParam(value="year") int year, @RequestParam(value="month") int month,
 			@RequestParam(value="bankName") String bankName, @RequestParam(value="account_no") String account_no, @RequestParam(value="userId") String userId, @RequestParam(value="transaction") String transaction, HttpSession session) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		Approval approval = new Approval();
 		approval.setApproval_no("지결-");
-		approval.setWriter(userId);
-		approval.setStatus("결재 중");
+		approval.setWriter(writer);
 		approval.setTitle(title);
-		
+		approval.setSpender(userId);
 		Member m = (Member)session.getAttribute("memberLoggedIn");
 		approval.setCom_no(m.getCom_no());
 		
@@ -618,7 +623,11 @@ public class ApprovalController {
 		
 		approval.setApprovals(newAppro);
 		approval.setApproval_status(appro.length-1);
-		
+		if(approval.getApproval_status()==0) {
+			approval.setStatus("결재 완료");
+		}else {
+			approval.setStatus("결재 중");
+		}
 		String jsonStr = "";
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> contents = new HashMap<String, Object>();
@@ -669,4 +678,570 @@ public class ApprovalController {
 		mav.addObject("approvalDataList", approvalDataList);
 		return mav;
 	}
+	@RequestMapping("/office/approval.do")	//대기
+	public ModelAndView ApprovalList(HttpSession session) {	
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		
+		//결재
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+				
+		List<Map<String, Object>> approvalWaitList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) approvalDataList.get(i).get("STATUS");
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						approvalWaitList.add(approvalDataList.get(i));
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+   
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestWaitList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) breakRequestList.get(i).get("STATUS");
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						breakRequestWaitList.add(breakRequestList.get(i));
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+   
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		mav.addObject("approvalWaitList", approvalWaitList);
+		mav.addObject("breakRequestWaitList", breakRequestWaitList);
+		mav.setViewName("approval/approval_dagi");
+		return mav;
+	}
+	@RequestMapping("/office/expectedApproval.do") //예정
+	public ModelAndView expectedApprovalList(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+		List<Map<String, Object>> approvalExpectedList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) approvalDataList.get(i).get("STATUS");
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						approvalExpectedList.add(approvalDataList.get(i));
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestExpectedList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) breakRequestList.get(i).get("STATUS");
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						breakRequestExpectedList.add(breakRequestList.get(i));
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+   
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		mav.addObject("approvalExpectedList", approvalExpectedList);
+		mav.addObject("breakRequestExpectedList", breakRequestExpectedList);
+		mav.setViewName("approval/approval_dPwjd");
+		return mav;
+	}
+	@RequestMapping("/office/progressApproval.do") //진행
+	public ModelAndView progressApprovalList(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+
+		List<Map<String, Object>> approvalProgressList = new ArrayList<Map<String,Object>>();
+
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) approvalDataList.get(i).get("STATUS");
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+						approvalProgressList.add(approvalDataList.get(i));
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestProgressList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) breakRequestList.get(i).get("STATUS");
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+					
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+						breakRequestProgressList.add(breakRequestList.get(i));
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		mav.addObject("approvalProgressList", approvalProgressList);
+		mav.addObject("breakRequestProgressList", breakRequestProgressList);
+		mav.setViewName("approval/approval_wlsgod");
+		return mav;
+	}
+	@RequestMapping("/office/completeApproval.do") //완료
+	public ModelAndView completeApprovalList(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		String com_no = m.getCom_no();
+		String userId = m.getUserId();
+		
+		List<Map<String,Object>> approvalDataList = approvalService.selectApprovalList(com_no);
+
+		List<Map<String, Object>> approvalCompleteList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<approvalDataList.size(); i++) {
+			System.out.println(approvalDataList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)approvalDataList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) approvalDataList.get(i).get("STATUS");
+			String approvalsT = (String) approvalDataList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+					approvalCompleteList.add(approvalDataList.get(i));
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+
+					}else {
+						logger.warn("approval_status 오류 ");
+					}
+				}
+			}
+		}
+		
+		//휴가
+		List<Map<String,Object>> breakRequestList = approvalService.selectBreakRequestList(com_no);
+		
+		List<Map<String, Object>> breakRequestCompleteList = new ArrayList<Map<String,Object>>();
+		for(int i=0; i<breakRequestList.size(); i++) {
+			System.out.println(breakRequestList.get(i).get("APPROVAL_STATUS"));
+			int approval_status = ((BigDecimal)breakRequestList.get(i).get("APPROVAL_STATUS")).intValue();
+			String status = (String) breakRequestList.get(i).get("STATUS");
+			String approvalsT = (String) breakRequestList.get(i).get("APPROVALS");
+			if(approvalsT.contains(userId)) { //지출자(a,b,c,d)에 내가 포함이 되면
+				if(status.equals("결재 완료") || status.equals("반려")) {	// 완료일 경우
+					breakRequestCompleteList.add(breakRequestList.get(i));
+				}else {
+					String[] approvals = approvalsT.split(",");
+					HashMap<String, Integer> approvals_people = new HashMap<String, Integer>();
+					for(int j=0; j<approvals.length; j++) {
+						approvals_people.put(approvals[j], j+1);
+					}
+					if(approvals_people.get(userId) == approval_status) { //대기
+						
+					}else if(approvals_people.get(userId) < approval_status) { //예정
+						
+					}else if(approvals_people.get(userId) > approval_status) { //진행
+						
+					}else {
+						logger.warn("breakRequest_status 오류 ");
+					}
+				}
+			}
+		}
+		mav.addObject("approvalCompleteList", approvalCompleteList);
+		mav.addObject("breakRequestCompleteList", breakRequestCompleteList);
+		mav.setViewName("approval/approval_dhksfy");
+		return mav;
+	}
+	@RequestMapping("/office/approvalView")
+	public ModelAndView selectApprovalView(@RequestParam("approval_no") String approval_no, @RequestParam("navkind") String navkind, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = approvalService.selectApprovalOne(approval_no);
+		Member writer = null;
+		String spenderName ="";
+		String status = approval.getStatus();
+		String approvalsT = approval.getApprovals();
+		String[] approvals;
+	
+		String com_name = approvalService.selectComName(approval.getCom_no());
+		approvals = approvalsT.split(",");
+		ArrayList<Member> approvals_list = new ArrayList<Member>();
+		for(int j=approvals.length-1; j>=0; j--) {
+			Member m = approvalService.selectMember(approvals[j]);
+			approvals_list.add(m);
+			if(approval.getWriter().equals(approvals[j])) {	//작성자 객체 생성
+				writer = m;
+			}
+		}
+		if(approval.getSpender() != null) {
+			spenderName = approvalService.selectUserName(approval.getSpender());
+		}
+		
+		int approvals_count = approvals_list.size();	
+		for(int i=0; i<approvals_list.size(); i++) {
+			System.out.println(approvals_list.get(i));
+		}
+		mav.addObject("status", status);
+		mav.addObject("writer", writer);
+		mav.addObject("com_name", com_name);
+		mav.addObject("approvals_list", approvals_list);
+		mav.addObject("approvals_count", approvals_count);
+		mav.addObject("approval", approval);
+		mav.addObject("spenderName", spenderName);
+		mav.addObject("navkind",navkind);
+		mav.setViewName("approval/approval_view");
+		return mav;
+	}
+
+	@RequestMapping("/approval/approvalAccept")
+	public ModelAndView approvalAccept(@RequestParam("approval_no") String approval_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status, @RequestParam("status") String status) {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = new Approval();
+		approval.setApproval_no(approval_no);
+		approval.setApproval_status(approval_status);
+		approval.setStatus(status);
+		approval.setApproval_status(approval.getApproval_status()-1);
+		if(!approval.getStatus().equals("반려") &&  approval.getApproval_status()==0) {
+			approval.setStatus("결재 완료");
+		}
+		int result = approvalService.approvalAccept(approval);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalView?approval_no="+approval.getApproval_no()+"&navkind="+navkind);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/approval/approvalReject")
+	public ModelAndView approvalReject(@RequestParam("approval_no") String approval_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status) {
+		ModelAndView mav = new ModelAndView();
+		Approval approval = new Approval();
+		approval.setApproval_no(approval_no);
+		approval.setApproval_status(approval_status);
+		approval.setApproval_status(approval.getApproval_status()-1);
+		approval.setStatus("반려");
+		
+		int result = approvalService.approvalReject(approval);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalView?approval_no="+approval.getApproval_no()+"&navkind="+navkind);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/office/approvalBreakRequestView")
+	public ModelAndView approvalBreakRequestView(@RequestParam("break_request_no") String break_request_no, @RequestParam("navkind") String navkind) {
+		ModelAndView mav = new ModelAndView();
+		BreakRequest breakRequest = approvalService.selectBreakRequestOne(break_request_no);
+		Member writer = null;
+		String status = breakRequest.getStatus();
+		String approvalsT = breakRequest.getApprovals();
+		String[] approvals;
+	
+		String com_name = approvalService.selectComName(breakRequest.getCom_no());
+		approvals = approvalsT.split(",");
+		ArrayList<Member> approvals_list = new ArrayList<Member>();
+		for(int j=approvals.length-1; j>=0; j--) {
+			Member m = approvalService.selectMember(approvals[j]);
+			approvals_list.add(m);
+			if(breakRequest.getUserid().equals(approvals[j])) {	//작성자 객체 생성
+				writer = m;
+			}
+		}
+		
+		int approvals_count = approvals_list.size();	
+		for(int i=0; i<approvals_list.size(); i++) {
+			System.out.println(approvals_list.get(i));
+		}
+		
+		System.out.println("navkind : "+navkind);
+		mav.addObject("status", status);
+		mav.addObject("writer", writer);
+		mav.addObject("com_name", com_name);
+		mav.addObject("approvals_list", approvals_list);
+		mav.addObject("approvals_count", approvals_count);
+		mav.addObject("breakRequest", breakRequest);
+		mav.addObject("navkind",navkind);
+		mav.setViewName("approval/breakRequest_view");
+		return mav;
+	}
+	
+	@RequestMapping("/approval/approvalDownload.do")
+	public void fileDownload(@RequestParam String rName, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		BufferedInputStream bis = null;
+		ServletOutputStream sos = null;
+
+		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/break"); // request로부터
+																												// session을
+																												// 얻고
+																												// 거기서
+																												// servletcontext를
+																												// 얻는구조
+
+		File savedFile = new File(saveDirectory + "/" + rName);
+
+		try {
+			bis = new BufferedInputStream(new FileInputStream(savedFile));
+			sos = response.getOutputStream();
+
+			// 응답세팅
+			response.setContentType("application/octet-stream; charset=utf-8");
+
+			// 한글파일명 처리
+			String resFilename = "";
+			boolean isMSIE = request.getHeader("user-agent").indexOf("MSIE") != -1
+					|| request.getHeader("user-agent").indexOf("Trident") != -1;
+			// IE 8이하는 MSIE라는 키워드를, 이후는 Trident라는 키워드를 갖고 있기에 둘다 체크해봐야함.
+
+			if (isMSIE) {
+				// ie는 utf-8인코딩을 명시적으로 해줌.
+				//resFilename = URLEncoder.encode(oName, "utf-8"); // 이렇게 하면 공백이 +로 바뀌는 문제가 있음.
+				resFilename = resFilename.replaceAll("\\+", "%20"); // +를 공백으로 바꾸는 코드.
+			} else {
+				//resFilename = new String(oName.getBytes("utf-8"), "ISO-8859-1"); // 기존 파일명을 바이트로 바꾼 후 ISO-8859-1형식으로 재
+																					// 인코딩...
+
+			}
+			logger.debug("resFilename=" + resFilename);
+
+			response.addHeader("Content-Disposition", "attachment; filename=\"" + resFilename + "\"");
+
+			// 쓰기
+			int read = 0;
+			while ((read = bis.read()) != -1) {
+				sos.write(read);
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				sos.close();
+				bis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+	@RequestMapping("/approval/breakRequestAccept")
+	public ModelAndView breakRequestAccept(@RequestParam("break_request_no") String break_request_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status, @RequestParam("status") String status) {
+		ModelAndView mav = new ModelAndView();
+		BreakRequest breakRequest = new BreakRequest();
+		breakRequest.setBreak_request_no(break_request_no);
+		breakRequest.setApproval_status(approval_status);
+		breakRequest.setStatus(status);
+		breakRequest.setApproval_status(breakRequest.getApproval_status()-1);
+		if(!breakRequest.getStatus().equals("반려") &&  breakRequest.getApproval_status()==0) {
+			breakRequest.setStatus("결재 완료");
+		}
+		int result = approvalService.breakRequestAccept(breakRequest);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalBreakRequestView?break_request_no="+breakRequest.getBreak_request_no()+"&navkind="+navkind);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	@RequestMapping("/approval/breakRequestReject")
+	public ModelAndView breakRequestReject(@RequestParam("break_request_no") String break_request_no, @RequestParam("navkind") String navkind, @RequestParam("approval_status") int approval_status) {
+		ModelAndView mav = new ModelAndView();
+		BreakRequest breakRequest = new BreakRequest();
+		breakRequest.setBreak_request_no(break_request_no);
+		breakRequest.setApproval_status(approval_status);
+		breakRequest.setApproval_status(breakRequest.getApproval_status()-1);
+		breakRequest.setStatus("반려");
+		
+		int result = approvalService.breakRequestReject(breakRequest);
+		
+		if(result > 0) {
+			mav.addObject("msg", "결재를 정상적으로 처리했습니다.");
+		}else {
+			mav.addObject("msg", "결재를 처리하지 못했습니다");
+		}
+		mav.addObject("loc", "/office/approvalBreakRequestView?break_request_no="+breakRequest.getBreak_request_no()+"&navkind="+navkind);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("/office/TotalApproval.do")
+	public ModelAndView totalApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approvalTotList = approvalService.selectAllApproval(m);
+		List<BreakRequest> breakRequestTotList = approvalService.selectAllBreakRequest(m);
+		
+		mav.addObject("approvalTotList", approvalTotList);
+		mav.addObject("breakRequestTotList", breakRequestTotList);
+		
+		mav.setViewName("approval/approval_doc_total");
+		return mav;
+	}
+	@RequestMapping("/office/GianApproval.do")
+	public ModelAndView gianApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approval84List = approvalService.select84Approval(m);
+		List<BreakRequest> breakRequest84List = approvalService.select84BreakRequest(m);
+		
+		mav.addObject("approval84List", approval84List);
+		mav.addObject("breakRequest84List", breakRequest84List);
+		mav.setViewName("approval/approval_doc_84");
+		return mav;
+	}
+	@RequestMapping("/office/CompleteApproval.do")
+	public ModelAndView completeApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approvalComList = approvalService.selectComApproval(m);
+		List<BreakRequest> breakRequestComList = approvalService.selectComBreakRequest(m);
+		
+		mav.addObject("approvalComList", approvalComList);
+		mav.addObject("breakRequestComList", breakRequestComList);
+		mav.setViewName("approval/approval_doc_complete");
+		return mav;
+	}
+	@RequestMapping("/office/ReturnApproval.do")
+	public ModelAndView returnApproval(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		Member m = (Member)request.getSession(false).getAttribute("memberLoggedIn");
+		List<Approval> approvalReList = approvalService.selectReApproval(m);
+		List<BreakRequest> breakRequestReList = approvalService.selectReBreakRequest(m);
+		
+		mav.addObject("approvalReList", approvalReList);
+		mav.addObject("breakRequestReList", breakRequestReList);
+		mav.setViewName("approval/approval_doc_return");
+		return mav;
+	}
+	
 }

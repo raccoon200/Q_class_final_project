@@ -56,7 +56,7 @@ public class InsaController {
 		List<Member> list =  insaService.memberListAll(m.getCom_no());
 		List<String> yearList = insaService.yearListGroup(m.getCom_no());
 		List<String> positionList = insaService.positionListGroup(m.getCom_no());
-		
+		List<Dept> dlist = insaService.selectDeptList(m.getCom_no());
 		//희운 시작
 			HttpSession session = request.getSession(false);
 			String userId = ((Member)request.getSession().getAttribute("memberLoggedIn")).getUserId();
@@ -71,15 +71,16 @@ public class InsaController {
 			if(list.get(i).getPosition() == null)
 				list.get(i).setPosition("미기재");
 		}
-			
-		System.out.println(list);
-		System.out.println(yearList);
-		System.out.println(positionList);
+//		System.out.println(list);
+//		System.out.println(yearList);
+//		System.out.println(positionList);
 		
+		mav.addObject("dlist",dlist);
 		mav.addObject("list",list);
 		mav.addObject("yearList",yearList);
 		mav.addObject("positionList",positionList);
 		mav.setViewName("insa/memberListAll");
+		
 		return mav;
 	}
 	

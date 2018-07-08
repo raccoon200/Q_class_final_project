@@ -8,6 +8,7 @@ import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 import com.kh.ok.member.model.vo.Member;
 
 public interface ApprovalService {
@@ -74,4 +75,40 @@ public interface ApprovalService {
 	int approvalDataListCount(String com_no);
 
 	List<Map<String, String>> selectApprovalDataList(int cPage, int numPerPage, String com_no);
+
+	List<Map<String, Object>> selectApprovalList(String com_no);
+
+	List<Map<String, Object>> selectBreakRequestList(String com_no);
+
+	Approval selectApprovalOne(String approval_no);
+
+	String selectComName(String com_no);
+
+	int approvalAccept(Approval approval);
+
+	int approvalReject(Approval approval);
+
+	List<Approval> selectAllApproval(Member m);
+
+	List<BreakRequest> selectAllBreakRequest(Member m);
+
+	List<Approval> select84Approval(Member m);
+
+	List<BreakRequest> select84BreakRequest(Member m);
+
+	List<Approval> selectComApproval(Member m);
+
+	List<BreakRequest> selectComBreakRequest(Member m);
+
+	List<Approval> selectReApproval(Member m);
+
+	List<BreakRequest> selectReBreakRequest(Member m);
+
+	String selectUserName(String spender);
+
+	BreakRequest selectBreakRequestOne(String break_request_no);
+
+	int breakRequestAccept(BreakRequest breakRequest);
+
+	int breakRequestReject(BreakRequest breakRequest);
 }

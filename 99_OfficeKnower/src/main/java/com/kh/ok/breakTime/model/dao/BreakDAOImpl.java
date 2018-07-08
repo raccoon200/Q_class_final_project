@@ -136,4 +136,14 @@ public class BreakDAOImpl implements BreakDAO {
 		return sqlSession.selectList("break.personBreakRequestList", userid);
 	}
 
+	@Override
+	public int callProc_break_manual(BreakSetting bs) {
+		return sqlSession.update("break.callProc_break_manual", bs);
+	}
+
+	@Override
+	public List<BreakRequest> selectBreakRequestUserIdList(Map<String, String> map) {
+		return sqlSession.selectList("break.selectBreakRequestUserIdList", map);
+	}
+
 }

@@ -140,6 +140,6 @@
 		update tbl_user set joindate = sysdate, status = 'Y', com_no = #{com_no} where userId=#{userId}
 	</update>
 	<select id="selectDeptList" resultType="dept">
-		select * from tbl_dept where com_no=#{com_no}
+		select * from tbl_dept where com_no=#{com_no} order by dept_level
 	</select>
 </mapper>

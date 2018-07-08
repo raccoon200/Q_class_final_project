@@ -38,7 +38,7 @@
       <td>${board["TITLE"]}</td>
       <td>${board["WRITER"]}</td>
       <td><c:if test='${fn:length(board["RENAMED_FILE_NAME"])>0}' > <img src="${pageContext.request.contextPath}/resources/images/common/board_file_image.PNG" width="20px" alt="" /> </c:if></td>
-      <td>${board["WRITEDATE"]}</td>
+      <td><fmt:formatDate value='${board["WRITEDATE"]}' type="date"/></td>
       <td>${board["COUNT"] }</td>
     </tr>
     </c:forEach>

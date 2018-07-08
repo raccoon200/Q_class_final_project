@@ -13,6 +13,7 @@ public class BreakRequest {
 	private String approvals;
 	private int approval_status;
 	private String enddate;
+	private String status;
 	
 	
 	public BreakRequest() {	}
@@ -162,6 +163,22 @@ public class BreakRequest {
 
 	public void setEnddate(String enddate) {
 		this.enddate = enddate;
+	}
+
+
+
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 

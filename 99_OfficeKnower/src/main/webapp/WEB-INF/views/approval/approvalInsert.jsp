@@ -164,11 +164,7 @@ select {
 <script>
 
 
-function validate() {
-		var str = $(".ql-editor").html();
-		$("[name=content]").attr("value", str);
-	return true;
-}
+
 	$(function() {
 		$("select[name=approval_mode]").on("change", function() {
 			$("div.insertDiv").hide();
@@ -591,6 +587,7 @@ function validate2() {
 			clear="right" /> <br />
 		<input type="hidden" name="transaction" value="" />
 		<input type="hidden" name="approvals" value="${memberLoggedIn.userId }"/>
+		<input type="hidden" name="writer" value="${memberLoggedIn.userId }"/>
 	<%-- 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" /> --%>
 		<table class="table table-bordered">
 			<tbody>
@@ -673,16 +670,33 @@ function validate2() {
 		<br />
 	</form>
 </div>
+<script>
+function validate() {
+	var str = $(".ql-editor").html();
+	$("[name=content]").attr("value", str);
+	var title = document.getElementById("title1");
+	
+	if(title.value=='') {
+		alert("제목을 입력하세요");
+		return false;
+	}
+	if(str=='<p><br></p>'){
+		alert("내용을 입력하세요");
+		return false;
+	}
+return true;
+}
+</script>
 <div id="extraDiv" class="insertDiv">
-	<form action="${pageContext.request.contextPath }/approvals/insertApprovalExtra" onsubmit="validate()">
+	<form action="${pageContext.request.contextPath }/approvals/insertApprovalExtra" onsubmit='return validate();'>
 		<h6>상세 입력</h6>
 		<hr />
  		<input type="hidden" name="approvals" value="${memberLoggedIn.userId }"/> 
 		<input type="hidden" name="approval_status" value="" />
-		<input type="hidden" name="writer" value="${memberLoggedIn.userId }" />
+		<input type="hidden" name="writer"  value="${memberLoggedIn.userId }" />
 		<input type="hidden" name="content" />
 		<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" />
-		제목 <input type="text" name="title" id="" class="form-control"
+		제목 <input type="text" name="title" id="title1" class="form-control"
 			style="width: 85%; display: inline-block; float: right;" /> <br
 			clear="right" /> <br /> <span class="input-group-text"
 			id="input-group-text-cum">내용</span>

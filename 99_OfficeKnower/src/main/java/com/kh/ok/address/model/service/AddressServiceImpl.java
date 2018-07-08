@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.ok.address.model.dao.AddressDAO;
 import com.kh.ok.address.model.vo.Address;
+import com.kh.ok.member.model.vo.Member;
 
 
 @Service
@@ -43,19 +44,25 @@ public class AddressServiceImpl implements AddressService {
 		return addressDAO.addressTrash(addId);
 	}
 
+	@Override
+	public Address AddressSelectName(Map<String, String> map) {
+		return addressDAO.AddressSelectName(map);
+	}
+
+	@Override
+	public int addressUpdateInfo(Address address) {
+		return addressDAO.addressUpdateInfo(address);
+	}
+
+	public int addressReset(String addId) {
+		return addressDAO.addressReset(addId);
+	}
 
 
 
 
-/*	@Override
-	public List<Address> addressTrashList() {
-		return addressDAO.addressTrashList();
-	}*/
 
-/*	@Override
-	public int updateAddress(Address address) {
-		return addressDAO.updateAddress(address);
-	}*/
+
 
 
 

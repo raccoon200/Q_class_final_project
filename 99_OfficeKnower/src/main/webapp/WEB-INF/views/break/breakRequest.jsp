@@ -118,6 +118,10 @@ $(function(){
 	
 	
 	
+
+	$("#calendar3").on("click",function(){
+		console.log(1);
+	});
 });
 function fn_showdivChoice(){
 	$("#divChoice").show();
@@ -382,7 +386,7 @@ $(".close1").click(function() {
 
 	$("#divChoice").hide();
 
-});
+});1
 function fn_reChoice(count){
 	
 	console.log("ㄷ르어오지?/");

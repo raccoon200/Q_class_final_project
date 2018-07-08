@@ -13,6 +13,7 @@ import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 import com.kh.ok.member.model.vo.Member;
 
 @Repository
@@ -179,6 +180,96 @@ public class ApprovalDAOImpl implements ApprovalDAO {
 	@Override
 	public int approvalDataListCount(String com_no) {
 		return sqlSession.selectOne("approval.approvalDataListCount", com_no);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectApprovalList(String com_no) {
+		return sqlSession.selectList("approval.selectApprovalList", com_no);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBreakRequestList(String com_no) {
+		return sqlSession.selectList("approval.selectBreakRequestList", com_no);
+	}
+
+	@Override
+	public Approval selectApprovalOne(String approval_no) {
+		return sqlSession.selectOne("approval.selectApprovalOne", approval_no);
+	}
+
+	@Override
+	public String selectComName(String com_no) {
+		return sqlSession.selectOne("approval.selectComName", com_no);
+	}
+
+	@Override
+	public int approvalAccept(Approval approval) {
+		return sqlSession.update("approval.approvalAccept", approval);
+	}
+
+	@Override
+	public int approvalReject(Approval approval) {
+		return sqlSession.update("approval.approvalReject", approval);
+	}
+
+	@Override
+	public List<Approval> selectAllApproval(Member m) {
+		return sqlSession.selectList("approval.selectAllApproval", m);
+	}
+
+	@Override
+	public List<BreakRequest> selectAllBreakRequest(Member m) {
+		return sqlSession.selectList("approval.selectAllBreakRequest", m);
+	}
+
+	@Override
+	public List<Approval> select84Approval(Member m) {
+		return sqlSession.selectList("approval.select84Approval", m);
+	}
+
+	@Override
+	public List<BreakRequest> select84BreakRequest(Member m) {
+		return sqlSession.selectList("approval.select84BreakRequest", m);
+	}
+
+	@Override
+	public List<Approval> selectComApproval(Member m) {
+		return sqlSession.selectList("approval.selectComApproval", m);
+	}
+
+	@Override
+	public List<BreakRequest> selectComBreakRequest(Member m) {
+		return sqlSession.selectList("approval.selectComBreakRequest", m);
+	}
+
+	@Override
+	public List<Approval> selectReApproval(Member m) {
+		return sqlSession.selectList("approval.selectReApproval",m);
+	}
+
+	@Override
+	public List<BreakRequest> selectReBreakRequest(Member m) {
+		return sqlSession.selectList("approval.selectReBreakRequest", m);
+	}
+
+	@Override
+	public String selectUserName(String spender) {
+		return sqlSession.selectOne("approval.selectUserName", spender);
+	}
+
+	@Override
+	public BreakRequest selectBreakRequestOne(String break_request_no) {
+		return sqlSession.selectOne("approval.selectbreakRequestOne", break_request_no);
+	}
+
+	@Override
+	public int breakRequestAccept(BreakRequest breakRequest) {
+		return sqlSession.update("approval.breakRequestAccept", breakRequest);
+	}
+
+	@Override
+	public int breakRequestReject(BreakRequest breakRequest) {
+		return sqlSession.update("approval.breakRequestReject", breakRequest);
 	}
 
 }

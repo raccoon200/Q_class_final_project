@@ -16,13 +16,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.ok.address.model.service.AddressService;
 import com.kh.ok.address.model.vo.Address;
 import com.kh.ok.member.model.vo.Member;
 
-
+@SessionAttributes({"addCount","addDelCount"})
 @Controller
 public class AddressController {
 	
@@ -41,6 +43,27 @@ public class AddressController {
 		ModelAndView mav = new ModelAndView();
 		List<Address> list = addressService.addressView();
 		logger.info(list.toString());
+		
+		int addCount = 0;
+		int addDelCount = 0;
+		
+		for(int i =0; i<list.size(); i++) {
+			if((list.get(i).getStatus()).equals("Y ")) {
+				addCount++;
+			}
+		}
+		
+		List<Address> delList = addressService.addressTrashList();
+		System.out.println(delList);
+		for(int i =0; i<delList.size(); i++) {
+			if((delList.get(i).getStatus()).equals("N ")) {
+				addDelCount++;
+			}
+		}
+		
+		mav.addObject("addCount",addCount);
+		mav.addObject("addDelCount",addDelCount);
+		
 		mav.addObject("address", list);
 		mav.setViewName("address/addressView");
 		
@@ -61,7 +84,7 @@ public class AddressController {
 		logger.info(list.toString());
 		mav.addObject("address", list);
 
-		mav.setViewName("address/addressView");
+		mav.setViewName("redirect:/address/addressView.do");
 			
 		return mav;
 	}
@@ -77,23 +100,30 @@ public class AddressController {
 			
 		return mav;
 	}
-/*	@RequestMapping(value ="/address/addressTrash", method = RequestMethod.POST)
-	public String addressTrash(@RequestParam("addressTrashList") Address addressTrashList, ModelMap modelMap) throws Exception {
-	    // 삭제할 사용자 ID마다 반복해서 사용자 삭제
-	    for (String userId : addressTrashList) {
-	        System.out.println("주소 삭제 = " + addressAdd());
-	        int delete_count = addressService.addressAdd(addressTrashList);
-	    }
-	    // 목록 페이지로 이동
-	    return "address/addressTrash";
-	}*/
 	
+	@RequestMapping("/address/addressReset")
+	public ModelAndView addressReset(HttpServletRequest request){
+		
+		String addId= request.getParameter("addId");
+		System.out.println("addId=" + addId);
+		System.out.println("??");
+		
+		ModelAndView mav = new ModelAndView();
+		int result = addressService.addressReset(addId);
+		List<Address> list = addressService.addressTrashList();
+		logger.info(list.toString());
+		mav.addObject("list", list);
+
+		mav.setViewName("address/addressAdd");
+			
+		return mav;
+	}
 	
 	@RequestMapping("/address/addressAdd.do")
 	public String addressAdd() {
 		if(logger.isDebugEnabled())
 			logger.debug("주소 추가완료");
-	
+
 		return "address/addressAdd";
 	}
 	
@@ -194,9 +224,48 @@ public class AddressController {
 	
 		int result = addressService.InsertAddress(map);
 				
-		return "address/addressAdd";
+		return "redirect:/address/addressView.do";
 	}
  
+	@RequestMapping("/address/addressOneInformation.do")
+	public ModelAndView addressOneInformation(@RequestParam(value="address_no", required = false) String address_no,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("address_no", address_no);
+		map.put("com_no", m.getCom_no());
+		
+		Address address = addressService.AddressSelectName(map);
+		
+		
+		mav.addObject("address",address);
+		
+		mav.setViewName("/address/addressOneInformation");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/address/updateAddress.do")
+	public ModelAndView updateAddress(Address address,
+			HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+
+		System.out.println("address="+address);
+
+		int result = addressService.addressUpdateInfo(address);
+		
+		mav.addObject("address",address);
+		
+		mav.setViewName("/address/addressOneInformation");
+		
+		return mav;
+	}
+	
 	
 }
 

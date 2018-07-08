@@ -13,149 +13,189 @@
 	<jsp:param value="주소록" name="pageTitle"/>
 </jsp:include>
 <html>
-
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script charset="UTF-8" type="text/javascript"
+   src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 
 <script type="text/javascript">
 
   $('input:radio[name=addr_type]:input[value=addr_personal]').attr("checked", true);
   $('input:radio[name=addr_type]:input[value=addr_share]').attr("checked", true);
-  
-/* var addr_personal = $('input:radio[name=P]').is(':checked');
-var addr_share = $('input:radio[name=S]').is(':checked');
-console.log("addr_personal="+addr_personal);
-console.log("addr_share="+addr_share);
-
- function(){
-	if(window.location.pathname.indexOf("personal") !== -1){
-		window.location = Common.getRoot() + "address/personal";
-	}else if(window.location.pathname.indexOf("shared") !== -1){
-		window.location = Common.getRoot() + "address/shared";
-	}else{
-		window.location = Common.getRoot() + "address/trash";
-	}
-} */
 </script>
+<script>
+function fn_addressSum(){
+	if($("#sample4_postcode").val().trim().length != 0){
+		var add1 = $("#sample4_postcode").val();
+		if($("#sample4_roadAddress").val()==""||$("#sample4_roadAddress").val()==null){	
+			add1 += ",, "+ $("#sample4_roadAddress").val();
+		}else{
+			add1 += ",,"+ $("#sample4_roadAddress").val();
+		}
+		if($("#sample4_jibunAddress").val()==""||$("#sample4_jibunAddress").val()==null){
+			add1 += ",, "+ $("#sample4_jibunAddress").val();
+		}else{			
+			add1 += ",,"+ $("#sample4_jibunAddress").val();
+		}
+	}
+	
+	$("#address").val(add1);
+}
+function fn_validate(){
+	var regExp = /^[0-9]+$/;
+	var phone = $("#phone").val();
+	
+	if(!regExp.test(phone)){
+		alert("전화번호는 '-'없이 숫자만 가능합니다.");
+		$("#phone").focus();
+		return false;
+	}
+	return true;
+}
+</script>
+<script>
 
-	<form action="InsertAddress.do" method="post">
+   //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+   function sample4_execDaumPostcode() {
+      new daum.Postcode(
+            {
+               oncomplete : function(data) {
+                  // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                  // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                  var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                  var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+                  // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                  // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                  if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                     extraRoadAddr += data.bname;
+                  }
+                  // 건물명이 있고, 공동주택일 경우 추가한다.
+                  if (data.buildingName !== '' && data.apartment === 'Y') {
+                     extraRoadAddr += (extraRoadAddr !== '' ? ', '
+                           + data.buildingName : data.buildingName);
+                  }
+                  // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                  if (extraRoadAddr !== '') {
+                     extraRoadAddr = ' (' + extraRoadAddr + ')';
+                  }
+                  // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                  if (fullRoadAddr !== '') {
+                     fullRoadAddr += extraRoadAddr;
+                  }
+
+                  // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                  document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
+                  document.getElementById('sample4_roadAddress').value = fullRoadAddr;
+                  document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
+
+                  // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                  if (data.autoRoadAddress) {
+                     //예상되는 도로명 주소에 조합형 주소를 추가한다.
+                     var expRoadAddr = data.autoRoadAddress
+                           + extraRoadAddr;
+                     document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
+                           + expRoadAddr + ')';
+
+                  } else if (data.autoJibunAddress) {
+                     var expJibunAddr = data.autoJibunAddress;
+                     document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
+                           + expJibunAddr + ')';
+
+                  } else {
+                     document.getElementById('guide').innerHTML = '';
+                  }
+               }
+            }).open();
+   }
+</script>
+<div style="width: 400px;">
+	<form action="InsertAddress.do" method="post" onsubmit="fn_validate();">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
 	<!-- 		<input type="button" value="Radio Value" onClick="();"> -->
-		<table>
+				<table class="table" id="addressTable">
 			<tr>
+				<th >
+					<label style="width: 100px;" for="name">이름</label>
+				</th>   
 				<td>
-					이름   <input type="text" name="name" id="name" />
+					<input type="text" class="form-control" name="name" id="name" required maxlength="30" placeholder="최대 30자"/>
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="email">이메일</label>
+				</th>
 				<td>
-					이메일   <input type="text" name="email" id="email" />
+					   <input type="text" class="form-control" name="email" id="email"  />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="phone">전화번호</label>
+				</th>
 				<td>
-					전화번호  <input type="text" name="phone" id="phone" />
+					  <input type="text"class="form-control" name="phone" id="phone" maxlength="11" placeholder="'-'없이 숫자만" />
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="tag">태그</label>
+				</th>
 				<td>
-					태그   <input type="text" name="tag" id="tag" />
+					   <input type="text" class="form-control" name="tag" id="tag" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="company">회사</label>
+				</th>
 				<td>
-					회사  <input type="text" name="company" id="company" />
+					  <input type="text" class="form-control"name="company" id="company" maxlength="15" placeholder="최대 15자"/>
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="name">주소</label>
+				</th>
 				<td>
-				 	 
-				 	<!--  우편번호 검색 시작 -->
-				 	<input type="text" id="sample3_postcode" placeholder="우편번호"> 
-					<input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
-
-			<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
-			<img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-			</div>
-			주소 <input type="text" id="address" name="address" class="d_form large" placeholder="주소">
-			
-			<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
-			<script>
-			    // 우편번호 찾기 찾기 화면을 넣을 element
-			    var element_wrap = document.getElementById('wrap');
-			
-			    function foldDaumPostcode() {
-			        // iframe을 넣은 element를 안보이게 한다.
-			        element_wrap.style.display = 'none';
-			    }
-			
-			    function sample3_execDaumPostcode() {
-			        // 현재 scroll 위치를 저장해놓는다.
-			        var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
-			        new daum.Postcode({
-			            oncomplete: function(data) {
-			
-			                var fullAddr = data.address; // 최종 주소 변수
-			                var extraAddr = ''; // 조합형 주소 변수
-			
-			                // 기본 주소가 도로명 타입일때 조합한다.
-			                if(data.addressType === 'R'){
-			                    //법정동명이 있을 경우 추가한다.
-			                    if(data.bname !== ''){
-			                        extraAddr += data.bname;
-			                    }
-			                    // 건물명이 있을 경우 추가한다.
-			                    if(data.buildingName !== ''){
-			                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-			                    }
-			                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-			                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-			                }
-			
-			                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-			                document.getElementById('sample3_postcode').value = data.zonecode; //5자리 새우편번호 사용
-			                document.getElementById('address').value = fullAddr;
-			
-			                element_wrap.style.display = 'none';
-			
-			                // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
-			                document.body.scrollTop = currentScroll;
-			            },
-			            // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
-			            onresize : function(size) {
-			                element_wrap.style.height = size.height+'px';
-			            },
-			            width : '100%',
-			            height : '100%'
-			        }).embed(element_wrap);
-			
-			        // iframe을 넣은 element를 보이게 한다.
-			        element_wrap.style.display = 'block';
-			    }
-			</script>
-				  <!-- 우편번호 검색 끝  -->
+			 
+					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" style="display: inline; width: 100px;" > &nbsp;&nbsp; 
+                     <input type="button" class="btn btn-outline-primary" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
+                     <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" size="50px" style="width: 400px;" > 
+                     <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" size="50px" style="width: 400px;" >
+                     <input type="hidden" name="address" id="address" value="" />
+                     <span id="guide" style="color: #999"></span>				 	 
 				</td>
 			</tr>
 			
 			<tr>
+				<th>
+					<label for="anniversary">기념일</label>
+				</th>
 				<td>
-				 	 기념일  <input type="text" name="anniversary" id="anniversary" />
+				 	   <input type="date" class="form-control" name="anniversary" id="anniversary"/>
 				</td>
 			</tr>
 			<tr>
+				<th>
+					<label for="memo">메모</label>
+				</th>
 				<td>
-				 	 메모  <input type="text" name="memo" id="memo" />
+				 	  
+			 	  <input type="text" class="form-control" name="memo" id="memo" maxlength="100" placeholder="최대 100자"/>
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<input type="submit" value="저장"  />
-				</td>
+				<th colspan="2" style="text-align: center;">
+					<input type="submit" value="저장" class="btn btn-outline-primary" onclick="fn_addressSum();"/>
+				</th>
 			</tr>
-			
-	
-	
 		</table>
 	</form>
+	</div>
 
 	

@@ -12,6 +12,7 @@ import com.kh.ok.approval.model.vo.Approval;
 import com.kh.ok.approval.model.vo.Connect;
 import com.kh.ok.approval.model.vo.Dept;
 import com.kh.ok.approval.model.vo.Title_of_Account;
+import com.kh.ok.breakTime.model.vo.BreakRequest;
 import com.kh.ok.member.model.vo.Member;
 
 @Service
@@ -141,6 +142,78 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public int approvalDataListCount(String com_no) {
 		return approvalDAO.approvalDataListCount(com_no);
+	}
+	@Override
+	public List<Map<String, Object>> selectApprovalList(String com_no) {
+		return approvalDAO.selectApprovalList(com_no);
+	}
+	@Override
+	public List<Map<String, Object>> selectBreakRequestList(String com_no) {
+		return approvalDAO.selectBreakRequestList(com_no);
+	}
+	@Override
+	public Approval selectApprovalOne(String approval_no) {
+		return approvalDAO.selectApprovalOne(approval_no);
+	}
+	@Override
+	public String selectComName(String com_no) {
+		return approvalDAO.selectComName(com_no);
+	}
+	@Override
+	public int approvalAccept(Approval approval) {
+		return approvalDAO.approvalAccept(approval);
+	}
+	@Override
+	public int approvalReject(Approval approval) {
+		return approvalDAO.approvalReject(approval);
+	}
+	@Override
+	public List<Approval> selectAllApproval(Member m) {
+		return approvalDAO.selectAllApproval(m);
+	}
+	@Override
+	public List<BreakRequest> selectAllBreakRequest(Member m) {
+		return approvalDAO.selectAllBreakRequest(m);
+	}
+	@Override
+	public List<Approval> select84Approval(Member m) {
+		return approvalDAO.select84Approval(m);
+	}
+	@Override
+	public List<BreakRequest> select84BreakRequest(Member m) {
+		return approvalDAO.select84BreakRequest(m);
+	}
+	@Override
+	public List<Approval> selectComApproval(Member m) {
+		return approvalDAO.selectComApproval(m);
+	}
+	@Override
+	public List<BreakRequest> selectComBreakRequest(Member m) {
+		return approvalDAO.selectComBreakRequest(m);
+	}
+	@Override
+	public List<Approval> selectReApproval(Member m) {
+		return approvalDAO.selectReApproval(m);
+	}
+	@Override
+	public List<BreakRequest> selectReBreakRequest(Member m) {
+		return approvalDAO.selectReBreakRequest(m);
+	}
+	@Override
+	public String selectUserName(String spender) {
+		return approvalDAO.selectUserName(spender);
+	}
+	@Override
+	public BreakRequest selectBreakRequestOne(String break_request_no) {
+		return approvalDAO.selectBreakRequestOne(break_request_no);
+	}
+	@Override
+	public int breakRequestAccept(BreakRequest breakRequest) {
+		return approvalDAO.breakRequestAccept(breakRequest);
+	}
+	@Override
+	public int breakRequestReject(BreakRequest breakRequest) {
+		return approvalDAO.breakRequestReject(breakRequest);
 	}
 	
 }

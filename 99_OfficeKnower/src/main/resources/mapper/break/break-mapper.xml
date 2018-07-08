@@ -160,6 +160,11 @@
   	<update id="updateBreakSetting">
   		update break_setting set createdate = #{createdate}, breakdays = #{breakdays} where com_no = #{com_no}
   	</update>
+  	<update id="callProc_break_manual" statementType="CALLABLE">
+	    {
+	        call proc_break_manual(#{com_no},#{createdate})
+	    }
+	</update>
   	<select id="alllBreakList" resultType="map">
   		select b.userid, u.username, u.joindate, b.regular_break, b.reward_break, b.regular_used_break, b.reward_used_break
 		from break b left join tbl_user u on (b.userid=u.userid)
@@ -189,5 +194,7 @@
   	<select id="personBreakRequestList" resultType="map">
   		select * from break_request where userid = #{userid}
   	</select>
-
+	<select id="selectBreakRequestUserIdList" resultType="breakrRequest">
+		select * from break_request where userid=#{userId}
+	</select>
 </mapper>

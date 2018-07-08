@@ -21,7 +21,7 @@
 	<table class="table table-hover">
 
     <tr>
-      <th scope="col">종류</th>
+      <th scope="col" style="min-width: 104px;">종류</th>
       <th scope="col">게시판 이름</th>
       <th scope="col">관리자</th>
       <th scope="col">만든 날짜</th>
@@ -33,9 +33,9 @@
 	<c:forEach var="boardMenu" items="${list }" varStatus="vs">
     <tr>
       <th scope="row">${boardMenu["KIND"]}</th>
-      <td>${boardMenu["TITLE"]}</td>
+      <td style="white-space: nowrap;">${boardMenu["TITLE"]}</td>
       <td>${boardMenu["USERID"]}</td>
-      <td>${boardMenu["CREATEDATE"]}</td>
+      <td> <fmt:formatDate value='${boardMenu["CREATEDATE"]}' type="date"/></td>
       <td>${boardMenu["STATUS"] }</td>
       <td class="modify" onclick="location.href='${pageContext.request.contextPath}/board/boardMenuFormUpdate?boardMenuNo=${boardMenu['BOARD_MENU_NO']}'" >수정</td>
       <td class="modify" >

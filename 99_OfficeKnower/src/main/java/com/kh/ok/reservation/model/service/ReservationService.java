@@ -59,5 +59,7 @@ public interface ReservationService {
 	int reservationCategoryUpdate(HashMap<String, String> map);
 
 	int reservationCategoryDelete(HashMap<String, String> map);
+
+	int reservationResourcesAdd(Resources resources);
 	
 }

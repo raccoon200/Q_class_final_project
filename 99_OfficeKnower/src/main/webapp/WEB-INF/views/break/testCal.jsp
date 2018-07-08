@@ -33,14 +33,41 @@ h2{
 function between(start,end){
 	diffDate_1 = new Date(start);
     diffDate_2 = new Date(end);
-	 
+    
+    
+    var end1 = $("#end").text();
+    
+    $.ajax({
+		url : "breakCheckIdDuplicate.do",
+		data : {start:start,
+				end:end1},
+		dataType : "json",
+		success : function(data){
+			console.log(data);		// true, false
+
+			if(data.isUsable==true){
+				
+			}else{
+				alert("선택하신 날짜는 이미 휴가 신청된 날짜입니다.");				
+			}
+		},
+		error : function(jqxhr, textStatus, errorThrown){
+			console.log("ajax실패",jqxhr,textStatus,errorThrown);
+		}
+	});
+    
+    
    var diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
    diff = Math.ceil(diff / (1000 * 3600 * 24));
-
+   
+   /* 18.07.06 휴가 주 계산 */
+   if($('.fc-highlight').length != 1){
+	   diff = diff - ($('.fc-highlight').length-1)*2;
+   }
    
    $("#breakdays").val(diff);
    $("#selectedDay").html(diff);
- 
+ 	
 	
 }
 
@@ -89,7 +116,7 @@ function between(start,end){
         	header: { 
         		left: 'today'
         		, center: 'prev, title, next'
-        		, right : null
+        		, right : 'month'
         		
         	},
         	
@@ -119,15 +146,18 @@ function between(start,end){
             , editable : false
             , eventLimit : true
             , events: [
-            	
+            	{
+            		
+            	}
             ]
         	
         	, dayClick: function(date, allDay, jsEvent, view) {
         	
-        	
      		} //dayClick끝
         
         	, eventClick:function(event) {
+        		console.log("찍히니 찍히니");
+        		
 
         	  } //eventClick끝  
         	,select: function(startDate, endDate) {
@@ -135,21 +165,20 @@ function between(start,end){
         		
         	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
         	     //alert('selected ' + startDate.format() + ' to ' + endDate.format());
-        	     console.log("endDate" + endDate);
-        	     console.log("endDate.format()" + endDate.format()+"T02:00");
+        	     //console.log("endDate" + endDate);
+        	     //console.log("endDate.format()" + endDate.format()+"T02:00");
         	     
         	      $("#start").html(startDate.format()+"~");
         	     $(".fc-highlight").css("background", "red");
         		  enddateSolve(endDate.format());
         	     
-        	      between(startDate.format(),endDate.format());
         	      
         	      $("#startdate").val(startDate.format());
         	     // $("#start").html(startDate.format()+ "~");
         	      $("#enddate").val(endDate.format());
+        	      between(startDate.format(),endDate.format());
         	   //   $("#end").html(endDate.format());
         		  checkToday(startDate.format());
-        	      
             }
         	
         }); //fullCalnedar끝
@@ -158,7 +187,6 @@ function between(start,end){
     }); //ready 끝  
 </script>
 <script>
-
 
 function checkToday(s){
 	var selectedYear = s.substring(0,4);
@@ -192,6 +220,7 @@ function checkToday(s){
 		$("#end").html(" ");
 		return;
 	}
+	
 	//alert("날짜 체크" + todayYear);
 	
 }

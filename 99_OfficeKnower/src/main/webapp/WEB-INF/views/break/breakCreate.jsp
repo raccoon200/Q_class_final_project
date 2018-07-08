@@ -441,7 +441,73 @@ function rewardMemberDelete(){
 <!-- div 모음 시작 -->
 <div class="tab-content" id="myTabContent"> 
 	<div class="tab-pane fade show active" id="year" role="tabpanel" aria-labelledby="year-tab">
-		연차
+		<form action="${pageContext.request.contextPath }/break/breakCreateEnd.do" method="post">
+	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
+	<table class="table table-bordered">
+		<tr>
+			<th rowspan="4" style="background:#F6F6F6;" >휴가일수<br />(입사년도)</th>
+			<td scope="col">N</td>
+			<td>N+1</td>
+			<td>N+2</td>
+			<td>N+3</td>
+			<td>N+4</td>
+			<td>N+5</td>
+			<td>N+6</td>
+		</tr>
+		<tr>
+			<td><span id="bsn" >${bs.n }</span></td>
+			<td><span id="bsn1" >${bs.n1 }</span></td>
+			<td><span id="bsn2" >${bs.n2 }</span></td>
+			<td><span id="bsn3" >${bs.n3 }</span></td>
+			<td><span id="bsn4" >${bs.n4 }</span></td>
+			<td><span id="bsn5" >${bs.n5 }</span></td>
+			<td><span id="bsn6" >${bs.n6 }</span></td>		
+		</tr>
+		<tr>
+			<td>N+7</td>
+			<td>N+8</td>
+			<td>N+9</td>
+			<td>N+10</td>
+			<td>N+11</td>
+			<td>N+12</td>
+			<td>이상</td>
+		</tr>
+		<tr>
+			<td><span id="bsn7" >${bs.n7 }</span></td>
+			<td><span id="bsn8" >${bs.n8 }</span></td>
+			<td><span id="bsn9" >${bs.n9 }</span></td>
+			<td><span id="bsn10" >${bs.n10 }</span></td>
+			<td><span id="bsn11" >${bs.n11 }</span></td>
+			<td><span id="bsn12" >${bs.n12 }</span></td>
+			<td></td>
+		</tr>
+		<tr style="border-bottom: 1px solid #dee2e6;">
+			<th style="background:#F6F6F6;">생성일자</th>
+			<td colspan="13">
+				<select name="createdate" id="">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+				</select>
+				월 1일
+			</td>
+		</tr>
+	</table>
+<button type="submit" class="btn btn-outline-info">저장</button>
+</form>
+		
+		
+		
+		
 	</div>
 
 

@@ -164,7 +164,7 @@ $(function(){
 	});
 	
  	$(".deleteCheck.insaCheck").on("click", function(){
-		if($(".deleteCheck:checked").length == ${list.size()}){
+		if($(".deleteCheck:checked").length == parseInt("${list.size()}")){
 			$("#insaTotalCheck").prop("checked",true);
 		}else{
 			$("#insaTotalCheck").prop("checked",false);
@@ -217,7 +217,7 @@ function fn_newMemberUpdateAdd(){
 	}
 }
 </script>
-<div class="insa_management" style="width: 95%;">
+<div class="insa_management" style="width: 100%;">
 	<h5 style="display: inline;">사용자 관리</h5> 
 	<div style="float: right!important">
 		<span style="right: 0px; margin-right: 20px">사용자   ${boardCnt}</span>
@@ -262,12 +262,12 @@ function fn_newMemberUpdateAdd(){
 			<th>이름</th>
 			<th>ID</th>
 			<th>사내전화</th>
-			<th>휴대전화</th>
+			
 			<th>부서</th>
-			<th>직위</th>
+			<th style="min-width: 56px;">직위</th>
 			<th>입사일</th>
-			<th>직무</th>
-			<th>상태
+			<th style="min-width: 56px;">직무</th>
+			<th style="min-width: 56px;">상태
 			<input type="hidden" id="position" name="position" value=""/>
 			<input type="hidden" id="job" name="job" value=""/>
 			<input type="hidden" id="status" name="status" value=""/>
@@ -286,11 +286,11 @@ function fn_newMemberUpdateAdd(){
 					<td>
 						<input type="checkbox" class="deleteCheck insaCheck"id="getUserId" name="userId" value="${l.getUserId()}" />
 					</td>
-					<td>${l.getUserName()}</td>
-					<td><a style="color:gray; font-weight:bold; text-decoration: underline;" href="${pageContext.request.contextPath}/insa/memberSelectManagement.do?userId=${l.getUserId()}">${l.getUserId()}</a></td>
+					<td style="white-space: nowrap">${l.getUserName()}</td>
+					<td style="white-space: nowrap"><a style="color:gray; font-weight:bold; text-decoration: underline;" href="${pageContext.request.contextPath}/insa/memberSelectManagement.do?userId=${l.getUserId()}">${l.getUserId()}</a></td>
 					<td>${l.getPhone_com()}</td>
-					<td>${l.getPhone_cell()}</td>
-					<td>${l.getDept()}</td>
+					
+					<td style="white-space: nowrap">${l.getDept()}</td>
 					<td>${l.getPosition()}</td>
 					<td>${l.getJoinDate()}</td>
 					<td>${l.getJob()}</td>
