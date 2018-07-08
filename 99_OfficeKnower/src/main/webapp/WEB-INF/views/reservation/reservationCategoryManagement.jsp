@@ -96,7 +96,7 @@ function fn_cateValidate() {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">카테고리 추가</h5>
+					<h5 class="modal-title" id="exampleModalLabel">카테고리 수정</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -112,6 +112,7 @@ function fn_cateValidate() {
 					<td>
 					<input type="text" name="category" id="category_" required/>
 					<input type="hidden" name="category_origin" id="category_origin" required/>
+					<input type="hidden" id="category_res_cnt"/>
 					</td>
 					</tr>
 					<tr>
@@ -123,7 +124,7 @@ function fn_cateValidate() {
 					</table>
 					</div> 
 				<div class="modal-footer">
-						<button type="submit" class="btn btn-outline-success" onclick="fn_categoryUpdate();">수정</button>
+						<button type="submit" class="btn btn-outline-success" >수정</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">취소</button>
 				</div>
@@ -133,18 +134,23 @@ function fn_cateValidate() {
 </div>	
 <script>
 function fn_updateClick(category) {
-	
 	<c:forEach var="list" items="${categoryListCnt}">
 		if(category=="${list.CATEGORY}") {
+			
 			$("#category_update").find("#category_").val('${list.CATEGORY}');
 			$("#category_update").find("#category_origin").val('${list.CATEGORY}');
-			if('${list.CATEGORY_PURPOSE}'!='미기재') { 
+			if('${list.CATEGORY_PURPOSE}'!='미기입') { 
 			$("#category_update").find("#category_purpose_").val('${list.CATEGORY_PURPOSE}');
 			}
+			$("#category_update").find("#category_res_cnt").val('${list.RES_CNT}');
 		}
 	</c:forEach>
 }
 function fn_updateValidate() {
+	if($("#category_res_cnt").val()!="0") {
+		alert("해당 카테고리는 자원을 가지고 있어서 수정할 수 없습니다. \n 자원을 삭제한 뒤 다시 시도하십시오.");
+		return false;
+	}
 	<c:forEach var="list" items="${categoryListCnt}">
 		if("${list.CATEGORY}"==$("#category_").val()&& "${list.CATEGORY}"!=$("#category_origin").val()) {
 			alert("카테고리명이 이미 있습니다");
@@ -168,3 +174,4 @@ function fn_deleteClick(category) {
 	}
 }
 </script>
+<jsp:include page="/WEB-INF/views/reservation/reservationModal.jsp"/>
