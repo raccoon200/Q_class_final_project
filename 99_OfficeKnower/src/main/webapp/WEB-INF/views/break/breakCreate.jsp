@@ -59,6 +59,16 @@ $( document ).ready(function() {
 function fn_createReward(userid,regular,reward, index){
 	afterReward = $("#reward"+index+"").val();
 	var test = $("input[name=reward]");
+	
+	var selectedUser="";
+	
+	$("input[name=selectedMember]").each(function() {
+		selectedUser += $(this).val() + ",";
+		console.log("selectedUser=" +selectedUser);
+
+	});
+	
+	
 		
 	var rewardDay = $("#reward"+index).val().trim().length;
 	if(rewardDay>2){
@@ -89,7 +99,7 @@ function fn_createReward(userid,regular,reward, index){
 	$.ajax({
 	      url : "${pageContext.request.contextPath}/break/createReward.do",
 	            type: "post",
-	            data : {userid:userid,regular:regular, reward:reward,afterReward:afterReward},
+	            data : {selectedUser:selectedUser,userid:userid,regular:regular, reward:reward,afterReward:afterReward},
 	            dataType : "json",
 	            success: function(data){
 	               console.log(data);
@@ -152,6 +162,7 @@ function fn_createReward(userid,regular,reward, index){
 	    			    
 	 				
 	 						$("#afterRewardDiv").html(html);
+	 						
 	 						
 	 						
 	    			    

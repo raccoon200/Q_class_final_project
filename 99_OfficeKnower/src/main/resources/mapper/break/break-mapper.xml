@@ -197,4 +197,12 @@
 	<select id="selectBreakRequestUserIdList" resultType="breakrRequest">
 		select * from break_request where userid=#{userId}
 	</select>
+	<select id="checkBreak" resultType="string">
+		select * from break where userid = #{userid}
+	
+	</select>
+	
+	
+	
+	
 </mapper>

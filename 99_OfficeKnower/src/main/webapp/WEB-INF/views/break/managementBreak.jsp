@@ -257,7 +257,7 @@ function fn_ViewBreak(userid,username){
 					console.log("c"+c[1]);
 					index += 1;
 						
-					if(c.STATUS=='결재 완료'){
+					if(c.STATUS=='결재 완료' || c.STATUS=='결재 대기'){
 						
 						html += '<tr>';
 						html += '<th>' + index + '</th>';

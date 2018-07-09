@@ -58,4 +58,6 @@ public interface BreakDAO {
 
 	List<BreakRequest> selectBreakRequestUserIdList(Map<String, String> map);
 
+	List<Map<String, Object>> checkBreak(String userid);
+
 }
