@@ -115,25 +115,6 @@ public class ReservationController {
 				}
 			}
 				
-				
-					/*if(startTime.isBefore(quitTimePre)) {
-						System.out.println("걸리냐!!?");
-						mav.addObject("msg", "예약중인 시간입니다.");
-						mav.addObject("loc", "/reservation/reservationListPage");
-						mav.setViewName("common/msg");
-						return mav;
-					}
-				System.out.println(startTimePre+""+quitTimePre);*/
-
-				
-				
-		/*// startTime이 endTime 보다 이전 시간 인지 비교
-		System.out.println(startTime.isAfter(endTime));    // true
-
-		// startTime이 endTime 보다 이후 시간 인지 비교
-		startTime.isAfter(endTime); // false
-*/		
-		
 		String userId = m.getUserId();
 		String com_no = m.getCom_no();
 			
