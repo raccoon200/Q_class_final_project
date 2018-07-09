@@ -272,7 +272,7 @@ $(function() {
 		<img src="${pageContext.request.contextPath }/resources/images/common/important_apply.png" id="important-apply" alt="" />
 	</div>
 	<%-- <img src="${pageContext.request.contextPath}/resources/images/profile/${board.profile}" class="board-delete" alt=""> --%>
-	<img src="${pageContext.request.contextPath}\resources\images\upload\member\${board.profile}" class="profile" alt="프로필">
+	<img src="${pageContext.request.contextPath}/resources/upload/member/${board.profile}" class="profile" alt="프로필">
 	<p id="title">${board.title }</p>
 	<p id="writer" class="sub">${board.writer }</p>
 	<p id="kind" class="sub"><%-- ${board.kind } --%>전사게시판</p>
@@ -293,7 +293,7 @@ $(function() {
 		<p id="comment-count"><span style="color:rgb(0,125,255); font-weight:bold">${fn:length(commentList) }</span>개의 댓글</p> <br /> <br />
 		<c:forEach var="v" varStatus="vs" items="${commentList }">
 		<div class="comment-user">
-			<img src="${pageContext.request.contextPath}/resources/images/profile/${v.PHOTO}" class="comment-profile" alt="">
+			<img src="${pageContext.request.contextPath}/resources/upload/member/${v.PHOTO}" class="comment-profile" alt="">
 			<c:if test="${memberLoggedIn.userId eq v.WRITER }">
 				<p id="comment-delete" class="sub" onclick="location.href='${pageContext.request.contextPath}/board/commentDelete?comment_no=${v.COMMENT_NO }&board_no=${v.BOARD_NO }'">삭제</p>
 			</c:if>
