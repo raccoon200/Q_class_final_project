@@ -45,8 +45,11 @@ p#admin-add {
 <script>
 function fn_admin_add() {
 	if(!document.getElementById('tmprow')) {
-		var str = '<tr id="tmprow"><td colspan="5"><input id="autocomplete" type="text"/><div id="tmpdiv"></div></td></tr>';
+		var str = '<tr id="tmprow"><td colspan="5"><input id="autocomplete" type="text"/><input type="button" class="btn btn-outline-secondary" value="취소" onclick="fn_btnCancel()" id="btnManagementCan" style=" margin-left: 10px;"/><div id="tmpdiv"></div></td></tr>';
 		$("#admin-table").append(str);
+	}else{
+		$("#autocomplete").show();
+		$("#btnManagementCan").show();
 	}
 	$("#autocomplete").keydown(function(key){
 		if(key.keyCode==13){
@@ -98,7 +101,10 @@ function fn_admin_add() {
 	})
 
 }
-
+function fn_btnCancel(){
+	$("#autocomplete").hide();
+	$("#btnManagementCan").hide();
+}
 
 </script>
 <p id="sub-title">관리자 추가</p>
@@ -137,9 +143,9 @@ function fn_admin_add() {
 			</tr>
 		</c:forEach>
 
-
 	</tbody>
 </table>
+	
 </div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

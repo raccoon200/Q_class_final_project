@@ -47,7 +47,7 @@
 <p style="font-weight:bold">지출 결의</p>
 <br />
 
-<table class="table table-bordered" id="approvalList" style="width : 80%">
+<table class="table table-bordered" id="approvalList" style="width : 100%">
     <tr style="background:#F6F6F6;">
       <th scope="col">문서번호</th>
       <th scope="col" >기준월</th>

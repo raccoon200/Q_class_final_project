@@ -43,8 +43,8 @@ public class InsaController {
 	
 	@Autowired
 	private JobService jobService;
-	
 	@Autowired
+	
 	BreakService breakService;
 	
 	@RequestMapping("/insa/memberListAll.do")
@@ -684,7 +684,7 @@ public class InsaController {
 		List<Member> list =  insaService.memberListAll(m.getCom_no());
 		
 		mav.addObject("list",list);
-		
+		mav.addObject("myGrade",m.getGrade());
 		mav.setViewName("insa/insaSuperManagement");
 		return mav;
 	}

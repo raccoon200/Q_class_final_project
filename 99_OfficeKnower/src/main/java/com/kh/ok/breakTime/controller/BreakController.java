@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kh.ok.breakTime.model.service.BreakService;
 import com.kh.ok.breakTime.model.vo.Break;
 import com.kh.ok.breakTime.model.vo.BreakRequest;
@@ -487,7 +488,7 @@ public class BreakController {
 		mav.setViewName("break/managementBreak");
 		return mav;
 	}
-	
+
 	@RequestMapping("/break/addressBreakUpdate.do")
 	public ModelAndView addressBreakUpdate(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
@@ -558,4 +559,49 @@ public class BreakController {
 		
 		return map;
 	}
+
+	@RequestMapping("/break/breakCheckIdDuplicate.do")
+	@ResponseBody
+	public Map<String,Object> checkIdDuplicate(@RequestParam("start") String startDate
+						,@RequestParam("end") String endDate,
+						HttpServletRequest request) throws JsonProcessingException {
+		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
+		
+		
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("userId", m.getUserId());
+		
+		System.out.println("startDate="+startDate);
+		System.out.println("endDate=" + endDate);
+
+		List<BreakRequest> list = new ArrayList<>();
+		list = breakService.selectBreakRequestUserIdList(map);
+		
+		int starInt = Integer.parseInt(startDate.replaceAll("-", ""));
+		int endInt = Integer.parseInt(endDate.replaceAll("-", ""));;
+		int startDB = 0;
+		int endDB = 0;
+		boolean isUsable = true;
+		
+		for(int i = 0; i< list.size(); i++) {
+			startDB = Integer.parseInt((list.get(i).getStartdate()).replaceAll("-", ""));
+			endDB = Integer.parseInt((list.get(i).getEnddate()).replaceAll("-", ""));
+			if((startDB <= starInt && endDB >= starInt) ||
+				(startDB <= endInt && endDB >= endInt) ||
+				(starInt <= startDB && startDB <= endInt)) {
+				isUsable = false;
+				break;
+			}
+		}
+		
+		Map<String,Object> mdate = new HashMap<String,Object>();
+		
+		mdate.put("list", list);
+		mdate.put("isUsable", isUsable);
+		return mdate;
+	}
+
 }

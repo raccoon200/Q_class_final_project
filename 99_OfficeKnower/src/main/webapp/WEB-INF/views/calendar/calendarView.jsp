@@ -30,7 +30,7 @@ body {
 }
 #calendar {
     display: inline-block;
-    width: 90%;
+    width: 100%;
 }
 .fc-view-container{
 	display: inline-block;
@@ -175,7 +175,7 @@ function day(day){
         				 html2 +="<div class='form-group row'>";
         				 html2 +="<label for='title' class='col-sm-2 col-form-label'>일정 제목</label>";
         				 html2 +="<div class='col-sm-10'>";
-        				 html2 +="<input type='text' name='title' id='title' class='form-control'  maxlength='30' onKeyup='len_chk2(this)'  required/></div></div>";
+        				 html2 +="<input type='text' name='title' id='title' class='form-control'  maxlength='30' onKeyup='len_chk2(this)' autocomplete='off' required/></div></div>";
         				
         				 html2 +="<div class='form-group row'>";
         				 html2 +="<label for='title' class='col-sm-2 col-form-label'>작성자</label>";

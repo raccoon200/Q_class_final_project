@@ -120,7 +120,7 @@ div#board-container{
 }
 #comment-delete {
 	top:0px;
-	left:650px;
+	left: 97%;
 	color:rgb(0,125,255);
 	cursor:pointer;
 }
@@ -198,11 +198,11 @@ div#content{
 	background:color(246,247,248);
 	border:none;
 }
-#comment-insert-button{
+/* #comment-insert-button{
 	position:absolute;
 	top:10px;
 	left:700px;
-}
+} */
 #comment-insert-area{
 	position:absolute;
 	top:10px;
@@ -254,7 +254,7 @@ $(function() {
 
 
 </script>
-<div id="board-container">
+<div id="board-container" style="width: 100%">
 	<span onclick="location.href='${pageContext.request.contextPath}/board/boardBasicList'" class="top-btn" id="top-btn-list">목록이동</span>
 	<c:if test="${memberLoggedIn !=null }">
 		<c:if test="${memberLoggedIn.userId eq board.writer || memberLoggedIn.grade eq '슈퍼관리자' || memberLoggedIn.grade eq '게시판관리자'  }">
@@ -284,7 +284,7 @@ $(function() {
 		<p id="file" onclick="fileDownload('${board.original_file_name}', '${board.renamed_file_name }')">첨부파일  :  ${board.original_file_name }</p>
 	</c:if>
 	<br clear="both"/>
-	<div id="board-content">
+	<div id="board-content" style="width: 100%;">
 		${board.content }
 	</div>
 	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
@@ -295,11 +295,11 @@ $(function() {
 		<div class="comment-user">
 			<img src="${pageContext.request.contextPath}/resources/upload/member/${v.PHOTO}" class="comment-profile" alt="">
 			<c:if test="${memberLoggedIn.userId eq v.WRITER }">
-				<p id="comment-delete" class="sub" onclick="location.href='${pageContext.request.contextPath}/board/commentDelete?comment_no=${v.COMMENT_NO }&board_no=${v.BOARD_NO }'">삭제</p>
+				<p id="comment-delete" class="sub" onclick="location.href='${pageContext.request.contextPath}/board/commentDelete?comment_no=${v.COMMENT_NO }&board_no=${v.BOARD_NO }'" style="white-space: nowrap;">삭제</p>
 			</c:if>
-			<p id="comment-writer" class="sub">${v.WRITER }</p>
-			<p id="comment-writedate" class="sub">${v.WRITEDATE }</p>
-			<p id="comment-content" class="sub">${v.CONTENT }</p>
+			<p id="comment-writer" style="display: inline-block;">${v.WRITER }</p>
+			<p id="comment-writedate" style="display: inline-block;">${v.WRITEDATE }</p>
+			<p id="comment-content" style="margin-left:38px;">${v.CONTENT }</p>
 		</div>
 		</c:forEach>
 		
@@ -308,8 +308,8 @@ $(function() {
 	<div class="comment" id="comment-insert">
 		<input type="hidden" name="board_no" value="${board.board_no }" />
 		<input type="hidden" name="writer" value="${memberLoggedIn.userId }" />
-		<textarea name="content" id="" cols="80" rows="1" id="comment-insert-area"></textarea>
-		<input  type="submit" value="등록" class="btn btn-outline-primary" id="comment-insert-button"/>
+		<textarea name="content" id="" cols="80" rows="1" id="comment-insert-area" class="form-control" style="width: 88%; display: inline-block;"></textarea>
+		<input  type="submit" value="등록" class="btn btn-outline-primary" id="comment-insert-button" style="margin-bottom: 29px;"/>
 	</div>
 	</form>
 	

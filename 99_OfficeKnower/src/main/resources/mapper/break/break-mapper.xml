@@ -194,4 +194,7 @@
   	<select id="personBreakRequestList" resultType="map">
   		select * from break_request where userid = #{userid}
   	</select>
+	<select id="selectBreakRequestUserIdList" resultType="breakrRequest">
+		select * from break_request where userid=#{userId}
+	</select>
 </mapper>

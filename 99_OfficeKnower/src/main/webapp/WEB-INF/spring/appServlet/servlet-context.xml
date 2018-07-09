@@ -84,6 +84,29 @@
 			
 			<beans:bean id="companyCheckIntercepter" class="com.kh.ok.common.intercepter.CompanyCheckIntercepter"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/office/approval/code.do"/>
+			<mapping path="/office/approval/account.do"/>
+			<mapping path="/approval/admin/**"/>
+			<mapping path="/insa/memberManagement.do"/>
+			<mapping path="/insa/memberManagement.do"/>
+			<mapping path="/insa/positionManagement.do"/>
+			<mapping path="/insa/insaManagement.do"/>
+			<mapping path="/insa/insaSuperManagement.do"/>
+			<mapping path="/break/breakSetting.do"/>
+			<mapping path="/break/breakCreate.do"/>
+			<mapping path="/break/breakManagement.do"/>
+			<mapping path="/board/boardMenuForm.do"/>
+			<mapping path="/board/boardMenuManage"/>
+			<mapping path="/board/boardAdminInsert.do"/>
+			<mapping path="/reservation/reservationApprovalManagement"/>
+			<mapping path="/reservation/reservationReturnManagement"/>
+			<mapping path="/reservation/reservationCategoryManagement"/>
+			<mapping path="/reservation/reservationResourcesManagement"/>
+			<mapping path="/reservation/reservationResourcesManagement"/>
+			
+			<beans:bean id="adminCheckIntercepter" class="com.kh.ok.common.intercepter.AdminCheckIntercepter"/>
+		</interceptor>
 	</interceptors> 
 </beans:beans>
 

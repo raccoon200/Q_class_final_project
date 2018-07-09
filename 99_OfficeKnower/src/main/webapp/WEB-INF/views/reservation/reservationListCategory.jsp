@@ -1,23 +1,47 @@
-<%@page import="com.kh.ok.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="예약" name="pageTitle" />
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="예약" name="pageTitle" />
-	<jsp:param value="나의 예약 목록" name="selectMenu" />
+	<jsp:param value="${SelectCategory}" name="selectMenu" />
 </jsp:include>
-
-<strong>나의 예약 목록</strong>
+<strong>${SelectCategory} 카테고리의 예약 내역</strong>
 <hr />
-<strong>예약 목록</strong>
 <br />
-<br />
+<script>
+function fn_reservationNoClick(reservationNo, flag){
+	$.ajax({
+		url : "selectOneReservationNo.do", 
+        dataType : "json",
+        data : {reservationNo:reservationNo},  
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+        success : function(data) {
+        	console.log(data);
+        	$("#res_name").text(data.res_name);
+        	$("#reservation_date").text(data.startdate+' ~ '+data.quitdate);
+        	$("#writer").text(data.writer);
+        	$("#purpose").text(data.purpose);
+        	$("#reservation_no").val(data.reservation_no);
+        	if(flag=='확인') {
+        		$("#approval_status").text('승인 대기중');
+        		$("#return_button").hide();
+        		$("#delete_button").show();
+        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationDeleteOne");
+        	} else {
+        		$("#approval_status").text('예약 승인');
+        		$("#delete_button").hide();
+        		$("#return_button").show();
+        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationReturn");
+        	}
+		}
+     });
+	}
+</script>
 <table class="table">
 	<thead class="thead-light">
 		<tr>
@@ -29,19 +53,19 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="list" items="${list}">
-			<c:if test='${!empty list}'>
+	<c:forEach var="CList" items="${CList}">
+			<c:if test='${!empty CList}'>
 				<tr>
-					<td>${list.category }</td>
-					<td>${list.res_name }</td>
-					<td>${list.purpose==null?'미기입':list.purpose}</td>
-					<td>${list.startdate}~ ${list.quitdate}</td>
+					<td>${CList.category}</td>
+					<td>${CList.res_name}</td>
+					<td>${CList.purpose==null?'미기입':CList.purpose}</td>
+					<td>${CList.startdate}~ ${CList.quitdate}</td>
 					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservationView" value="${list.reservation_no}" onclick="fn_reservationNoClick(this.value, '반납')">상세보기</button></td>
+				data-target="#reservationView" value="${CList.reservation_no}" onclick="fn_reservationNoClick(this.value, '반납')">상세보기</button></td>
 				</tr>
 			</c:if>
 		</c:forEach>
-		<c:if test="${empty list}">
+		<c:if test='${empty CList}'>
 			<tr>
 				<td colspan="5">데이터가 없습니다!</td>
 			</tr>
@@ -64,57 +88,25 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="listN" items="${listN}">
-			<c:if test='${!empty listN}'>
+		<c:forEach var="CListNull" items="${CListNull}">
+			<c:if test='${!empty CListNull}'>
 				<tr>
-					<td>${listN.category }</td>
-					<td>${listN.res_name }</td>
-					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
-					<td>${listN.startdate}~ ${listN.quitdate}</td>
+					<td>${CListNull.category }</td>
+					<td>${CListNull.res_name }</td>
+					<td>${CListNull.purpose==null?'미기입':CListNull.purpose}</td>
+					<td>${CListNull.startdate}~ ${CListNull.quitdate}</td>
 					<td><button type="button" class="btn btn-light" data-toggle="modal"
-				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value, '확인')">승인 대기중</button></td>
+				data-target="#reservationView" value="${CListNull.reservation_no}" onclick="fn_reservationNoClick(this.value, '확인')">승인 대기중</button></td>
 				</tr>
 			</c:if>
 		</c:forEach>
-		<c:if test='${empty listN}'>
+		<c:if test='${empty CListNull}'>
 			<tr>
 				<td colspan="5">데이터가 없습니다!</td>
 			</tr>
 		</c:if>
 	</tbody>
 </table>
-<script>
-function fn_reservationNoClick(reservationNo, flag){
-	$.ajax({
-		url : "selectOneReservationNo.do", 
-        dataType : "json",
-        data : {reservationNo:reservationNo},  
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
-        success : function(data) {
-        	$("#res_name").text(data.res_name);
-        	$("#reservation_date").text(data.startdate+' ~ '+data.quitdate);
-        	$("#writer").text(data.writer);
-        	$("#purpose").text(data.purpose);
-        	$("#reservation_no").val(data.reservation_no);
-        	if(flag=='확인') {
-        		$("#approval_status").text('승인 대기중');
-        		$("#return_button").hide();
-        		$("#delete_button").show();
-        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationDeleteOne");
-        	} else {
-        		$("#approval_status").text('예약 승인');
-        		$("#delete_button").hide();
-        		$("#return_button").show();
-        		$("#reservationViewFrm").attr("action", "${pageContext.request.contextPath}/reservation/reservationReturn");
-        	}
-		}
-     });
-	}
-function fn_validate() {
-	return confirm("계속 진행하시겠습니까?")?true:false;
-}
-
-</script>
 
 <hr />
 <div class="modal fade" id="reservationView" tabindex="-1" role="dialog"

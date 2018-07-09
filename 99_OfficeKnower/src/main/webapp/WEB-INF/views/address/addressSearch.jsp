@@ -32,7 +32,7 @@
 	<div id="input-form">
     	<form action="${pageContext.request.contextPath }/address/addressSearch">
      		<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
-          	이름검색  : <input type="text" name="name" id="name" class="form-control" style="display: inline-block; width: 20%"/>
+          	이름검색  : <input type="text" name="name" class="form-control" id="name" value="${name }" style="display: inline-block; width: 20%;"/>
             <button type="submit" class="btn btn-outline-info">검색</button>
    		</form>     
    </div>

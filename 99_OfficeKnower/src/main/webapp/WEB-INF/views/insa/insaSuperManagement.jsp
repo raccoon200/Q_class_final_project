@@ -45,8 +45,11 @@ p#admin-add {
 <script>
 function fn_admin_add() {
 	if(!document.getElementById('tmprow')) {
-		var str = '<tr id="tmprow"><td colspan="5"><input id="autocomplete" type="text"/><div id="tmpdiv"></div></td></tr>';
+		var str = '<tr id="tmprow"><td colspan="5"><input id="autocomplete" type="text"/><input type="button" class="btn btn-outline-secondary" value="취소" onclick="fn_btnCancel()" id="btnManagementCan" style=" margin-left: 10px;"/><div id="tmpdiv"></div></td></tr>';
 		$("#admin-table").append(str);
+	}else{
+		$("#autocomplete").show();
+		$("#btnManagementCan").show();
 	}
 	$("#autocomplete").keydown(function(key){
 		if(key.keyCode==13){
@@ -98,7 +101,10 @@ function fn_admin_add() {
 	})
 
 }
-
+function fn_btnCancel(){
+	$("#autocomplete").hide();
+	$("#btnManagementCan").hide();
+}
 
 </script>
 <p id="sub-title">슈퍼관리자 추가</p>
@@ -106,7 +112,9 @@ function fn_admin_add() {
 <hr />
 <br />
 <div class="insa_management" style="width: 95%;">
+<c:if test='${myGrade eq "슈퍼관리자"}'>
 <p id="admin-add" onclick="fn_admin_add()">+ 관리자 추가</p>
+</c:if>
 <table class="table table table-hover" id="admin-table">
 	<thead class="thead-light">
 		<tr>
@@ -127,7 +135,9 @@ function fn_admin_add() {
 					<td>${v.getDept() }</td>
 					<td id="delete">
 						${v.getGrade() }
-					 	<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/insa/adminSuperDeleteEnd.do?userId=${v.getUserId() }'">삭제</span>
+						<c:if test='${myGrade eq "슈퍼관리자"}'>
+					 		<span id="delete-possible" onclick="location.href='${pageContext.request.contextPath}/insa/adminSuperDeleteEnd.do?userId=${v.getUserId() }'">삭제</span>
+					 	</c:if>
 				</c:if>
 			</tr>
 		</c:forEach>

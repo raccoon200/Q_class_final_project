@@ -38,7 +38,7 @@
         	,	timezone : 'local'
             /* ,    height: 800 */
              ,   businessHours: true
-            
+             
        		, googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE"
             , eventSources : [
                 // 대한민국의 공휴일
@@ -64,8 +64,8 @@
 	 				, end : "${bre.ENDDATE}" 
 	 				 
 	 			 },
-      			</c:forEach>
-      		   </c:if>
+      			 </c:forEach>
+      		  	 </c:if>
 
             ]
         	
@@ -100,7 +100,7 @@
         		$(".fc-content").attr("data-toggle", "modal").attr("data-target", "#breakInfo");
         		$(".fc-list-item-title").attr("data-toggle", "modal").attr("data-target", "#breakInfo");
 
-        		var html ="";
+        		var  html ="";
         		html += "<table class='table'>";
         		html += "<thead>";
         		html += "<tr>";
@@ -113,6 +113,8 @@
         		
         		<c:if test="${not empty breaklist}">
       		  	<c:forEach var="bre" items="${breaklist}">
+      		  	
+		  	   if("${bre.BREAK_REQUEST_NO}" == event.id){
         		
 	        		html += " <tr>";
 	        		html += " <th scope='row'>1</th>";
@@ -121,6 +123,7 @@
 	        	    html += " <td>${bre.KIND}</td>";
 	  				html += "</tr>";
   				
+		  	   }	
   				</c:forEach>
        		   </c:if>
   				

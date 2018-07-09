@@ -84,9 +84,9 @@ function fn_reservationNotClick(reservation_no) {
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th scope="col">요청자</th>
-			<th scope="col">카테고리</th>
-			<th scope="col">자원명</th>
+			<th scope="col" style="white-space: nowrap;">요청자</th>
+			<th scope="col" style="white-space: nowrap;">카테고리</th>
+			<th scope="col" style="white-space: nowrap;">자원명</th>
 			<th scope="col">예약 날짜</th>
 			<th scope="col">설정</th>
 		</tr>
@@ -95,11 +95,13 @@ function fn_reservationNotClick(reservation_no) {
 		<c:forEach var="listN" items="${listNull}">
 			<c:if test='${!empty listN}'>
 				<tr>
-					<td>${listN.writer}</td>
-					<td>${listN.category }</td>
-					<td>${listN.res_name }</td>
-					<td>${listN.startdate}~ ${listN.quitdate}</td>
-					<td>
+					<td style="white-space: nowrap;">${listN.writer}</td>
+					<td style="white-space: nowrap;">${listN.category }</td>
+					<td style="white-space: nowrap;">${listN.res_name }</td>
+					<fmt:parseDate var="startDate" value="${listN.startdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate var="quitDate" value="${listN.quitdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<td style="white-space: nowrap;"><fmt:formatDate value="${startDate}" pattern="yy/MM/dd HH:mm"/> ~ <fmt:formatDate value="${quitDate}" pattern="yy/MM/dd HH:mm"/></td>
+					<td style="white-space: nowrap;">
 					<button type="button" class="btn btn-light" value="${listN.reservation_no}" onclick="fn_reservationYesClick(this.value)">승인</button>
 					<button type="button" class="btn btn-light" value="${listN.reservation_no}" onclick="fn_reservationNotClick(this.value)">반려</button>
 					<button type="button" class="btn btn-light" data-toggle="modal"
@@ -124,9 +126,9 @@ function fn_reservationNotClick(reservation_no) {
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th scope="col">작성자</th>
-			<th scope="col">카테고리</th>
-			<th scope="col">자원명</th>
+			<th scope="col" style="white-space: nowrap;">작성자</th>
+			<th scope="col" style="white-space: nowrap;">카테고리</th>
+			<th scope="col" style="white-space: nowrap;">자원명</th>
 			<th scope="col">예약 날짜</th>
 			<th scope="col">설정</th>
 		</tr>
@@ -135,10 +137,12 @@ function fn_reservationNotClick(reservation_no) {
 		<c:forEach var="list" items="${list}">
 			<c:if test='${!empty list}'>
 				<tr>
-					<td>${list.writer}</td>
-					<td>${list.category }</td>
-					<td>${list.res_name }</td>
-					<td>${list.startdate}~ ${list.quitdate}</td>
+					<td style="white-space: nowrap;">${list.writer}</td>
+					<td style="white-space: nowrap;">${list.category }</td>
+					<td style="white-space: nowrap;">${list.res_name }</td>
+					<fmt:parseDate value="${list.startdate}" var="startDate2" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate value="${list.quitdate}" var="quitDate2" pattern="yyyy-MM-dd HH:mm"/>
+					<td><fmt:formatDate value="${startDate2}" pattern="yy/MM/dd HH:mm"/>~ <fmt:formatDate value="${quitDate2}" pattern="yy/MM/dd HH:mm"/></td>
 					<td><button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${list.reservation_no}" onclick="fn_reservationViewClick(this.value, '승인')">상세보기</button></td>
 				</tr>
@@ -161,9 +165,9 @@ function fn_reservationNotClick(reservation_no) {
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th scope="col">작성자</th>
-			<th scope="col">카테고리</th>
-			<th scope="col">자원명</th>
+			<th scope="col" style="white-space: nowrap;">작성자</th>
+			<th scope="col" style="white-space: nowrap;">카테고리</th>
+			<th scope="col" style="white-space: nowrap;">자원명</th>
 			<th scope="col">예약 날짜</th>
 			<th scope="col">설정</th>
 		</tr>
@@ -172,10 +176,12 @@ function fn_reservationNotClick(reservation_no) {
 		<c:forEach var="listN" items="${listN}">
 			<c:if test='${!empty listN}'>
 				<tr>
-					<td>${listN.writer}</td>
-					<td>${listN.category }</td>
-					<td>${listN.res_name }</td>
-					<td>${listN.startdate}~ ${listN.quitdate}</td>
+					<td style="white-space: nowrap;">${listN.writer}</td>
+					<td style="white-space: nowrap;">${listN.category }</td>
+					<td style="white-space: nowrap;">${listN.res_name }</td>
+					<fmt:parseDate value="${listN.startdate}" var="startDate3" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate value="${listN.quitdate}" var="quitDate3" pattern="yyyy-MM-dd HH:mm"/>
+					<td><fmt:formatDate value="${startDate3}" pattern="yy/MM/dd HH:mm"/>~ <fmt:formatDate value="${quitDate3}" pattern="yy/MM/dd HH:mm"/></td>
 					<td><button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationViewClick(this.value, '반려')">상세보기</button></td>
 				</tr>

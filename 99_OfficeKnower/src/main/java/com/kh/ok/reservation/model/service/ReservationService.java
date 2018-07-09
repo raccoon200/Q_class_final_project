@@ -12,7 +12,7 @@ public interface ReservationService {
 
 	List<Reservation> reservationListPage(String userId);
 
-	List<Resources> selectResources(String com_no);
+	List<Map<String, String>> selectResources(String com_no);
 
 	List<Map<String, String>> selectCategory(String com_no);
 
@@ -61,5 +61,15 @@ public interface ReservationService {
 	int reservationCategoryDelete(HashMap<String, String> map);
 
 	int reservationResourcesAdd(Resources resources);
+
+	int reservationResourcesUpdate(Resources resources);
+
+	int reservationResourcesDelete(int res_no);
+
+	List<Reservation> reservationListCategory(HashMap<String, String> map);
+
+	List<Reservation> reservationListCategoryNull(HashMap<String, String> map);
+
+	List<Map<String, String>> selectReservationDateList(String com_no);
 	
 }

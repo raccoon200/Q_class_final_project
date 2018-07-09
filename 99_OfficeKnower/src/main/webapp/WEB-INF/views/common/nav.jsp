@@ -198,7 +198,7 @@
 					
 					<c:forEach var="item" items="${personBreak}">
 						<c:if test="${not empty personBreak}">
-						 ${item.REWARD_BREAK + item.REGULAR_BREAK}
+						 ${(item.REWARD_BREAK + item.REGULAR_BREAK)-(item.REGULAR_USED_BREAK+REWARD_USED_BREAK)}
 						</c:if>
 					</c:forEach>
 					<c:if test="${empty personBreak}">
@@ -310,8 +310,9 @@
 			<ul class="menu_list">
 				<li><a href="${pageContext.request.contextPath}/reservation/reservationListPage">나의 예약 목록</a><br /></li>
 				<!-- 여기 반복문 돌리시길........................... -->
-				<li><a href="#">회의실</a><br /></li>
-				<li><a href="#">여기 반복문</a><br /></li>
+				<c:forEach var="category" items="${category}">
+				<li><a href="${pageContext.request.contextPath}/reservation/reservationListCategory?category=${category.CATEGORY}">${category.CATEGORY}</a><br /></li>
+				</c:forEach>
 				<!---------------------------------------------->
 				<c:if
 					test='${memberLoggedIn.grade eq "슈퍼관리자" or memberLoggedIn.grade eq "예약관리자"}'>
