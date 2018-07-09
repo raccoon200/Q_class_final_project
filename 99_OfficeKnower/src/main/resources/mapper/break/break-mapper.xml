@@ -191,7 +191,7 @@
 	where r.userid=#{userid} and r.status !='반려'
   	
   	</select>
-  	<select id="personBreakRequestList" resultType="map">
+  	<select id="personBreakRequestList" resultType="map"> 
   		select * from break_request where userid = #{userid}
   	</select>
 	<select id="selectBreakRequestUserIdList" resultType="breakrRequest">
