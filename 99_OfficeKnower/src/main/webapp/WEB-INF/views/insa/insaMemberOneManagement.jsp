@@ -102,16 +102,20 @@ function fn_validate(){
 	var regExp = /^[0-9]+$/;
 	var phone_com = $("#phone_com").val();
 	var phone_cell = $("#phone_cell").val();
-	
-	if(!regExp.test(phone_com)){
-		alert("사내전화는 '-'없이 숫자만 가능합니다.");
-		$("#phone_com").focus();
-		return false;
+
+	if(phone_com.length !=0){
+		if(!regExp.test(phone_com)){
+			alert("사내전화는 '-'없이 숫자만 가능합니다.");
+			$("#phone_com").focus();
+			return false;
+		}
 	}
-	if(!regExp.test(phone_cell)){
-		alert("휴대전화는 '-'없이 숫자만 가능합니다.");
-		$("#phone_cell").focus();
-		return false;
+	if(phone_cell.length !=0){
+		if(!regExp.test(phone_cell)){
+			alert("휴대전화는 '-'없이 숫자만 가능합니다.");
+			$("#phone_cell").focus();
+			return false;
+		}
 	}
 	
 	return true;
@@ -241,6 +245,9 @@ function fn_validate(){
 				<th>직위</th>
 				<td>
 					<select name="position" id="position" class="custom-select" style="width: 250px;">
+						<c:if test="${empty member.position}">
+							<option value="" ${empty member.position?"selected":""}>미기재</option>						
+						</c:if>
 						<c:forEach var="p" items="${plist}">
 							<option value="${p.position}" ${p.position eq member.position?"selected":""}>${p.position}</option>
 						</c:forEach>
@@ -251,6 +258,9 @@ function fn_validate(){
 				<th>직무</th>
 				<td>
 					<select name="job" id="job" class="custom-select" style="width: 250px;">
+						<c:if test="${empty member.job}">
+							<option value="" ${empty member.job ?"selected":""}>미기재</option>						
+						</c:if>
 						<c:forEach var="j" items="${jlist}">
 							<option value="${j.job}" ${j.job eq member.job?"selected":""}>${j.job}</option>
 						</c:forEach>
@@ -311,6 +321,7 @@ function fn_validate(){
 			<tr>
 				<th colspan="2">
 					<input type="submit" value="저장" onclick="fn_addressSum()" class="btn btn-outline-primary"/>
+					<input type="button" value="뒤로가기" onclick="fn_back()" class="btn btn-outline-primary"/>
 				</th>
 			</tr>
 		</table>
@@ -324,6 +335,9 @@ $("#statusY").click(function() {
 $("#statusN").click(function() {
     $('#statusY').prop("checked", false);
   });
+ function fn_back(){
+	location.href="${pageContext.request.contextPath}/insa/memberManagement.do";	 
+ }
 function fn_addressSum(){
 	if($("#sample4_postcode").val().trim().length != 0){
 		var add1 = $("#sample4_postcode").val();

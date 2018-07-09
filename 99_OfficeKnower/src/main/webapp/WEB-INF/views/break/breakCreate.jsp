@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="휴가 생성" name="pageTitle"/>
+	<jsp:param value="인사관리" name="pageTitle"/>
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp">
 	<jsp:param value="인사관리" name="pageTitle"/>
@@ -43,6 +43,10 @@
 	overflow-y: auto;
 	
 }
+#tableBreak tr td{
+	text-align: center;
+}
+
 
 </style>
 <script>
@@ -55,6 +59,16 @@ $( document ).ready(function() {
 function fn_createReward(userid,regular,reward, index){
 	afterReward = $("#reward"+index+"").val();
 	var test = $("input[name=reward]");
+	
+	var selectedUser="";
+	
+	$("input[name=selectedMember]").each(function() {
+		selectedUser += $(this).val() + ",";
+		console.log("selectedUser=" +selectedUser);
+
+	});
+	
+	
 		
 	var rewardDay = $("#reward"+index).val().trim().length;
 	if(rewardDay>2){
@@ -85,7 +99,7 @@ function fn_createReward(userid,regular,reward, index){
 	$.ajax({
 	      url : "${pageContext.request.contextPath}/break/createReward.do",
 	            type: "post",
-	            data : {userid:userid,regular:regular, reward:reward,afterReward:afterReward},
+	            data : {selectedUser:selectedUser,userid:userid,regular:regular, reward:reward,afterReward:afterReward},
 	            dataType : "json",
 	            success: function(data){
 	               console.log(data);
@@ -148,6 +162,7 @@ function fn_createReward(userid,regular,reward, index){
 	    			    
 	 				
 	 						$("#afterRewardDiv").html(html);
+	 						
 	 						
 	 						
 	    			    
@@ -444,9 +459,9 @@ function rewardMemberDelete(){
 	<div class="tab-pane fade show active" id="year" role="tabpanel" aria-labelledby="year-tab">
 		<form action="${pageContext.request.contextPath }/break/breakCreateEnd.do" method="post">
 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
-	<table class="table table-bordered">
+	<table class="table table-bordered" id="tableBreak">
 		<tr>
-			<th rowspan="4" style="background:#F6F6F6;" >휴가일수<br />(입사년도)</th>
+			<th rowspan="4" style="background:#F6F6F6; text-align:center;" >휴가일수<br />(입사년도)</th>
 			<td scope="col">N</td>
 			<td>N+1</td>
 			<td>N+2</td>
@@ -483,7 +498,7 @@ function rewardMemberDelete(){
 			<td></td>
 		</tr>
 		<tr style="border-bottom: 1px solid #dee2e6;">
-			<th style="background:#F6F6F6;">생성일자</th>
+			<th style="background:#F6F6F6; text-align:center;">생성일자</th>
 			<td colspan="13">
 				<select name="createdate" id="">
 					<option value="1">1</option>
@@ -542,7 +557,7 @@ function rewardMemberDelete(){
 		      	대상자 <span id="memberCnt"> 0 </span> 명
 		      	<br /><br />
 		      	
-		      	<div style="color: lightblue; font-size:20px; padding-left:15px;" onclick='rewardMemberDelete()'> 삭제</div>
+		      	<div style="color: lightblue; font-size:20px; padding-left:15px; cursor:pointer;" onclick='rewardMemberDelete()'> 삭제</div>
 		      	
 		      	<div id="selectedMember" style="overflow-y:auto; height:500px;">
 			      	<table class="table table-bordered" >

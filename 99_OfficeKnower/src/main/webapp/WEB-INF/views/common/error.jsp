@@ -33,7 +33,7 @@
   </head>
 
   <body class="text-center">
-  	<form class="form-signin">
+  	<form class="form-signin" action="${pageContext.request.contextPath }" method="post">
       <img class="mb-4" src="${pageContext.request.contextPath }/resources/images/common/logo.png" alt="logo" height="72"><br />
       <h1 class="h3 mb-3 font-weight-normal">에러가 났습니다.</h1><br />
       
@@ -41,8 +41,11 @@
        	 죄송합니다. 관리자에게 문의해주세요. <br />
        	raccoon200@naver.com
       </div>
-      <button class="btn btn-lg btn-info btn-block" onclick="location.href='/ok/'">홈으로 돌아가기</button>
+      <button type="submit" class="btn btn-lg btn-info btn-block" >홈으로 돌아가기</button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
       </form>
   </body>
+  <script>
+  	
+  </script>
 </html>

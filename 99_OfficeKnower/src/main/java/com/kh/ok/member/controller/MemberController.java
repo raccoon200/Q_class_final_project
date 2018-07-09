@@ -70,7 +70,9 @@ public class MemberController {
 	
 	@RequestMapping("/member/memberOneUpdate.do")
 	public String memberOneUpdate( Member member, HttpServletRequest request) {
-		
+		if(member.getJob().equals("")) {
+			member.setJob(null);
+		}
 		int result = memberService.memberOneUpdate(member);
 		
 		request.setAttribute("member", member);

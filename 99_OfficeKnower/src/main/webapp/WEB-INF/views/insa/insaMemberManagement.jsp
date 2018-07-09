@@ -238,7 +238,7 @@ function fn_newMemberUpdateAdd(){
 <form action="insaSelectMemberSearch.do" style="float: right;">
  <div id="insa_ajaxValueDiv">
   <div class="input-group"  style="width: 200px; margin-right: 30px;">
-    <input type="text" id="memberListSearch" name="searchKey" class="form-control" placeholder="Search..." value='${searchKey == null?"":searchKey }' >
+    <input type="text" id="memberListSearch" name="searchKey" class="form-control" placeholder="Search..." value='${searchKey == null?"":searchKey }' autocomplete="off" >
     <div class="input-group-btn">
       <button id="insa_search_button"class="btn btn-default">
         <i class="icon-search"></i>
@@ -435,7 +435,7 @@ function fn_newMemberUpdateAdd(){
 							<th>신규 사용자 검색</th>
 							<td>
 								  <div class="input-group"  style="width: 200px; margin-right: 30px;">
-								    <input type="text" id="newmemberListSearch" name="searchKey" class="form-control" placeholder="Search..." value='${searchKey == null?"":searchKey }' >
+								    <input type="text" id="newmemberListSearch" name="searchKey" class="form-control" placeholder="Search..." value='${searchKey == null?"":searchKey }' autocomplete="off">
 								    <input type="hidden" id="newmemberListSearchchk" class="form-control" value="0" >
 								    <div class="input-group-btn">
 								      <!-- <button id="insa_newsearch_button"class="btn btn-default" >
