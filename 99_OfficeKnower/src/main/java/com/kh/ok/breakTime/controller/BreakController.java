@@ -429,7 +429,7 @@ public class BreakController {
 	public ModelAndView breakSetting(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession(false);
-		Member m = (Member)session.getAttribute("memberLoggedIn");;
+		Member m = (Member)session.getAttribute("memberLoggedIn");
 		BreakSetting bs = breakService.selectBreakSetting(m.getCom_no());
 		String[] breakdays = bs.getBreakdays().substring(1, bs.getBreakdays().lastIndexOf(",")).split(",");
 		bs.setN(breakdays[0]);
@@ -540,8 +540,28 @@ public class BreakController {
 		map.put("reward", reward);
 		map.put("breakUserid", breakUserid);
 		
+		
+		//선택된 userid가 break테이블에 있는지 확인하기.
+		List<Map<String,Object>> checkBreak = breakService.checkBreak(breakUserid);
+		System.out.println("checkBreak" + checkBreak);
+		if(checkBreak.isEmpty()) {
+			System.out.println("널입니댜");
+			int Insertresult = breakService.insertBreakInfo(map);
+			System.out.println("Insertresult" + Insertresult);
+	
+		}else{
+			int result = breakService.updateBreakInfo(map);
+			System.out.println("updateresult" + result);
+		}
+		
+		
+		
+		
 		int result = breakService.updateBreakInfo(map);
 		System.out.println("result= " + result);
+		
+		
+		
 		
 		mav.setViewName("redirect:/break/breakManagement.do");
 		return mav;

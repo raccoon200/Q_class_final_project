@@ -151,4 +151,9 @@ public class BreakDAOImpl implements BreakDAO {
 		return sqlSession.selectList("break.checkBreak", userid);
 	}
 
+	@Override
+	public int insertBreakInfo(Map<String, String> map) {
+		return sqlSession.insert("break.insertBreakInfo", map);
+	}
+
 }

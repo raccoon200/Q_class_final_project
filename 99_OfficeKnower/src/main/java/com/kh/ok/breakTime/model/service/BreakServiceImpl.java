@@ -142,4 +142,9 @@ public class BreakServiceImpl implements BreakService {
 	public List<Map<String, Object>> checkBreak(String userid) {
 		return breakDao.checkBreak(userid);
 	}
+
+	@Override
+	public int insertBreakInfo(Map<String, String> map) {
+		return breakDao.insertBreakInfo(map);
+	}
 }

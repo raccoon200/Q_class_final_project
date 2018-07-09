@@ -201,7 +201,9 @@
 		select * from break where userid = #{userid}
 	
 	</select>
-	
+	<insert id="insertBreakInfo">
+		insert into break values(#{breakUserid},#{regular},#{reward},default,default)
+	</insert>
 	
 	
 	
