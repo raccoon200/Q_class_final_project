@@ -546,7 +546,7 @@ function rewardMemberDelete(){
 		      	대상자 <span id="memberCnt"> 0 </span> 명
 		      	<br /><br />
 		      	
-		      	<div style="color: lightblue; font-size:20px; padding-left:15px;" onclick='rewardMemberDelete()'> 삭제</div>
+		      	<div style="color: lightblue; font-size:20px; padding-left:15px; cursor:pointer;" onclick='rewardMemberDelete()'> 삭제</div>
 		      	
 		      	<div id="selectedMember" style="overflow-y:auto; height:500px;">
 			      	<table class="table table-bordered" >
