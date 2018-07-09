@@ -114,7 +114,7 @@ public class AddressController {
 		logger.info(list.toString());
 		mav.addObject("list", list);
 
-		mav.setViewName("address/addressView");
+		mav.setViewName("address/addressAdd");
 			
 		return mav;
 	}
