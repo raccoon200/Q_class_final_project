@@ -210,7 +210,7 @@ function fn_enrollValidate() {
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-outline-success">예약</button>
+						<button type="submit" class="btn btn-outline-primary">예약</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">취소</button>
 					</div>
