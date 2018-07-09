@@ -252,7 +252,26 @@ public class BreakController {
 		
 		//List<Map<String,String>> afterList = new ArrayList<>();
 		
-		if(regular==0 && reward==0 ) {
+		//선택된 userid가 break테이블에 있는지 확인하기.
+		List<Map<String,Object>> checkBreak = breakService.checkBreak(userid);
+		System.out.println("checkBreak" + checkBreak);
+		if(checkBreak.isEmpty()) {
+			System.out.println("널입니댜");
+			int Insertresult = breakService.insertReward(map);
+			List<Map<String,String>> afterList = breakService.afterInsert(map);
+			System.out.println("포상휴가 생성 insert= " +Insertresult);
+			
+			createReward.put("afterList",afterList);
+		}else{
+			int Updateresult = breakService.updateReward(map);
+			List<Map<String,String>> afterList = breakService.afterUpdate(map);
+			
+			System.out.println("포상휴가 생성 update= " +Updateresult);
+			createReward.put("afterList",afterList);
+		}
+		
+		
+		/*if(regular==0 && reward==0 ) {
 			int Insertresult = breakService.insertReward(map);
 			List<Map<String,String>> afterList = breakService.afterInsert(map);
 			System.out.println("포상휴가 생성 insert= " +Insertresult);
@@ -265,7 +284,7 @@ public class BreakController {
 			
 			System.out.println("포상휴가 생성 update= " +Updateresult);
 			createReward.put("afterList",afterList);
-		}
+		}*/
 
 		
 		return createReward;

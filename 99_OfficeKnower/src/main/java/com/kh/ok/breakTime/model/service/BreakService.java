@@ -59,4 +59,6 @@ public interface BreakService {
 
 	List<BreakRequest> selectBreakRequestUserIdList(Map<String, String> map);
 
+	List<Map<String, Object>> checkBreak(String userid);
+
 }
