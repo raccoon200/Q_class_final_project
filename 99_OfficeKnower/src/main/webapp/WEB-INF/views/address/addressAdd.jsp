@@ -111,7 +111,7 @@ function fn_validate(){
    }
 </script>
 <div style="width: 400px;">
-	<form action="InsertAddress.do" method="post" onsubmit="fn_validate();">
+	<form action="InsertAddress.do" method="post" onsubmit="return fn_validate();">
 <!-- 		<div class="addrtype">
 			<label><input type="radio" name="addr_type" value='addr_personal'> 개인 주소록</label>
 			<label><input type="radio" name="addr_type" value='addr_share'> 공유 주소록</label>  		</div>-->
