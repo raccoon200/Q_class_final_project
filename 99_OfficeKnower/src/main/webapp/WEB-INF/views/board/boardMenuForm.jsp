@@ -112,7 +112,7 @@ $(function() {
 	$("#user-add").hide();
 })
 
-$.ajax( {
+$.ajax( {	//전사게시판
 	type : "POST",
 	url : "${pageContext.request.contextPath}/board/memberCompanyListAll",
 	dataType : "json",
@@ -127,10 +127,10 @@ $.ajax( {
 				str += '<input type="hidden" name="memberInfo" value="'+memberList[index].USERID+'"/>';
 				str += '<input type="hidden" name="photo" value="'+memberList[index].PHOTO+'"/>';
 				str += '<div value="'+memberList[index].USERID+'" id="'+memberList[index].USERID;
-				str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/'+memberList[index].PHOTO+'" alt="" />&nbsp;&nbsp;&nbsp;<span>'+memberList[index].USERID+
-				' </span> &nbsp;&nbsp; <span>'+memberList[index].USERNAME+'</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="'+memberList[index].USERID+'" alt="">'; 
+				str += '"><img src="${pageContext.request.contextPath}/resources/upload/member/'+memberList[index].PHOTO+'" alt="" />&nbsp;&nbsp;&nbsp;<span>'+memberList[index].USERID+
+				' </span> &nbsp;&nbsp; <span>'+memberList[index].USERNAME+'</span>'; 
 		  		str += '</div>';
-					
+				console.log("memberList photo : "+memberList[index].PHOTO);
 			}else {
 				str2 += memberList[index].count;
 			}
@@ -227,7 +227,7 @@ function fn_memberListView(){
 					str += '<input type="hidden" name="photo" value="'+memberList[index].PHOTO+'"/>';
 					str += '<div value="'+memberList[index].USERID+'" id="'+memberList[index].USERID;
 					str += '"><img src="${pageContext.request.contextPath}/resources/images/profile/'+memberList[index].PHOTO+'" alt="" />&nbsp;&nbsp;&nbsp;<span>'+memberList[index].USERID+
-					' </span> &nbsp;&nbsp; <span>'+memberList[index].USERNAME+'</span>&nbsp;&nbsp;<img src="${pageContext.request.contextPath}/resources/images/common/board_delete.PNG" class="board-delete" value="'+memberList[index].USERID+'" alt="">'; 
+					' </span> &nbsp;&nbsp; <span>'+memberList[index].USERNAME+'</span>&nbsp;&nbsp;'; 
 			  		str += '</div>';
 						
 				}else {
@@ -300,7 +300,7 @@ ${v.get(index) }
   <input type="hidden" name="com_no" value="${memberLoggedIn.com_no }" />
   <fieldset class="form-group">
     <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">사용자</legend>
+      <legend class="col-form-label col-sm-2 pt-0">사용권한</legend>
       <div class="col-sm-10">
       	게시판 사용자 : <span id="count"></span>명
        	
