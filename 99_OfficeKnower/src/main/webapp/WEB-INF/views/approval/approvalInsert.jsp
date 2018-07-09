@@ -16,7 +16,7 @@
 	font-weight:bold;
 	font-size:15px;
 	border:none;
-
+	cursor:pointer;
 }
 #sumIn{
 	color:rgb(150,150,150);
