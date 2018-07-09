@@ -311,9 +311,9 @@ $(function(){
 		</c:forEach>
 		
 		<!-- 미기재 -->
-		<c:forEach var="l" items="${list}" varStatus="sts2">
-			<c:if test='${l.dept == null}'>
-				<c:if test="${sts2.count == 1}">
+		<c:forEach var="l" items="${list}" varStatus="sts3">
+			<c:if test='${l.dept != null}'>
+				<c:if test="${sts3.count == 1}">
 					<p class="people_insatitle">미기재</p><br />
 					<hr />
 				</c:if>
