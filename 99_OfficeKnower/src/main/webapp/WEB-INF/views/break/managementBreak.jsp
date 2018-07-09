@@ -97,7 +97,7 @@ function fn_updateBreakInfo(userid){
 	  		$("#joindateInfo").html("입사일 : " + year + "년" + mm + "월" + dd + "일");
 	  		$("#pRegular").html("${bre.REGULAR_BREAK}");
 	  		$("#beforeRegular").val("${bre.REGULAR_BREAK}");
-	  		$("#pReward").html("${bre.REWARD_BREAK}");
+	  		$("#pReward").html("${bre.REWARD_BREAK  ne ''?bre.REWARD_BREAK:'0'}");
 	  		$("#beforeReward").val("${bre.REWARD_BREAK}");
 		}
 	 </c:forEach>
@@ -257,7 +257,7 @@ function fn_ViewBreak(userid,username){
 					console.log("c"+c[1]);
 					index += 1;
 						
-					if(c.STATUS=='결재 완료' || c.STATUS=='결재 대기'){
+					if(c.STATUS=='결재 완료' || c.STATUS=='결재 중'){
 						
 						html += '<tr>';
 						html += '<th>' + index + '</th>';
@@ -351,11 +351,11 @@ function fn_ViewBreak(userid,username){
 			    <tr>
 			      <th scope="row" style="width:180px;" >${bre.USERNAME}</th>
 			      <td> <fmt:formatDate value="${bre.JOINDATE}" pattern="yy/MM/dd"/></td>
-			     <td style="white-space: nowrap;">${bre.REGULAR_BREAK + bre.REWARD_BREAK}일</td>
-			      <td style="white-space: nowrap;">${bre.REGULAR_BREAK}일</td>
-			      <td style="white-space: nowrap;">${bre.REWARD_BREAK}일</td>
-			      <td style="white-space: nowrap;"> ${bre.REGULAR_USED_BREAK}일</td>
-			      <td style="white-space: nowrap;">${bre.REWARD_USED_BREAK}일</td> 
+			      <td style="white-space: nowrap;">${(bre.REGULAR_BREAK + bre.REWARD_BREAK) ne ''?(bre.REGULAR_BREAK + bre.REWARD_BREAK):"0"}일</td>
+			      <td style="white-space: nowrap;">${bre.REGULAR_BREAK ne ''?bre.REGULAR_BREAK:"0"}일</td>
+			      <td style="white-space: nowrap;">${bre.REWARD_BREAK ne ''?bre.REWARD_BREAK:"0"}일</td>
+			      <td style="white-space: nowrap;"> ${bre.REGULAR_USED_BREAK ne''?bre.REGULAR_USED_BREAK:"0"}일</td>
+			      <td style="white-space: nowrap;">${bre.REWARD_USED_BREAK ne''?bre.REWARD_USED_BREAK:"0"}일</td> 
 			      <td style="white-space: nowrap;">${(bre.REGULAR_BREAK + bre.REWARD_BREAK)-(bre.REGULAR_USED_BREAK+bre.REWARD_USED_BREAK)}일</td> 
 			      <td style="white-space: nowrap;"> <span class="updateViewText" onclick="fn_updateBreakInfo('${bre.USERID}')">수정</span> &nbsp;|&nbsp;
 			       <span class="updateViewText" onclick="fn_ViewBreak('${bre.USERID}','${bre.USERNAME}')">상세</span></td> 
