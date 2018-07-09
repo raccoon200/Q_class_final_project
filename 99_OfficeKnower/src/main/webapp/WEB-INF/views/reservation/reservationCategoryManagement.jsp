@@ -72,7 +72,7 @@
 					</table>
 					</div>
 				<div class="modal-footer">
-						<button type="submit" class="btn btn-outline-success">추가</button>
+						<button type="submit" class="btn btn-outline-primary">추가</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">취소</button>
 				</div>
@@ -124,7 +124,7 @@ function fn_cateValidate() {
 					</table>
 					</div> 
 				<div class="modal-footer">
-						<button type="submit" class="btn btn-outline-success" >수정</button>
+						<button type="submit" class="btn btn-outline-primary" >수정</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">취소</button>
 				</div>
