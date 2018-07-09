@@ -21,10 +21,10 @@
 	<insert id="memberEnrollEnd">
 		insert into tbl_user
 		(userId, password, userName, email, address, photo, sign, status, joindate) 
-		values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, 'N', null)
+		values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, 'N', sysdate)
 	</insert>
 	<insert id="memberEnrollEndCom">
-		insert into tbl_user(userId, password, userName, email, address, photo, sign, com_no, status, joindate, grade, position) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, #{com_no}, 'Y', null, '슈퍼관리자', '대표이사')
+		insert into tbl_user(userId, password, userName, email, address, photo, sign, com_no, status, joindate, grade, position) values(#{userId}, #{password}, #{userName}, #{email}, #{address}, #{photo}, #{sign}, #{com_no}, 'Y', sysdate, '슈퍼관리자', '대표이사')
 	</insert>
 	<insert id="memberComCreate">
 		insert into tbl_com values (#{com_no}, #{com_name})
