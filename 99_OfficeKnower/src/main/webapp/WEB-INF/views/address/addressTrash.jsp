@@ -54,7 +54,7 @@
 	<script>
 	function fn_reset(addId){
 		alert(name+"복구완료 되었습니다.");
-		location.href="addressTrash?addId="+addId;
+		location.href="addressReset?addId="+addId;
 	}
 	</script>
 
