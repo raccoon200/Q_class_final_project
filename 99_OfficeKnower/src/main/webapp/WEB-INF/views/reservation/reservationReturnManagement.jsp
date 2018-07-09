@@ -133,7 +133,7 @@
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-light"
+					<button type="button" class="btn btn-outline-primary"
 						data-dismiss="modal">확인</button>
 				</div>
 			</form>

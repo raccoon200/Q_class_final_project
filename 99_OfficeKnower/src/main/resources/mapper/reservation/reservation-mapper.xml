@@ -125,7 +125,7 @@
 	</select>
 	
 	<select id="selectReservationDateList" resultType="map">
-		select to_char(startdate, 'yyyy-mm-dd') startDate, to_char(startdate, 'HH24:MI') startTime, to_char(quitdate, 'yyyy-mm-dd') quitdate, to_char(quitdate, 'HH24:MI') quittime from reservation where com_no = #{com_no}	
+		select to_char(startdate, 'yyyy-mm-dd') startDate, to_char(startdate, 'HH24:MI') startTime, to_char(quitdate, 'yyyy-mm-dd') quitdate, to_char(quitdate, 'HH24:MI') quittime from reservation where com_no = #{com_no} and quit_status is null and (approval_status = 'Y' or approval_status is null)
 	</select>
 	
 </mapper>
