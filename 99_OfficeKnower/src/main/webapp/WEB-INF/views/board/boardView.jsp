@@ -272,7 +272,7 @@ $(function() {
 		<img src="${pageContext.request.contextPath }/resources/images/common/important_apply.png" id="important-apply" alt="" />
 	</div>
 	<%-- <img src="${pageContext.request.contextPath}/resources/images/profile/${board.profile}" class="board-delete" alt=""> --%>
-	<img src="${pageContext.request.contextPath}/resources/images/profile/${board.profile}" class="profile" alt="">
+	<img src="${pageContext.request.contextPath}\resources\images\upload\member\${board.profile}" class="profile" alt="프로필">
 	<p id="title">${board.title }</p>
 	<p id="writer" class="sub">${board.writer }</p>
 	<p id="kind" class="sub"><%-- ${board.kind } --%>전사게시판</p>
