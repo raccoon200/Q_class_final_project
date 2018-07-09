@@ -25,8 +25,8 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public List<Address> addressView() {
-		return addressDAO.addressView();
+	public List<Address> addressView(String com_no) {
+		return addressDAO.addressView(com_no);
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public List<Address> addressTrashList() {
-		return addressDAO.addressTrashList();
+	public List<Address> addressTrashList(String com_no) {
+		return addressDAO.addressTrashList(com_no);
 	}
 
 	@Override

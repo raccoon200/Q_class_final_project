@@ -33,7 +33,7 @@
   </head>
 
   <body class="text-center">
-  	<form class="form-signin" action="${pageContext.request.contextPath }">
+  	<form class="form-signin" action="${pageContext.request.contextPath }" method="post">
       <img class="mb-4" src="${pageContext.request.contextPath }/resources/images/common/logo.png" alt="logo" height="72"><br />
       <h1 class="h3 mb-3 font-weight-normal">에러가 났습니다.</h1><br />
       

@@ -24,8 +24,8 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	@Override
-	public List<Address> addressView() {
-		return sqlSession.selectList("address.addressView");
+	public List<Address> addressView(String com_no) {
+		return sqlSession.selectList("address.addressView", com_no);
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class AddressDAOImpl implements AddressDAO {
 	}
 
 	@Override
-	public List<Address> addressTrashList() {
-		return sqlSession.selectList("address.addressTrashList");
+	public List<Address> addressTrashList(String com_no) {
+		return sqlSession.selectList("address.addressTrashList", com_no);
 	}
 
 	@Override

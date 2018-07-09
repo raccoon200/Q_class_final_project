@@ -38,10 +38,12 @@ public class AddressController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;*/
 	
 	@RequestMapping("/address/addressView.do")
-	public ModelAndView addressView(){
-		
+	public ModelAndView addressView(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		Member m = (Member)session.getAttribute("memberLoggedIn");
 		ModelAndView mav = new ModelAndView();
-		List<Address> list = addressService.addressView();
+		System.out.println(m);
+		List<Address> list = addressService.addressView(m.getCom_no());
 		logger.info(list.toString());
 		
 		int addCount = 0;
@@ -53,7 +55,7 @@ public class AddressController {
 			}
 		}
 		
-		List<Address> delList = addressService.addressTrashList();
+		List<Address> delList = addressService.addressTrashList(m.getCom_no());
 		System.out.println(delList);
 		for(int i =0; i<delList.size(); i++) {
 			if((delList.get(i).getStatus()).equals("N ")) {
@@ -73,14 +75,15 @@ public class AddressController {
 	
 	@RequestMapping("/address/addressTrash")
 	public ModelAndView addressTrash(HttpServletRequest request){
-		
+		HttpSession session = request.getSession(false);
 		String addId= request.getParameter("addId");
 		System.out.println("addId=" + addId);
 		System.out.println("여기 들어오나??");
-		
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		System.out.println(m);
 		ModelAndView mav = new ModelAndView();
 		int result = addressService.addressTrash(addId);
-		List<Address> list = addressService.addressView();
+		List<Address> list = addressService.addressView(m.getCom_no());
 		logger.info(list.toString());
 		mav.addObject("address", list);
 
@@ -91,10 +94,11 @@ public class AddressController {
 	
 	@RequestMapping("/address/addressTrashList")
 	public ModelAndView addressTrashList(HttpServletRequest request){
-		
+		HttpSession session = request.getSession(false);
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		System.out.println(m);
 		ModelAndView mav = new ModelAndView();
-		List<Address> list = addressService.addressTrashList();
-		logger.info(list.toString());
+		List<Address> list = addressService.addressTrashList(m.getCom_no());
 		mav.addObject("address", list);
 		mav.setViewName("address/addressTrash");
 			
@@ -103,14 +107,14 @@ public class AddressController {
 	
 	@RequestMapping("/address/addressReset")
 	public ModelAndView addressReset(HttpServletRequest request){
-		
+		Member m = (Member)(request.getSession(false).getAttribute("memberloggedIn"));
 		String addId= request.getParameter("addId");
 		System.out.println("addId=" + addId);
 		System.out.println("??");
 		
 		ModelAndView mav = new ModelAndView();
 		int result = addressService.addressReset(addId);
-		List<Address> list = addressService.addressTrashList();
+		List<Address> list = addressService.addressTrashList(m.getCom_no());
 		logger.info(list.toString());
 		mav.addObject("list", list);
 

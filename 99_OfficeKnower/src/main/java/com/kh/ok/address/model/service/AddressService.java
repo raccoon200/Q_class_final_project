@@ -13,9 +13,9 @@ public interface AddressService {
 
 	int addressAdd(Address address);
 
-	List<Address> addressView();
+	List<Address> addressView(String com_no);
 
-	List<Address> addressTrashList();
+	List<Address> addressTrashList(String com_no);
 
 	int addressTrash(String addId);
 
