@@ -43,6 +43,10 @@
 	overflow-y: auto;
 	
 }
+#tableBreak tr td{
+	text-align: center;
+}
+
 
 </style>
 <script>
@@ -444,9 +448,9 @@ function rewardMemberDelete(){
 	<div class="tab-pane fade show active" id="year" role="tabpanel" aria-labelledby="year-tab">
 		<form action="${pageContext.request.contextPath }/break/breakCreateEnd.do" method="post">
 	<input type="hidden" name="com_no" value="${memberLoggedIn.com_no }"/>
-	<table class="table table-bordered">
+	<table class="table table-bordered" id="tableBreak">
 		<tr>
-			<th rowspan="4" style="background:#F6F6F6;" >휴가일수<br />(입사년도)</th>
+			<th rowspan="4" style="background:#F6F6F6; text-align:center;" >휴가일수<br />(입사년도)</th>
 			<td scope="col">N</td>
 			<td>N+1</td>
 			<td>N+2</td>
@@ -483,7 +487,7 @@ function rewardMemberDelete(){
 			<td></td>
 		</tr>
 		<tr style="border-bottom: 1px solid #dee2e6;">
-			<th style="background:#F6F6F6;">생성일자</th>
+			<th style="background:#F6F6F6; text-align:center;">생성일자</th>
 			<td colspan="13">
 				<select name="createdate" id="">
 					<option value="1">1</option>
