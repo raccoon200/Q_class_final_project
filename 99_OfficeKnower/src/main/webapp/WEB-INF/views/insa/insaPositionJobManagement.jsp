@@ -121,16 +121,20 @@ function fn_jobAdd(){
 	$("#btn_jobsubmitbutton").show();
 	$("#btn_jobcanceltbutton").show();
 	$("#insa_jobtd").show();
-
+	$("#jlist_td_count1").show();
+	$("#jlist_td_count2").hide();
 	console.log($(".insa_job_tr:nth-last-child(1) td").length);
-	if($(".insa_job_tr td").length< parseInt("${jlist.size()}")+1){
+	console.log($(".insa_job_tr td").length);
+	console.log(parseInt("${jlist.size()}"));
+	
+	if(($(".insa_job_tr td").length< parseInt("${jlist.size()}")+1) || ($(".insa_job_tr td").length == 1 && parseInt("${jlist.size()}")==0)){
 		var html = "";
-		if($(".insa_job_tr:nth-last-child(1) td").length < 6){	
-			html += '<td id="insa_jobtd"><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
+		if($(".insa_job_tr:nth-last-child(1) td").length < 6){
+			html += '<td id="insa_jobtd"><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value="" /></td>';
 			$(".insa_job_tr:nth-last-child(1)").append(html);
 		}else{
 			html += '<tr class="insa_job_tr">'
-			html += '<td id="insa_jobtd"><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value=""/></td>';
+			html += '<td id="insa_jobtd"><input type="text" class="form-control insa_job insaJob insa_job_input" name="job1" id="insa_jobAdd" value="" /></td>';
 			html += '</tr>';
 		 	$("#insa_job_table").append(html);
 		}
@@ -168,7 +172,9 @@ function fn_jobDelete(){
 function fn_btnJobSubmit(){
 	/* console.log($("#insa_jobAdd").val()); */
 	$("#job").val($("#insa_jobAdd").val());
-	
+	if($("#insa_jobAdd").val().length == 0){
+		return false;
+	}
 	/* console.log($("#insa_job").val($("#insa_jobAdd").val())); */
 	
 	var job = $("#insa_jobAdd").val();
@@ -185,7 +191,8 @@ function fn_btnJobCancel(){
 	$("#btn_jobsubmitbutton").hide();
 	$("#btn_jobcanceltbutton").hide();
 	$("#insa_jobtd").hide();
-	
+	 if('${job.size()}' == 0)
+		$("#jlist_td_count2").show();
 }
 function fn_positionAdd(){
 	if($("#insa_position_table tr").length< ${plist.size()}+2){
@@ -355,7 +362,11 @@ function fn_btninsaDelte() {
 <table class="table" id="insa_job_table" style="width: 400px;">
 	<c:if test="${empty jlist}">
 		<tr>
-			<td colspan="${jlist.size()%5 }" style="text-align: center;">직무가 없습니다.
+			<td colspan="${jlist.size()%5 }" style="text-align: center;" id="jlist_td_count2">직무가 없습니다.
+			</td>
+		</tr>
+		<tr class="insa_job_tr">
+			<td class="jlist_th_count insa_td" id="jlist_td_count1" style="display: none;">
 			</td>
 		</tr>
 	</c:if>

@@ -60,7 +60,21 @@
 		select count(*) from tbl_user where com_no=#{comNo} and emp_no=#{empNo}
 	</select>
 	<update id="insaMemberOneUpdate" parameterType="member">
-	update tbl_user set emp_no=#{emp_no},position=#{position},dept=#{dept}, job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, address=#{address}, etc_inf=#{etc_inf}
+	update tbl_user set emp_no=#{emp_no}
+	<if test='position!= null'>
+	,position=#{position}
+	</if>
+	<if test='dept!= null'>
+	,dept=#{dept}
+	</if>
+	<if test='job!= null'>
+	, job=#{job}
+	</if>
+	, phone_com=#{phone_com}
+	, phone_cell=#{phone_cell}
+	, email=#{email}
+	, address=#{address}
+	, etc_inf=#{etc_inf}
 	<if test='birthday!= null'>
 		, birthday=#{birthday}
 	</if>
@@ -86,6 +100,9 @@
 		</if>
 		<if test='updateType == "job"'>
 			job=#{job}
+		</if>
+		<if test='updateType == "status"'>
+			status=#{status}
 		</if>
 		where userId in
 		<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">

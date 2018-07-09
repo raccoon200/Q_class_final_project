@@ -106,15 +106,20 @@ function fn_validate(){
 	var phone_com = $("#phone_com").val();
 	var phone_cell = $("#phone_cell").val();
 	
-	if(!regExp.test(phone_com)){
-		alert("사내전화는 '-'없이 숫자만 가능합니다.");
-		$("#phone_com").focus();
-		return false;
+	
+	if(phone_com.length != 0){
+		if(!regExp.test(phone_com)){
+			alert("사내전화는 '-'없이 숫자만 가능합니다.");
+			$("#phone_com").focus();
+			return false;
+		}
 	}
-	if(!regExp.test(phone_cell)){
-		alert("휴대전화는 '-'없이 숫자만 가능합니다.");
-		$("#phone_cell").focus();
-		return false;
+	if(phone_cell.length != 0){
+		if(!regExp.test(phone_cell)){
+			alert("휴대전화는 '-'없이 숫자만 가능합니다.");
+			$("#phone_cell").focus();
+			return false;
+		}
 	}
 	
 	return true;
@@ -135,19 +140,22 @@ function fn_validate(){
 			<tr>
 				<th>부서</th>
 				<td>
-					<input type="text" class="form-control" id="com_name" name="dept" value="${member.dept}" readonly>
+					<input type="text" class="form-control" id="com_name" name="dept" value='${member.dept eq ""?"member.dept":"미기재"}' readonly>
 				</td>
 			</tr>
 			<tr>
 				<th>직위</th>
 				<td>
-					<input type="text" class="form-control" id="position" name="position" value="${member.position}" readonly>
+					<input type="text" class="form-control" id="position" name="position" value='${member.position eq ""?"member.position":"미기재"}' readonly>
 				</td>
 			</tr>
 			<tr>
 				<th>직무</th>
 				<td>
 					<select name="job" id="job" class="custom-select" style="width: 250px;">
+						<c:if test="${empty member.job}">
+							<option value="" ${empty member.job ?"selected":""}>미기재</option>						
+						</c:if>
 						<c:forEach var="j" items="${jlist}">
 							<option value="${j.job}" ${j.job eq member.job?"selected":""}>${j.job}</option>
 						</c:forEach>

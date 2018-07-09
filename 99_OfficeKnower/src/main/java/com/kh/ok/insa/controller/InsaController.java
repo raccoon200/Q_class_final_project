@@ -376,7 +376,16 @@ public class InsaController {
 	@RequestMapping("/insa/insaMemberOneUpdate.do")
 	public String insaMemberOneUpdate(Member member) {
 		ModelAndView mav = new ModelAndView();
-
+		if(member.getDept().equals("")) {
+			member.setDept(null);
+		}
+		if(member.getPosition().equals("")) {
+			member.setPosition(null);
+		}
+		if(member.getJob().equals("")) {
+			member.setJob(null);
+		}
+		
 		int result = insaService.insaMemberOneUpdate(member);
 		
 		return "redirect:/insa/memberSelectManagement.do?userId="+member.getUserId();

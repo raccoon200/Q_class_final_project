@@ -10,7 +10,11 @@
 		SELECT COUNT(*) AS CNT FROM TBL_USER WHERE USERID = #{userId}
 	</select>
 	<update id="memberOneUpdate" parameterType="member">
-		update tbl_user set job=#{job}, phone_com=#{phone_com}, phone_cell=#{phone_cell}, email=#{email}, birthday=#{birthday}, address=#{address}, etc_inf=#{etc_inf} where userid=#{userId}
+		update tbl_user set phone_com=#{phone_com} 
+		<if test="job!=null">
+			,job=#{job}
+		</if>
+		, phone_cell=#{phone_cell}, email=#{email}, birthday=#{birthday}, address=#{address}, etc_inf=#{etc_inf} where userid=#{userId}
 	</update>
 	<select id="checkComNameDuplicate" resultType="_int">
 		select count(*) as cnt from tbl_com where com_name = #{comName}
