@@ -59,8 +59,11 @@ function fn_reservationNoClick(reservationNo, flag){
 					<td>${CList.category}</td>
 					<td>${CList.res_name}</td>
 					<td>${CList.purpose==null?'미기입':CList.purpose}</td>
-					<td>${CList.startdate}~ ${CList.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
+					<fmt:parseDate var="startDate" value="${CList.startdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate var="quitDate" value="${CList.quitdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<td style="white-space: nowrap;"><fmt:formatDate value="${startDate}" pattern="yy/MM/dd HH:mm"/> ~ <fmt:formatDate value="${quitDate}" pattern="yy/MM/dd HH:mm"/></td>
+					<td style="white-space: nowrap;">
+					<button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${CList.reservation_no}" onclick="fn_reservationNoClick(this.value, '반납')">상세보기</button></td>
 				</tr>
 			</c:if>
@@ -94,8 +97,11 @@ function fn_reservationNoClick(reservationNo, flag){
 					<td>${CListNull.category }</td>
 					<td>${CListNull.res_name }</td>
 					<td>${CListNull.purpose==null?'미기입':CListNull.purpose}</td>
-					<td>${CListNull.startdate}~ ${CListNull.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
+					<fmt:parseDate var="startDate" value="${CListNull.startdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate var="quitDate" value="${CListNull.quitdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<td style="white-space: nowrap;"><fmt:formatDate value="${startDate}" pattern="yy/MM/dd HH:mm"/> ~ <fmt:formatDate value="${quitDate}" pattern="yy/MM/dd HH:mm"/></td>
+					<td style="white-space: nowrap;">
+					<button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${CListNull.reservation_no}" onclick="fn_reservationNoClick(this.value, '확인')">승인 대기중</button></td>
 				</tr>
 			</c:if>
