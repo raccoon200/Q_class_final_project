@@ -14,7 +14,7 @@
 </jsp:include>
 <style>
 .groupBox {width: 100%;overflow: hidden; padding: 30px 0 0 0; min-height: 60px;}
-.groupBox .team {float: left; width: 200px;  padding-right: 20px;}
+.groupBox .team {float: left; width: 100px;  padding-right: 20px;}
 .groupBox .people { padding: 0 0 0 12%;   width: 100%;}
 .insaimg{
     width: 75px;
