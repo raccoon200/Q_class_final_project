@@ -484,16 +484,6 @@ function calendardelete(id){
             , eventLimit : true
             
             , events: [
-            	{
-   				 id : '3'
-   			    , color : 'red'
-   			    , textColor : "white"
-   				, title : 'test'
-   				, start : '2018-07-04'
-   				, end : '2018-07-06T09:00:00'
-   				 
-   			 },
-            	
             	
                 <c:if test="${not empty list}">
     			 <c:forEach var="seche" items="${list}" varStatus="vs">
