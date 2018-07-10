@@ -60,4 +60,6 @@ public interface BreakDAO {
 
 	List<Map<String, Object>> checkBreak(String userid);
 
+	int insertBreakInfo(Map<String, String> map);
+
 }

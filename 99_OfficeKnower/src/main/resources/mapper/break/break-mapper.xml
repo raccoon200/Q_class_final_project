@@ -166,14 +166,14 @@
 	    }
 	</update>
   	<select id="alllBreakList" resultType="map">
-  		select b.userid, u.username, u.joindate, b.regular_break, b.reward_break, b.regular_used_break, b.reward_used_break
-		from break b left join tbl_user u on (b.userid=u.userid)
-		where u.com_no=#{comId}
+  		SELECT U.USERID, U.USERNAME, U.JOINDATE, NVL(B.REGULAR_BREAK,0) "REGULAR_BREAK", NVL(B.REWARD_BREAK,0) "REWARD_BREAK", NVL(B.REGULAR_USED_BREAK,0) "REGULAR_USED_BREAK", NVL(B.REWARD_USED_BREAK,0) "REWARD_USED_BREAK"
+		FROM TBL_USER U  LEFT JOIN BREAK B ON (B.USERID=U.USERID)
+		WHERE U.COM_NO=#{comId} AND U.STATUS='Y'
   	</select>
   	<select id="allBreakListCnt" resultType="_int">
   		select count(*)
-		from break b left join tbl_user u on (b.userid=u.userid)
-		where u.com_no=#{comId}
+		from tbl_user u  left join break b on (b.userid=u.userid)
+		where u.com_no=#{comId} and u.status='Y'
   	</select>
   	<update id="updateBreakInfo" >
   		update break set regular_break= #{regular}, reward_break = #{reward} where userid=#{breakUserid}
@@ -191,7 +191,7 @@
 	where r.userid=#{userid} and r.status !='반려'
   	
   	</select>
-  	<select id="personBreakRequestList" resultType="map">
+  	<select id="personBreakRequestList" resultType="map"> 
   		select * from break_request where userid = #{userid}
   	</select>
 	<select id="selectBreakRequestUserIdList" resultType="breakrRequest">
@@ -201,7 +201,9 @@
 		select * from break where userid = #{userid}
 	
 	</select>
-	
+	<insert id="insertBreakInfo">
+		insert into break values(#{breakUserid},#{regular},#{reward},default,default)
+	</insert>
 	
 	
 	

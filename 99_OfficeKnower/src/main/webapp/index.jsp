@@ -248,19 +248,19 @@ $(function(){
 	<div id="approval_main" class="main-exc container">
 		<div style="width: 100%; display: inline-block; margin-bottom: 100px;">
 			<div style="display: inline-block; width: 416px;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">편리하고 간편한 <br />전자결재 시스템</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다. <br />빨리 만들어라.
+					전자결재 시스템으로 웹 상에서 작업하고 결재 받자.
 				</p>
 			</div>
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_board1.JPG" alt="main_board1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_approval1.JPG" alt="main_board1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
 		</div>
 		<div style="width: 100%; display: inline-block; margin-bottom: 20px;">
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_board2.JPG" alt="main_board2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_approval2.JPG" alt="main_board2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
 			<div style="display: inline-block; width: 416px; float: right;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">지출 데이터가 한번에</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다.수정해야한다. <br /> 빨리 만들어라.
+					거래처, 계정과목, 부서를 지정할 수 있고, 지출 데이터를 한 눈에 확인할 수 있다.
 				</p>
 			</div>
 		</div>
@@ -349,19 +349,19 @@ $(function(){
 	<div id="reservation_main" class="hide main-exc container">
 		<div style="width: 100%; display: inline-block; margin-bottom: 100px;">
 			<div style="display: inline-block; width: 416px;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">회사 비품을 예약해서 사용하자</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.<br />수정해야한다.수정해야한다.수정해야한다.수정해야한다.
+					회사 비품을 예약할 수 있고, 예약 현황을 확인할 수 있습니다.
 				</p>
 			</div>
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_board1.JPG" alt="main_board1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_reservation1.JPG" alt="main_board1.JPG" style="width: 436px; border: 1px solid lightgray; float: right;"/>
 		</div>
 		<div style="width: 100%; display: inline-block; margin-bottom: 20px;">
-			<img src="${pageContext.request.contextPath }/resources/images/common/main_board2.JPG" alt="main_board2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
+			<img src="${pageContext.request.contextPath }/resources/images/common/main_reservation2.JPG" alt="main_board2.JPG" style="width: 436px; border: 1px solid lightgray;"/>
 			<div style="display: inline-block; width: 416px; float: right;">
-				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">수정해야한다.수정해야한다.수정해야한다.수정해야한다.</h1>
+				<h1 style="font-size: 2.8rem; padding-top: 50px; padding-bottom: 25px;">비품 카테고리와 자원을 한번에 관리하자</h1>
 				<p>
-					수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.수정해야한다.
+					비품 카테고리와 자원을 한번에 관리할 수 있습니다.
 				</p>
 			</div>
 		</div>

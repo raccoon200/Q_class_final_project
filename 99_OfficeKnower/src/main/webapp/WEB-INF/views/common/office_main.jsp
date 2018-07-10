@@ -63,42 +63,42 @@
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/insa_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>인사 관리</h2>
-            <p>끝에 구하지 이것을 장식하는 같으며, 어디 그리하였는가? 두기 싶이 봄날의 얼음 것이다. 청춘의 어디 바로 이는 것이다. 피고 있는 구하지 때문이다. 석가는 살 고동을 이상은 곧 뼈 그들에게 가장 칼이다.</p>
+            <p>전체 직원을 볼 수 있을 뿐 아니라 입사년도, 직위, 부서 별로도 볼 수 있습니다. 휴가 신청을 전자결재로 기안할 수 있고, 관리자는 휴가를 생성, 수정, 삭제할 수 있습니다.</p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/insa/memberListAll.do" role="button">인사관리 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/sch_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>일정 관리</h2>
-            <p>끝에 구하지 이것을 장식하는 같으며, 어디 그리하였는가? 두기 싶이 봄날의 얼음 것이다. 청춘의 어디 바로 이는 것이다. 피고 있는 구하지 때문이다. 석가는 살 고동을 이상은 곧 뼈 그들에게 가장 칼이다.</p>
+            <p>간편하게 일정을 등록할 수 있습니다. 개인 프로젝트는 물론 팀원과 함께 관리하는 공유 프로젝트도 만들 수 있습니다. <br /> <br /></p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/cal/calTest.do" role="button">일정관리 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/board_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>게시판</h2>
-            <p>누구나 게시판을 만들어 커뮤니티 공간으로 활용할 수 있습니다. 모바일 앱이 지원되어 언제 어디서나 게시물을 등록하고 확인할 수 있습니다.</p>
+            <p>누구나 게시판을 만들어 커뮤니티 공간으로 활용할 수 있습니다. 공지, 파일 첨부 등 유용한 기능으로 팀원과의 원활한 소통을 돕습니다.<br /> <br /></p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/board/boardRecentList" role="button">게시판 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/check_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>전자결재</h2>
-            <p>신속한 의사 결정을 위한 무제한 사내 결재 시스템</p>
+            <p>신속한 의사 결정을 위한 무제한 사내 결재 시스템. 거래처, 계정과목, 부서를 지정할 수 있고, 지출 데이터를 한 눈에 확인할 수 있다.</p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/office/approval.do" role="button">전자결재 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/address_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>주소록</h2>
-            <p>끝에 구하지 이것을 장식하는 같으며, 어디 그리하였는가? 두기 싶이 봄날의 얼음 것이다. 청춘의 어디 바로 이는 것이다. 피고 있는 구하지 때문이다. 석가는 살 고동을 이상은 곧 뼈 그들에게 가장 칼이다.</p>
+            <p>업무에 관련된 주소록을 등록, 수정, 삭제 할 수 있고, 주소록은 사내 공유 됩니다. 삭제된 주소록은 다시 복원 할 수 있습니다.</p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/address/addressView.do" role="button">주소록 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           
           <div class="col-lg-4">
             <img src="${pageContext.request.contextPath }/resources/images/common/reservation_small.png" alt="Generic placeholder image" width="100" height="100">
             <h2>예약</h2>
-            <p>끝에 구하지 이것을 장식하는 같으며, 어디 그리하였는가? 두기 싶이 봄날의 얼음 것이다. 청춘의 어디 바로 이는 것이다. 피고 있는 구하지 때문이다. 석가는 살 고동을 이상은 곧 뼈 그들에게 가장 칼이다.</p>
+            <p>회사 비품을 예약할 수 있고, 예약 현황을 확인할 수 있습니다. 비품 카테고리와 자원을 한번에 관리할 수 있습니다.</p>
             <p><a class="btn btn-secondary" href="${pageContext.request.contextPath }/reservation/reservationListPage" role="button">예약 가기 &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
