@@ -26,7 +26,7 @@
 	</style>
 	<p style="font-size:2em; color:rgb(0,125,255);">중요 게시물</p>
 	<p id="wntjr">※ 중요 게시물은 게시글에서 별을 체크한 글만 볼 수 있습니다</p>
-	<table class="table table-hover">
+	<table class="table table-hover">  
 
     <tr>
       <th scope="col">종류</th>
