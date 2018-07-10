@@ -62,4 +62,6 @@ public interface BreakDAO {
 
 	int insertBreakInfo(Map<String, String> map);
 
+	List<Map<String, Object>> selectMybreaklist(String userId);
+
 }

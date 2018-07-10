@@ -204,7 +204,12 @@
 	<insert id="insertBreakInfo">
 		insert into break values(#{breakUserid},#{regular},#{reward},default,default)
 	</insert>
-	
+	<select id="selectMybreaklist" resultType="map">
+		select  * 
+		from break_request r  join tbl_user u  on (r.userid=u.userid)
+                      join tbl_com c on (u.com_no=c.com_no)
+		where r.userid = #{userid}
+	</select>
 	
 	
 </mapper>
