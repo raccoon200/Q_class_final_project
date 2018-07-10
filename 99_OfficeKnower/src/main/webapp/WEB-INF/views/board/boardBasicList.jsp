@@ -24,12 +24,12 @@
 	<table class="table table-hover">
 
     <tr>
-      <th scope="col">번호</th>
+      <th scope="col" style="white-space: nowrap">번호</th>
       <th scope="col">제목</th>
-      <th scope="col">작성자</th>
-      <th scope="col">첨부파일</th>
+      <th scope="col" style="white-space: nowrap;">작성자</th>
+      <th scope="col" style="white-space: nowrap;">첨부파일</th>
       <th scope="col">작성일</th>
-      <th scope="col">조회수</th>
+      <th scope="col" style="white-space: nowrap;">조회수</th>
     </tr>
 	<c:if test="${not empty list }">
 	<c:forEach var="board" items="${list }" varStatus="vs">
@@ -38,7 +38,7 @@
       <td>${board["TITLE"]}</td>
       <td>${board["WRITER"]}</td>
       <td><c:if test='${fn:length(board["RENAMED_FILE_NAME"])>0}' > <img src="${pageContext.request.contextPath}/resources/images/common/board_file_image.PNG" width="20px" alt="" /> </c:if></td>
-      <td><fmt:formatDate value='${board["WRITEDATE"]}' type="date"/></td>
+      <td><fmt:formatDate value='${board["WRITEDATE"]}' type="date" pattern="yy/MM/dd"/></td>
       <td>${board["COUNT"] }</td>
     </tr>
     </c:forEach>
