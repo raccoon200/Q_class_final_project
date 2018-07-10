@@ -29,9 +29,9 @@
   <table class="table">
 	<thead class="thead-light">
 		<tr id = "th_catcher">
-			<th scope="col">요청자</th>
+			<th scope="col" style="white-space: nowrap;">요청자</th>
 			<th scope="col">카테고리</th>
-			<th scope="col">자원명<th>
+			<th scope="col" style="white-space: nowrap;">자원명<th>
 			<th scope="col">예약날짜<th>
 			<th scope="col">설정</th>
 		</tr>
