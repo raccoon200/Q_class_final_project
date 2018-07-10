@@ -47,8 +47,19 @@ $("#datepicker1").val(getToday);
 });
 
 function fn_enrollValidate() {
+	
 	if($("#selectpicker").val()==null) {
 		alert('자원을 선택하지 않았습니다\r\n카테고리, 자원을 만든 뒤 다시 시도하세요.');
+		return false;
+	}
+	if($("[name=start] option:selected").val().substring(0,2)+$("[name=start] option:selected").val().substring(3,5)>
+	$("[name=end] option:selected").val().substring(0,2)+$("[name=end] option:selected").val().substring(3,5)){
+		alert("시간을 잘못 입력하셨습니다.");
+		return false;
+	}
+	if($("[name=start] option:selected").val().substring(0,2)+$("[name=start] option:selected").val().substring(3,5)==
+	$("[name=end] option:selected").val().substring(0,2)+$("[name=end] option:selected").val().substring(3,5)){
+		alert("시간을 잘못 입력하셨습니다.");
 		return false;
 	}
 	return true;

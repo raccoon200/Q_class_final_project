@@ -35,8 +35,11 @@
 					<td>${list.category }</td>
 					<td>${list.res_name }</td>
 					<td>${list.purpose==null?'미기입':list.purpose}</td>
-					<td>${list.startdate}~ ${list.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
+					<fmt:parseDate var="startDate" value="${list.startdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate var="quitDate" value="${list.quitdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<td style="white-space: nowrap;"><fmt:formatDate value="${startDate}" pattern="yy/MM/dd HH:mm"/> ~ <fmt:formatDate value="${quitDate}" pattern="yy/MM/dd HH:mm"/></td>
+					<td style="white-space: nowrap;">
+					<button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${list.reservation_no}" onclick="fn_reservationNoClick(this.value, '반납')">상세보기</button></td>
 				</tr>
 			</c:if>
@@ -70,8 +73,11 @@
 					<td>${listN.category }</td>
 					<td>${listN.res_name }</td>
 					<td>${listN.purpose==null?'미기입':listN.purpose}</td>
-					<td>${listN.startdate}~ ${listN.quitdate}</td>
-					<td><button type="button" class="btn btn-light" data-toggle="modal"
+					<fmt:parseDate var="startDate" value="${listN.startdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate var="quitDate" value="${listN.quitdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<td style="white-space: nowrap;"><fmt:formatDate value="${startDate}" pattern="yy/MM/dd HH:mm"/> ~ <fmt:formatDate value="${quitDate}" pattern="yy/MM/dd HH:mm"/></td>
+					<td style="white-space: nowrap;">
+					<button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${listN.reservation_no}" onclick="fn_reservationNoClick(this.value, '확인')">승인 대기중</button></td>
 				</tr>
 			</c:if>

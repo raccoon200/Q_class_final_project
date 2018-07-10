@@ -43,8 +43,10 @@
 					<td>${returnListN.writer}</td>
 					<td>${returnListN.category}</td>
 					<td>${returnListN.res_name}</td>
-					<td>${returnListN.startdate}~ ${returnListN.quitdate}</td>
-					<td>
+					<fmt:parseDate var="startDate" value="${returnListN.startdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate var="quitDate" value="${returnListN.quitdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<td style="white-space: nowrap;"><fmt:formatDate value="${startDate}" pattern="yy/MM/dd HH:mm"/> ~ <fmt:formatDate value="${quitDate}" pattern="yy/MM/dd HH:mm"/></td>
+					<td style="white-space: nowrap;">
 					<button type="button" class="btn btn-light" value="${returnListN.reservation_no}" onclick="fn_reservationReturnClick(this.value)">반납 확인</button>
 					<button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${returnListN.reservation_no}" onclick="fn_reservationViewClick(this.value, '반납 대기')">상세보기</button></td>
@@ -78,8 +80,10 @@
 				<tr>
 					<td>${returnListY.writer}</td>
 					<td>${returnListY.res_name }</td>
-					<td>${returnListY.startdate}~ ${returnListY.quitdate}</td>	
-					<td>
+					<fmt:parseDate var="startDate" value="${returnListY.startdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:parseDate var="quitDate" value="${returnListY.quitdate}" pattern="yyyy-MM-dd HH:mm"/>
+					<td style="white-space: nowrap;"><fmt:formatDate value="${startDate}" pattern="yy/MM/dd HH:mm"/> ~ <fmt:formatDate value="${quitDate}" pattern="yy/MM/dd HH:mm"/></td>
+					<td style="white-space: nowrap;">
 					<button type="button" class="btn btn-light" data-toggle="modal"
 				data-target="#reservationView" value="${returnListY.reservation_no}" onclick="fn_reservationViewClick(this.value, '반납 승인')">상세보기</button></td>
 				</tr>
