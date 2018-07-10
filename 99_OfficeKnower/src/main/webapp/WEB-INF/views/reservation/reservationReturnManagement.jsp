@@ -28,11 +28,11 @@
 <hr />
   <table class="table">
 	<thead class="thead-light">
-		<tr>
+		<tr id = "th_catcher">
 			<th scope="col">요청자</th>
 			<th scope="col">카테고리</th>
 			<th scope="col">자원명<th>
-			<th scope="col">예약 날짜</th>
+			<th scope="col">예약날짜<th>
 			<th scope="col">설정</th>
 		</tr>
 	</thead>
@@ -53,7 +53,7 @@
 		</c:forEach>
 		<c:if test='${empty returnListN}'>
 			<tr>
-				<td colspan="5">데이터가 없습니다!</td>
+				<td colspan="4">데이터가 없습니다!</td>
 			</tr>
 		</c:if>
 	</tbody>
@@ -165,5 +165,9 @@ function fn_reservationReturnClick(reservation_no) {
 		location.href = '${pageContext.request.contextPath}/reservation/reservationReturnClick?reservation_no='+reservation_no;
 	}
 }
+$(function(){
+	$("#th_catcher").children("th:eq(3)").remove();
+ 	$("#th_catcher").children("th:eq(4)").remove(); 
+});
 </script>
 <jsp:include page="/WEB-INF/views/reservation/reservationModal.jsp"/>
