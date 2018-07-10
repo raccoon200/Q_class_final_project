@@ -183,6 +183,18 @@ try{
 		    </thead>
 		  <tbody>
 		  
+		  
+		  <c:if test="${empty mybreaklist}">
+		 
+			  <tr style='text-align:center;'>
+			     <td colspan="6"> 휴가 신청 내역이 없습니다.</td>
+			  </tr>
+		
+		   </c:if>
+		  
+		  
+		  
+		  
 		  <c:if test="${not empty mybreaklist}">
 		  <c:forEach var="bre" items="${mybreaklist}">
 			  <tr style='text-align:center;'>
