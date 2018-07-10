@@ -232,9 +232,21 @@ public class InsaController {
 		mav.addObject("boardCnt",boardCnt);
 		mav.addObject("searchKey",searchKey);
 		
+/*		List<String> yearList = insaService.yearListGroup(m.getCom_no());
+		List<String> positionList = insaService.positionListGroup(m.getCom_no());
+		
+		mav.addObject("yearList",yearList);
+		mav.addObject("positionList",positionList);*/
 		List<String> yearList = insaService.yearListGroup(m.getCom_no());
 		List<String> positionList = insaService.positionListGroup(m.getCom_no());
 		
+		List<Job> jlist = jobService.selectJobList(m.getCom_no());
+		List<Position> plist = insaService.selectPositionList(m.getCom_no());
+		List<Dept> dlist = insaService.selectDeptList(m.getCom_no());
+		
+		mav.addObject("jlist",jlist);
+		mav.addObject("plist",plist);
+		mav.addObject("dlist",dlist);
 		mav.addObject("yearList",yearList);
 		mav.addObject("positionList",positionList);
 		mav.setViewName("insa/insaMemberManagement");
@@ -520,7 +532,6 @@ public class InsaController {
 	@RequestMapping("/insa/insaPositionAdd.do")
 	public String insaPositionAdd(
 			@RequestParam(value="position", required=false, defaultValue="") String[] position
-								
 								,HttpServletRequest request) {
 		Member m = (Member)request.getSession().getAttribute("memberLoggedIn");
 		
