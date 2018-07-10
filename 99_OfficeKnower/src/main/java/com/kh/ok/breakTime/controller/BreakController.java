@@ -62,6 +62,9 @@ public class BreakController {
 		List<Break> myBreak = breakService.selectMyBreak(userId);
 		List<Map<String,String>> breaklist = breakService.selectBreakList(comId);
 		List<Map<String,Object>> mybreaklist = breakService.selectMybreaklist(userId);
+		System.out.println("mybreaklist"+mybreaklist);
+		
+		
 		System.out.println("breakList=" + breaklist);
 		System.out.println("myBreak@myBreak =" + myBreak);
 		
