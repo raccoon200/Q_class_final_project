@@ -237,7 +237,7 @@ div#content{
 	padding-left:10px;
 	height:200px;
 	width:800px;
-	overflow-y: scroll;
+	
 }
 #board-content p {
 	text-align:left;
@@ -250,6 +250,8 @@ $(function() {
 	height = height*$(".comment-user").length+70;
 	$("#comment").height(height+"px");
 	
+	console.log($("div.ql-tooltip.ql-hidden"));
+	$("div.ql-tooltip.ql-hidden").remove();
 })
 
 

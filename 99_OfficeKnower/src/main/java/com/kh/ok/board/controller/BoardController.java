@@ -56,10 +56,11 @@ public class BoardController {
 			@RequestParam(value = "boardMenuNo", required = false, defaultValue = "1") int board_menu_no) {
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession(false);
+		Member m = null;
 		String userId = null;
 		String com_no = null;
 		if (session != null && session.getAttribute("memberLoggedIn") != null) {
-			Member m = (Member) session.getAttribute("memberLoggedIn");
+			m = (Member) session.getAttribute("memberLoggedIn");
 			userId = m.getUserId();
 			com_no = m.getCom_no();
 		}
@@ -80,6 +81,7 @@ public class BoardController {
 		mav.addObject("board_menu_kind", boardMenu.getKind());
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
@@ -99,7 +101,7 @@ public class BoardController {
 			@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpServletRequest request,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-
+		Member m = (Member)session.getAttribute("memberLoggedIn");
 		session = request.getSession(false);
 		String userId = null;
 		String com_no = null;
@@ -121,6 +123,7 @@ public class BoardController {
 
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
@@ -137,7 +140,7 @@ public class BoardController {
 	@RequestMapping("/board/boardRecentList")
 	public ModelAndView selectRecentBoardList(HttpServletRequest request, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-
+		Member m = (Member)session.getAttribute("memberLoggedIn");
 		session = request.getSession(false);
 		String userId = null;
 		String com_no = null;
@@ -151,6 +154,7 @@ public class BoardController {
 		mav.addObject("list", list);
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
@@ -220,7 +224,9 @@ public class BoardController {
 
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
 		boardMenuParam.setKind("전사게시판");
@@ -237,6 +243,7 @@ public class BoardController {
 			@RequestParam(value = "boardMenuNo", required = false, defaultValue = "0") int boardMenuNo) {
 		String userId = null;
 		String com_no = null;
+		Member m = (Member)session.getAttribute("memberLoggedIn");
 		if (session.getAttribute("memberLoggedIn") != null) {
 			userId = ((Member) session.getAttribute("memberLoggedIn")).getUserId();
 			com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
@@ -249,6 +256,7 @@ public class BoardController {
 		mav.addObject("currentMenuNo", boardMenuNo);
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
@@ -397,7 +405,7 @@ public class BoardController {
 			userId = ((Member) session.getAttribute("memberLoggedIn")).getUserId();
 			com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
 		}
-
+		
 		List<Map<String, String>> board_menu_list = boardService.selectBoardMenuList(userId);
 		System.out.println(board_menu_list);
 		mav.addObject("board", board);
@@ -406,6 +414,7 @@ public class BoardController {
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
 		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setUserId(userId);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
 		boardMenuParam.setKind("전사게시판");
@@ -506,6 +515,7 @@ public class BoardController {
 	public ModelAndView boardMenuForm(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String com_no = ((Member) session.getAttribute("memberLoggedIn")).getCom_no();
+		String userId = ((Member)session.getAttribute("memberLoggedIn")).getUserId();
 		String com_name = boardService.selectComName(com_no);
 		List<Map<String, String>> deptList = boardService.selectDeptList(com_no);
 
@@ -516,6 +526,7 @@ public class BoardController {
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
 		boardMenuParam.setCom_no(com_no);
+		boardMenuParam.setUserId(userId);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
 		boardMenuParam.setKind("전사게시판");
@@ -566,8 +577,9 @@ public class BoardController {
 			if (result2 <= 0) {
 				result = 0;
 			}
+			System.out.println("**** "+ bg[i]);
 		}
-
+		
 		String msg = "";
 		String loc = "";
 		if (result > 0) {
@@ -662,6 +674,7 @@ public class BoardController {
 
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
@@ -718,6 +731,7 @@ public class BoardController {
 	public ModelAndView boardMenuFormUpdate(@RequestParam int boardMenuNo, HttpSession session ) {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("boardMenu : "+boardMenuNo);
+		Member m = (Member)session.getAttribute("memberLoggedIn");
 		BoardMenu boardMenu = boardService.selectBoardMenu(boardMenuNo);
 		List<Map<String, String>> boardGroupList = boardService.selectBoardMemberList(boardMenu.getBoard_menu_no());
 		mav.addObject("_boardMenu", boardMenu);
@@ -733,6 +747,7 @@ public class BoardController {
 
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
@@ -792,6 +807,7 @@ public class BoardController {
 		
 		//////
 		BoardMenu boardMenuParam = new BoardMenu();
+		boardMenuParam.setUserId(m.getUserId());
 		boardMenuParam.setCom_no(com_no);
 		boardMenuParam.setKind("그룹게시판");
 		List<Map<String, String>> groupBoard = boardService.selectBoardGroupList(boardMenuParam);
