@@ -61,6 +61,7 @@ public class BreakController {
 		
 		List<Break> myBreak = breakService.selectMyBreak(userId);
 		List<Map<String,String>> breaklist = breakService.selectBreakList(comId);
+		List<Map<String,Object>> mybreaklist = breakService.selectMybreaklist(userId);
 		System.out.println("breakList=" + breaklist);
 		System.out.println("myBreak@myBreak =" + myBreak);
 		
@@ -75,6 +76,7 @@ public class BreakController {
 	   
 		model.addAttribute("myBreak",myBreak);
 		model.addAttribute("breaklist",breaklist);
+		model.addAttribute("mybreaklist",mybreaklist);
 		model.addAttribute("BreakRequest",BreakRequest);
 		model.addAttribute("numPerPage",numPerPage);
 		model.addAttribute("pageNum",pageNum);

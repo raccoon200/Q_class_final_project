@@ -63,4 +63,6 @@ public interface BreakService {
 
 	int insertBreakInfo(Map<String, String> map);
 
+	List<Map<String, Object>> selectMybreaklist(String userId);
+
 }

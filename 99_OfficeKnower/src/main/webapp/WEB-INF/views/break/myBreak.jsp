@@ -164,6 +164,53 @@ try{
 		  </tbody>
 		</table>
 	
+	<br /><br />
+	<p style="font-size:20px; font-weight:bold;">휴가 신청 내역</p>
+	<br />
+	<div style="overflow-y :auto; height: 500px;">
+	<table class="table table-bordered">
+		  <thead>
+		    <tr style="background:#F6F6F6;text-align:center;">
+		      <th scope="col" style="white-space: nowrap;">신청자</th>
+		      <th scope="col" style="white-space: nowrap;">소속</th>
+		      <th scope="col" style="white-space: nowrap;">종류</th>
+		      <th scope="col" style="white-space: nowrap;">일수</th>
+		      <th scope="col">기간</th>
+		      <th scope="col">상태</th>
+
+		    </tr>
+
+		    </thead>
+		  <tbody>
+		  
+		  <c:if test="${not empty mybreaklist}">
+		  <c:forEach var="bre" items="${mybreaklist}">
+			  <tr style='text-align:center;'>
+			     <td style="white-space: nowrap;">${bre.USERNAME}</td>
+			     <td style="white-space: nowrap;">${bre.COM_NAME}</td>
+			     <td>${bre.KIND}</td>
+			     <td>${bre.BREAKDAYS}</td>
+			     <fmt:parseDate var="startDate" value="${bre.STARTDATE}" pattern="yyyy-MM-dd" />
+			     <fmt:parseDate var="endDate" value="${bre.ENDDATE}" pattern="yyyy-MM-dd" />
+			     <td><fmt:formatDate value="${startDate}" pattern="yy/MM/dd"/> ~ <fmt:formatDate value="${endDate}" pattern="yy/MM/dd"/></td>
+   
+			     <%-- <c:if test="${bre.APPROVAL_STATUS eq 0}">
+			    	 <th>결재 완료</th>
+			     </c:if>
+			     <c:if test="${bre.APPROVAL_STATUS ne 0}">
+			    	 <th>결재 중</th>
+			     </c:if> --%>
+			     <th style="white-space: nowrap;">${bre.STATUS}</th>
+
+			  </tr>
+			</c:forEach>
+		   </c:if>
+		  </tbody>
+		</table>
+	
+	</div>
+	
+	
 
 </div> <!-- 내 휴가 탭 -->
 
