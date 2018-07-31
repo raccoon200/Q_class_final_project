@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +49,7 @@ public class ExcelIOTestHandler {
 		String renamedFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + rndNum + "."
 				+ ext;
 		File file = new File(saveDirectory + "/" + renamedFileName);
+		List<Test> list = new ArrayList<Test>();
 		try {
 			excel.transferTo(file); // 실제 서버에 파일을 저장하는 코드
 		} catch (IllegalStateException e) {
@@ -75,7 +78,13 @@ public class ExcelIOTestHandler {
 					if(row.getCell(1) == null) {
 						break;
 					}
-					
+					//Test t = new Test(row.getCell(1).getStringCellValue(), (int)row.getCell(2).getNumericCellValue(), row.getCell(3).getStringCellValue(), row.getCell(4).getStringCellValue());
+					Test t = new Test();
+					t.setName(row.getCell(1) == null?"":row.getCell(1).getStringCellValue());
+					t.setAge(row.getCell(2) == null?0:(int)(row.getCell(2).getNumericCellValue()));
+					t.setGender(row.getCell(3) == null?"":row.getCell(3).getStringCellValue());
+					t.setEtc(row.getCell(4) == null?"":row.getCell(4).getStringCellValue());
+					list.add(t);
 					// 콘솔출력
 					System.out.println("[row] 이름 : " + row.getCell(1) + ", 나이: " + row.getCell(2)
 	                				 + ", 성별: " + row.getCell(3) + ", 비고: " + row.getCell(4));
@@ -124,7 +133,13 @@ public class ExcelIOTestHandler {
 					if(row.getCell(1) == null) {
 						break;
 					}
-					
+					//Test t = new Test(row.getCell(1).getStringCellValue(), (int)(row.getCell(2).getNumericCellValue()), row.getCell(3).getStringCellValue(), row.getCell(4).getStringCellValue());
+					Test t = new Test();
+					t.setName(row.getCell(1) == null?"":row.getCell(1).getStringCellValue());
+					t.setAge(row.getCell(2) == null?0:(int)(row.getCell(2).getNumericCellValue()));
+					t.setGender(row.getCell(3) == null?"":row.getCell(3).getStringCellValue());
+					t.setEtc(row.getCell(4) == null?"":row.getCell(4).getStringCellValue());
+					list.add(t);
 					// 콘솔출력
 					System.out.println("[row] 이름 : " + row.getCell(1) + ", 나이: " + row.getCell(2)
 	                				 + ", 성별: " + row.getCell(3) + ", 비고: " + row.getCell(4));
@@ -155,7 +170,8 @@ public class ExcelIOTestHandler {
 			}
 		}
 		file.delete();
-		mav.setViewName("redirect:/test/excelTest.do");
+		mav.addObject("list", list);
+		mav.setViewName("test/excelioend");
 		return mav;
 	}
 	@RequestMapping("/test/textToExcel.do")
@@ -258,7 +274,5 @@ public class ExcelIOTestHandler {
 				e.printStackTrace();
 			}
 		}
-		
-		
 	}
 }
