@@ -16,7 +16,7 @@ public class LoginCheckIntercepter extends HandlerInterceptorAdapter{
 		
 		if(session.getAttribute("memberLoggedIn") == null /*|| !((Member)session.getAttribute("memberLoggedIn")).getUserId().equals(request.getParameter("userId"))*/) {
 			
-			request.setAttribute("msg", "잘못된 경로입니다.");
+			request.setAttribute("msg", "잘못된 경로입니다.l");
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 			return false;

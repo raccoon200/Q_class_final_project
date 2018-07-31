@@ -33,6 +33,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.ok.job.model.service.JobService;
 import com.kh.ok.job.model.vo.Job;
+import com.kh.ok.loginmanager.LoginManager;
 import com.kh.ok.member.model.service.MemberService;
 import com.kh.ok.member.model.vo.Member;
 
@@ -86,7 +87,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/memberLogin.do")
-	public ModelAndView memberLogin(@RequestParam String userId, @RequestParam String password) {
+	public ModelAndView memberLogin(@RequestParam String userId, @RequestParam String password, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		Member m = memberService.selectUserId(userId);
 		
@@ -96,10 +97,18 @@ public class MemberController {
 			msg="존재하지 않는 아이디입니다";
 		}else {
 			if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
-				msg="로그인 성공";
-				/*logger.debug("["+userId+"]이 로그인 함.");*/
-				loc="/office/office_main.do";
-				mav.addObject("memberLoggedIn",m);
+				LoginManager loginManager = LoginManager.getInstance();
+				Boolean search = loginManager.sessionSearch(userId);
+				
+				if(search == true) {
+					msg = "이미 로그인되어있습니다.";
+				}else {
+					msg="로그인 성공";
+					/*logger.debug("["+userId+"]이 로그인 함.");*/
+					loc="/office/office_main.do";
+					loginManager.sessionMapPut(userId, request.getSession());
+					mav.addObject("memberLoggedIn",m);
+				}
 			}else {
 				msg="비밀번호가 틀렸습니다.";
 			}
@@ -111,12 +120,17 @@ public class MemberController {
 		return mav;
 	}
 	@RequestMapping("/member/memberLogout.do")
-	public String memerLogout(SessionStatus sessionStatus) {
+	public String memerLogout(SessionStatus sessionStatus, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("memberLoggedIn");
 		if(logger.isDebugEnabled())
 			logger.debug("로그아웃 요청");
 		//현재 session상태를 끝났다고 마킹함.
-		if(!sessionStatus.isComplete())
+		if(!sessionStatus.isComplete()) {			
 			sessionStatus.setComplete();
+			LoginManager loginManager = LoginManager.getInstance();
+			loginManager.sessionMapDel(m.getUserId());
+		}		
 		return "redirect:/";
 	}
 	

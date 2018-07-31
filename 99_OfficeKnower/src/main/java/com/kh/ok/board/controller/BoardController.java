@@ -549,11 +549,11 @@ public class BoardController {
 		for(int i=0; i<ls.size(); i++) {
 			list.add(ls.get(i));
 		}
-		Map<String,String> map = new HashMap();
+		Map<String,String> map = new HashMap<>();
 		map.put("count", ""+ls.size());
 		
 		list.add(map);
-		Map result = new HashMap();
+		Map result = new HashMap<>();
 		result.put("members",  list);
 	
 		

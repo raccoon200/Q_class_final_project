@@ -18,7 +18,7 @@ public class AdminCheckIntercepter extends HandlerInterceptorAdapter{
 				System.out.println(m.getGrade());
 				System.out.println(m.getGrade().contains("관리자"));
 				if(m.getGrade() == null || !m.getGrade().contains("관리자")) {
-					request.setAttribute("msg", "잘못된 경로입니다.");
+					request.setAttribute("msg", "잘못된 경로입니다.c");
 					request.setAttribute("loc", "/");
 					request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 					return false;
